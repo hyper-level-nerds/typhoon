@@ -2,7 +2,7 @@
   "files.associations": {
     "cctype": "cpp",
     "clocale": "cpp",
-    "cmath": "cpp",
+    "cma.hpp": "cpp",
     "csignal": "cpp",
     "cstdarg": "cpp",
     "cstddef": "cpp",
