@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2020 John Wellbelove
 
@@ -60,7 +60,7 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
 #if TYPHOON_USING_CPP17 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
   //***************************************************************************
@@ -73,28 +73,28 @@ namespace tphn
   private:
 
     template <typename T>
-    static constexpr bool IsMessagePacket = tphn::is_same_v< tphn::remove_const_t<tphn::remove_reference_t<T>>, tphn::message_packet<TMessageTypes...>>;
+    static constexpr bool IsMessagePacket = tpn::is_same_v< tpn::remove_const_t<tpn::remove_reference_t<T>>, tpn::message_packet<TMessageTypes...>>;
 
     template <typename T>
-    static constexpr bool IsInMessageList = tphn::is_one_of_v<tphn::remove_const_t<tphn::remove_reference_t<T>>, TMessageTypes...>;
+    static constexpr bool IsInMessageList = tpn::is_one_of_v<tpn::remove_const_t<tpn::remove_reference_t<T>>, TMessageTypes...>;
 
     template <typename T>
-    static constexpr bool IsIMessage = tphn::is_same_v<remove_const_t<tphn::remove_reference_t<T>>, tphn::imessage>;
+    static constexpr bool IsIMessage = tpn::is_same_v<remove_const_t<tpn::remove_reference_t<T>>, tpn::imessage>;
 
   public:
 
     //********************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
     /// 
     //********************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename T>
     explicit message_packet(T&& msg)
       : valid(true)
@@ -103,7 +103,7 @@ namespace tphn
       {
         if (accepts(msg))
         {
-          add_new_message(tphn::forward<T>(msg));
+          add_new_message(tpn::forward<T>(msg));
           valid = true;
         }
         else
@@ -115,18 +115,18 @@ namespace tphn
       }
       else if constexpr (IsInMessageList<T>)
       {
-        add_new_message_type<T>(tphn::forward<T>(msg));
+        add_new_message_type<T>(tpn::forward<T>(msg));
       }
       else if constexpr (IsMessagePacket<T>)
       {
-        copy(tphn::forward<T>(msg));
+        copy(tpn::forward<T>(msg));
       }
       else
       {
         TYPHOON_STATIC_ASSERT(IsInMessageList<T>, "Message not in packet type list");
       }
     }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 
     //**********************************************
     void copy(const message_packet& other)
@@ -146,7 +146,7 @@ namespace tphn
 
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
 
@@ -170,7 +170,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -183,15 +183,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -201,19 +201,19 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return (accepts_message<TMessageTypes::ID>(id) || ...);
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return (accepts_message<TMessageTypes::ID, Id>() || ...);
@@ -222,7 +222,7 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-      typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+      typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
       return accepts<TMessage::ID>();
@@ -230,22 +230,22 @@ namespace tphn
 
     enum
     {
-      SIZE = tphn::largest<TMessageTypes...>::size,
-      ALIGNMENT = tphn::largest<TMessageTypes...>::alignment
+      SIZE = tpn::largest<TMessageTypes...>::size,
+      ALIGNMENT = tpn::largest<TMessageTypes...>::alignment
     };
 
   private:
 
     //**********************************************
-    template <tphn::message_id_t Id1, tphn::message_id_t Id2>
+    template <tpn::message_id_t Id1, tpn::message_id_t Id2>
     static bool accepts_message()
     {
       return Id1 == Id2;
     }
 
     //**********************************************
-    template <tphn::message_id_t Id1>
-    static bool accepts_message(tphn::message_id_t id2)
+    template <tpn::message_id_t Id1>
+    static bool accepts_message(tpn::message_id_t id2)
     {
       return Id1 == id2;
     }
@@ -255,41 +255,41 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       (add_new_message_type<TMessageTypes>(msg) || ...);
     }
 
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
-      (add_new_message_type<TMessageTypes>(tphn::move(msg)) || ...);
+      (add_new_message_type<TMessageTypes>(tpn::move(msg)) || ...);
     }
 
     //********************************************
     /// Only enabled for types that are in the typelist.
     //********************************************
     template <typename TMessage>
-    tphn::enable_if_t<tphn::is_one_of_v<tphn::remove_const_t<tphn::remove_reference_t<TMessage>>, TMessageTypes...>, void>
+    tpn::enable_if_t<tpn::is_one_of_v<tpn::remove_const_t<tpn::remove_reference_t<TMessage>>, TMessageTypes...>, void>
       add_new_message_type(TMessage&& msg)
     {
       void* p = data;
-      new (p) tphn::remove_reference_t<TMessage>((tphn::forward<TMessage>(msg)));
+      new (p) tpn::remove_reference_t<TMessage>((tpn::forward<TMessage>(msg)));
     }
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
 
     //********************************************
     template <typename TType>
-    bool add_new_message_type(const tphn::imessage& msg)
+    bool add_new_message_type(const tpn::imessage& msg)
     {
       if (TType::ID == msg.get_message_id())
       {
@@ -305,7 +305,7 @@ namespace tphn
 
     //********************************************
     template <typename TType>
-    bool add_new_message_type(tphn::imessage&& msg)
+    bool add_new_message_type(tpn::imessage&& msg)
     {
       if (TType::ID == msg.get_message_id())
       {
@@ -334,16 +334,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -357,16 +357,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -376,47 +376,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -425,20 +425,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -462,7 +462,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -476,15 +476,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -494,7 +494,7 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -503,13 +503,13 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id || T3::ID == Id || T4::ID == Id ||
@@ -521,10 +521,10 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -534,8 +534,8 @@ namespace tphn
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::size,
-      ALIGNMENT = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::alignment
+      SIZE      = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::size,
+      ALIGNMENT = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::alignment
     };
 
   private:
@@ -545,14 +545,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -581,7 +581,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -609,7 +609,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -625,16 +625,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -648,16 +648,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -667,47 +667,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -716,20 +716,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -753,7 +753,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -767,15 +767,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -785,7 +785,7 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -794,13 +794,13 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id || T3::ID == Id || T4::ID == Id ||
@@ -812,10 +812,10 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -825,8 +825,8 @@ namespace tphn
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::size,
-      ALIGNMENT = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::alignment
+      SIZE      = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::size,
+      ALIGNMENT = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>::alignment
     };
 
   private:
@@ -836,14 +836,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -871,7 +871,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -898,7 +898,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -914,16 +914,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -937,16 +937,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -956,47 +956,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -1005,20 +1005,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -1042,7 +1042,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -1056,15 +1056,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -1074,7 +1074,7 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -1083,13 +1083,13 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id || T3::ID == Id || T4::ID == Id ||
@@ -1101,10 +1101,10 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -1114,8 +1114,8 @@ namespace tphn
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>::size,
-      ALIGNMENT = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>::alignment
+      SIZE      = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>::size,
+      ALIGNMENT = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>::alignment
     };
 
   private:
@@ -1125,14 +1125,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -1159,7 +1159,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -1185,7 +1185,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -1201,16 +1201,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -1224,16 +1224,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -1243,47 +1243,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -1292,20 +1292,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -1329,7 +1329,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -1343,15 +1343,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -1361,7 +1361,7 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -1370,13 +1370,13 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id || T3::ID == Id || T4::ID == Id ||
@@ -1388,10 +1388,10 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -1401,8 +1401,8 @@ namespace tphn
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>::size,
-      ALIGNMENT = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>::alignment
+      SIZE      = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>::size,
+      ALIGNMENT = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>::alignment
     };
 
   private:
@@ -1412,14 +1412,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -1445,7 +1445,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -1470,7 +1470,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -1485,16 +1485,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -1508,16 +1508,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -1527,47 +1527,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -1576,20 +1576,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -1613,7 +1613,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -1627,15 +1627,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -1645,7 +1645,7 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -1653,13 +1653,13 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id || T3::ID == Id || T4::ID == Id ||
@@ -1670,10 +1670,10 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -1682,8 +1682,8 @@ namespace tphn
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>::size,
-      ALIGNMENT = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>::alignment
+      SIZE      = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>::size,
+      ALIGNMENT = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>::alignment
     };
 
   private:
@@ -1693,14 +1693,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -1725,7 +1725,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -1749,7 +1749,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -1764,16 +1764,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -1787,16 +1787,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -1806,47 +1806,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -1855,20 +1855,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -1892,7 +1892,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -1906,15 +1906,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -1924,7 +1924,7 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -1932,13 +1932,13 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id || T3::ID == Id || T4::ID == Id ||
@@ -1949,10 +1949,10 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -1961,8 +1961,8 @@ namespace tphn
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>::size,
-      ALIGNMENT = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>::alignment
+      SIZE      = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>::size,
+      ALIGNMENT = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>::alignment
     };
 
   private:
@@ -1972,14 +1972,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -2003,7 +2003,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -2026,7 +2026,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -2041,16 +2041,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -2064,16 +2064,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -2083,47 +2083,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -2132,20 +2132,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -2169,7 +2169,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -2183,15 +2183,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -2201,7 +2201,7 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -2209,13 +2209,13 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id || T3::ID == Id || T4::ID == Id ||
@@ -2226,10 +2226,10 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -2238,8 +2238,8 @@ namespace tphn
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::size,
-      ALIGNMENT = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::alignment
+      SIZE      = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::size,
+      ALIGNMENT = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::alignment
     };
 
   private:
@@ -2249,14 +2249,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -2279,7 +2279,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -2301,7 +2301,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -2316,16 +2316,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -2339,16 +2339,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -2358,47 +2358,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8, T9>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8, T9> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8, T9>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -2407,20 +2407,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -2444,7 +2444,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -2458,15 +2458,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -2476,7 +2476,7 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -2484,13 +2484,13 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id || T3::ID == Id || T4::ID == Id ||
@@ -2501,10 +2501,10 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id ||
@@ -2513,8 +2513,8 @@ namespace tphn
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9>::size,
-      ALIGNMENT = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9>::alignment
+      SIZE      = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9>::size,
+      ALIGNMENT = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9>::alignment
     };
 
   private:
@@ -2524,14 +2524,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -2553,7 +2553,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -2574,7 +2574,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -2588,16 +2588,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -2611,16 +2611,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -2630,47 +2630,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7, T8>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7, T8> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7, T8>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -2679,20 +2679,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -2716,7 +2716,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -2730,15 +2730,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -2748,20 +2748,20 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id;
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id || T3::ID == Id || T4::ID == Id ||
@@ -2771,10 +2771,10 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id || T8::ID == id;
@@ -2782,8 +2782,8 @@ namespace tphn
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8>::size,
-      ALIGNMENT = tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8>::alignment
+      SIZE      = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8>::size,
+      ALIGNMENT = tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8>::alignment
     };
 
   private:
@@ -2793,14 +2793,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -2821,7 +2821,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -2841,7 +2841,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -2855,16 +2855,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -2878,16 +2878,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -2897,47 +2897,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6, T7>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6, T7> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6, T7> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6, T7>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -2946,20 +2946,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -2983,7 +2983,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -2997,15 +2997,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -3015,20 +3015,20 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id;
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id || T3::ID == Id || T4::ID == Id ||
@@ -3038,10 +3038,10 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id || T7::ID == id;
@@ -3049,8 +3049,8 @@ namespace tphn
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2, T3, T4, T5, T6, T7>::size,
-      ALIGNMENT = tphn::largest<T1, T2, T3, T4, T5, T6, T7>::alignment
+      SIZE      = tpn::largest<T1, T2, T3, T4, T5, T6, T7>::size,
+      ALIGNMENT = tpn::largest<T1, T2, T3, T4, T5, T6, T7>::alignment
     };
 
   private:
@@ -3060,14 +3060,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -3087,7 +3087,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -3106,7 +3106,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -3120,16 +3120,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -3143,16 +3143,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -3162,47 +3162,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5, T6>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5, T6> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5, T6> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5, T6>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -3211,20 +3211,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -3248,7 +3248,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -3262,15 +3262,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -3280,20 +3280,20 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id;
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id || T3::ID == Id || T4::ID == Id ||
@@ -3303,10 +3303,10 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id || T6::ID == id;
@@ -3314,8 +3314,8 @@ namespace tphn
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2, T3, T4, T5, T6>::size,
-      ALIGNMENT = tphn::largest<T1, T2, T3, T4, T5, T6>::alignment
+      SIZE      = tpn::largest<T1, T2, T3, T4, T5, T6>::size,
+      ALIGNMENT = tpn::largest<T1, T2, T3, T4, T5, T6>::alignment
     };
 
   private:
@@ -3325,14 +3325,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -3351,7 +3351,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -3369,7 +3369,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -3383,16 +3383,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -3406,16 +3406,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -3425,47 +3425,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4, T5>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4, T5> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4, T5> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4, T5>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -3474,20 +3474,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -3511,7 +3511,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -3525,15 +3525,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -3543,20 +3543,20 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id;
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id || T3::ID == Id || T4::ID == Id ||
@@ -3566,10 +3566,10 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id ||
              T5::ID == id;
@@ -3577,8 +3577,8 @@ namespace tphn
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2, T3, T4, T5>::size,
-      ALIGNMENT = tphn::largest<T1, T2, T3, T4, T5>::alignment
+      SIZE      = tpn::largest<T1, T2, T3, T4, T5>::size,
+      ALIGNMENT = tpn::largest<T1, T2, T3, T4, T5>::alignment
     };
 
   private:
@@ -3588,14 +3588,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -3613,7 +3613,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -3630,7 +3630,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -3643,16 +3643,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -3666,16 +3666,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -3685,47 +3685,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3, T4>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3, T4>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3, T4> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3, T4>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3, T4> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3, T4>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -3734,20 +3734,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -3771,7 +3771,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -3785,15 +3785,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -3803,19 +3803,19 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id;
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id || T3::ID == Id || T4::ID == Id;
@@ -3824,18 +3824,18 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id || T3::ID == id || T4::ID == id;
     }
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2, T3, T4>::size,
-      ALIGNMENT = tphn::largest<T1, T2, T3, T4>::alignment
+      SIZE      = tpn::largest<T1, T2, T3, T4>::size,
+      ALIGNMENT = tpn::largest<T1, T2, T3, T4>::alignment
     };
 
   private:
@@ -3845,14 +3845,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -3869,7 +3869,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -3885,7 +3885,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -3898,16 +3898,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -3921,16 +3921,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -3940,47 +3940,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2, T3>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2, T3>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2, T3> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2, T3>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2, T3> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2, T3>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -3989,20 +3989,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -4026,7 +4026,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -4040,15 +4040,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -4058,19 +4058,19 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id || T3::ID == id;
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id || T3::ID == Id;
@@ -4079,18 +4079,18 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id || T3::ID == id;
     }
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2, T3>::size,
-      ALIGNMENT = tphn::largest<T1, T2, T3>::alignment
+      SIZE      = tpn::largest<T1, T2, T3>::size,
+      ALIGNMENT = tpn::largest<T1, T2, T3>::alignment
     };
 
   private:
@@ -4100,14 +4100,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -4123,7 +4123,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -4138,7 +4138,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -4151,16 +4151,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -4174,16 +4174,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -4193,47 +4193,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1, T2>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1, T2>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1, T2> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1, T2>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1, T2> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1, T2>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -4242,20 +4242,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -4279,7 +4279,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -4293,15 +4293,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -4311,19 +4311,19 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id || T2::ID == id;
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id || T2::ID == Id;
@@ -4332,18 +4332,18 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id || T2::ID == id;
     }
 
     enum
     {
-      SIZE      = tphn::largest<T1, T2>::size,
-      ALIGNMENT = tphn::largest<T1, T2>::alignment
+      SIZE      = tpn::largest<T1, T2>::size,
+      ALIGNMENT = tpn::largest<T1, T2>::alignment
     };
 
   private:
@@ -4353,14 +4353,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -4375,7 +4375,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -4389,7 +4389,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 
@@ -4402,16 +4402,16 @@ namespace tphn
   public:
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(const tphn::imessage& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(const tpn::imessage& msg)
     {
       if (accepts(msg))
       {
@@ -4425,16 +4425,16 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    explicit message_packet(tphn::imessage&& msg)
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    explicit message_packet(tpn::imessage&& msg)
     {
       if (accepts(msg))
       {
-        add_new_message(tphn::move(msg));
+        add_new_message(tpn::move(msg));
         valid = true;
       }
       else
@@ -4444,47 +4444,47 @@ namespace tphn
 
       TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1> >::value &&
-                                                                    !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                    !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1>::value, int>::type>
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1> >::value &&
+                                                                    !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                    !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1>::value, int>::type>
     explicit message_packet(TMessage&& msg)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1> >::value &&
-                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                       tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1> >::value &&
+                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                       tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #else
     //********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename TMessage>
-    explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1> >::value &&
-                                                                         !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                                                         !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, T1>::value, int>::type = 0)
+    explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1> >::value &&
+                                                                         !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                                                         !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, T1>::value, int>::type = 0)
       : valid(true)
     {
-      // Not tphn::message_packet, not tphn::imessage and in typelist.
-      static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<T1> >::value &&
-                                   !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&
-                                   tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,T1>::value);
+      // Not tpn::message_packet, not tpn::imessage and in typelist.
+      static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<T1> >::value &&
+                                   !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&
+                                   tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,T1>::value);
 
       TYPHOON_STATIC_ASSERT(Enabled, "Message not in packet type list");
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(const message_packet& other)
       : valid(other.is_valid())
     {
@@ -4493,20 +4493,20 @@ namespace tphn
         add_new_message(other.get());
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //**********************************************
-  #include "tphn/private/diagnostic_uninitialized_push.hpp"
+  #include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet(message_packet&& other)
       : valid(other.is_valid())
     {
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
-  #include "tphn/private/diagnostic_pop.hpp"
+  #include "tpn/private/diagnostic_pop.hpp"
   #endif
 
     //**********************************************
@@ -4530,7 +4530,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -4544,15 +4544,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -4562,19 +4562,19 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return T1::ID == id;
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return T1::ID == Id;
@@ -4583,18 +4583,18 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-    typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+    typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
-      TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;
+      TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;
 
       return T1::ID == id;
     }
 
     enum
     {
-      SIZE      = tphn::largest<T1>::size,
-      ALIGNMENT = tphn::largest<T1>::alignment
+      SIZE      = tpn::largest<T1>::size,
+      ALIGNMENT = tpn::largest<T1>::alignment
     };
 
   private:
@@ -4604,14 +4604,14 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -4625,7 +4625,7 @@ namespace tphn
 
   #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
       const size_t id = msg.get_message_id();
       void* p = data;
@@ -4638,7 +4638,7 @@ namespace tphn
     }
   #endif
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
   };
 #endif

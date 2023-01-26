@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -34,10 +34,10 @@ SOFTWARE.
 #include "platform.hpp"
 
 #if !TYPHOON_USING_CPP11 || defined(TYPHOON_USE_LEGACY_VARIANT)
-  #include "private/variant_legacy.hpp"   // tphn::variant
+  #include "private/variant_legacy.hpp"   // tpn::variant
 #else
-  #include "private/variant_legacy.hpp"   // tphn::legacy::variant
-  #include "private/variant_variadic.hpp" // tphn::variant
+  #include "private/variant_legacy.hpp"   // tpn::legacy::variant
+  #include "private/variant_variadic.hpp" // tpn::variant
 #endif
 
 #endif

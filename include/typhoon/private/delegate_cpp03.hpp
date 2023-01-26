@@ -4,8 +4,8 @@
 //The MIT License(MIT)
 //
 //Embedded Template Library.
-//https://github.com/TYPHOONCPP/tphn
-//https://www.tphncpp.com
+//https://github.com/TYPHOONCPP/tpn
+//https://www.tpncpp.com
 //
 //Copyright(c) 2021 John Wellbelove
 //
@@ -56,9 +56,9 @@
 #include "../optional.hpp"
 
 #if defined(TYPHOON_IN_DELEGATE_CPP03_UNIT_TEST)
-namespace tphn_cpp03
+namespace tpn_cpp03
 #else
-namespace tphn
+namespace tpn
 #endif
 {
   namespace private_delegate
@@ -67,11 +67,11 @@ namespace tphn
     template <typename TDelegate, typename TReturn, typename TParam>
     struct call_if_impl
     {    
-      tphn::optional<TReturn> call_if(TParam param)
+      tpn::optional<TReturn> call_if(TParam param)
       {
 				TDelegate& d = static_cast<TDelegate&>(*this);
 				
-        tphn::optional<TReturn> result;
+        tpn::optional<TReturn> result;
 
         if (d.is_valid())
         {
@@ -106,11 +106,11 @@ namespace tphn
     template <typename TDelegate, typename TReturn>
     struct call_if_impl<TDelegate, TReturn, void>
     {
-      tphn::optional<TReturn> call_if()
+      tpn::optional<TReturn> call_if()
       {
 				TDelegate& d = static_cast<TDelegate&>(*this);
 				
-        tphn::optional<TReturn> result;
+        tpn::optional<TReturn> result;
 
         if (d.is_valid())
         {
@@ -145,7 +145,7 @@ namespace tphn
   //***************************************************************************
   /// The base class for delegate exceptions.
   //***************************************************************************
-  class delegate_exception : public tphn::exception
+  class delegate_exception : public tpn::exception
   {
   public:
 
@@ -204,7 +204,7 @@ namespace tphn
     // Construct from a functor.
     //*************************************************************************
     template <typename TFunctor>
-    delegate(TFunctor& instance, typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, int>::type = 0)
+    delegate(TFunctor& instance, typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, int>::type = 0)
     {
       assign((void*)(&instance), functor_stub<TFunctor>);
     }
@@ -213,7 +213,7 @@ namespace tphn
     // Construct from a const functor.
     //*************************************************************************
     template <typename TFunctor>
-    delegate(const TFunctor& instance, typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, int>::type = 0)
+    delegate(const TFunctor& instance, typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, int>::type = 0)
     {
       assign((void*)(&instance), const_functor_stub<TFunctor>);
     }
@@ -232,7 +232,7 @@ namespace tphn
     //*************************************************************************
     template <typename TFunctor>
     static 
-      typename tphn::enable_if<tphn::is_class<TFunctor>::value &&!tphn::is_same<delegate_type, TFunctor>::value, delegate>::type
+      typename tpn::enable_if<tpn::is_class<TFunctor>::value &&!tpn::is_same<delegate_type, TFunctor>::value, delegate>::type
       create(TFunctor& instance)
     {
       return delegate((void*)(&instance), functor_stub<TFunctor>);
@@ -243,7 +243,7 @@ namespace tphn
     //*************************************************************************
     template <typename TFunctor>
     static
-      typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, delegate>::type
+      typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, delegate>::type
       create(const TFunctor& instance)
     {
       return delegate((void*)(&instance), const_functor_stub<TFunctor>);
@@ -298,7 +298,7 @@ namespace tphn
     /// Set from Functor.
     //*************************************************************************
     template <typename TFunctor>
-    typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, void>::type
+    typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, void>::type
       set(TFunctor& instance)
     {
       assign((void*)(&instance), functor_stub<TFunctor>);
@@ -308,7 +308,7 @@ namespace tphn
     /// Set from const Functor.
     //*************************************************************************
     template <typename TFunctor>
-    typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, void>::type
+    typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, void>::type
       set(const TFunctor& instance)
     {
       assign((void*)(&instance), const_functor_stub<TFunctor>);
@@ -419,7 +419,7 @@ namespace tphn
     /// Create from Functor.
     //*************************************************************************
     template <typename TFunctor>
-    typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, delegate&>::type
+    typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, delegate&>::type
       operator =(TFunctor& instance)
     {
       assign((void*)(&instance), functor_stub<TFunctor>);
@@ -430,7 +430,7 @@ namespace tphn
     /// Create from const Functor.
     //*************************************************************************
     template <typename TFunctor>
-    typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, delegate&>::type
+    typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, delegate&>::type
       operator =(const TFunctor& instance)
     {
       assign((void*)(&instance), const_functor_stub<TFunctor>);
@@ -650,7 +650,7 @@ namespace tphn
     // Construct from functor.
     //*************************************************************************
     template <typename TFunctor>
-    delegate(TFunctor& instance, typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, int>::type = 0)
+    delegate(TFunctor& instance, typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, int>::type = 0)
     {
       assign((void*)(&instance), functor_stub<TFunctor>);
     }
@@ -659,7 +659,7 @@ namespace tphn
     // Construct from const functor.
     //*************************************************************************
     template <typename TFunctor>
-    delegate(const TFunctor& instance, typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, int>::type = 0)
+    delegate(const TFunctor& instance, typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, int>::type = 0)
     {
       assign((void*)(&instance), const_functor_stub<TFunctor>);
     }
@@ -678,7 +678,7 @@ namespace tphn
     //*************************************************************************
     template <typename TFunctor>
     static 
-      typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, delegate>::type
+      typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, delegate>::type
       create(TFunctor& instance)
     {
       return delegate((void*)(&instance), functor_stub<TFunctor>);
@@ -689,7 +689,7 @@ namespace tphn
     //*************************************************************************
     template <typename TFunctor>
     static
-      typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, delegate>::type
+      typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, delegate>::type
       create(const TFunctor& instance)
     {
       return delegate((void*)(&instance), const_functor_stub<TFunctor>);
@@ -744,7 +744,7 @@ namespace tphn
     /// Set from Functor.
     //*************************************************************************
     template <typename TFunctor>
-    typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, void>::type
+    typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, void>::type
       set(TFunctor& instance)
     {
       assign((void*)(&instance), functor_stub<TFunctor>);
@@ -754,7 +754,7 @@ namespace tphn
     /// Set from const Functor.
     //*************************************************************************
     template <typename TFunctor>
-    typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, void>::type
+    typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, void>::type
       set(const TFunctor& instance)
     {
       assign((void*)(&instance), const_functor_stub<TFunctor>);
@@ -865,7 +865,7 @@ namespace tphn
     /// Create from Functor.
     //*************************************************************************
     template <typename TFunctor>
-    typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, delegate&>::type
+    typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, delegate&>::type
       operator =(TFunctor& instance)
     {
       assign((void*)(&instance), functor_stub<TFunctor>);
@@ -876,7 +876,7 @@ namespace tphn
     /// Create from const Functor.
     //*************************************************************************
     template <typename TFunctor>
-    typename tphn::enable_if<tphn::is_class<TFunctor>::value && !tphn::is_same<delegate_type, TFunctor>::value, delegate&>::type
+    typename tpn::enable_if<tpn::is_class<TFunctor>::value && !tpn::is_same<delegate_type, TFunctor>::value, delegate&>::type
       operator =(const TFunctor& instance)
     {
       assign((void*)(&instance), const_functor_stub<TFunctor>);

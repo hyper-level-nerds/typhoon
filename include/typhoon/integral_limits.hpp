@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -45,7 +45,7 @@ SOFTWARE.
 ///\ingroup utilities
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   ///\ingroup integral_limits
@@ -74,7 +74,7 @@ namespace tphn
     static TYPHOON_CONSTANT signed char min = SCHAR_MIN;
     static TYPHOON_CONSTANT signed char max = SCHAR_MAX;
     static TYPHOON_CONSTANT int bits        = CHAR_BIT;
-    static TYPHOON_CONSTANT bool is_signed  = tphn::is_signed<signed char>::value;
+    static TYPHOON_CONSTANT bool is_signed  = tpn::is_signed<signed char>::value;
   };
 
   //***************************************************************************
@@ -86,7 +86,7 @@ namespace tphn
     static TYPHOON_CONSTANT unsigned char min = 0;
     static TYPHOON_CONSTANT unsigned char max = UCHAR_MAX;
     static TYPHOON_CONSTANT int bits          = CHAR_BIT;
-    static TYPHOON_CONSTANT bool is_signed    = tphn::is_signed<unsigned char>::value;
+    static TYPHOON_CONSTANT bool is_signed    = tpn::is_signed<unsigned char>::value;
   };
 
   //***************************************************************************
@@ -99,10 +99,10 @@ namespace tphn
   template <>
   struct integral_limits<char>
   {
-    static TYPHOON_CONSTANT char min       = (tphn::is_signed<char>::value) ? SCHAR_MIN : 0;
-    static TYPHOON_CONSTANT char max       = (tphn::is_signed<char>::value) ? SCHAR_MAX : static_cast<char>(UCHAR_MAX);
+    static TYPHOON_CONSTANT char min       = (tpn::is_signed<char>::value) ? SCHAR_MIN : 0;
+    static TYPHOON_CONSTANT char max       = (tpn::is_signed<char>::value) ? SCHAR_MAX : static_cast<char>(UCHAR_MAX);
     static TYPHOON_CONSTANT int bits       = CHAR_BIT;
-    static TYPHOON_CONSTANT bool is_signed = tphn::is_signed<char>::value;
+    static TYPHOON_CONSTANT bool is_signed = tpn::is_signed<char>::value;
   };
 #if defined(TYPHOON_COMPILER_MICROSOFT)
   #pragma warning(pop)
@@ -117,7 +117,7 @@ namespace tphn
     static TYPHOON_CONSTANT short min      = SHRT_MIN;
     static TYPHOON_CONSTANT short max      = SHRT_MAX;
     static TYPHOON_CONSTANT int bits       = CHAR_BIT * (sizeof(short) / sizeof(char));
-    static TYPHOON_CONSTANT bool is_signed = tphn::is_signed<short>::value;
+    static TYPHOON_CONSTANT bool is_signed = tpn::is_signed<short>::value;
   };
 
   //***************************************************************************
@@ -129,7 +129,7 @@ namespace tphn
     static TYPHOON_CONSTANT unsigned short min = 0;
     static TYPHOON_CONSTANT unsigned short max = USHRT_MAX;
     static TYPHOON_CONSTANT int bits           = CHAR_BIT * (sizeof(unsigned short) / sizeof(char));
-    static TYPHOON_CONSTANT bool is_signed     = tphn::is_signed<unsigned short>::value;
+    static TYPHOON_CONSTANT bool is_signed     = tpn::is_signed<unsigned short>::value;
   };
 
   //***************************************************************************
@@ -141,7 +141,7 @@ namespace tphn
     static TYPHOON_CONSTANT int min        = INT_MIN;
     static TYPHOON_CONSTANT int max        = INT_MAX;
     static TYPHOON_CONSTANT int bits       = CHAR_BIT * (sizeof(int) / sizeof(char));
-    static TYPHOON_CONSTANT bool is_signed = tphn::is_signed<int>::value;
+    static TYPHOON_CONSTANT bool is_signed = tpn::is_signed<int>::value;
   };
 
   //***************************************************************************
@@ -153,7 +153,7 @@ namespace tphn
     static TYPHOON_CONSTANT unsigned int min = 0;
     static TYPHOON_CONSTANT unsigned int max = UINT_MAX;
     static TYPHOON_CONSTANT int bits         = CHAR_BIT * (sizeof(unsigned int) / sizeof(char));
-    static TYPHOON_CONSTANT bool is_signed   = tphn::is_signed<unsigned int>::value;
+    static TYPHOON_CONSTANT bool is_signed   = tpn::is_signed<unsigned int>::value;
   };
 
   //***************************************************************************
@@ -165,7 +165,7 @@ namespace tphn
     static TYPHOON_CONSTANT long min       = LONG_MIN;
     static TYPHOON_CONSTANT long max       = LONG_MAX;
     static TYPHOON_CONSTANT int bits       = CHAR_BIT * (sizeof(long) / sizeof(char));
-    static TYPHOON_CONSTANT bool is_signed = tphn::is_signed<long>::value;
+    static TYPHOON_CONSTANT bool is_signed = tpn::is_signed<long>::value;
   };
 
   //***************************************************************************
@@ -177,7 +177,7 @@ namespace tphn
     static TYPHOON_CONSTANT unsigned long min = 0;
     static TYPHOON_CONSTANT unsigned long max = ULONG_MAX;
     static TYPHOON_CONSTANT int bits          = CHAR_BIT * (sizeof(unsigned long) / sizeof(char));
-    static TYPHOON_CONSTANT bool is_signed    = tphn::is_signed<unsigned long>::value;
+    static TYPHOON_CONSTANT bool is_signed    = tpn::is_signed<unsigned long>::value;
   };
 
 #ifndef LLONG_MAX
@@ -201,7 +201,7 @@ namespace tphn
     static TYPHOON_CONSTANT long long min  = LLONG_MIN;
     static TYPHOON_CONSTANT long long max  = LLONG_MAX;
     static TYPHOON_CONSTANT int bits       = CHAR_BIT * (sizeof(long long) / sizeof(char));
-    static TYPHOON_CONSTANT bool is_signed = tphn::is_signed<long long>::value;
+    static TYPHOON_CONSTANT bool is_signed = tpn::is_signed<long long>::value;
   };
 
   //***************************************************************************
@@ -213,10 +213,10 @@ namespace tphn
     static TYPHOON_CONSTANT unsigned long long min = 0;
     static TYPHOON_CONSTANT unsigned long long max = ULLONG_MAX;
     static TYPHOON_CONSTANT int bits               = CHAR_BIT * (sizeof(unsigned long long) / sizeof(char));
-    static TYPHOON_CONSTANT bool is_signed         = tphn::is_signed<unsigned long long>::value;
+    static TYPHOON_CONSTANT bool is_signed         = tpn::is_signed<unsigned long long>::value;
   };
 
-  static TYPHOON_CONSTANT size_t npos = tphn::integral_limits<size_t>::max;
+  static TYPHOON_CONSTANT size_t npos = tpn::integral_limits<size_t>::max;
 }
 
 #include "private/minmax_pop.hpp"

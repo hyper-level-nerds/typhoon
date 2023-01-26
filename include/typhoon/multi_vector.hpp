@@ -4,8 +4,8 @@
 //The MIT License(MIT)
 //
 //Embedded Template Library.
-//https://github.com/TYPHOONCPP/tphn
-//https://www.tphncpp.com
+//https://github.com/TYPHOONCPP/tpn
+//https://www.tpncpp.com
 //
 //Copyright(c) 2021 John Wellbelove
 //
@@ -40,21 +40,21 @@
 
 #if TYPHOON_USING_CPP11
 
-namespace tphn
+namespace tpn
 {
   namespace private_multi_vector
   {
     template <class T, size_t TD1, size_t... TDn>
     struct multi_vector_t
     {
-      using type = tphn::vector<typename multi_vector_t<T, TDn...>::type, TD1>;
+      using type = tpn::vector<typename multi_vector_t<T, TDn...>::type, TD1>;
       static constexpr size_t Max_Size = TD1;
     };
 
     template <class T, size_t TD1>
     struct multi_vector_t<T, TD1>
     {
-      using type = tphn::vector<T, TD1>;
+      using type = tpn::vector<T, TD1>;
       static constexpr size_t Max_Size = TD1;
     };
   }

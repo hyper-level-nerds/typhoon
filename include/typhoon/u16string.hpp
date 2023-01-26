@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2016 John Wellbelove
 
@@ -39,7 +39,7 @@ SOFTWARE.
 
 #include "private/minmax_push.hpp"
 
-namespace tphn
+namespace tpn
 {
   typedef ibasic_string<char16_t> iu16string;
 
@@ -73,7 +73,7 @@ namespace tphn
     /// Copy constructor.
     ///\param other The other string.
     //*************************************************************************
-    u16string(const tphn::u16string<MAX_SIZE_>& other)
+    u16string(const tpn::u16string<MAX_SIZE_>& other)
       : iu16string(reinterpret_cast<value_type*>(&buffer), MAX_SIZE)
     {
       this->assign(other);
@@ -83,7 +83,7 @@ namespace tphn
     /// From other iu16string.
     ///\param other The other iu16string.
     //*************************************************************************
-    u16string(const tphn::iu16string& other)
+    u16string(const tpn::iu16string& other)
       : iu16string(reinterpret_cast<value_type*>(&buffer), MAX_SIZE)
     {
       this->assign(other);
@@ -95,7 +95,7 @@ namespace tphn
     ///\param position The position of the first character.
     ///\param length   The number of characters. Default = npos.
     //*************************************************************************
-    u16string(const tphn::iu16string& other, size_type position, size_type length = npos)
+    u16string(const tpn::iu16string& other, size_type position, size_type length = npos)
       : iu16string(reinterpret_cast<value_type*>(&buffer), MAX_SIZE)
     {
       TYPHOON_ASSERT(position < other.size(), TYPHOON_ERROR(string_out_of_bounds));
@@ -110,7 +110,7 @@ namespace tphn
     TYPHOON_EXPLICIT_STRING_FROM_CHAR u16string(const value_type* text)
       : iu16string(reinterpret_cast<value_type*>(&buffer), MAX_SIZE)
     {
-      this->assign(text, text + tphn::char_traits<value_type>::length(text));
+      this->assign(text, text + tpn::char_traits<value_type>::length(text));
     }
 
     //*************************************************************************
@@ -143,7 +143,7 @@ namespace tphn
     ///\param last  The iterator to the last element + 1.
     //*************************************************************************
     template <typename TIterator>
-    u16string(TIterator first, TIterator last, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
+    u16string(TIterator first, TIterator last, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
       : iu16string(reinterpret_cast<value_type*>(&buffer), MAX_SIZE)
     {
       this->assign(first, last);
@@ -164,7 +164,7 @@ namespace tphn
     /// From string_view.
     ///\param view The string_view.
     //*************************************************************************
-    explicit u16string(const tphn::u16string_view& view)
+    explicit u16string(const tpn::u16string_view& view)
       : iu16string(reinterpret_cast<value_type*>(&buffer), MAX_SIZE)
     {
       this->assign(view.begin(), view.end());
@@ -175,15 +175,15 @@ namespace tphn
     ///\param position The position of the first character. Default = 0.
     ///\param length   The number of characters. Default = npos.
     //*************************************************************************
-    tphn::u16string<MAX_SIZE_> substr(size_type position = 0, size_type length_ = npos) const
+    tpn::u16string<MAX_SIZE_> substr(size_type position = 0, size_type length_ = npos) const
     {
-      tphn::u16string<MAX_SIZE_> new_string;
+      tpn::u16string<MAX_SIZE_> new_string;
 
       if (position != size())
       {
         TYPHOON_ASSERT(position < size(), TYPHOON_ERROR(string_out_of_bounds));
 
-        length_ = tphn::min(length_, size() - position);
+        length_ = tpn::min(length_, size() - position);
 
         new_string.assign(buffer + position, buffer + position + length_);
       }
@@ -222,7 +222,7 @@ namespace tphn
       TYPHOON_OVERRIDE
 #endif
     {
-      tphn::iu16string::repair_buffer(buffer);
+      tpn::iu16string::repair_buffer(buffer);
     }
 
   private:
@@ -256,7 +256,7 @@ namespace tphn
     /// Copy constructor.
     ///\param other The other u16string_ext.
     //*************************************************************************
-    u16string_ext(const tphn::u16string_ext& other, value_type* buffer, size_type buffer_size)
+    u16string_ext(const tpn::u16string_ext& other, value_type* buffer, size_type buffer_size)
       : iu16string(buffer, buffer_size - 1U)
     {
       this->assign(other);
@@ -266,7 +266,7 @@ namespace tphn
     /// From other iu16string.
     ///\param other The other iu16string.
     //*************************************************************************
-    u16string_ext(const tphn::iu16string& other, value_type* buffer, size_type buffer_size)
+    u16string_ext(const tpn::iu16string& other, value_type* buffer, size_type buffer_size)
       : iu16string(buffer, buffer_size - 1U)
     {
       this->assign(other);
@@ -278,7 +278,7 @@ namespace tphn
     ///\param position The position of the first character.
     ///\param length   The number of characters. Default = npos.
     //*************************************************************************
-    u16string_ext(const tphn::iu16string& other, value_type* buffer, size_type buffer_size, size_type position, size_type length = npos)
+    u16string_ext(const tpn::iu16string& other, value_type* buffer, size_type buffer_size, size_type position, size_type length = npos)
       : iu16string(buffer, buffer_size - 1U)
     {
       TYPHOON_ASSERT(position < other.size(), TYPHOON_ERROR(string_out_of_bounds));
@@ -296,11 +296,11 @@ namespace tphn
       // Is the initial text at the same address as the buffer?
       if (text == buffer)
       {
-        this->current_size = tphn::strlen(buffer);
+        this->current_size = tpn::strlen(buffer);
       }
       else
       {
-        this->assign(text, text + tphn::strlen(text));
+        this->assign(text, text + tpn::strlen(text));
       }
     }
 
@@ -334,7 +334,7 @@ namespace tphn
     ///\param last  The iterator to the last element + 1.
     //*************************************************************************
     template <typename TIterator>
-    u16string_ext(TIterator first, TIterator last, value_type* buffer, size_type buffer_size, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
+    u16string_ext(TIterator first, TIterator last, value_type* buffer, size_type buffer_size, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
       : iu16string(buffer, buffer_size - 1U)
     {
       this->assign(first, last);
@@ -355,7 +355,7 @@ namespace tphn
     /// From u16string_view.
     ///\param view The u16string_view.
     //*************************************************************************
-    explicit u16string_ext(const tphn::u16string_view& view, value_type* buffer, size_type buffer_size)
+    explicit u16string_ext(const tpn::u16string_view& view, value_type* buffer, size_type buffer_size)
       : iu16string(buffer, buffer_size - 1U)
     {
       this->assign(view.begin(), view.end());
@@ -421,31 +421,31 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_8BIT_TYPES
   template <>
-  struct hash<tphn::iu16string>
+  struct hash<tpn::iu16string>
   {
-    size_t operator()(const tphn::iu16string& text) const
+    size_t operator()(const tpn::iu16string& text) const
     {
-      return tphn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&text[0]),
+      return tpn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&text[0]),
                                                      reinterpret_cast<const uint8_t*>(&text[text.size()]));
     }
   };
 
   template <const size_t SIZE>
-  struct hash<tphn::u16string<SIZE> >
+  struct hash<tpn::u16string<SIZE> >
   {
-    size_t operator()(const tphn::u16string<SIZE>& text) const
+    size_t operator()(const tpn::u16string<SIZE>& text) const
     {
-      return tphn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&text[0]),
+      return tpn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&text[0]),
                                                      reinterpret_cast<const uint8_t*>(&text[text.size()]));
     }
   };
 
   template <>
-  struct hash<tphn::u16string_ext >
+  struct hash<tpn::u16string_ext >
   {
-    size_t operator()(const tphn::u16string_ext& text) const
+    size_t operator()(const tpn::u16string_ext& text) const
     {
-      return tphn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&text[0]),
+      return tpn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&text[0]),
         reinterpret_cast<const uint8_t*>(&text[text.size()]));
     }
   };
@@ -455,18 +455,18 @@ namespace tphn
   /// Make string from string literal or array
   //***************************************************************************
   template<size_t ARRAY_SIZE>
-  tphn::u16string<ARRAY_SIZE - 1U> make_string(const char16_t(&text)[ARRAY_SIZE])
+  tpn::u16string<ARRAY_SIZE - 1U> make_string(const char16_t(&text)[ARRAY_SIZE])
   {
-    return tphn::u16string<ARRAY_SIZE - 1U>(text, tphn::strlen(text, ARRAY_SIZE - 1U));
+    return tpn::u16string<ARRAY_SIZE - 1U>(text, tpn::strlen(text, ARRAY_SIZE - 1U));
   }
 
   //***************************************************************************
   /// Make string with max capacity from string literal or array
   //***************************************************************************
   template<const size_t MAX_SIZE, const size_t SIZE>
-  tphn::u16string<MAX_SIZE> make_string_with_capacity(const char16_t(&text)[SIZE])
+  tpn::u16string<MAX_SIZE> make_string_with_capacity(const char16_t(&text)[SIZE])
   {
-    return tphn::u16string<MAX_SIZE>(text, tphn::strlen(text, SIZE));
+    return tpn::u16string<MAX_SIZE>(text, tpn::strlen(text, SIZE));
   }
 }
 

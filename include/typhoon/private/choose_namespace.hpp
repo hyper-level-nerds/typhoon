@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -35,8 +35,8 @@ SOFTWARE.
 #undef TYPHOON_OR_STD11
 
 #if TYPHOON_NOT_USING_STL && !defined(TYPHOON_IN_UNIT_TEST)
-  // If we're not using the STL and we are not unit testing, then use the TYPHOON's definitions under the tphn namespace
-  #define TYPHOON_OR_STD tphn
+  // If we're not using the STL and we are not unit testing, then use the TYPHOON's definitions under the tpn namespace
+  #define TYPHOON_OR_STD tpn
   #define TYPHOON_USING_STD_NAMESPACE 0
   #define TYPHOON_USING_TYPHOON_NAMESPACE 1
 #else
@@ -47,8 +47,8 @@ SOFTWARE.
 #endif
 
 #if (TYPHOON_NOT_USING_STL && !defined(TYPHOON_IN_UNIT_TEST)) || TYPHOON_CPP11_NOT_SUPPORTED
-  // If we're not using the STL and we are not unit testing or C++11 is not supported, then use the TYPHOON's definitions under the tphn namespace
-  #define TYPHOON_OR_STD11 tphn
+  // If we're not using the STL and we are not unit testing or C++11 is not supported, then use the TYPHOON's definitions under the tpn namespace
+  #define TYPHOON_OR_STD11 tpn
   #define TYPHOON_USING_STD11_NAMESPACE 0
   #define TYPHOON_USING_TYPHOON11_NAMESPACE 1
 #else

@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 jwellbelove, Robin S�derholm
 
@@ -53,7 +53,7 @@ SOFTWARE.
 /// A class that can contain one a several specified types in a type safe manner.
 ///\ingroup containers
 //*****************************************************************************
-namespace tphn
+namespace tpn
 {
 #if TYPHOON_USING_CPP11 && !defined(TYPHOON_USE_LEGACY_VARIANT)
   namespace legacy
@@ -75,7 +75,7 @@ namespace tphn
     /// Base exception for the variant class.
     ///\ingroup variant
     //***************************************************************************
-    class variant_exception : public tphn::exception
+    class variant_exception : public tpn::exception
     {
     public:
       variant_exception(string_type reason_, string_type file_name_, numeric_type line_number_)
@@ -128,13 +128,13 @@ namespace tphn
     ///\ingroup variant
     //***************************************************************************
     template <typename T1,
-      typename T2 = tphn::null_type<2>,
-      typename T3 = tphn::null_type<3>,
-      typename T4 = tphn::null_type<4>,
-      typename T5 = tphn::null_type<5>,
-      typename T6 = tphn::null_type<6>,
-      typename T7 = tphn::null_type<7>,
-      typename T8 = tphn::null_type<8> >
+      typename T2 = tpn::null_type<2>,
+      typename T3 = tpn::null_type<3>,
+      typename T4 = tpn::null_type<4>,
+      typename T5 = tpn::null_type<5>,
+      typename T6 = tpn::null_type<6>,
+      typename T7 = tpn::null_type<7>,
+      typename T8 = tpn::null_type<8> >
       class variant
     {
     public:
@@ -147,7 +147,7 @@ namespace tphn
       //***************************************************************************
       /// The id a unsupported types.
       //***************************************************************************
-      static const type_id_t UNSUPPORTED_TYPE_ID = tphn::integral_limits<type_id_t>::max;
+      static const type_id_t UNSUPPORTED_TYPE_ID = tpn::integral_limits<type_id_t>::max;
 
     private:
 
@@ -158,7 +158,7 @@ namespace tphn
       //***************************************************************************
       /// The largest type.
       //***************************************************************************
-      typedef typename tphn::largest_type<T1, T2, T3, T4, T5, T6, T7, T8>::type largest_t;
+      typedef typename tpn::largest_type<T1, T2, T3, T4, T5, T6, T7, T8>::type largest_t;
 
       //***************************************************************************
       /// The largest size.
@@ -168,18 +168,18 @@ namespace tphn
       //***************************************************************************
       /// The largest alignment.
       //***************************************************************************
-      static const size_t ALIGNMENT = tphn::largest_alignment<T1, T2, T3, T4, T5, T6, T7, T8>::value;
+      static const size_t ALIGNMENT = tpn::largest_alignment<T1, T2, T3, T4, T5, T6, T7, T8>::value;
 
       //***************************************************************************
       /// Short form of no_type placeholders.
       //***************************************************************************
-      typedef tphn::null_type<2> no_type2;
-      typedef tphn::null_type<3> no_type3;
-      typedef tphn::null_type<4> no_type4;
-      typedef tphn::null_type<5> no_type5;
-      typedef tphn::null_type<6> no_type6;
-      typedef tphn::null_type<7> no_type7;
-      typedef tphn::null_type<8> no_type8;
+      typedef tpn::null_type<2> no_type2;
+      typedef tpn::null_type<3> no_type3;
+      typedef tpn::null_type<4> no_type4;
+      typedef tpn::null_type<5> no_type5;
+      typedef tpn::null_type<6> no_type6;
+      typedef tpn::null_type<7> no_type7;
+      typedef tpn::null_type<8> no_type8;
 
       //***************************************************************************
       /// Lookup the id of type.
@@ -187,14 +187,14 @@ namespace tphn
       template <typename T>
       struct Type_Id_Lookup
       {
-        static const uint_least8_t type_id = tphn::is_same<T, T1>::value ? 0 :
-          tphn::is_same<T, T2>::value ? 1 :
-          tphn::is_same<T, T3>::value ? 2 :
-          tphn::is_same<T, T4>::value ? 3 :
-          tphn::is_same<T, T5>::value ? 4 :
-          tphn::is_same<T, T6>::value ? 5 :
-          tphn::is_same<T, T7>::value ? 6 :
-          tphn::is_same<T, T8>::value ? 7 :
+        static const uint_least8_t type_id = tpn::is_same<T, T1>::value ? 0 :
+          tpn::is_same<T, T2>::value ? 1 :
+          tpn::is_same<T, T3>::value ? 2 :
+          tpn::is_same<T, T4>::value ? 3 :
+          tpn::is_same<T, T5>::value ? 4 :
+          tpn::is_same<T, T6>::value ? 5 :
+          tpn::is_same<T, T7>::value ? 6 :
+          tpn::is_same<T, T8>::value ? 7 :
           UNSUPPORTED_TYPE_ID;
       };
 
@@ -202,15 +202,15 @@ namespace tphn
       /// Lookup for the id of type.
       //***************************************************************************
       template <typename T>
-      struct Type_Is_Supported : public tphn::integral_constant<bool,
-        tphn::is_same<T, T1>::value ||
-        tphn::is_same<T, T2>::value ||
-        tphn::is_same<T, T3>::value ||
-        tphn::is_same<T, T4>::value ||
-        tphn::is_same<T, T5>::value ||
-        tphn::is_same<T, T6>::value ||
-        tphn::is_same<T, T7>::value ||
-        tphn::is_same<T, T8>::value>
+      struct Type_Is_Supported : public tpn::integral_constant<bool,
+        tpn::is_same<T, T1>::value ||
+        tpn::is_same<T, T2>::value ||
+        tpn::is_same<T, T3>::value ||
+        tpn::is_same<T, T4>::value ||
+        tpn::is_same<T, T5>::value ||
+        tpn::is_same<T, T6>::value ||
+        tpn::is_same<T, T7>::value ||
+        tpn::is_same<T, T8>::value>
       {
       };
 
@@ -244,14 +244,14 @@ namespace tphn
         {
         }
 
-        virtual void read(typename tphn::parameter_type<R1>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R2>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R3>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R4>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R5>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R6>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R7>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R8>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R1>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R2>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R3>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R4>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R5>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R6>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R7>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R8>::type value) = 0;
       };
 
       //*************************************************************************
@@ -268,13 +268,13 @@ namespace tphn
         {
         }
 
-        virtual void read(typename tphn::parameter_type<R1>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R2>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R3>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R4>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R5>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R6>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R7>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R1>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R2>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R3>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R4>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R5>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R6>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R7>::type value) = 0;
 
       private:
 
@@ -295,12 +295,12 @@ namespace tphn
         {
         }
 
-        virtual void read(typename tphn::parameter_type<R1>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R2>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R3>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R4>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R5>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R6>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R1>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R2>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R3>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R4>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R5>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R6>::type value) = 0;
 
       private:
 
@@ -322,11 +322,11 @@ namespace tphn
         {
         }
 
-        virtual void read(typename tphn::parameter_type<R1>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R2>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R3>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R4>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R5>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R1>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R2>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R3>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R4>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R5>::type value) = 0;
 
       private:
 
@@ -349,10 +349,10 @@ namespace tphn
         {
         }
 
-        virtual void read(typename tphn::parameter_type<R1>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R2>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R3>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R4>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R1>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R2>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R3>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R4>::type value) = 0;
 
       private:
 
@@ -376,9 +376,9 @@ namespace tphn
         {
         }
 
-        virtual void read(typename tphn::parameter_type<R1>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R2>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R3>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R1>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R2>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R3>::type value) = 0;
 
       private:
 
@@ -403,8 +403,8 @@ namespace tphn
         {
         }
 
-        virtual void read(typename tphn::parameter_type<R1>::type value) = 0;
-        virtual void read(typename tphn::parameter_type<R2>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R1>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R2>::type value) = 0;
 
       private:
 
@@ -430,7 +430,7 @@ namespace tphn
         {
         }
 
-        virtual void read(typename tphn::parameter_type<R1>::type value) = 0;
+        virtual void read(typename tpn::parameter_type<R1>::type value) = 0;
 
       private:
 
@@ -452,12 +452,12 @@ namespace tphn
       /// Default constructor.
       /// Sets the state of the instance to containing no valid data.
       //***************************************************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
       variant()
         : type_id(UNSUPPORTED_TYPE_ID)
       {
       }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 
       //***************************************************************************
       /// Constructor that catches any types that are not supported.
@@ -504,7 +504,7 @@ namespace tphn
         TYPHOON_STATIC_ASSERT(Type_Is_Supported<T>::value, "Unsupported type");
 
         destruct_current();
-        ::new (static_cast<T*>(data)) T(tphn::forward<Args>(args)...);
+        ::new (static_cast<T*>(data)) T(tpn::forward<Args>(args)...);
         type_id = Type_Id_Lookup<T>::type_id;
 
         return *static_cast<T*>(data);
@@ -807,14 +807,14 @@ namespace tphn
 
         switch (type_id)
         {
-        case 0: is_base = tphn::is_base_of<TBase, T1>::value; break;
-        case 1: is_base = tphn::is_base_of<TBase, T2>::value; break;
-        case 2: is_base = tphn::is_base_of<TBase, T3>::value; break;
-        case 3: is_base = tphn::is_base_of<TBase, T4>::value; break;
-        case 4: is_base = tphn::is_base_of<TBase, T5>::value; break;
-        case 5: is_base = tphn::is_base_of<TBase, T6>::value; break;
-        case 6: is_base = tphn::is_base_of<TBase, T7>::value; break;
-        case 7: is_base = tphn::is_base_of<TBase, T8>::value; break;
+        case 0: is_base = tpn::is_base_of<TBase, T1>::value; break;
+        case 1: is_base = tpn::is_base_of<TBase, T2>::value; break;
+        case 2: is_base = tpn::is_base_of<TBase, T3>::value; break;
+        case 3: is_base = tpn::is_base_of<TBase, T4>::value; break;
+        case 4: is_base = tpn::is_base_of<TBase, T5>::value; break;
+        case 5: is_base = tpn::is_base_of<TBase, T6>::value; break;
+        case 6: is_base = tpn::is_base_of<TBase, T7>::value; break;
+        case 7: is_base = tpn::is_base_of<TBase, T8>::value; break;
         default: is_base = false;  break;
         }
 
@@ -870,7 +870,7 @@ namespace tphn
       /// The internal storage.
       /// Aligned on a suitable boundary, which should be good for all types.
       //***************************************************************************
-      typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+      typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
 
       //***************************************************************************
       /// The id of the current stored type.

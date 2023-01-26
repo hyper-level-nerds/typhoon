@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2018 John Wellbelove
 
@@ -54,7 +54,7 @@ cog.outl("//********************************************************************
 ]]]*/
 /*[[[end]]]*/
 
-namespace tphn
+namespace tpn
 {
 #if TYPHOON_USING_CPP11 && !defined(TYPHOON_TYPE_SELECT_FORCE_CPP03_IMPLEMENTATION)
   //***************************************************************************
@@ -69,7 +69,7 @@ namespace tphn
     template <size_t ID, size_t N, typename T1, typename... TRest>
     struct type_select_helper
     {
-      using type = typename tphn::conditional<ID == N,
+      using type = typename tpn::conditional<ID == N,
                                              T1,
                                              typename type_select_helper<ID, N + 1, TRest...>::type>::type;
     };
@@ -99,7 +99,7 @@ namespace tphn
   // Select type alias
   //***************************************************************************
   template <size_t N, typename... TTypes>
-  using type_select_t = typename tphn::type_select<TTypes...>:: template select_t<N>;
+  using type_select_t = typename tpn::type_select<TTypes...>:: template select_t<N>;
 
 #else
 
@@ -119,10 +119,10 @@ namespace tphn
   cog.outl("  template <const size_t ID>")
   cog.outl("  struct select")
   cog.outl("  {")
-  cog.outl("    typedef typename tphn::conditional<ID == 0, T0,")
+  cog.outl("    typedef typename tpn::conditional<ID == 0, T0,")
   for n in range(1, int(NTypes)) :
-      cog.outl("            typename tphn::conditional<ID == %s, T%s," % (n, n))
-  cog.outl("            tphn::null_type<0> >")
+      cog.outl("            typename tpn::conditional<ID == %s, T%s," % (n, n))
+  cog.outl("            tpn::null_type<0> >")
   cog.out("            ")
   for n in range(1, int(NTypes)) :
       cog.out("::type>")
@@ -154,10 +154,10 @@ namespace tphn
       cog.outl("  template <const size_t ID>")
       cog.outl("  struct select")
       cog.outl("  {")
-      cog.outl("    typedef typename tphn::conditional<ID == 0, T0,")
+      cog.outl("    typedef typename tpn::conditional<ID == 0, T0,")
       for n in range(1, s) :
-          cog.outl("            typename tphn::conditional<ID == %s, T%s," % (n, n))
-      cog.outl("            tphn::null_type<0> >")
+          cog.outl("            typename tpn::conditional<ID == %s, T%s," % (n, n))
+      cog.outl("            tpn::null_type<0> >")
       cog.out("            ")
       for n in range(1, s) :
           cog.out("::type>")

@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -38,12 +38,12 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Message broker
   //***************************************************************************
-  class message_broker : public tphn::imessage_router
+  class message_broker : public tpn::imessage_router
   {
   private:
 
@@ -93,7 +93,7 @@ namespace tphn
 
   public:
 
-    typedef tphn::span<const tphn::message_id_t> message_id_span_t;
+    typedef tpn::span<const tpn::message_id_t> message_id_span_t;
 
     //*******************************************
     class subscription : public subscription_node
@@ -103,7 +103,7 @@ namespace tphn
       friend class message_broker;
 
       //*******************************
-      subscription(tphn::imessage_router& router_)
+      subscription(tpn::imessage_router& router_)
         : p_router(&router_)
       {
       }
@@ -114,7 +114,7 @@ namespace tphn
       virtual message_id_span_t message_id_list() const = 0;
 
       //*******************************
-      tphn::imessage_router* get_router() const
+      tpn::imessage_router* get_router() const
       {
         return p_router;
       }
@@ -125,16 +125,16 @@ namespace tphn
         return static_cast<subscription*>(get_next());
       }
 
-      tphn::imessage_router* const p_router;
+      tpn::imessage_router* const p_router;
     };
 
-    using tphn::imessage_router::receive;
+    using tpn::imessage_router::receive;
     
     //*******************************************
     /// Constructor.
     //*******************************************
     message_broker()
-      : imessage_router(tphn::imessage_router::MESSAGE_BROKER)
+      : imessage_router(tpn::imessage_router::MESSAGE_BROKER)
       , head()
     {
     }
@@ -142,8 +142,8 @@ namespace tphn
     //*******************************************
     /// Constructor.
     //*******************************************
-    message_broker(tphn::imessage_router& successor_)
-      : imessage_router(tphn::imessage_router::MESSAGE_BROKER, successor_)
+    message_broker(tpn::imessage_router& successor_)
+      : imessage_router(tpn::imessage_router::MESSAGE_BROKER, successor_)
       , head()
     {
     }
@@ -151,41 +151,41 @@ namespace tphn
     //*******************************************
     /// Constructor.
     //*******************************************
-    message_broker(tphn::message_router_id_t id_)
+    message_broker(tpn::message_router_id_t id_)
       : imessage_router(id_)
       , head()
     {
-      TYPHOON_ASSERT((id_ <= tphn::imessage_router::MAX_MESSAGE_ROUTER) || (id_ == tphn::imessage_router::MESSAGE_BROKER), TYPHOON_ERROR(tphn::message_router_illegal_id));
+      TYPHOON_ASSERT((id_ <= tpn::imessage_router::MAX_MESSAGE_ROUTER) || (id_ == tpn::imessage_router::MESSAGE_BROKER), TYPHOON_ERROR(tpn::message_router_illegal_id));
     }
 
     //*******************************************
     /// Constructor.
     //*******************************************
-    message_broker(tphn::message_router_id_t id_, tphn::imessage_router& successor_)
+    message_broker(tpn::message_router_id_t id_, tpn::imessage_router& successor_)
       : imessage_router(id_, successor_)
       , head()
     {
-      TYPHOON_ASSERT((id_ <= tphn::imessage_router::MAX_MESSAGE_ROUTER) || (id_ == tphn::imessage_router::MESSAGE_BROKER), TYPHOON_ERROR(tphn::message_router_illegal_id));
+      TYPHOON_ASSERT((id_ <= tpn::imessage_router::MAX_MESSAGE_ROUTER) || (id_ == tpn::imessage_router::MESSAGE_BROKER), TYPHOON_ERROR(tpn::message_router_illegal_id));
     }
 
     //*******************************************
     /// Subscribe to the broker.
     //*******************************************
-    void subscribe(tphn::message_broker::subscription& new_sub)
+    void subscribe(tpn::message_broker::subscription& new_sub)
     {
       initialise_insertion_point(new_sub.get_router(), &new_sub);
     }
 
     //*******************************************
-    void unsubscribe(tphn::imessage_router& router)
+    void unsubscribe(tpn::imessage_router& router)
     {
       initialise_insertion_point(&router, TYPHOON_NULLPTR);
     }
 
     //*******************************************
-    virtual void receive(const tphn::imessage& msg) TYPHOON_OVERRIDE
+    virtual void receive(const tpn::imessage& msg) TYPHOON_OVERRIDE
     {
-      const tphn::message_id_t id = msg.get_message_id();
+      const tpn::message_id_t id = msg.get_message_id();
 
       if (!empty())
       {
@@ -196,7 +196,7 @@ namespace tphn
         {
           message_id_span_t message_ids = sub->message_id_list();
 
-          message_id_span_t::iterator itr = tphn::find(message_ids.begin(), message_ids.end(), id);
+          message_id_span_t::iterator itr = tpn::find(message_ids.begin(), message_ids.end(), id);
 
           if (itr != message_ids.end())
           {
@@ -210,16 +210,16 @@ namespace tphn
       // Always pass the message on to the successor.
       if (has_successor())
       {
-        tphn::imessage_router& successor = get_successor();
+        tpn::imessage_router& successor = get_successor();
 
         successor.receive(msg);
       }
     }
 
     //*******************************************
-    virtual void receive(tphn::shared_message shared_msg) TYPHOON_OVERRIDE
+    virtual void receive(tpn::shared_message shared_msg) TYPHOON_OVERRIDE
     {
-      const tphn::message_id_t id = shared_msg.get_message().get_message_id();
+      const tpn::message_id_t id = shared_msg.get_message().get_message_id();
 
       if (!empty())
       {
@@ -230,7 +230,7 @@ namespace tphn
         {
           message_id_span_t message_ids = sub->message_id_list();
 
-          message_id_span_t::iterator itr = tphn::find(message_ids.begin(), message_ids.end(), id);
+          message_id_span_t::iterator itr = tpn::find(message_ids.begin(), message_ids.end(), id);
 
           if (itr != message_ids.end())
           {
@@ -253,7 +253,7 @@ namespace tphn
     //*******************************************
     /// Message brokers accept all messages.
     //*******************************************
-    virtual bool accepts(tphn::message_id_t) const TYPHOON_OVERRIDE
+    virtual bool accepts(tpn::message_id_t) const TYPHOON_OVERRIDE
     {
       return true;
     }
@@ -291,9 +291,9 @@ namespace tphn
   private:
 
     //*******************************************
-    void initialise_insertion_point(const tphn::imessage_router* p_router, tphn::message_broker::subscription* p_new_sub)
+    void initialise_insertion_point(const tpn::imessage_router* p_router, tpn::message_broker::subscription* p_new_sub)
     {
-      const tphn::imessage_router* p_target_router = p_router;
+      const tpn::imessage_router* p_target_router = p_router;
 
       subscription_node* p_sub          = head.get_next();
       subscription_node* p_sub_previous = &head;

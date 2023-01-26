@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2020 John Wellbelove
 
@@ -40,9 +40,9 @@ SOFTWARE.
 #include "string_view.hpp"
 #include "basic_string_stream.hpp"
 
-namespace tphn
+namespace tpn
 {
-  typedef tphn::basic_string_stream<tphn::wformat_spec, tphn::iwstring, tphn::wstring_view> wstring_stream;
+  typedef tpn::basic_string_stream<tpn::wformat_spec, tpn::iwstring, tpn::wstring_view> wstring_stream;
 }
 
 #endif

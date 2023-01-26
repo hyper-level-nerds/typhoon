@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -79,17 +79,17 @@ cog.outl("//********************************************************************
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Base exception class for message router
   //***************************************************************************
-  class message_router_exception : public tphn::exception
+  class message_router_exception : public tpn::exception
   {
   public:
 
     message_router_exception(string_type reason_, string_type file_name_, numeric_type line_number_)
-      : tphn::exception(reason_, file_name_, line_number_)
+      : tpn::exception(reason_, file_name_, line_number_)
     {
     }
   };
@@ -97,7 +97,7 @@ namespace tphn
   //***************************************************************************
   /// Router id is out of the legal range.
   //***************************************************************************
-  class message_router_illegal_id : public tphn::message_router_exception
+  class message_router_illegal_id : public tpn::message_router_exception
   {
   public:
 
@@ -112,24 +112,24 @@ namespace tphn
   //***************************************************************************
   class imessage_router;
 
-  tphn::imessage_router& get_null_message_router();
+  tpn::imessage_router& get_null_message_router();
 
   //***************************************************************************
   /// This is the base of all message routers.
   //***************************************************************************
-  class imessage_router : public tphn::successor<imessage_router>
+  class imessage_router : public tpn::successor<imessage_router>
   {
   public:
 
     virtual ~imessage_router() {}
-    virtual void receive(const tphn::imessage&) = 0;
-    virtual bool accepts(tphn::message_id_t) const = 0;
+    virtual void receive(const tpn::imessage&) = 0;
+    virtual bool accepts(tpn::message_id_t) const = 0;
     virtual bool is_null_router() const = 0;
     virtual bool is_producer() const = 0;
     virtual bool is_consumer() const = 0;
 
     //********************************************
-    virtual void receive(tphn::message_router_id_t destination_router_id, const tphn::imessage& message)
+    virtual void receive(tpn::message_router_id_t destination_router_id, const tpn::imessage& message)
     {
       if ((destination_router_id == get_message_router_id()) || (destination_router_id == imessage_router::ALL_MESSAGE_ROUTERS))
       {
@@ -138,13 +138,13 @@ namespace tphn
     }
 
     //********************************************
-    virtual void receive(tphn::shared_message shared_msg)
+    virtual void receive(tpn::shared_message shared_msg)
     {
       receive(shared_msg.get_message());
     }
 
     //********************************************
-    virtual void receive(tphn::message_router_id_t destination_router_id, tphn::shared_message shared_msg)
+    virtual void receive(tpn::message_router_id_t destination_router_id, tpn::shared_message shared_msg)
     {
       if ((destination_router_id == get_message_router_id()) || (destination_router_id == imessage_router::ALL_MESSAGE_ROUTERS))
       {
@@ -153,13 +153,13 @@ namespace tphn
     }
 
     //********************************************
-    bool accepts(const tphn::imessage& msg) const
+    bool accepts(const tpn::imessage& msg) const
     {
       return accepts(msg.get_message_id());
     }
 
     //********************************************
-    tphn::message_router_id_t get_message_router_id() const
+    tpn::message_router_id_t get_message_router_id() const
     {
       return message_router_id;
     }
@@ -176,12 +176,12 @@ namespace tphn
 
   protected:
 
-    imessage_router(tphn::message_router_id_t id_)
+    imessage_router(tpn::message_router_id_t id_)
       : message_router_id(id_)
     {
     }
 
-    imessage_router(tphn::message_router_id_t id_, imessage_router& successor_)
+    imessage_router(tpn::message_router_id_t id_, imessage_router& successor_)
       : successor(successor_)
       , message_router_id(id_)
     {
@@ -193,7 +193,7 @@ namespace tphn
     imessage_router(const imessage_router&);
     imessage_router& operator =(const imessage_router&);
 
-    tphn::message_router_id_t  message_router_id;
+    tpn::message_router_id_t  message_router_id;
   };
 
   //***************************************************************************
@@ -210,15 +210,15 @@ namespace tphn
     }
 
     //********************************************
-    null_message_router(tphn::imessage_router& successor)
+    null_message_router(tpn::imessage_router& successor)
       : imessage_router(imessage_router::NULL_MESSAGE_ROUTER, successor)
     {
     }
     
     //********************************************
-    using tphn::imessage_router::receive;
+    using tpn::imessage_router::receive;
 
-    void receive(const tphn::imessage& msg) TYPHOON_OVERRIDE
+    void receive(const tpn::imessage& msg) TYPHOON_OVERRIDE
     {
       if (has_successor())
       {
@@ -227,9 +227,9 @@ namespace tphn
     }
 
     //********************************************
-    using tphn::imessage_router::accepts;
+    using tpn::imessage_router::accepts;
 
-    bool accepts(tphn::message_id_t id) const TYPHOON_OVERRIDE
+    bool accepts(tpn::message_id_t id) const TYPHOON_OVERRIDE
     {
       if (has_successor())
       {
@@ -269,9 +269,9 @@ namespace tphn
 
   //***********************************************
   /// null message router functionality.
-  inline tphn::imessage_router& get_null_message_router()
+  inline tpn::imessage_router& get_null_message_router()
   {
-    return tphn::null_message_router::instance();
+    return tpn::null_message_router::instance();
   }
 
   //***************************************************************************
@@ -283,34 +283,34 @@ namespace tphn
 
     //********************************************
     message_producer()
-      : imessage_router(tphn::imessage_router::MESSAGE_ROUTER)
+      : imessage_router(tpn::imessage_router::MESSAGE_ROUTER)
     {
     }
 
     //********************************************
-    message_producer(tphn::imessage_router& successor)
+    message_producer(tpn::imessage_router& successor)
       : imessage_router(imessage_router::NULL_MESSAGE_ROUTER, successor)
     {
     }
 
     //********************************************
-    message_producer(tphn::message_router_id_t id_)
+    message_producer(tpn::message_router_id_t id_)
       : imessage_router(id_)
     {
-      TYPHOON_ASSERT(id_ <= tphn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tphn::message_router_illegal_id));
+      TYPHOON_ASSERT(id_ <= tpn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tpn::message_router_illegal_id));
     }
 
     //********************************************
-    message_producer(tphn::message_router_id_t id_, tphn::imessage_router& successor)
+    message_producer(tpn::message_router_id_t id_, tpn::imessage_router& successor)
       : imessage_router(id_, successor)
     {
-      TYPHOON_ASSERT(id_ <= tphn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tphn::message_router_illegal_id));
+      TYPHOON_ASSERT(id_ <= tpn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tpn::message_router_illegal_id));
     }
 
     //********************************************
-    using tphn::imessage_router::receive;
+    using tpn::imessage_router::receive;
 
-    void receive(const tphn::imessage& msg) TYPHOON_OVERRIDE
+    void receive(const tpn::imessage& msg) TYPHOON_OVERRIDE
     {
       if (has_successor())
       {
@@ -319,9 +319,9 @@ namespace tphn
     }
 
     //********************************************
-    using tphn::imessage_router::accepts;
+    using tpn::imessage_router::accepts;
 
-    bool accepts(tphn::message_id_t id) const TYPHOON_OVERRIDE
+    bool accepts(tpn::message_id_t id) const TYPHOON_OVERRIDE
     {
       if (has_successor())
       {
@@ -355,8 +355,8 @@ namespace tphn
   //***************************************************************************
   /// Send a message to a router.
   //***************************************************************************
-  static inline void send_message(tphn::imessage_router& destination,
-                                  const tphn::imessage&  message)
+  static inline void send_message(tpn::imessage_router& destination,
+                                  const tpn::imessage&  message)
   {
     destination.receive(message);
   }
@@ -364,8 +364,8 @@ namespace tphn
   //***************************************************************************
   /// Send a shared message to a router.
   //***************************************************************************
-  static inline void send_message(tphn::imessage_router& destination,
-                                  tphn::shared_message message)
+  static inline void send_message(tpn::imessage_router& destination,
+                                  tpn::shared_message message)
   {
     destination.receive(message);
   }
@@ -373,9 +373,9 @@ namespace tphn
   //***************************************************************************
   /// Send a message to a router with a particular id.
   //***************************************************************************
-  static inline void send_message(tphn::imessage_router& destination,
-                                  tphn::message_router_id_t id,
-                                  const tphn::imessage& message)
+  static inline void send_message(tpn::imessage_router& destination,
+                                  tpn::message_router_id_t id,
+                                  const tpn::imessage& message)
   {
     destination.receive(id, message);
   }
@@ -383,9 +383,9 @@ namespace tphn
   //***************************************************************************
   /// Send a shared message to a router with a particular id.
   //***************************************************************************
-  static inline void send_message(tphn::imessage_router& destination,
-                                  tphn::message_router_id_t id,
-                                  tphn::shared_message message)
+  static inline void send_message(tpn::imessage_router& destination,
+                                  tpn::message_router_id_t id,
+                                  tpn::shared_message message)
   {
     destination.receive(id, message);
   }
@@ -402,38 +402,38 @@ namespace tphn
   {
   public:
 
-    typedef tphn::message_packet<TMessageTypes...> message_packet;
+    typedef tpn::message_packet<TMessageTypes...> message_packet;
 
     //**********************************************
     message_router()
-      : imessage_router(tphn::imessage_router::MESSAGE_ROUTER)
+      : imessage_router(tpn::imessage_router::MESSAGE_ROUTER)
     {
     }
 
     //**********************************************
-    message_router(tphn::imessage_router& successor_)
-      : imessage_router(tphn::imessage_router::MESSAGE_ROUTER, successor_)
+    message_router(tpn::imessage_router& successor_)
+      : imessage_router(tpn::imessage_router::MESSAGE_ROUTER, successor_)
     {
     }
 
     //**********************************************
-    message_router(tphn::message_router_id_t id_)
+    message_router(tpn::message_router_id_t id_)
       : imessage_router(id_)
     {
-      TYPHOON_ASSERT(id_ <= tphn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tphn::message_router_illegal_id));
+      TYPHOON_ASSERT(id_ <= tpn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tpn::message_router_illegal_id));
     }
 
     //**********************************************
-    message_router(tphn::message_router_id_t id_, tphn::imessage_router& successor_)
+    message_router(tpn::message_router_id_t id_, tpn::imessage_router& successor_)
       : imessage_router(id_, successor_)
     {
-      TYPHOON_ASSERT(id_ <= tphn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tphn::message_router_illegal_id));
+      TYPHOON_ASSERT(id_ <= tpn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tpn::message_router_illegal_id));
     }
 
     //**********************************************
-    using tphn::imessage_router::receive;
+    using tpn::imessage_router::receive;
 
-    void receive(const tphn::imessage& msg) TYPHOON_OVERRIDE
+    void receive(const tpn::imessage& msg) TYPHOON_OVERRIDE
     {
       const bool was_handled = (receive_message_type<TMessageTypes>(msg) || ...);
 
@@ -450,10 +450,10 @@ namespace tphn
       }
     }
 
-    template <typename TMessage, typename tphn::enable_if<tphn::is_base_of<imessage, TMessage>::value, int>::type = 0>
+    template <typename TMessage, typename tpn::enable_if<tpn::is_base_of<imessage, TMessage>::value, int>::type = 0>
     void receive(const TMessage& msg)
     {
-      if constexpr (tphn::is_one_of<TMessage, TMessageTypes...>::value)
+      if constexpr (tpn::is_one_of<TMessage, TMessageTypes...>::value)
       {
         static_cast<TDerived*>(this)->on_receive(msg);
       }
@@ -473,7 +473,7 @@ namespace tphn
     //**********************************************
     using imessage_router::accepts;
 
-    bool accepts(tphn::message_id_t id) const TYPHOON_OVERRIDE
+    bool accepts(tpn::message_id_t id) const TYPHOON_OVERRIDE
     {
       return (accepts_type<TMessageTypes>(id) || ...);
     }
@@ -500,7 +500,7 @@ namespace tphn
 
     //********************************************
     template <typename TMessage>
-    bool receive_message_type(const tphn::imessage& msg)
+    bool receive_message_type(const tpn::imessage& msg)
     {
       if (TMessage::ID == msg.get_message_id())
       {
@@ -515,7 +515,7 @@ namespace tphn
 
     //********************************************
     template <typename TMessage>
-    bool accepts_type(tphn::message_id_t id) const
+    bool accepts_type(tpn::message_id_t id) const
     {
       if (TMessage::ID == id)
       {
@@ -560,43 +560,43 @@ namespace tphn
       cog.outl("{")
       cog.outl("public:")
       cog.outl("")
-      cog.out("  typedef tphn::message_packet<")
+      cog.out("  typedef tpn::message_packet<")
       for n in range(1, int(Handlers)):
           cog.out("T%s, " % n)
       cog.outl(" T%s> message_packet;" % int(Handlers))
       cog.outl("")
       cog.outl("  //**********************************************")
-      cog.outl("  message_router(tphn::message_router_id_t id_)")
+      cog.outl("  message_router(tpn::message_router_id_t id_)")
       cog.outl("    : imessage_router(id_)")
       cog.outl("  {")
-      cog.outl("    TYPHOON_ASSERT(id_ <= tphn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tphn::message_router_illegal_id));")
+      cog.outl("    TYPHOON_ASSERT(id_ <= tpn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tpn::message_router_illegal_id));")
       cog.outl("  }")
       cog.outl("")
       cog.outl("  //**********************************************")
-      cog.outl("  message_router(tphn::message_router_id_t id_, tphn::imessage_router& successor_)")
+      cog.outl("  message_router(tpn::message_router_id_t id_, tpn::imessage_router& successor_)")
       cog.outl("    : imessage_router(id_, successor_)")
       cog.outl("  {")
-      cog.outl("    TYPHOON_ASSERT(id_ <= tphn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tphn::message_router_illegal_id));")
+      cog.outl("    TYPHOON_ASSERT(id_ <= tpn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tpn::message_router_illegal_id));")
       cog.outl("  }")
       cog.outl("")
       cog.outl("  //**********************************************")
       cog.outl("  message_router()")
-      cog.outl("    : imessage_router(tphn::imessage_router::MESSAGE_ROUTER)")
+      cog.outl("    : imessage_router(tpn::imessage_router::MESSAGE_ROUTER)")
       cog.outl("  {")
       cog.outl("  }")
       cog.outl("")
       cog.outl("  //**********************************************")
-      cog.outl("  message_router(tphn::imessage_router& successor_)")
-      cog.outl("    : imessage_router(tphn::imessage_router::MESSAGE_ROUTER, successor_)")
+      cog.outl("  message_router(tpn::imessage_router& successor_)")
+      cog.outl("    : imessage_router(tpn::imessage_router::MESSAGE_ROUTER, successor_)")
       cog.outl("  {")
       cog.outl("  }")
       cog.outl("")
       cog.outl("  //**********************************************")
-      cog.outl("  using tphn::imessage_router::receive;")
+      cog.outl("  using tpn::imessage_router::receive;")
       cog.outl("")
-      cog.outl("  void receive(const tphn::imessage& msg) TYPHOON_OVERRIDE")
+      cog.outl("  void receive(const tpn::imessage& msg) TYPHOON_OVERRIDE")
       cog.outl("  {")
-      cog.outl("    const tphn::message_id_t id = msg.get_message_id();")
+      cog.outl("    const tpn::message_id_t id = msg.get_message_id();")
       cog.outl("")
       cog.outl("    switch (id)")
       cog.outl("    {")
@@ -620,9 +620,9 @@ namespace tphn
       cog.outl("  }")
       cog.outl("")
       cog.outl("  template <typename TMessage>")
-      cog.outl("  void receive(const TMessage& msg, typename tphn::enable_if<tphn::is_base_of<imessage, TMessage>::value, int>::type = 0)")
+      cog.outl("  void receive(const TMessage& msg, typename tpn::enable_if<tpn::is_base_of<imessage, TMessage>::value, int>::type = 0)")
       cog.outl("  {")
-      cog.out("    if TYPHOON_IF_CONSTEXPR (tphn::is_one_of<TMessage, ")
+      cog.out("    if TYPHOON_IF_CONSTEXPR (tpn::is_one_of<TMessage, ")
       for n in range(1, int(Handlers)):
           cog.out("T%s, " % n)
           if n % 4 == 0:
@@ -648,7 +648,7 @@ namespace tphn
       cog.outl("  //**********************************************")
       cog.outl("  using imessage_router::accepts;")
       cog.outl("")
-      cog.outl("  bool accepts(tphn::message_id_t id) const TYPHOON_OVERRIDE")
+      cog.outl("  bool accepts(tpn::message_id_t id) const TYPHOON_OVERRIDE")
       cog.outl("  {")
       cog.outl("    switch (id)")
       cog.outl("    {")
@@ -727,41 +727,41 @@ namespace tphn
           cog.outl("{")
           cog.outl("public:")
           cog.outl("")
-          cog.out("  typedef tphn::message_packet<")
+          cog.out("  typedef tpn::message_packet<")
           for t in range(1, n):
               cog.out("T%s, " % t)
           cog.outl(" T%s> message_packet;" % n)
           cog.outl("")
           cog.outl("  //**********************************************")
-          cog.outl("  message_router(tphn::message_router_id_t id_)")
+          cog.outl("  message_router(tpn::message_router_id_t id_)")
           cog.outl("    : imessage_router(id_)")
           cog.outl("  {")
-          cog.outl("    TYPHOON_ASSERT(id_ <= tphn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tphn::message_router_illegal_id));")
+          cog.outl("    TYPHOON_ASSERT(id_ <= tpn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tpn::message_router_illegal_id));")
           cog.outl("  }")
           cog.outl("")
           cog.outl("  //**********************************************")
-          cog.outl("  message_router(tphn::message_router_id_t id_, tphn::imessage_router& successor_)")
+          cog.outl("  message_router(tpn::message_router_id_t id_, tpn::imessage_router& successor_)")
           cog.outl("    : imessage_router(id_, successor_)")
           cog.outl("  {")
-          cog.outl("    TYPHOON_ASSERT(id_ <= tphn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tphn::message_router_illegal_id));")
+          cog.outl("    TYPHOON_ASSERT(id_ <= tpn::imessage_router::MAX_MESSAGE_ROUTER, TYPHOON_ERROR(tpn::message_router_illegal_id));")
           cog.outl("  }")
           cog.outl("")
           cog.outl("  //**********************************************")
           cog.outl("  message_router()")
-          cog.outl("    : imessage_router(tphn::imessage_router::MESSAGE_ROUTER)")
+          cog.outl("    : imessage_router(tpn::imessage_router::MESSAGE_ROUTER)")
           cog.outl("  {")
           cog.outl("  }")
           cog.outl("")
           cog.outl("  //**********************************************")
-          cog.outl("  message_router(tphn::imessage_router& successor_)")
-          cog.outl("    : imessage_router(tphn::imessage_router::MESSAGE_ROUTER, successor_)")
+          cog.outl("  message_router(tpn::imessage_router& successor_)")
+          cog.outl("    : imessage_router(tpn::imessage_router::MESSAGE_ROUTER, successor_)")
           cog.outl("  {")
           cog.outl("  }")
           cog.outl("")
           cog.outl("  //**********************************************")
-          cog.outl("  using tphn::imessage_router::receive;")
+          cog.outl("  using tpn::imessage_router::receive;")
           cog.outl("")
-          cog.outl("  void receive(const tphn::imessage& msg) TYPHOON_OVERRIDE")
+          cog.outl("  void receive(const tpn::imessage& msg) TYPHOON_OVERRIDE")
           cog.outl("  {")
           cog.outl("    const size_t id = msg.get_message_id();")
           cog.outl("")
@@ -787,9 +787,9 @@ namespace tphn
           cog.outl("  }")
           cog.outl("")
           cog.outl("  template <typename TMessage>")
-          cog.outl("  void receive(const TMessage& msg, typename tphn::enable_if<tphn::is_base_of<imessage, TMessage>::value, int>::type = 0)")
+          cog.outl("  void receive(const TMessage& msg, typename tpn::enable_if<tpn::is_base_of<imessage, TMessage>::value, int>::type = 0)")
           cog.outl("  {")
-          cog.out("    if TYPHOON_IF_CONSTEXPR (tphn::is_one_of<TMessage, ")
+          cog.out("    if TYPHOON_IF_CONSTEXPR (tpn::is_one_of<TMessage, ")
           for t in range(1, n):
               cog.out("T%s, " % t)
               if t % 4 == 0:
@@ -815,7 +815,7 @@ namespace tphn
           cog.outl("  //**********************************************")
           cog.outl("  using imessage_router::accepts;")
           cog.outl("")
-          cog.outl("  bool accepts(tphn::message_id_t id) const TYPHOON_OVERRIDE")
+          cog.outl("  bool accepts(tpn::message_id_t id) const TYPHOON_OVERRIDE")
           cog.outl("  {")
           cog.outl("    switch (id)")
           cog.outl("    {")

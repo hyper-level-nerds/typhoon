@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -38,7 +38,7 @@ SOFTWARE.
 #include <math.h>
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   namespace private_rms
   {
@@ -76,7 +76,7 @@ namespace tphn
   template <typename TInput, typename TCalc = TInput>
   class rms 
     : public private_rms::rms_traits<TInput, TCalc>
-    , public tphn::binary_function<TInput, TInput, void>
+    , public tpn::binary_function<TInput, TInput, void>
   {
   private:
 

@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2016 John Wellbelove
 
@@ -38,13 +38,13 @@ SOFTWARE.
 
 #include <stddef.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Exception base for intrusive queue
   ///\ingroup intrusive_queue
   //***************************************************************************
-  class intrusive_queue_exception : public tphn::exception
+  class intrusive_queue_exception : public tpn::exception
   {
   public:
 
@@ -70,7 +70,7 @@ namespace tphn
 
   //***************************************************************************
   ///\ingroup queue
-  /// Base for intrusive queue. Stores elements derived any type that supports an 'tphn_next' pointer member.
+  /// Base for intrusive queue. Stores elements derived any type that supports an 'tpn_next' pointer member.
   /// \tparam TLink  The link type that the value is derived from.
   //***************************************************************************
   template <typename TLink>
@@ -91,7 +91,7 @@ namespace tphn
 
       if (p_back != TYPHOON_NULLPTR)
       {
-        tphn::link(p_back, value);
+        tpn::link(p_back, value);
       }
       else
       {
@@ -112,7 +112,7 @@ namespace tphn
 #if defined(TYPHOON_CHECK_PUSH_POP)
       TYPHOON_ASSERT(!empty(), TYPHOON_ERROR(intrusive_queue_empty));
 #endif
-      link_type* p_next = p_front->tphn_next;
+      link_type* p_next = p_front->tpn_next;
 
       p_front = p_next;
 
@@ -194,18 +194,18 @@ namespace tphn
 
   //***************************************************************************
   ///\ingroup queue
-  /// An intrusive queue. Stores elements derived from any type that supports an 'tphn_next' pointer member.
+  /// An intrusive queue. Stores elements derived from any type that supports an 'tpn_next' pointer member.
   /// \warning This queue cannot be used for concurrent access from multiple threads.
   /// \tparam TValue The type of value that the queue holds.
   /// \tparam TLink  The link type that the value is derived from.
   //***************************************************************************
   template <typename TValue, typename TLink>
-  class intrusive_queue : public tphn::intrusive_queue_base<TLink>
+  class intrusive_queue : public tpn::intrusive_queue_base<TLink>
   {
   public:
 
     // Node typedef.
-    typedef typename tphn::intrusive_queue_base<TLink> link_type;
+    typedef typename tpn::intrusive_queue_base<TLink> link_type;
 
     // STL style typedefs.
     typedef TValue            value_type;

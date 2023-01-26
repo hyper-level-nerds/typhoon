@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -34,7 +34,7 @@ SOFTWARE.
 #include "platform.hpp"
 
 //*************************************
-// Figure out if we can use the standard library <new> header, if haven't already done so in tphn_profile.h
+// Figure out if we can use the standard library <new> header, if haven't already done so in tpn_profile.h
 #if !defined(TYPHOON_USING_STD_NEW)
   #if defined(__has_include)
     #if __has_include(<new>)

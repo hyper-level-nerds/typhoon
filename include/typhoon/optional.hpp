@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2015 John Wellbelove
 
@@ -39,7 +39,7 @@ SOFTWARE.
 #include "utility.hpp"
 #include "placement_new.hpp"
 
-namespace tphn
+namespace tpn
 {
   //*****************************************************************************
   /// A null option type.
@@ -103,7 +103,7 @@ namespace tphn
   ///\tparam The type to store.
   ///\ingroup utilities
   //*****************************************************************************
-  template <typename T, bool is_pod = tphn::is_pod<T>::value>
+  template <typename T, bool is_pod = tpn::is_pod<T>::value>
   class optional;
 
   //*****************************************************************************
@@ -117,22 +117,22 @@ namespace tphn
     //***************************************************************************
     /// Constructor.
     //***************************************************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
     optional()
       : valid(false)
     {
     }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 
     //***************************************************************************
     /// Constructor with nullopt.
     //***************************************************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
-    optional(tphn::nullopt_t)
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
+    optional(tpn::nullopt_t)
       : valid(false)
     {
     }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 
     //***************************************************************************
     /// Copy constructor.
@@ -155,7 +155,7 @@ namespace tphn
     {
       if (valid)
       {
-        ::new (storage.template get_address<T>()) T(tphn::move(other.value()));
+        ::new (storage.template get_address<T>()) T(tpn::move(other.value()));
       }
     }
 #endif
@@ -175,7 +175,7 @@ namespace tphn
     //***************************************************************************
     optional(T&& value_)
     {
-      ::new (storage.template get_address<T>()) T(tphn::move(value_));
+      ::new (storage.template get_address<T>()) T(tpn::move(value_));
       valid = true;
     }
 #endif
@@ -194,7 +194,7 @@ namespace tphn
     //***************************************************************************
     /// Assignment operator from nullopt.
     //***************************************************************************
-    optional& operator =(tphn::nullopt_t)
+    optional& operator =(tpn::nullopt_t)
     {
       if (valid)
       {
@@ -251,11 +251,11 @@ namespace tphn
         {
           if (valid)
           {
-            storage.template get_reference<T>() = tphn::move(other.value());
+            storage.template get_reference<T>() = tpn::move(other.value());
           }
           else
           {
-            ::new (storage.template get_address<T>()) T(tphn::move(other.value()));
+            ::new (storage.template get_address<T>()) T(tpn::move(other.value()));
             valid = true;
           }
         }
@@ -291,11 +291,11 @@ namespace tphn
     {
       if (valid)
       {
-        storage.template get_reference<T>() = tphn::move(value_);
+        storage.template get_reference<T>() = tpn::move(value_);
       }
       else
       {
-        ::new (storage.template get_address<T>()) T(tphn::move(value_));
+        ::new (storage.template get_address<T>()) T(tpn::move(value_));
         valid = true;
       }
 
@@ -511,7 +511,7 @@ namespace tphn
   private:
 
     bool valid;
-    typename tphn::aligned_storage_as<sizeof(T), T>::type storage;
+    typename tpn::aligned_storage_as<sizeof(T), T>::type storage;
   };
 
   //*****************************************************************************
@@ -534,7 +534,7 @@ namespace tphn
     //***************************************************************************
     /// Constructor with nullopt.
     //***************************************************************************
-    TYPHOON_CONSTEXPR14 optional(tphn::nullopt_t)
+    TYPHOON_CONSTEXPR14 optional(tpn::nullopt_t)
       : valid(false)
       , storage()
     {
@@ -555,7 +555,7 @@ namespace tphn
     //***************************************************************************
     TYPHOON_CONSTEXPR14 optional(optional&& other)
       : valid(bool(other))
-      , storage(tphn::move(other.storage))
+      , storage(tpn::move(other.storage))
     {
     }
 #endif
@@ -575,7 +575,7 @@ namespace tphn
     //***************************************************************************
     TYPHOON_CONSTEXPR14 optional(T&& value_)
       : valid(true)
-      , storage(tphn::move(value_))
+      , storage(tpn::move(value_))
     {
     }
 #endif
@@ -583,7 +583,7 @@ namespace tphn
     //***************************************************************************
     /// Assignment operator from nullopt.
     //***************************************************************************
-    TYPHOON_CONSTEXPR14 optional& operator =(tphn::nullopt_t)
+    TYPHOON_CONSTEXPR14 optional& operator =(tpn::nullopt_t)
     {
       return *this;
     }
@@ -610,7 +610,7 @@ namespace tphn
     {
       if (this != &other)
       {
-        storage = tphn::move(other.storage);
+        storage = tpn::move(other.storage);
         valid   = other.valid;
       }
 
@@ -635,7 +635,7 @@ namespace tphn
     //***************************************************************************
     TYPHOON_CONSTEXPR14 optional& operator =(T&& value_)
     {
-      storage = tphn::move(value_);
+      storage = tpn::move(value_);
       valid = true;
 
       return *this;
@@ -823,7 +823,7 @@ namespace tphn
   /// Equality operator. cppreference 1
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator ==(const tphn::optional<T>& lhs, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator ==(const tpn::optional<T>& lhs, const tpn::optional<T>& rhs)
   {
     if (bool(lhs) != bool(rhs))
     {
@@ -843,7 +843,7 @@ namespace tphn
   /// Equality operator. cppreference 2
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator !=(const tphn::optional<T>& lhs, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator !=(const tpn::optional<T>& lhs, const tpn::optional<T>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -852,7 +852,7 @@ namespace tphn
   /// Less than operator. cppreference 3
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator <(const tphn::optional<T>& lhs, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator <(const tpn::optional<T>& lhs, const tpn::optional<T>& rhs)
   {
     if (!bool(rhs))
     {
@@ -872,7 +872,7 @@ namespace tphn
   /// Less than equal operator. cppreference 4
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator <=(const tphn::optional<T>& lhs, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator <=(const tpn::optional<T>& lhs, const tpn::optional<T>& rhs)
   {
     if (!bool(lhs))
     {
@@ -892,7 +892,7 @@ namespace tphn
   /// greater than operator. cppreference 5
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator >(const tphn::optional<T>& lhs, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator >(const tpn::optional<T>& lhs, const tpn::optional<T>& rhs)
   {
       if (!bool(lhs))
       {
@@ -912,7 +912,7 @@ namespace tphn
   /// greater than equal operator. cppreference 6
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator >=(const tphn::optional<T>& lhs, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator >=(const tpn::optional<T>& lhs, const tpn::optional<T>& rhs)
   {
     if (!bool(rhs))
     {
@@ -932,7 +932,7 @@ namespace tphn
   /// Equality operator. cppreference 7
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator ==(const tphn::optional<T>& lhs, tphn::nullopt_t)
+  TYPHOON_CONSTEXPR14 bool operator ==(const tpn::optional<T>& lhs, tpn::nullopt_t)
   {
     return !bool(lhs);
   }
@@ -941,7 +941,7 @@ namespace tphn
   /// Equality operator. cppreference 8
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator ==(tphn::nullopt_t, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator ==(tpn::nullopt_t, const tpn::optional<T>& rhs)
   {
     return !bool(rhs);
   }
@@ -950,25 +950,25 @@ namespace tphn
   /// Inequality operator. cppreference 9
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator !=(const tphn::optional<T>& lhs, tphn::nullopt_t)
+  TYPHOON_CONSTEXPR14 bool operator !=(const tpn::optional<T>& lhs, tpn::nullopt_t)
   {
-    return !(lhs == tphn::nullopt);
+    return !(lhs == tpn::nullopt);
   }
 
   //***************************************************************************
   /// Inequality operator. cppreference 10
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator !=(tphn::nullopt_t , const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator !=(tpn::nullopt_t , const tpn::optional<T>& rhs)
   {
-    return !(tphn::nullopt == rhs);
+    return !(tpn::nullopt == rhs);
   }
 
   //***************************************************************************
   /// Less than operator. cppreference 11
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator <(const tphn::optional<T>&, tphn::nullopt_t)
+  TYPHOON_CONSTEXPR14 bool operator <(const tpn::optional<T>&, tpn::nullopt_t)
   {
     return false;
   }
@@ -977,7 +977,7 @@ namespace tphn
   /// Less than operator. cppreference 12
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator <(tphn::nullopt_t, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator <(tpn::nullopt_t, const tpn::optional<T>& rhs)
   {
     return bool(rhs);
   }
@@ -986,7 +986,7 @@ namespace tphn
   /// Less than equal operator. cppreference 13
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator <=(const tphn::optional<T>& lhs, tphn::nullopt_t)
+  TYPHOON_CONSTEXPR14 bool operator <=(const tpn::optional<T>& lhs, tpn::nullopt_t)
   {
     return !bool(lhs);
   }
@@ -995,7 +995,7 @@ namespace tphn
   /// Less than equal operator. cppreference 14
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator <=(tphn::nullopt_t, const tphn::optional<T>&)
+  TYPHOON_CONSTEXPR14 bool operator <=(tpn::nullopt_t, const tpn::optional<T>&)
   {
     return true;
   }
@@ -1004,7 +1004,7 @@ namespace tphn
   /// Greater than operator. cppreference 15
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator >(const tphn::optional<T>& lhs, tphn::nullopt_t)
+  TYPHOON_CONSTEXPR14 bool operator >(const tpn::optional<T>& lhs, tpn::nullopt_t)
   {
     return bool(lhs);
   }
@@ -1013,7 +1013,7 @@ namespace tphn
   /// Greater than operator. cppreference 16
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator >(tphn::nullopt_t, const tphn::optional<T>&)
+  TYPHOON_CONSTEXPR14 bool operator >(tpn::nullopt_t, const tpn::optional<T>&)
   {
     return false;
   }
@@ -1022,7 +1022,7 @@ namespace tphn
   /// Greater than equal operator. cppreference 17
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator >=(const tphn::optional<T>&, tphn::nullopt_t)
+  TYPHOON_CONSTEXPR14 bool operator >=(const tpn::optional<T>&, tpn::nullopt_t)
   {
     return true;
   }
@@ -1031,7 +1031,7 @@ namespace tphn
   /// Greater than equal operator. cppreference 18
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 bool operator >=(tphn::nullopt_t, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator >=(tpn::nullopt_t, const tpn::optional<T>& rhs)
   {
     return !bool(rhs);
   }
@@ -1040,7 +1040,7 @@ namespace tphn
   /// Equality operator. cppreference 19
   //**************************************************************************
   template <typename T, typename U>
-  TYPHOON_CONSTEXPR14 bool operator ==(const tphn::optional<T>& lhs, const U& rhs)
+  TYPHOON_CONSTEXPR14 bool operator ==(const tpn::optional<T>& lhs, const U& rhs)
   {
     return bool(lhs) ? lhs.value() == rhs : false;
   }
@@ -1049,7 +1049,7 @@ namespace tphn
   /// Inequality operator. cppreference 21
   //**************************************************************************
   template <typename T, typename U>
-  TYPHOON_CONSTEXPR14 bool operator !=(const tphn::optional<T>& lhs, const U& rhs)
+  TYPHOON_CONSTEXPR14 bool operator !=(const tpn::optional<T>& lhs, const U& rhs)
   {
     return !(lhs == rhs);
   }
@@ -1058,7 +1058,7 @@ namespace tphn
   /// Equality operator. cppreference 20
   //**************************************************************************
   template <typename T, typename U>
-  TYPHOON_CONSTEXPR14 bool operator ==(const U& lhs, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator ==(const U& lhs, const tpn::optional<T>& rhs)
   {
     return bool(rhs) ? rhs.value() == lhs : false;
   }
@@ -1067,7 +1067,7 @@ namespace tphn
   /// Inequality operator. cppreference 22
   //**************************************************************************
   template <typename T, typename U>
-  TYPHOON_CONSTEXPR14 bool operator !=(const U& lhs, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator !=(const U& lhs, const tpn::optional<T>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -1076,7 +1076,7 @@ namespace tphn
   /// Less than operator. cppreference 23
   //***************************************************************************
   template <typename T, typename U>
-  TYPHOON_CONSTEXPR14 bool operator <(const tphn::optional<T>& lhs, const U& rhs)
+  TYPHOON_CONSTEXPR14 bool operator <(const tpn::optional<T>& lhs, const U& rhs)
   {
     return bool(lhs) ? lhs.value() < rhs : true;
   }
@@ -1085,7 +1085,7 @@ namespace tphn
   /// Less than operator. cppreference 24
   //***************************************************************************
   template <typename T, typename U>
-  TYPHOON_CONSTEXPR14 bool operator <(const U& lhs, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator <(const U& lhs, const tpn::optional<T>& rhs)
   {
     return bool(rhs) ? lhs < rhs.value() : false;
   }
@@ -1094,7 +1094,7 @@ namespace tphn
   /// Less than equal operator. cppreference 25
   //***************************************************************************
   template <typename T, typename U>
-  TYPHOON_CONSTEXPR14 bool operator <=(const tphn::optional<T>& lhs, const U& rhs)
+  TYPHOON_CONSTEXPR14 bool operator <=(const tpn::optional<T>& lhs, const U& rhs)
   {
     return bool(lhs) ? lhs.value() <= rhs : true;
   }
@@ -1103,7 +1103,7 @@ namespace tphn
   /// Less than equal operator. cppreference 26
   //***************************************************************************
   template <typename T, typename U>
-  TYPHOON_CONSTEXPR14 bool operator <=(const U& lhs, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator <=(const U& lhs, const tpn::optional<T>& rhs)
   {
     return bool(rhs) ? lhs <= rhs.value() : false;
   }
@@ -1112,7 +1112,7 @@ namespace tphn
   /// Greater than operator. cppreference 27
   //***************************************************************************
   template <typename T, typename U>
-  TYPHOON_CONSTEXPR14 bool operator >(const tphn::optional<T>& lhs, const U& rhs)
+  TYPHOON_CONSTEXPR14 bool operator >(const tpn::optional<T>& lhs, const U& rhs)
   {
     return bool(lhs) ? lhs.value() > rhs  : false;
   }
@@ -1121,7 +1121,7 @@ namespace tphn
   /// Greater than operator. cppreference 28
   //***************************************************************************
   template <typename T, typename U>
-  TYPHOON_CONSTEXPR14 bool operator >(const U& lhs, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator >(const U& lhs, const tpn::optional<T>& rhs)
   {
     return bool(rhs) ? lhs > rhs.value() : true;
   }
@@ -1130,7 +1130,7 @@ namespace tphn
   /// Greater than equal operator. cppreference 29
   //***************************************************************************
   template <typename T, typename U>
-  TYPHOON_CONSTEXPR14 bool operator >=(const tphn::optional<T>& lhs, const U& rhs)
+  TYPHOON_CONSTEXPR14 bool operator >=(const tpn::optional<T>& lhs, const U& rhs)
   {
     return bool(lhs) ? lhs.value() >= rhs : false;
   }
@@ -1139,7 +1139,7 @@ namespace tphn
   /// Greater than equal operator. cppreference 30
   //***************************************************************************
   template <typename T, typename U>
-  TYPHOON_CONSTEXPR14 bool operator >=(const U& lhs, const tphn::optional<T>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator >=(const U& lhs, const tpn::optional<T>& rhs)
   {
     return bool(rhs) ? lhs >= rhs.value() : true;
   }
@@ -1148,9 +1148,9 @@ namespace tphn
   /// Make an optional.
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 tphn::optional<typename tphn::decay<T>::type> make_optional(T& value)
+  TYPHOON_CONSTEXPR14 tpn::optional<typename tpn::decay<T>::type> make_optional(T& value)
   {
-    return tphn::optional<typename tphn::decay<T>::type>(value);
+    return tpn::optional<typename tpn::decay<T>::type>(value);
   }
 
   //***************************************************************************
@@ -1166,7 +1166,7 @@ namespace tphn
 /// Swaps the values.
 //*************************************************************************
 template <typename T>
-TYPHOON_CONSTEXPR14 void swap(tphn::optional<T>& lhs, tphn::optional<T>& rhs)
+TYPHOON_CONSTEXPR14 void swap(tpn::optional<T>& lhs, tpn::optional<T>& rhs)
 {
   lhs.swap(rhs);
 }

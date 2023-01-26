@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -41,7 +41,7 @@ SOFTWARE.
 /// log10<N>     : Calculates logs to base 10, rounded down to the nearest integer.<br>
 ///\ingroup maths
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   ///\ingroup log

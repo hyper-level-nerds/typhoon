@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -38,7 +38,7 @@ SOFTWARE.
 ///\defgroup instance_count instance count
 ///\ingroup utilities
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Inherit from this to count instances of a type.

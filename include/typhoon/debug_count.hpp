@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -42,18 +42,18 @@ SOFTWARE.
 
 #if defined(TYPHOON_DEBUG_COUNT)
 
-  #define TYPHOON_DECLARE_DEBUG_COUNT              tphn::debug_count tphn_debug_count;
-  #define TYPHOON_SET_DEBUG_COUNT(n)               tphn_debug_count.set(n)
-  #define TYPHOON_GET_DEBUG_COUNT                  tphn_debug_count.get()
-  #define TYPHOON_INCREMENT_DEBUG_COUNT            ++tphn_debug_count;
-  #define TYPHOON_DECREMENT_DEBUG_COUNT            --tphn_debug_count;
-  #define TYPHOON_ADD_DEBUG_COUNT(n)               tphn_debug_count += (n);
-  #define TYPHOON_SUBTRACT_DEBUG_COUNT(n)          tphn_debug_count -= (n);
-  #define TYPHOON_RESET_DEBUG_COUNT                tphn_debug_count.clear();
-  #define TYPHOON_OBJECT_RESET_DEBUG_COUNT(object) object.tphn_debug_count.clear();
-  #define TYPHOON_OBJECT_GET_DEBUG_COUNT(object)   object.tphn_debug_count.get()
+  #define TYPHOON_DECLARE_DEBUG_COUNT              tpn::debug_count tpn_debug_count;
+  #define TYPHOON_SET_DEBUG_COUNT(n)               tpn_debug_count.set(n)
+  #define TYPHOON_GET_DEBUG_COUNT                  tpn_debug_count.get()
+  #define TYPHOON_INCREMENT_DEBUG_COUNT            ++tpn_debug_count;
+  #define TYPHOON_DECREMENT_DEBUG_COUNT            --tpn_debug_count;
+  #define TYPHOON_ADD_DEBUG_COUNT(n)               tpn_debug_count += (n);
+  #define TYPHOON_SUBTRACT_DEBUG_COUNT(n)          tpn_debug_count -= (n);
+  #define TYPHOON_RESET_DEBUG_COUNT                tpn_debug_count.clear();
+  #define TYPHOON_OBJECT_RESET_DEBUG_COUNT(object) object.tpn_debug_count.clear();
+  #define TYPHOON_OBJECT_GET_DEBUG_COUNT(object)   object.tpn_debug_count.get()
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Used to count instances.
@@ -147,15 +147,15 @@ namespace tphn
 
   private:
   #if TYPHOON_HAS_ATOMIC
-    tphn::atomic_int32_t count;
+    tpn::atomic_int32_t count;
   #else
     int32_t count;
   #endif
   };
-}  // namespace tphn
+}  // namespace tpn
 
 
-inline void swap(tphn::debug_count& lhs, tphn::debug_count& rhs)
+inline void swap(tpn::debug_count& lhs, tpn::debug_count& rhs)
 {
   lhs.swap(rhs);
 }

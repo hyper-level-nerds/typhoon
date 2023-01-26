@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2020 John Wellbelove
 
@@ -39,12 +39,12 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// A pseudo-container that generates points on a line, using Bresenham's
   /// line algorithm.
-  /// T is the type for the tphn::coordinate_2d value type.
+  /// T is the type for the tpn::coordinate_2d value type.
   /// TWork is the internal working variable type. Default is int16_t.
   //***************************************************************************
   template <typename T, typename TWork = int16_t>
@@ -55,7 +55,7 @@ namespace tphn
     //***************************************************
     /// Standard container types.
     //***************************************************
-    typedef tphn::coordinate_2d<T> value_type;
+    typedef tpn::coordinate_2d<T> value_type;
     typedef size_t                size_type;
     typedef ptrdiff_t             difference_type;
     typedef value_type&           reference;
@@ -66,7 +66,7 @@ namespace tphn
     //***************************************************
     /// Const Iterator
     //***************************************************
-    class const_iterator : public tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, const value_type>
+    class const_iterator : public tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, const value_type>
     {
     public:
 
@@ -166,7 +166,7 @@ namespace tphn
     /// Constructor.
     /// Supplied first and last coordinates
     //***************************************************
-    bresenham_line(tphn::coordinate_2d<T> first_, tphn::coordinate_2d<T> last_)
+    bresenham_line(tpn::coordinate_2d<T> first_, tpn::coordinate_2d<T> last_)
     {
       initialise(first_.x, first_.y, last_.x, last_.y);
     }
@@ -184,7 +184,7 @@ namespace tphn
     /// Resets the line.
     /// Supplied first and last coordinates
     //***************************************************
-    void reset(tphn::coordinate_2d<T> first_, tphn::coordinate_2d<T> last_)
+    void reset(tpn::coordinate_2d<T> first_, tpn::coordinate_2d<T> last_)
     {
       initialise(first_.x, first_.y, last_.x, last_.y);
     }

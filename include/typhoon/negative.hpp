@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2018 John Wellbelove
 
@@ -33,14 +33,14 @@ SOFTWARE.
 
 #include "type_traits.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   // For signed types.
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR
-  typename tphn::enable_if<tphn::is_signed<T>::value, bool>::type  
+  typename tpn::enable_if<tpn::is_signed<T>::value, bool>::type  
     is_negative(const T value)
   {
     return (value < T(0));
@@ -51,7 +51,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR
-  typename tphn::enable_if<tphn::is_unsigned<T>::value, bool>::type
+  typename tpn::enable_if<tpn::is_unsigned<T>::value, bool>::type
     is_negative(const T)
   {
     return false;

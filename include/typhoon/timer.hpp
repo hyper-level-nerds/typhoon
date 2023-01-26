@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -38,13 +38,13 @@ SOFTWARE.
 // Definitions common to timers.
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
 #ifdef TYPHOON_TIMER_SEMAPHORE_TYPE
   typedef TYPHOON_TIMER_SEMAPHORE_TYPE timer_semaphore_t;
 #else
   #if TYPHOON_HAS_ATOMIC
-    typedef tphn::atomic_uint32_t timer_semaphore_t;
+    typedef tpn::atomic_uint32_t timer_semaphore_t;
   #endif
 #endif
 

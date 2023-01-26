@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -38,9 +38,9 @@ SOFTWARE.
 
 ///\defgroup radix radix
 /// Radix constants for binary, octal, decimal and hex.
-///\ingroup tphn
+///\ingroup tpn
 
-namespace tphn
+namespace tpn
 {
   /// \ingroup radix
   struct radix

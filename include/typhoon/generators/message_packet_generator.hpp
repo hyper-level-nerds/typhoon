@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2020 John Wellbelove
 
@@ -72,7 +72,7 @@ cog.outl("//********************************************************************
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
 #if TYPHOON_USING_CPP17 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)
   //***************************************************************************
@@ -85,28 +85,28 @@ namespace tphn
   private:
 
     template <typename T>
-    static constexpr bool IsMessagePacket = tphn::is_same_v< tphn::remove_const_t<tphn::remove_reference_t<T>>, tphn::message_packet<TMessageTypes...>>;
+    static constexpr bool IsMessagePacket = tpn::is_same_v< tpn::remove_const_t<tpn::remove_reference_t<T>>, tpn::message_packet<TMessageTypes...>>;
 
     template <typename T>
-    static constexpr bool IsInMessageList = tphn::is_one_of_v<tphn::remove_const_t<tphn::remove_reference_t<T>>, TMessageTypes...>;
+    static constexpr bool IsInMessageList = tpn::is_one_of_v<tpn::remove_const_t<tpn::remove_reference_t<T>>, TMessageTypes...>;
 
     template <typename T>
-    static constexpr bool IsIMessage = tphn::is_same_v<remove_const_t<tphn::remove_reference_t<T>>, tphn::imessage>;
+    static constexpr bool IsIMessage = tpn::is_same_v<remove_const_t<tpn::remove_reference_t<T>>, tpn::imessage>;
 
   public:
 
     //********************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
     message_packet()
       : valid(false)
     {
     }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 
     //********************************************
     /// 
     //********************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename T>
     explicit message_packet(T&& msg)
       : valid(true)
@@ -115,7 +115,7 @@ namespace tphn
       {
         if (accepts(msg))
         {
-          add_new_message(tphn::forward<T>(msg));
+          add_new_message(tpn::forward<T>(msg));
           valid = true;
         }
         else
@@ -127,18 +127,18 @@ namespace tphn
       }
       else if constexpr (IsInMessageList<T>)
       {
-        add_new_message_type<T>(tphn::forward<T>(msg));
+        add_new_message_type<T>(tpn::forward<T>(msg));
       }
       else if constexpr (IsMessagePacket<T>)
       {
-        copy(tphn::forward<T>(msg));
+        copy(tpn::forward<T>(msg));
       }
       else
       {
         TYPHOON_STATIC_ASSERT(IsInMessageList<T>, "Message not in packet type list");
       }
     }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 
     //**********************************************
     void copy(const message_packet& other)
@@ -158,7 +158,7 @@ namespace tphn
 
       if (valid)
       {
-        add_new_message(tphn::move(other.get()));
+        add_new_message(tpn::move(other.get()));
       }
     }
 
@@ -182,7 +182,7 @@ namespace tphn
       valid = rhs.is_valid();
       if (valid)
       {
-        add_new_message(tphn::move(rhs.get()));
+        add_new_message(tpn::move(rhs.get()));
       }
 
       return *this;
@@ -195,15 +195,15 @@ namespace tphn
     }
 
     //********************************************
-    tphn::imessage& get() TYPHOON_NOEXCEPT
+    tpn::imessage& get() TYPHOON_NOEXCEPT
     {
-      return *static_cast<tphn::imessage*>(data);
+      return *static_cast<tpn::imessage*>(data);
     }
 
     //********************************************
-    const tphn::imessage& get() const TYPHOON_NOEXCEPT
+    const tpn::imessage& get() const TYPHOON_NOEXCEPT
     {
-      return *static_cast<const tphn::imessage*>(data);
+      return *static_cast<const tpn::imessage*>(data);
     }
 
     //********************************************
@@ -213,19 +213,19 @@ namespace tphn
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)
+    static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)
     {
       return (accepts_message<TMessageTypes::ID>(id) || ...);
     }
 
     //**********************************************
-    static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)
+    static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)
     {
       return accepts(msg.get_message_id());
     }
 
     //**********************************************
-    template <tphn::message_id_t Id>
+    template <tpn::message_id_t Id>
     static TYPHOON_CONSTEXPR bool accepts()
     {
       return (accepts_message<TMessageTypes::ID, Id>() || ...);
@@ -234,7 +234,7 @@ namespace tphn
     //**********************************************
     template <typename TMessage>
     static TYPHOON_CONSTEXPR
-      typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type
+      typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type
       accepts()
     {
       return accepts<TMessage::ID>();
@@ -242,22 +242,22 @@ namespace tphn
 
     enum
     {
-      SIZE = tphn::largest<TMessageTypes...>::size,
-      ALIGNMENT = tphn::largest<TMessageTypes...>::alignment
+      SIZE = tpn::largest<TMessageTypes...>::size,
+      ALIGNMENT = tpn::largest<TMessageTypes...>::alignment
     };
 
   private:
 
     //**********************************************
-    template <tphn::message_id_t Id1, tphn::message_id_t Id2>
+    template <tpn::message_id_t Id1, tpn::message_id_t Id2>
     static bool accepts_message()
     {
       return Id1 == Id2;
     }
 
     //**********************************************
-    template <tphn::message_id_t Id1>
-    static bool accepts_message(tphn::message_id_t id2)
+    template <tpn::message_id_t Id1>
+    static bool accepts_message(tpn::message_id_t id2)
     {
       return Id1 == id2;
     }
@@ -267,41 +267,41 @@ namespace tphn
     {
       if (valid)
       {
-        tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);
+        tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);
 
         pmsg->~imessage();
       }
     }
 
     //********************************************
-    void add_new_message(const tphn::imessage& msg)
+    void add_new_message(const tpn::imessage& msg)
     {
       (add_new_message_type<TMessageTypes>(msg) || ...);
     }
 
     //********************************************
-    void add_new_message(tphn::imessage&& msg)
+    void add_new_message(tpn::imessage&& msg)
     {
-      (add_new_message_type<TMessageTypes>(tphn::move(msg)) || ...);
+      (add_new_message_type<TMessageTypes>(tpn::move(msg)) || ...);
     }
 
     //********************************************
     /// Only enabled for types that are in the typelist.
     //********************************************
     template <typename TMessage>
-    tphn::enable_if_t<tphn::is_one_of_v<tphn::remove_const_t<tphn::remove_reference_t<TMessage>>, TMessageTypes...>, void>
+    tpn::enable_if_t<tpn::is_one_of_v<tpn::remove_const_t<tpn::remove_reference_t<TMessage>>, TMessageTypes...>, void>
       add_new_message_type(TMessage&& msg)
     {
       void* p = data;
-      new (p) tphn::remove_reference_t<TMessage>((tphn::forward<TMessage>(msg)));
+      new (p) tpn::remove_reference_t<TMessage>((tpn::forward<TMessage>(msg)));
     }
 
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
     bool valid;
 
     //********************************************
     template <typename TType>
-    bool add_new_message_type(const tphn::imessage& msg)
+    bool add_new_message_type(const tpn::imessage& msg)
     {
       if (TType::ID == msg.get_message_id())
       {
@@ -317,7 +317,7 @@ namespace tphn
 
     //********************************************
     template <typename TType>
-    bool add_new_message_type(tphn::imessage&& msg)
+    bool add_new_message_type(tpn::imessage&& msg)
     {
       if (TType::ID == msg.get_message_id())
       {
@@ -363,7 +363,7 @@ namespace tphn
 
     ################################################
     def generate_accepts_return_compile_time_TMessage(n):
-        cog.outl("    TYPHOON_CONSTANT tphn::message_id_t id = TMessage::ID;")
+        cog.outl("    TYPHOON_CONSTANT tpn::message_id_t id = TMessage::ID;")
         cog.outl("")
         cog.out("    return")
         for i in range(1, n + 1):
@@ -377,13 +377,13 @@ namespace tphn
 
     ################################################
     def generate_static_assert_cpp03(n):
-        cog.outl("    // Not tphn::message_packet, not tphn::imessage and in typelist.")
-        cog.out("    static const bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<")
+        cog.outl("    // Not tpn::message_packet, not tpn::imessage and in typelist.")
+        cog.out("    static const bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<")
         for i in range(1, n):
             cog.out("T%d, " % i)
         cog.outl("T%s> >::value &&" % n)
-        cog.outl("                                 !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&")
-        cog.out("                                 tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,")
+        cog.outl("                                 !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&")
+        cog.out("                                 tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,")
         for i in range(1, n):
             cog.out("T%d, " % i)
         cog.outl("T%s>::value);" % n)      
@@ -392,13 +392,13 @@ namespace tphn
 
     ################################################
     def generate_static_assert_cpp11(n):
-        cog.outl("    // Not tphn::message_packet, not tphn::imessage and in typelist.")
-        cog.out("    static constexpr bool Enabled = (!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<")
+        cog.outl("    // Not tpn::message_packet, not tpn::imessage and in typelist.")
+        cog.out("    static constexpr bool Enabled = (!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<")
         for i in range(1, n):
             cog.out("T%d, " % i)
         cog.outl("T%s> >::value &&" % n)
-        cog.outl("                                     !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&")
-        cog.out("                                     tphn::is_one_of<typename tphn::remove_reference<TMessage>::type,")
+        cog.outl("                                     !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&")
+        cog.out("                                     tpn::is_one_of<typename tpn::remove_reference<TMessage>::type,")
         for i in range(1, n):
             cog.out("T%d, " % i)
         cog.outl("T%s>::value);" % n)
@@ -424,16 +424,16 @@ namespace tphn
     cog.outl("public:")
     cog.outl("")
     cog.outl("  //********************************************")
-    cog.outl("#include \"tphn/private/diagnostic_uninitialized_push.h\"")
+    cog.outl("#include \"tpn/private/diagnostic_uninitialized_push.h\"")
     cog.outl("  message_packet()")
     cog.outl("    : valid(false)")
     cog.outl("  {")
     cog.outl("  }")
-    cog.outl("#include \"tphn/private/diagnostic_pop.h\"")
+    cog.outl("#include \"tpn/private/diagnostic_pop.h\"")
     cog.outl("")
     cog.outl("  //********************************************")
-    cog.outl("#include \"tphn/private/diagnostic_uninitialized_push.h\"")
-    cog.outl("  explicit message_packet(const tphn::imessage& msg)")
+    cog.outl("#include \"tpn/private/diagnostic_uninitialized_push.h\"")
+    cog.outl("  explicit message_packet(const tpn::imessage& msg)")
     cog.outl("  {")
     cog.outl("    if (accepts(msg))")
     cog.outl("    {")
@@ -447,16 +447,16 @@ namespace tphn
     cog.outl("")
     cog.outl("    TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));")
     cog.outl("  }")
-    cog.outl("#include \"tphn/private/diagnostic_pop.h\"")
+    cog.outl("#include \"tpn/private/diagnostic_pop.h\"")
     cog.outl("")
     cog.outl("#if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)")
     cog.outl("  //********************************************")
-    cog.outl("#include \"tphn/private/diagnostic_uninitialized_push.h\"")
-    cog.outl("  explicit message_packet(tphn::imessage&& msg)")
+    cog.outl("#include \"tpn/private/diagnostic_uninitialized_push.h\"")
+    cog.outl("  explicit message_packet(tpn::imessage&& msg)")
     cog.outl("  {")
     cog.outl("    if (accepts(msg))")
     cog.outl("    {")
-    cog.outl("      add_new_message(tphn::move(msg));")
+    cog.outl("      add_new_message(tpn::move(msg));")
     cog.outl("      valid = true;")
     cog.outl("    }")
     cog.outl("    else")
@@ -466,18 +466,18 @@ namespace tphn
     cog.outl("")
     cog.outl("    TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));")
     cog.outl("  }")
-    cog.outl("#include \"tphn/private/diagnostic_pop.h\"")
+    cog.outl("#include \"tpn/private/diagnostic_pop.h\"")
     cog.outl("#endif")
     cog.outl("")
     cog.outl("#if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)")
     cog.outl("  //********************************************")
-    cog.outl("#include \"tphn/private/diagnostic_uninitialized_push.h\"")
-    cog.out("  template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<")
+    cog.outl("#include \"tpn/private/diagnostic_uninitialized_push.h\"")
+    cog.out("  template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<")
     for n in range(1, int(Handlers)):
         cog.out("T%s, " % n)
     cog.outl("T%s> >::value &&" % int(Handlers))
-    cog.outl("                                                                  !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&")
-    cog.out("                                                                  !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, ")
+    cog.outl("                                                                  !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&")
+    cog.out("                                                                  !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, ")
     for n in range(1, int(Handlers)):
         cog.out("T%s, " % n)
     cog.outl("T%s>::value, int>::type>" % int(Handlers))
@@ -486,17 +486,17 @@ namespace tphn
     cog.outl("  {")
     generate_static_assert_cpp11(int(Handlers))
     cog.outl("  }")
-    cog.outl("#include \"tphn/private/diagnostic_pop.h\"")
+    cog.outl("#include \"tpn/private/diagnostic_pop.h\"")
     cog.outl("#else")
     cog.outl("  //********************************************")
-    cog.outl("#include \"tphn/private/diagnostic_uninitialized_push.h\"")
+    cog.outl("#include \"tpn/private/diagnostic_uninitialized_push.h\"")
     cog.outl("  template <typename TMessage>")
-    cog.out("  explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<")
+    cog.out("  explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<")
     for n in range(1, int(Handlers)):
         cog.out("T%s, " % n)
     cog.outl("T%s> >::value &&" % int(Handlers))
-    cog.outl("                                                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&")
-    cog.out("                                                                       !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, ")
+    cog.outl("                                                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&")
+    cog.out("                                                                       !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, ")
     for n in range(1, int(Handlers)):
         cog.out("T%s, " % n)
     cog.outl("T%s>::value, int>::type = 0)" % int(Handlers))
@@ -504,11 +504,11 @@ namespace tphn
     cog.outl("  {")
     generate_static_assert_cpp03(int(Handlers))
     cog.outl("  }")
-    cog.outl("#include \"tphn/private/diagnostic_pop.h\"")
+    cog.outl("#include \"tpn/private/diagnostic_pop.h\"")
     cog.outl("#endif")
     cog.outl("")
     cog.outl("  //**********************************************")
-    cog.outl("#include \"tphn/private/diagnostic_uninitialized_push.h\"")
+    cog.outl("#include \"tpn/private/diagnostic_uninitialized_push.h\"")
     cog.outl("  message_packet(const message_packet& other)")
     cog.outl("    : valid(other.is_valid())")
     cog.outl("  {")
@@ -517,20 +517,20 @@ namespace tphn
     cog.outl("      add_new_message(other.get());")
     cog.outl("    }")
     cog.outl("  }")
-    cog.outl("#include \"tphn/private/diagnostic_pop.h\"")
+    cog.outl("#include \"tpn/private/diagnostic_pop.h\"")
     cog.outl("")
     cog.outl("#if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)")
     cog.outl("  //**********************************************")
-    cog.outl("#include \"tphn/private/diagnostic_uninitialized_push.h\"")
+    cog.outl("#include \"tpn/private/diagnostic_uninitialized_push.h\"")
     cog.outl("  message_packet(message_packet&& other)")
     cog.outl("    : valid(other.is_valid())")
     cog.outl("  {")
     cog.outl("    if (valid)")
     cog.outl("    {")
-    cog.outl("      add_new_message(tphn::move(other.get()));")
+    cog.outl("      add_new_message(tpn::move(other.get()));")
     cog.outl("    }")
     cog.outl("  }")
-    cog.outl("#include \"tphn/private/diagnostic_pop.h\"")
+    cog.outl("#include \"tpn/private/diagnostic_pop.h\"")
     cog.outl("#endif")
     cog.outl("")
     cog.outl("  //**********************************************")
@@ -554,7 +554,7 @@ namespace tphn
     cog.outl("    valid = rhs.is_valid();")
     cog.outl("    if (valid)")
     cog.outl("    {")
-    cog.outl("      add_new_message(tphn::move(rhs.get()));")
+    cog.outl("      add_new_message(tpn::move(rhs.get()));")
     cog.outl("    }")
     cog.outl("")
     cog.outl("    return *this;")
@@ -568,15 +568,15 @@ namespace tphn
     cog.outl("  }")
     cog.outl("")
     cog.outl("  //********************************************")
-    cog.outl("  tphn::imessage& get() TYPHOON_NOEXCEPT")
+    cog.outl("  tpn::imessage& get() TYPHOON_NOEXCEPT")
     cog.outl("  {")
-    cog.outl("    return *static_cast<tphn::imessage*>(data);")
+    cog.outl("    return *static_cast<tpn::imessage*>(data);")
     cog.outl("  }")
     cog.outl("")
     cog.outl("  //********************************************")
-    cog.outl("  const tphn::imessage& get() const TYPHOON_NOEXCEPT")
+    cog.outl("  const tpn::imessage& get() const TYPHOON_NOEXCEPT")
     cog.outl("  {")
-    cog.outl("    return *static_cast<const tphn::imessage*>(data);")
+    cog.outl("    return *static_cast<const tpn::imessage*>(data);")
     cog.outl("  }")
     cog.outl("")
     cog.outl("  //********************************************")
@@ -586,19 +586,19 @@ namespace tphn
     cog.outl("  }")
     cog.outl("")
     cog.outl("  //**********************************************")
-    cog.outl("  static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)")
+    cog.outl("  static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)")
     cog.outl("  {")
     generate_accepts_return(int(Handlers))
     cog.outl("  }")
     cog.outl("")
     cog.outl("  //**********************************************")
-    cog.outl("  static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)")
+    cog.outl("  static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)")
     cog.outl("  {")
     cog.outl("    return accepts(msg.get_message_id());")
     cog.outl("  }")
     cog.outl("")
     cog.outl("  //**********************************************")
-    cog.outl("  template <tphn::message_id_t Id>")
+    cog.outl("  template <tpn::message_id_t Id>")
     cog.outl("  static TYPHOON_CONSTEXPR bool accepts()")
     cog.outl("  {")
     generate_accepts_return_compile_time(int(Handlers))
@@ -607,7 +607,7 @@ namespace tphn
     cog.outl("  //**********************************************")
     cog.outl("  template <typename TMessage>")
     cog.outl("  static TYPHOON_CONSTEXPR")
-    cog.outl("  typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type")
+    cog.outl("  typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type")
     cog.outl("    accepts()")
     cog.outl("  {")
     generate_accepts_return_compile_time_TMessage(int(Handlers))
@@ -615,11 +615,11 @@ namespace tphn
     cog.outl("")  
     cog.outl("  enum")
     cog.outl("  {")
-    cog.out("    SIZE      = tphn::largest<")
+    cog.out("    SIZE      = tpn::largest<")
     for n in range(1, int(Handlers)):
         cog.out("T%d, " % n)
     cog.outl("T%s>::size," % int(Handlers))
-    cog.out("    ALIGNMENT = tphn::largest<")
+    cog.out("    ALIGNMENT = tpn::largest<")
     for n in range(1, int(Handlers)):
         cog.out("T%d, " % n)
     cog.outl("T%s>::alignment" % int(Handlers))
@@ -632,14 +632,14 @@ namespace tphn
     cog.outl("  {")
     cog.outl("    if (valid)")
     cog.outl("    {")
-    cog.outl("      tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);")
+    cog.outl("      tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);")
     cog.outl("")
     cog.outl("      pmsg->~imessage();")
     cog.outl("    }")
     cog.outl("  }")
     cog.outl("")
     cog.outl("  //********************************************")
-    cog.outl("  void add_new_message(const tphn::imessage& msg)")
+    cog.outl("  void add_new_message(const tpn::imessage& msg)")
     cog.outl("  {")
     cog.outl("    const size_t id = msg.get_message_id();")
     cog.outl("    void* p = data;")
@@ -654,7 +654,7 @@ namespace tphn
     cog.outl("")
     cog.outl("#if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)")
     cog.outl("  //********************************************")
-    cog.outl("  void add_new_message(tphn::imessage&& msg)")
+    cog.outl("  void add_new_message(tpn::imessage&& msg)")
     cog.outl("  {")
     cog.outl("    const size_t id = msg.get_message_id();")
     cog.outl("    void* p = data;")
@@ -668,7 +668,7 @@ namespace tphn
     cog.outl("  }")
     cog.outl("#endif")
     cog.outl("")
-    cog.outl("  typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;")
+    cog.outl("  typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;")
     cog.outl("  bool valid;")
     cog.outl("};")
 
@@ -706,16 +706,16 @@ namespace tphn
         cog.outl("public:")
         cog.outl("")
         cog.outl("  //********************************************")
-        cog.outl("#include \"tphn/private/diagnostic_uninitialized_push.h\"")
+        cog.outl("#include \"tpn/private/diagnostic_uninitialized_push.h\"")
         cog.outl("  message_packet()")
         cog.outl("    : valid(false)")
         cog.outl("  {")
         cog.outl("  }")
-        cog.outl("#include \"tphn/private/diagnostic_pop.h\"")
+        cog.outl("#include \"tpn/private/diagnostic_pop.h\"")
         cog.outl("")
         cog.outl("  //********************************************")
-        cog.outl("#include \"tphn/private/diagnostic_uninitialized_push.h\"")
-        cog.outl("  explicit message_packet(const tphn::imessage& msg)")
+        cog.outl("#include \"tpn/private/diagnostic_uninitialized_push.h\"")
+        cog.outl("  explicit message_packet(const tpn::imessage& msg)")
         cog.outl("  {")
         cog.outl("    if (accepts(msg))")
         cog.outl("    {")
@@ -729,16 +729,16 @@ namespace tphn
         cog.outl("")
         cog.outl("    TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));")
         cog.outl("  }")
-        cog.outl("#include \"tphn/private/diagnostic_pop.h\"")
+        cog.outl("#include \"tpn/private/diagnostic_pop.h\"")
         cog.outl("")
         cog.outl("#if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)")
         cog.outl("  //********************************************")
-        cog.outl("#include \"tphn/private/diagnostic_uninitialized_push.h\"")
-        cog.outl("  explicit message_packet(tphn::imessage&& msg)")
+        cog.outl("#include \"tpn/private/diagnostic_uninitialized_push.h\"")
+        cog.outl("  explicit message_packet(tpn::imessage&& msg)")
         cog.outl("  {")
         cog.outl("    if (accepts(msg))")
         cog.outl("    {")
-        cog.outl("      add_new_message(tphn::move(msg));")
+        cog.outl("      add_new_message(tpn::move(msg));")
         cog.outl("      valid = true;")
         cog.outl("    }")
         cog.outl("    else")
@@ -748,18 +748,18 @@ namespace tphn
         cog.outl("")
         cog.outl("    TYPHOON_ASSERT(valid, TYPHOON_ERROR(unhandled_message_exception));")
         cog.outl("  }")
-        cog.outl("#include \"tphn/private/diagnostic_pop.h\"")
+        cog.outl("#include \"tpn/private/diagnostic_pop.h\"")
         cog.outl("#endif")
         cog.outl("")
         cog.outl("#if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION) && !defined(TYPHOON_COMPILER_GREEN_HILLS)")
         cog.outl("  //********************************************")
-        cog.outl("#include \"tphn/private/diagnostic_uninitialized_push.h\"")
-        cog.out("  template <typename TMessage, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<")
+        cog.outl("#include \"tpn/private/diagnostic_uninitialized_push.h\"")
+        cog.out("  template <typename TMessage, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<")
         for t in range(1, n):
             cog.out("T%s, " % t)
         cog.outl("T%s> >::value &&" % n)
-        cog.outl("                                                                  !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&")
-        cog.out("                                                                  !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, ")
+        cog.outl("                                                                  !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&")
+        cog.out("                                                                  !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, ")
         for t in range(1, n):
             cog.out("T%s, " % t)
         cog.outl("T%s>::value, int>::type>" % n)
@@ -768,17 +768,17 @@ namespace tphn
         cog.outl("  {")
         generate_static_assert_cpp11(n)
         cog.outl("  }")
-        cog.outl("#include \"tphn/private/diagnostic_pop.h\"")
+        cog.outl("#include \"tpn/private/diagnostic_pop.h\"")
         cog.outl("#else")
         cog.outl("  //********************************************")
-        cog.outl("#include \"tphn/private/diagnostic_uninitialized_push.h\"")
+        cog.outl("#include \"tpn/private/diagnostic_uninitialized_push.h\"")
         cog.outl("  template <typename TMessage>")
-        cog.out("  explicit message_packet(const TMessage& /*msg*/, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::message_packet<")
+        cog.out("  explicit message_packet(const TMessage& /*msg*/, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::message_packet<")
         for t in range(1, n):
             cog.out("T%s, " % t)
         cog.outl("T%s> >::value &&" % n)
-        cog.outl("                                                                       !tphn::is_same<typename tphn::remove_reference<TMessage>::type, tphn::imessage>::value &&")
-        cog.out("                                                                       !tphn::is_one_of<typename tphn::remove_reference<TMessage>::type, ")
+        cog.outl("                                                                       !tpn::is_same<typename tpn::remove_reference<TMessage>::type, tpn::imessage>::value &&")
+        cog.out("                                                                       !tpn::is_one_of<typename tpn::remove_reference<TMessage>::type, ")
         for t in range(1, n):
             cog.out("T%s, " % t)
         cog.outl("T%s>::value, int>::type = 0)" % n)
@@ -786,11 +786,11 @@ namespace tphn
         cog.outl("  {")
         generate_static_assert_cpp03(n)
         cog.outl("  }")
-        cog.outl("#include \"tphn/private/diagnostic_pop.h\"")
+        cog.outl("#include \"tpn/private/diagnostic_pop.h\"")
         cog.outl("#endif")
         cog.outl("")
         cog.outl("  //**********************************************")
-        cog.outl("#include \"tphn/private/diagnostic_uninitialized_push.h\"")
+        cog.outl("#include \"tpn/private/diagnostic_uninitialized_push.h\"")
         cog.outl("  message_packet(const message_packet& other)")
         cog.outl("    : valid(other.is_valid())")
         cog.outl("  {")
@@ -799,20 +799,20 @@ namespace tphn
         cog.outl("      add_new_message(other.get());")
         cog.outl("    }")
         cog.outl("  }")
-        cog.outl("#include \"tphn/private/diagnostic_pop.h\"")
+        cog.outl("#include \"tpn/private/diagnostic_pop.h\"")
         cog.outl("")
         cog.outl("#if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)")
         cog.outl("  //**********************************************")
-        cog.outl("#include \"tphn/private/diagnostic_uninitialized_push.h\"")
+        cog.outl("#include \"tpn/private/diagnostic_uninitialized_push.h\"")
         cog.outl("  message_packet(message_packet&& other)")
         cog.outl("    : valid(other.is_valid())")
         cog.outl("  {")
         cog.outl("    if (valid)")
         cog.outl("    {")
-        cog.outl("      add_new_message(tphn::move(other.get()));")
+        cog.outl("      add_new_message(tpn::move(other.get()));")
         cog.outl("    }")
         cog.outl("  }")
-        cog.outl("#include \"tphn/private/diagnostic_pop.h\"")
+        cog.outl("#include \"tpn/private/diagnostic_pop.h\"")
         cog.outl("#endif")
         cog.outl("")
         cog.outl("  //**********************************************")
@@ -836,7 +836,7 @@ namespace tphn
         cog.outl("    valid = rhs.is_valid();")
         cog.outl("    if (valid)")
         cog.outl("    {")
-        cog.outl("      add_new_message(tphn::move(rhs.get()));")
+        cog.outl("      add_new_message(tpn::move(rhs.get()));")
         cog.outl("    }")
         cog.outl("")
         cog.outl("    return *this;")
@@ -850,15 +850,15 @@ namespace tphn
         cog.outl("  }")
         cog.outl("")
         cog.outl("  //********************************************")
-        cog.outl("  tphn::imessage& get() TYPHOON_NOEXCEPT")
+        cog.outl("  tpn::imessage& get() TYPHOON_NOEXCEPT")
         cog.outl("  {")
-        cog.outl("    return *static_cast<tphn::imessage*>(data);")
+        cog.outl("    return *static_cast<tpn::imessage*>(data);")
         cog.outl("  }")
         cog.outl("")
         cog.outl("  //********************************************")
-        cog.outl("  const tphn::imessage& get() const TYPHOON_NOEXCEPT")
+        cog.outl("  const tpn::imessage& get() const TYPHOON_NOEXCEPT")
         cog.outl("  {")
-        cog.outl("    return *static_cast<const tphn::imessage*>(data);")
+        cog.outl("    return *static_cast<const tpn::imessage*>(data);")
         cog.outl("  }")
         cog.outl("")
         cog.outl("  //********************************************")
@@ -868,19 +868,19 @@ namespace tphn
         cog.outl("  }")
         cog.outl("")
         cog.outl("  //**********************************************")
-        cog.outl("  static TYPHOON_CONSTEXPR bool accepts(tphn::message_id_t id)")
+        cog.outl("  static TYPHOON_CONSTEXPR bool accepts(tpn::message_id_t id)")
         cog.outl("  {")
         generate_accepts_return(n)
         cog.outl("  }")
         cog.outl("")
         cog.outl("  //**********************************************")
-        cog.outl("  static TYPHOON_CONSTEXPR bool accepts(const tphn::imessage& msg)")
+        cog.outl("  static TYPHOON_CONSTEXPR bool accepts(const tpn::imessage& msg)")
         cog.outl("  {")
         cog.outl("    return accepts(msg.get_message_id());")
         cog.outl("  }")
         cog.outl("")
         cog.outl("  //**********************************************")
-        cog.outl("  template <tphn::message_id_t Id>")
+        cog.outl("  template <tpn::message_id_t Id>")
         cog.outl("  static TYPHOON_CONSTEXPR bool accepts()")
         cog.outl("  {")
         generate_accepts_return_compile_time(n)
@@ -889,7 +889,7 @@ namespace tphn
         cog.outl("  //**********************************************")
         cog.outl("  template <typename TMessage>")
         cog.outl("  static TYPHOON_CONSTEXPR")
-        cog.outl("  typename tphn::enable_if<tphn::is_base_of<tphn::imessage, TMessage>::value, bool>::type")
+        cog.outl("  typename tpn::enable_if<tpn::is_base_of<tpn::imessage, TMessage>::value, bool>::type")
         cog.outl("    accepts()")
         cog.outl("  {")
         generate_accepts_return_compile_time_TMessage(n)
@@ -897,11 +897,11 @@ namespace tphn
         cog.outl("")
         cog.outl("  enum")
         cog.outl("  {")
-        cog.out("    SIZE      = tphn::largest<")
+        cog.out("    SIZE      = tpn::largest<")
         for t in range(1, n):
             cog.out("T%d, " % t)
         cog.outl("T%s>::size," % n)
-        cog.out("    ALIGNMENT = tphn::largest<")
+        cog.out("    ALIGNMENT = tpn::largest<")
         for t in range(1, n):
             cog.out("T%d, " % t)
         cog.outl("T%s>::alignment" % n)
@@ -914,14 +914,14 @@ namespace tphn
         cog.outl("  {")
         cog.outl("    if (valid)")
         cog.outl("    {")
-        cog.outl("      tphn::imessage* pmsg = static_cast<tphn::imessage*>(data);")
+        cog.outl("      tpn::imessage* pmsg = static_cast<tpn::imessage*>(data);")
         cog.outl("")
         cog.outl("      pmsg->~imessage();")
         cog.outl("    }")
         cog.outl("  }")
         cog.outl("")
         cog.outl("  //********************************************")
-        cog.outl("  void add_new_message(const tphn::imessage& msg)")
+        cog.outl("  void add_new_message(const tpn::imessage& msg)")
         cog.outl("  {")
         cog.outl("    const size_t id = msg.get_message_id();")
         cog.outl("    void* p = data;")
@@ -936,7 +936,7 @@ namespace tphn
         cog.outl("")
         cog.outl("#if TYPHOON_USING_CPP11 && !defined(TYPHOON_MESSAGE_PACKET_FORCE_CPP03_IMPLEMENTATION)")
         cog.outl("  //********************************************")
-        cog.outl("  void add_new_message(tphn::imessage&& msg)")
+        cog.outl("  void add_new_message(tpn::imessage&& msg)")
         cog.outl("  {")
         cog.outl("    const size_t id = msg.get_message_id();")
         cog.outl("    void* p = data;")
@@ -950,7 +950,7 @@ namespace tphn
         cog.outl("  }")
         cog.outl("#endif")
         cog.outl("")
-        cog.outl("  typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;")
+        cog.outl("  typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;")
         cog.outl("  bool valid;")
         cog.outl("};")
   ]]]*/

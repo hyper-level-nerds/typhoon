@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -77,7 +77,7 @@ cog.outl("//********************************************************************
 
 #include "private/minmax_push.hpp"
 
-namespace tphn
+namespace tpn
 {
   class fsm;
   class hfsm;
@@ -90,15 +90,15 @@ namespace tphn
 #endif
 
   // For internal FSM use.
-  typedef typename tphn::larger_type<tphn::message_id_t>::type fsm_internal_id_t;
+  typedef typename tpn::larger_type<tpn::message_id_t>::type fsm_internal_id_t;
 
 #if TYPHOON_USING_CPP17 && !defined(TYPHOON_FSM_FORCE_CPP03_IMPLEMENTATION) // For C++17 and above
-  template <typename, typename, const tphn::fsm_state_id_t, typename...>
+  template <typename, typename, const tpn::fsm_state_id_t, typename...>
   class fsm_state;
 #else
   /*[[[cog
   import cog
-  cog.outl("template <typename, typename, const tphn::fsm_state_id_t,")
+  cog.outl("template <typename, typename, const tpn::fsm_state_id_t,")
   cog.out("          ")
   for n in range(1, int(Handlers)):
     cog.out("typename, ")
@@ -114,12 +114,12 @@ namespace tphn
   //***************************************************************************
   /// Base exception class for FSM.
   //***************************************************************************
-  class fsm_exception : public tphn::exception
+  class fsm_exception : public tpn::exception
   {
   public:
 
     fsm_exception(string_type reason_, string_type file_name_, numeric_type line_number_)
-      : tphn::exception(reason_, file_name_, line_number_)
+      : tpn::exception(reason_, file_name_, line_number_)
     {
     }
   };
@@ -127,12 +127,12 @@ namespace tphn
   //***************************************************************************
   /// Exception for null state pointer.
   //***************************************************************************
-  class fsm_null_state_exception : public tphn::fsm_exception
+  class fsm_null_state_exception : public tpn::fsm_exception
   {
   public:
 
     fsm_null_state_exception(string_type file_name_, numeric_type line_number_)
-      : tphn::fsm_exception(TYPHOON_ERROR_TEXT("fsm:null state", TYPHOON_FSM_FILE_ID"A"), file_name_, line_number_)
+      : tpn::fsm_exception(TYPHOON_ERROR_TEXT("fsm:null state", TYPHOON_FSM_FILE_ID"A"), file_name_, line_number_)
     {
     }
   };
@@ -140,12 +140,12 @@ namespace tphn
   //***************************************************************************
   /// Exception for invalid state id.
   //***************************************************************************
-  class fsm_state_id_exception : public tphn::fsm_exception
+  class fsm_state_id_exception : public tpn::fsm_exception
   {
   public:
 
     fsm_state_id_exception(string_type file_name_, numeric_type line_number_)
-      : tphn::fsm_exception(TYPHOON_ERROR_TEXT("fsm:state id", TYPHOON_FSM_FILE_ID"B"), file_name_, line_number_)
+      : tpn::fsm_exception(TYPHOON_ERROR_TEXT("fsm:state id", TYPHOON_FSM_FILE_ID"B"), file_name_, line_number_)
     {
     }
   };
@@ -153,12 +153,12 @@ namespace tphn
   //***************************************************************************
   /// Exception for incompatible state list.
   //***************************************************************************
-  class fsm_state_list_exception : public tphn::fsm_exception
+  class fsm_state_list_exception : public tpn::fsm_exception
   {
   public:
 
     fsm_state_list_exception(string_type file_name_, numeric_type line_number_)
-      : tphn::fsm_exception(TYPHOON_ERROR_TEXT("fsm:state list", TYPHOON_FSM_FILE_ID"C"), file_name_, line_number_)
+      : tpn::fsm_exception(TYPHOON_ERROR_TEXT("fsm:state list", TYPHOON_FSM_FILE_ID"C"), file_name_, line_number_)
     {
     }
   };
@@ -166,12 +166,12 @@ namespace tphn
   //***************************************************************************
   /// Exception for incompatible order state list.
   //***************************************************************************
-  class fsm_state_list_order_exception : public tphn::fsm_exception
+  class fsm_state_list_order_exception : public tpn::fsm_exception
   {
   public:
 
     fsm_state_list_order_exception(string_type file_name_, numeric_type line_number_)
-      : tphn::fsm_exception(TYPHOON_ERROR_TEXT("fsm:state list order", TYPHOON_FSM_FILE_ID"D"), file_name_, line_number_)
+      : tpn::fsm_exception(TYPHOON_ERROR_TEXT("fsm:state list order", TYPHOON_FSM_FILE_ID"D"), file_name_, line_number_)
     {
     }
   };
@@ -179,11 +179,11 @@ namespace tphn
   //***************************************************************************
   /// Exception for forbidden state chages.
   //***************************************************************************
-  class fsm_state_composite_state_change_forbidden : public tphn::fsm_exception
+  class fsm_state_composite_state_change_forbidden : public tpn::fsm_exception
   {
   public:
     fsm_state_composite_state_change_forbidden(string_type file_name_, numeric_type line_number_)
-      : tphn::fsm_exception(TYPHOON_ERROR_TEXT("fsm:change in composite state forbidden", TYPHOON_FSM_FILE_ID"E"), file_name_, line_number_)
+      : tpn::fsm_exception(TYPHOON_ERROR_TEXT("fsm:change in composite state forbidden", TYPHOON_FSM_FILE_ID"E"), file_name_, line_number_)
     {
     }
   };
@@ -197,21 +197,21 @@ namespace tphn
 
     // Pass this whenever no state change is desired.
     // The highest unsigned value of fsm_state_id_t.
-    static TYPHOON_CONSTANT fsm_state_id_t No_State_Change = tphn::integral_limits<fsm_state_id_t>::max;
+    static TYPHOON_CONSTANT fsm_state_id_t No_State_Change = tpn::integral_limits<fsm_state_id_t>::max;
     // Pass this when this event also needs to be passed to the parent.
     static TYPHOON_CONSTANT fsm_state_id_t Pass_To_Parent = No_State_Change - 1U;
 
     /// Allows ifsm_state functions to be private.
-    friend class tphn::fsm;
-    friend class tphn::hfsm;
+    friend class tpn::fsm;
+    friend class tpn::hfsm;
 
 #if TYPHOON_USING_CPP17 && !defined(TYPHOON_FSM_FORCE_CPP03_IMPLEMENTATION) // For C++17 and above
-    template <typename, typename, const tphn::fsm_state_id_t, typename...>
+    template <typename, typename, const tpn::fsm_state_id_t, typename...>
     friend class fsm_state;
 #else
     /*[[[cog
     import cog
-    cog.outl("  template <typename, typename, const tphn::fsm_state_id_t,")
+    cog.outl("  template <typename, typename, const tpn::fsm_state_id_t,")
     cog.out("            ")
     for n in range(1, int(Handlers)):
       cog.out("typename, ")
@@ -221,13 +221,13 @@ namespace tphn
     cog.outl("typename>")
     ]]]*/
     /*[[[end]]]*/
-    friend class tphn::fsm_state;
+    friend class tpn::fsm_state;
 #endif
 
     //*******************************************
     /// Gets the id for this state.
     //*******************************************
-    tphn::fsm_state_id_t get_state_id() const
+    tpn::fsm_state_id_t get_state_id() const
     {
       return state_id;
     }
@@ -236,9 +236,9 @@ namespace tphn
     /// Adds a child to this state.
     /// Only of use when part of an HFSM.
     //*******************************************
-    void add_child_state(tphn::ifsm_state& state)
+    void add_child_state(tpn::ifsm_state& state)
     {
-      TYPHOON_ASSERT(state.p_parent == TYPHOON_NULLPTR, TYPHOON_ERROR(tphn::fsm_null_state_exception));
+      TYPHOON_ASSERT(state.p_parent == TYPHOON_NULLPTR, TYPHOON_ERROR(tpn::fsm_null_state_exception));
       state.p_parent = this;
 
       if (p_default_child == TYPHOON_NULLPTR)
@@ -253,14 +253,14 @@ namespace tphn
     /// Only of use when part of an HFSM.
     //*******************************************
     template <typename TSize>
-    void set_child_states(tphn::ifsm_state** state_list, TSize size)
+    void set_child_states(tpn::ifsm_state** state_list, TSize size)
     {
       p_active_child = TYPHOON_NULLPTR;
       p_default_child = TYPHOON_NULLPTR;
 
       for (TSize i = 0; i < size; ++i)
       {
-        TYPHOON_ASSERT(state_list[i] != TYPHOON_NULLPTR, TYPHOON_ERROR(tphn::fsm_null_state_exception));
+        TYPHOON_ASSERT(state_list[i] != TYPHOON_NULLPTR, TYPHOON_ERROR(tpn::fsm_null_state_exception));
         add_child_state(*state_list[i]);
       }
     }
@@ -270,7 +270,7 @@ namespace tphn
     //*******************************************
     /// Constructor.
     //*******************************************
-    ifsm_state(tphn::fsm_state_id_t state_id_)
+    ifsm_state(tpn::fsm_state_id_t state_id_)
       : state_id(state_id_),
       p_context(TYPHOON_NULLPTR),
       p_parent(TYPHOON_NULLPTR),
@@ -287,29 +287,29 @@ namespace tphn
     }
 
     //*******************************************
-    tphn::fsm& get_fsm_context() const
+    tpn::fsm& get_fsm_context() const
     {
       return *p_context;
     }
 
   private:
 
-    virtual fsm_state_id_t process_event(const tphn::imessage& message) = 0;
+    virtual fsm_state_id_t process_event(const tpn::imessage& message) = 0;
 
     virtual fsm_state_id_t on_enter_state() { return No_State_Change; } // By default, do nothing.
     virtual void on_exit_state() {}  // By default, do nothing.
 
     //*******************************************
-    void set_fsm_context(tphn::fsm& context)
+    void set_fsm_context(tpn::fsm& context)
     {
       p_context = &context;
     }
 
     // The state id.
-    const tphn::fsm_state_id_t state_id;
+    const tpn::fsm_state_id_t state_id;
 
     // A pointer to the FSM context.
-    tphn::fsm* p_context;
+    tpn::fsm* p_context;
 
     // A pointer to the parent.
     ifsm_state* p_parent;
@@ -328,17 +328,17 @@ namespace tphn
   //***************************************************************************
   /// The FSM class.
   //***************************************************************************
-  class fsm : public tphn::imessage_router
+  class fsm : public tpn::imessage_router
   {
   public:
 
-    friend tphn::hfsm;
+    friend tpn::hfsm;
     using imessage_router::receive;
 
     //*******************************************
     /// Constructor.
     //*******************************************
-    fsm(tphn::message_router_id_t id)
+    fsm(tpn::message_router_id_t id)
       : imessage_router(id)
       , p_state(TYPHOON_NULLPTR)
       , state_list(TYPHOON_NULLPTR)
@@ -350,18 +350,18 @@ namespace tphn
     /// Set the states for the FSM
     //*******************************************
     template <typename TSize>
-    void set_states(tphn::ifsm_state** p_states, TSize size)
+    void set_states(tpn::ifsm_state** p_states, TSize size)
     {
       state_list = p_states;
-      number_of_states = tphn::fsm_state_id_t(size);
+      number_of_states = tpn::fsm_state_id_t(size);
 
-      TYPHOON_ASSERT(number_of_states > 0, TYPHOON_ERROR(tphn::fsm_state_list_exception));
-      TYPHOON_ASSERT(number_of_states < ifsm_state::No_State_Change, TYPHOON_ERROR(tphn::fsm_state_list_exception));
+      TYPHOON_ASSERT(number_of_states > 0, TYPHOON_ERROR(tpn::fsm_state_list_exception));
+      TYPHOON_ASSERT(number_of_states < ifsm_state::No_State_Change, TYPHOON_ERROR(tpn::fsm_state_list_exception));
 
-      for (tphn::fsm_state_id_t i = 0; i < size; ++i)
+      for (tpn::fsm_state_id_t i = 0; i < size; ++i)
       {
-        TYPHOON_ASSERT(state_list[i] != TYPHOON_NULLPTR, TYPHOON_ERROR(tphn::fsm_null_state_exception));
-        TYPHOON_ASSERT(state_list[i]->get_state_id() == i, TYPHOON_ERROR(tphn::fsm_state_list_order_exception));
+        TYPHOON_ASSERT(state_list[i] != TYPHOON_NULLPTR, TYPHOON_ERROR(tpn::fsm_null_state_exception));
+        TYPHOON_ASSERT(state_list[i]->get_state_id() == i, TYPHOON_ERROR(tpn::fsm_state_list_order_exception));
         state_list[i]->set_fsm_context(*this);
       }
     }
@@ -378,12 +378,12 @@ namespace tphn
       if (p_state == TYPHOON_NULLPTR)
       {
         p_state = state_list[0];
-        TYPHOON_ASSERT(p_state != TYPHOON_NULLPTR, TYPHOON_ERROR(tphn::fsm_null_state_exception));
+        TYPHOON_ASSERT(p_state != TYPHOON_NULLPTR, TYPHOON_ERROR(tpn::fsm_null_state_exception));
 
         if (call_on_enter_state)
         {
-          tphn::fsm_state_id_t next_state_id;
-          tphn::ifsm_state* p_last_state;
+          tpn::fsm_state_id_t next_state_id;
+          tpn::ifsm_state* p_last_state;
 
           do
           {
@@ -391,7 +391,7 @@ namespace tphn
             next_state_id = p_state->on_enter_state();
             if (next_state_id != ifsm_state::No_State_Change)
             {
-              TYPHOON_ASSERT(next_state_id < number_of_states, TYPHOON_ERROR(tphn::fsm_state_id_exception));
+              TYPHOON_ASSERT(next_state_id < number_of_states, TYPHOON_ERROR(tpn::fsm_state_id_exception));
               p_state = state_list[next_state_id];
             }
           } while (p_last_state != p_state);
@@ -402,14 +402,14 @@ namespace tphn
     //*******************************************
     /// Top level message handler for the FSM.
     //*******************************************
-    void receive(const tphn::imessage& message) TYPHOON_OVERRIDE
+    void receive(const tpn::imessage& message) TYPHOON_OVERRIDE
     {
-      tphn::fsm_state_id_t next_state_id = p_state->process_event(message);
+      tpn::fsm_state_id_t next_state_id = p_state->process_event(message);
 
       if (have_changed_state(next_state_id))
       {
-        TYPHOON_ASSERT(next_state_id < number_of_states, TYPHOON_ERROR(tphn::fsm_state_id_exception));
-        tphn::ifsm_state* p_next_state = state_list[next_state_id];
+        TYPHOON_ASSERT(next_state_id < number_of_states, TYPHOON_ERROR(tpn::fsm_state_id_exception));
+        tpn::ifsm_state* p_next_state = state_list[next_state_id];
 
         do
         {
@@ -420,7 +420,7 @@ namespace tphn
 
           if (have_changed_state(next_state_id))
           {
-            TYPHOON_ASSERT(next_state_id < number_of_states, TYPHOON_ERROR(tphn::fsm_state_id_exception));
+            TYPHOON_ASSERT(next_state_id < number_of_states, TYPHOON_ERROR(tpn::fsm_state_id_exception));
             p_next_state = state_list[next_state_id];
           }
         } while (p_next_state != p_state); // Have we changed state again?
@@ -433,7 +433,7 @@ namespace tphn
     /// Does this FSM accept the message id?
     /// Yes, it accepts everything!
     //*******************************************
-    bool accepts(tphn::message_id_t) const TYPHOON_OVERRIDE
+    bool accepts(tpn::message_id_t) const TYPHOON_OVERRIDE
     {
       return true;
     }
@@ -441,9 +441,9 @@ namespace tphn
     //*******************************************
     /// Gets the current state id.
     //*******************************************
-    tphn::fsm_state_id_t get_state_id() const
+    tpn::fsm_state_id_t get_state_id() const
     {
-      TYPHOON_ASSERT(p_state != TYPHOON_NULLPTR, TYPHOON_ERROR(tphn::fsm_null_state_exception));
+      TYPHOON_ASSERT(p_state != TYPHOON_NULLPTR, TYPHOON_ERROR(tpn::fsm_null_state_exception));
       return p_state->get_state_id();
     }
 
@@ -452,7 +452,7 @@ namespace tphn
     //*******************************************
     ifsm_state& get_state()
     {
-      TYPHOON_ASSERT(p_state != TYPHOON_NULLPTR, TYPHOON_ERROR(tphn::fsm_null_state_exception));
+      TYPHOON_ASSERT(p_state != TYPHOON_NULLPTR, TYPHOON_ERROR(tpn::fsm_null_state_exception));
       return *p_state;
     }
 
@@ -461,7 +461,7 @@ namespace tphn
     //*******************************************
     const ifsm_state& get_state() const
     {
-      TYPHOON_ASSERT(p_state != TYPHOON_NULLPTR, TYPHOON_ERROR(tphn::fsm_null_state_exception));
+      TYPHOON_ASSERT(p_state != TYPHOON_NULLPTR, TYPHOON_ERROR(tpn::fsm_null_state_exception));
       return *p_state;
     }
 
@@ -508,15 +508,15 @@ namespace tphn
   private:
 
     //********************************************
-    bool have_changed_state(tphn::fsm_state_id_t next_state_id) const
+    bool have_changed_state(tpn::fsm_state_id_t next_state_id) const
     {
       return (next_state_id != p_state->get_state_id()) &&
         (next_state_id != ifsm_state::No_State_Change);
     }
 
-    tphn::ifsm_state* p_state;          ///< A pointer to the current state.
-    tphn::ifsm_state** state_list;       ///< The list of added states.
-    tphn::fsm_state_id_t number_of_states; ///< The number of states.
+    tpn::ifsm_state* p_state;          ///< A pointer to the current state.
+    tpn::ifsm_state** state_list;       ///< The list of added states.
+    tpn::fsm_state_id_t number_of_states; ///< The number of states.
   };
 
 //*************************************************************************************************
@@ -526,7 +526,7 @@ namespace tphn
   //***************************************************************************
   // The definition for all types.
   //***************************************************************************
-  template <typename TContext, typename TDerived, const tphn::fsm_state_id_t STATE_ID_, typename... TMessageTypes>
+  template <typename TContext, typename TDerived, const tpn::fsm_state_id_t STATE_ID_, typename... TMessageTypes>
   class fsm_state : public ifsm_state
   {
   public:
@@ -560,13 +560,13 @@ namespace tphn
     struct result_t
     {
       bool was_handled;
-      tphn::fsm_state_id_t state_id;
+      tpn::fsm_state_id_t state_id;
     };
 
     //********************************************
-    tphn::fsm_state_id_t process_event(const tphn::imessage& message)
+    tpn::fsm_state_id_t process_event(const tpn::imessage& message)
     {
-      tphn::fsm_state_id_t new_state_id;
+      tpn::fsm_state_id_t new_state_id;
 
       const bool was_handled = (process_event_type<TMessageTypes>(message, new_state_id) || ...);
 
@@ -580,7 +580,7 @@ namespace tphn
 
     //********************************************
     template <typename TMessage>
-    bool process_event_type(const tphn::imessage& msg, tphn::fsm_state_id_t& state_id)
+    bool process_event_type(const tpn::imessage& msg, tpn::fsm_state_id_t& state_id)
     {
       if (TMessage::ID == msg.get_message_id())
       {
@@ -605,7 +605,7 @@ namespace tphn
   cog.outl("//***************************************************************************")
   cog.outl("// The definition for all %s message types." % Handlers)
   cog.outl("//***************************************************************************")
-  cog.outl("template <typename TContext, typename TDerived, const tphn::fsm_state_id_t STATE_ID_, ")
+  cog.outl("template <typename TContext, typename TDerived, const tpn::fsm_state_id_t STATE_ID_, ")
   cog.out("          ")
   for n in range(1, int(Handlers)):
       cog.out("typename T%s = void, " % n)
@@ -640,10 +640,10 @@ namespace tphn
   cog.outl("")
   cog.outl("private:")
   cog.outl("")
-  cog.outl("  tphn::fsm_state_id_t process_event(const tphn::imessage& message)")
+  cog.outl("  tpn::fsm_state_id_t process_event(const tpn::imessage& message)")
   cog.outl("  {")
-  cog.outl("    tphn::fsm_state_id_t new_state_id;")
-  cog.outl("    tphn::message_id_t event_id = message.get_message_id();")
+  cog.outl("    tpn::fsm_state_id_t new_state_id;")
+  cog.outl("    tpn::message_id_t event_id = message.get_message_id();")
   cog.outl("")
   cog.outl("    switch (event_id)")
   cog.outl("    {")
@@ -671,7 +671,7 @@ namespace tphn
       else:
           cog.outl("// Specialisation for %d message types." % n)
       cog.outl("//***************************************************************************")
-      cog.outl("template <typename TContext, typename TDerived, const tphn::fsm_state_id_t STATE_ID_, ")
+      cog.outl("template <typename TContext, typename TDerived, const tpn::fsm_state_id_t STATE_ID_, ")
       cog.out("          ")
       for t in range(1, n):
           cog.out("typename T%d, " % t)
@@ -717,10 +717,10 @@ namespace tphn
       cog.outl("")
       cog.outl("private:")
       cog.outl("")
-      cog.outl("  tphn::fsm_state_id_t process_event(const tphn::imessage& message)")
+      cog.outl("  tpn::fsm_state_id_t process_event(const tpn::imessage& message)")
       cog.outl("  {")
-      cog.outl("    tphn::fsm_state_id_t new_state_id;")
-      cog.outl("    tphn::message_id_t event_id = message.get_message_id();")
+      cog.outl("    tpn::fsm_state_id_t new_state_id;")
+      cog.outl("    tpn::message_id_t event_id = message.get_message_id();")
       cog.outl("")
       cog.outl("    switch (event_id)")
       cog.outl("    {")
@@ -743,7 +743,7 @@ namespace tphn
   cog.outl("//***************************************************************************")
   cog.outl("// Specialisation for 0 message types.")
   cog.outl("//***************************************************************************")
-  cog.outl("template <typename TContext, typename TDerived, const tphn::fsm_state_id_t STATE_ID_>")
+  cog.outl("template <typename TContext, typename TDerived, const tpn::fsm_state_id_t STATE_ID_>")
   cog.out("class fsm_state<TContext, TDerived, STATE_ID_, ")
   for t in range(1, int(Handlers)):
       cog.out("void, ")
@@ -776,7 +776,7 @@ namespace tphn
   cog.outl("  }")
   cog.outl("private:")
   cog.outl("")
-  cog.outl("  tphn::fsm_state_id_t process_event(const tphn::imessage& message)")
+  cog.outl("  tpn::fsm_state_id_t process_event(const tpn::imessage& message)")
   cog.outl("  {")
   cog.outl("    return p_parent ? p_parent->process_event(message) : static_cast<TDerived*>(this)->on_event_unknown(message);")
   cog.outl("  }")

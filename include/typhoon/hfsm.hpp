@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 Jeremy Overesch, John Wellbelove
 
@@ -31,21 +31,21 @@ SOFTWARE.
 
 #include "fsm.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The HFSM class.
   /// Builds on the FSM class by overriding the receive function and adding
   /// state hierarchy walking functions.
   //***************************************************************************
-  class hfsm : public tphn::fsm
+  class hfsm : public tpn::fsm
   {
   public:
 
     //*******************************************
     /// Constructor.
     //*******************************************
-    hfsm(tphn::message_router_id_t id)
+    hfsm(tpn::message_router_id_t id)
       : fsm(id)
     {
     }
@@ -55,19 +55,19 @@ namespace tphn
     //*******************************************
     /// Top level message handler for the HFSM.
     //*******************************************
-    void receive(const tphn::imessage& message) TYPHOON_OVERRIDE
+    void receive(const tpn::imessage& message) TYPHOON_OVERRIDE
     {
-      tphn::fsm_state_id_t next_state_id = p_state->process_event(message);
+      tpn::fsm_state_id_t next_state_id = p_state->process_event(message);
 
       if (next_state_id != ifsm_state::No_State_Change)
       {
-        TYPHOON_ASSERT(next_state_id < number_of_states, TYPHOON_ERROR(tphn::fsm_state_id_exception));
-        tphn::ifsm_state* p_next_state = state_list[next_state_id];
+        TYPHOON_ASSERT(next_state_id < number_of_states, TYPHOON_ERROR(tpn::fsm_state_id_exception));
+        tpn::ifsm_state* p_next_state = state_list[next_state_id];
 
         // Have we changed state?
         if (p_next_state != p_state)
         {
-          tphn::ifsm_state* p_root = common_ancestor(p_state, p_next_state);
+          tpn::ifsm_state* p_root = common_ancestor(p_state, p_next_state);
           do_exits(p_root, p_state);
 
           p_state = p_next_state;
@@ -76,7 +76,7 @@ namespace tphn
 
           if (next_state_id != ifsm_state::No_State_Change)
           {
-            TYPHOON_ASSERT(next_state_id < number_of_states, TYPHOON_ERROR(tphn::fsm_state_id_exception));
+            TYPHOON_ASSERT(next_state_id < number_of_states, TYPHOON_ERROR(tpn::fsm_state_id_exception));
             p_state = state_list[next_state_id];
           }
         }
@@ -88,7 +88,7 @@ namespace tphn
     //*******************************************
     /// Return the first common ancestor of the two states.
     //*******************************************
-    static tphn::ifsm_state* common_ancestor(tphn::ifsm_state* s1, tphn::ifsm_state* s2)
+    static tpn::ifsm_state* common_ancestor(tpn::ifsm_state* s1, tpn::ifsm_state* s2)
     {
       size_t depth1 = get_depth(s1);
       size_t depth2 = get_depth(s2);
@@ -116,7 +116,7 @@ namespace tphn
     //*******************************************
     /// Find the depth of the state.
     //*******************************************
-    static size_t get_depth(tphn::ifsm_state* s)
+    static size_t get_depth(tpn::ifsm_state* s)
     {
       size_t depth = 0UL;
 
@@ -132,7 +132,7 @@ namespace tphn
     //*******************************************
     /// Align the depths of the states.
     //*******************************************
-    static tphn::ifsm_state* adjust_depth(tphn::ifsm_state* s, size_t offset)
+    static tpn::ifsm_state* adjust_depth(tpn::ifsm_state* s, size_t offset)
     {
       while (offset != 0U)
       {
@@ -146,9 +146,9 @@ namespace tphn
     //*******************************************
     /// Entering the state.
     //*******************************************
-    static tphn::fsm_state_id_t do_enters(const tphn::ifsm_state* p_root, tphn::ifsm_state* p_target, bool activate_default_children)
+    static tpn::fsm_state_id_t do_enters(const tpn::ifsm_state* p_root, tpn::ifsm_state* p_target, bool activate_default_children)
     {
-      TYPHOON_ASSERT(p_target != TYPHOON_NULLPTR, TYPHOON_ERROR(tphn::fsm_null_state_exception));
+      TYPHOON_ASSERT(p_target != TYPHOON_NULLPTR, TYPHOON_ERROR(tpn::fsm_null_state_exception));
 
       // We need to go recursively up the tree if the target and root don't match
       if ((p_root != p_target) && (p_target->p_parent != TYPHOON_NULLPTR))
@@ -163,8 +163,8 @@ namespace tphn
         p_target->p_parent->p_active_child = p_target;
       }
 
-      tphn::fsm_state_id_t next_state = p_target->on_enter_state();
-      TYPHOON_ASSERT(ifsm_state::No_State_Change == next_state, TYPHOON_ERROR(tphn::fsm_state_composite_state_change_forbidden));
+      tpn::fsm_state_id_t next_state = p_target->on_enter_state();
+      TYPHOON_ASSERT(ifsm_state::No_State_Change == next_state, TYPHOON_ERROR(tpn::fsm_state_composite_state_change_forbidden));
 
       // Activate default child if we need to activate any initial states in an active composite state.
       if (activate_default_children)
@@ -174,7 +174,7 @@ namespace tphn
           p_target = p_target->p_default_child;
           p_target->p_parent->p_active_child = p_target;
           next_state = p_target->on_enter_state();
-          TYPHOON_ASSERT(ifsm_state::No_State_Change == next_state, TYPHOON_ERROR(tphn::fsm_state_composite_state_change_forbidden));
+          TYPHOON_ASSERT(ifsm_state::No_State_Change == next_state, TYPHOON_ERROR(tpn::fsm_state_composite_state_change_forbidden));
         }
 
         next_state = p_target->get_state_id();
@@ -186,9 +186,9 @@ namespace tphn
     //*******************************************
     /// Exiting the state.
     //*******************************************
-    static void do_exits(const tphn::ifsm_state* p_root, tphn::ifsm_state* p_source)
+    static void do_exits(const tpn::ifsm_state* p_root, tpn::ifsm_state* p_source)
     {
-      tphn::ifsm_state* p_current = p_source;
+      tpn::ifsm_state* p_current = p_source;
 
       // Iterate down to the lowest child
       while (p_current->p_active_child != TYPHOON_NULLPTR)

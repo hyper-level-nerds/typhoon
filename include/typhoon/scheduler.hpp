@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -40,17 +40,17 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Base exception class for scheduler.
   //***************************************************************************
-  class scheduler_exception : public tphn::exception
+  class scheduler_exception : public tpn::exception
   {
   public:
 
     scheduler_exception(string_type reason_, string_type file_name_, numeric_type line_number_)
-      : tphn::exception(reason_, file_name_, line_number_)
+      : tpn::exception(reason_, file_name_, line_number_)
     {
     }
   };
@@ -58,12 +58,12 @@ namespace tphn
   //***************************************************************************
   /// 'No tasks' exception.
   //***************************************************************************
-  class scheduler_no_tasks_exception : public tphn::scheduler_exception
+  class scheduler_no_tasks_exception : public tpn::scheduler_exception
   {
   public:
 
     scheduler_no_tasks_exception(string_type file_name_, numeric_type line_number_)
-      : tphn::scheduler_exception(TYPHOON_ERROR_TEXT("scheduler:no tasks", TYPHOON_SCHEDULER_FILE_ID"A"), file_name_, line_number_)
+      : tpn::scheduler_exception(TYPHOON_ERROR_TEXT("scheduler:no tasks", TYPHOON_SCHEDULER_FILE_ID"A"), file_name_, line_number_)
     {
     }
   };
@@ -71,12 +71,12 @@ namespace tphn
   //***************************************************************************
   /// 'Null tasks' exception.
   //***************************************************************************
-  class scheduler_null_task_exception : public tphn::scheduler_exception
+  class scheduler_null_task_exception : public tpn::scheduler_exception
   {
   public:
 
     scheduler_null_task_exception(string_type file_name_, numeric_type line_number_)
-      : tphn::scheduler_exception(TYPHOON_ERROR_TEXT("scheduler:null task", TYPHOON_SCHEDULER_FILE_ID"B"), file_name_, line_number_)
+      : tpn::scheduler_exception(TYPHOON_ERROR_TEXT("scheduler:null task", TYPHOON_SCHEDULER_FILE_ID"B"), file_name_, line_number_)
     {
     }
   };
@@ -84,12 +84,12 @@ namespace tphn
   //***************************************************************************
   /// 'Too many tasks' exception.
   //***************************************************************************
-  class scheduler_too_many_tasks_exception : public tphn::scheduler_exception
+  class scheduler_too_many_tasks_exception : public tpn::scheduler_exception
   {
   public:
 
     scheduler_too_many_tasks_exception(string_type file_name_, numeric_type line_number_)
-      : tphn::scheduler_exception(TYPHOON_ERROR_TEXT("scheduler:too many tasks", TYPHOON_SCHEDULER_FILE_ID"C"), file_name_, line_number_)
+      : tpn::scheduler_exception(TYPHOON_ERROR_TEXT("scheduler:too many tasks", TYPHOON_SCHEDULER_FILE_ID"C"), file_name_, line_number_)
     {
     }
   };
@@ -101,13 +101,13 @@ namespace tphn
   //***************************************************************************
   struct scheduler_policy_sequential_single
   {
-    bool schedule_tasks(tphn::ivector<tphn::task*>& task_list)
+    bool schedule_tasks(tpn::ivector<tpn::task*>& task_list)
     {
       bool idle = true;
 
       for (size_t index = 0UL; index < task_list.size(); ++index)
       {
-        tphn::task& task = *(task_list[index]);
+        tpn::task& task = *(task_list[index]);
 
         if (task.task_request_work() > 0)
         {
@@ -130,13 +130,13 @@ namespace tphn
   //***************************************************************************
   struct scheduler_policy_sequential_multiple
   {
-    bool schedule_tasks(tphn::ivector<tphn::task*>& task_list)
+    bool schedule_tasks(tpn::ivector<tpn::task*>& task_list)
     {
       bool idle = true;
 
       for (size_t index = 0UL; index < task_list.size(); ++index)
       {
-        tphn::task& task = *(task_list[index]);
+        tpn::task& task = *(task_list[index]);
 
         while (task.task_request_work() > 0)
         {
@@ -159,14 +159,14 @@ namespace tphn
   //***************************************************************************
   struct scheduler_policy_highest_priority
   {
-    bool schedule_tasks(tphn::ivector<tphn::task*>& task_list)
+    bool schedule_tasks(tpn::ivector<tpn::task*>& task_list)
     {
       bool idle = true;
 
       size_t index = 0UL;
       while (index < task_list.size())
       {
-        tphn::task& task = *(task_list[index]);
+        tpn::task& task = *(task_list[index]);
 
         if (task.task_request_work() > 0)
         {
@@ -192,7 +192,7 @@ namespace tphn
   //***************************************************************************
   struct scheduler_policy_most_work
   {
-    bool schedule_tasks(tphn::ivector<tphn::task*>& task_list)
+    bool schedule_tasks(tpn::ivector<tpn::task*>& task_list)
     {
       bool idle = true;
 
@@ -201,7 +201,7 @@ namespace tphn
 
       for (size_t index = 0UL; index < task_list.size(); ++index)
       {
-        tphn::task& task = *(task_list[index]);
+        tpn::task& task = *(task_list[index]);
 
         uint32_t n_work = task.task_request_work();
 
@@ -241,7 +241,7 @@ namespace tphn
     //*******************************************
     /// Set the idle callback.
     //*******************************************
-    void set_idle_callback(tphn::ifunction<void>& callback)
+    void set_idle_callback(tpn::ifunction<void>& callback)
     {
       p_idle_callback = &callback;
     }
@@ -249,7 +249,7 @@ namespace tphn
     //*******************************************
     /// Set the watchdog callback.
     //*******************************************
-    void set_watchdog_callback(tphn::ifunction<void>& callback)
+    void set_watchdog_callback(tpn::ifunction<void>& callback)
     {
       p_watchdog_callback = &callback;
     }
@@ -282,13 +282,13 @@ namespace tphn
     /// Add a task.
     /// Add to the task list in priority order.
     //*******************************************
-    void add_task(tphn::task& task)
+    void add_task(tpn::task& task)
     {
-      TYPHOON_ASSERT(!task_list.full(), TYPHOON_ERROR(tphn::scheduler_too_many_tasks_exception));
+      TYPHOON_ASSERT(!task_list.full(), TYPHOON_ERROR(tpn::scheduler_too_many_tasks_exception));
 
       if (!task_list.full())
       {
-        typename task_list_t::iterator itask = tphn::upper_bound(task_list.begin(),
+        typename task_list_t::iterator itask = tpn::upper_bound(task_list.begin(),
                                                                    task_list.end(),
                                                                    task.get_task_priority(),
                                                                    compare_priority());
@@ -305,11 +305,11 @@ namespace tphn
     /// Input order is ignored.
     //*******************************************
     template <typename TSize>
-    void add_task_list(tphn::task** p_tasks, TSize size)
+    void add_task_list(tpn::task** p_tasks, TSize size)
     {
       for (TSize i = 0; i < size; ++i)
       {
-        TYPHOON_ASSERT((p_tasks[i] != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::scheduler_null_task_exception));
+        TYPHOON_ASSERT((p_tasks[i] != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::scheduler_null_task_exception));
         add_task(*(p_tasks[i]));
         p_tasks[i]->on_task_added();
       }
@@ -320,7 +320,7 @@ namespace tphn
     //*******************************************
     /// Constructor.
     //*******************************************
-    ischeduler(tphn::ivector<tphn::task*>& task_list_)
+    ischeduler(tpn::ivector<tpn::task*>& task_list_)
       : scheduler_running(false),
         scheduler_exit(false),
         p_idle_callback(TYPHOON_NULLPTR),
@@ -331,8 +331,8 @@ namespace tphn
 
     bool scheduler_running;
     bool scheduler_exit;
-    tphn::ifunction<void>* p_idle_callback;
-    tphn::ifunction<void>* p_watchdog_callback;
+    tpn::ifunction<void>* p_idle_callback;
+    tpn::ifunction<void>* p_watchdog_callback;
 
   private:
 
@@ -341,13 +341,13 @@ namespace tphn
     //*******************************************
     struct compare_priority
     {
-      bool operator()(tphn::task_priority_t priority, tphn::task* ptask) const
+      bool operator()(tpn::task_priority_t priority, tpn::task* ptask) const
       {
         return priority > ptask->get_task_priority();
       }
     };
 
-    typedef tphn::ivector<tphn::task*> task_list_t;
+    typedef tpn::ivector<tpn::task*> task_list_t;
     task_list_t& task_list;
   };
 
@@ -355,7 +355,7 @@ namespace tphn
   /// Scheduler.
   //***************************************************************************
   template <typename TSchedulerPolicy, size_t MAX_TASKS_>
-  class scheduler : public tphn::ischeduler, protected TSchedulerPolicy
+  class scheduler : public tpn::ischeduler, protected TSchedulerPolicy
   {
   public:
 
@@ -374,7 +374,7 @@ namespace tphn
     //*******************************************
     void start()
     {
-      TYPHOON_ASSERT(task_list.size() > 0, TYPHOON_ERROR(tphn::scheduler_no_tasks_exception));
+      TYPHOON_ASSERT(task_list.size() > 0, TYPHOON_ERROR(tpn::scheduler_no_tasks_exception));
 
       scheduler_running = true;
 
@@ -399,7 +399,7 @@ namespace tphn
 
   private:
 
-    typedef tphn::vector<tphn::task*, MAX_TASKS> task_list_t;
+    typedef tpn::vector<tpn::task*, MAX_TASKS> task_list_t;
     task_list_t task_list;
   };
 }

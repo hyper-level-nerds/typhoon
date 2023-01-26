@@ -3,8 +3,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2022 John Wellbelove
 
@@ -74,18 +74,18 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   struct bitset_constants
   {
-    static TYPHOON_CONSTANT size_t npos = tphn::integral_limits<size_t>::max;
+    static TYPHOON_CONSTANT size_t npos = tpn::integral_limits<size_t>::max;
   };
 
   //***************************************************************************
   /// Exception base for bitset
   ///\ingroup bitset
   //***************************************************************************
-  class bitset_exception : public tphn::exception
+  class bitset_exception : public tpn::exception
   {
   public:
 
@@ -110,7 +110,7 @@ namespace tphn
   };
 
   //*************************************************************************
-  /// The implementation class for multi-element tphn::bitset
+  /// The implementation class for multi-element tpn::bitset
   ///\ingroup bitset
   //*************************************************************************
   template <typename TElement>
@@ -118,13 +118,13 @@ namespace tphn
   {
   public:
 
-    typedef typename tphn::make_unsigned<TElement>::type element_type;
+    typedef typename tpn::make_unsigned<TElement>::type element_type;
 
     typedef element_type*       pointer;
     typedef const element_type* const_pointer;
 
-    static TYPHOON_CONSTANT size_t       Bits_Per_Element   = tphn::integral_limits<element_type>::bits;
-    static TYPHOON_CONSTANT element_type All_Set_Element    = tphn::integral_limits<element_type>::max;
+    static TYPHOON_CONSTANT size_t       Bits_Per_Element   = tpn::integral_limits<element_type>::bits;
+    static TYPHOON_CONSTANT element_type All_Set_Element    = tpn::integral_limits<element_type>::max;
     static TYPHOON_CONSTANT element_type All_Clear_Element  = element_type(0);
 
     //*************************************************************************
@@ -136,7 +136,7 @@ namespace tphn
 
       for (size_t i = 0UL; i < number_of_elements; ++i)
       {
-        n += tphn::count_bits(pbuffer[i]);
+        n += tpn::count_bits(pbuffer[i]);
       }
 
       return n;
@@ -158,7 +158,7 @@ namespace tphn
       }
       else
       {
-        index = position >> tphn::log2<Bits_Per_Element>::value;
+        index = position >> tpn::log2<Bits_Per_Element>::value;
         mask = element_type(1) << (position & (Bits_Per_Element - 1));
       }
 
@@ -185,7 +185,7 @@ namespace tphn
       }
       else
       {
-        index = position >> tphn::log2<Bits_Per_Element>::value;
+        index = position >> tpn::log2<Bits_Per_Element>::value;
         bit = element_type(1) << (position & (Bits_Per_Element - 1));
       }
 
@@ -206,12 +206,12 @@ namespace tphn
     {
       if (text == TYPHOON_NULLPTR)
       {
-        tphn::fill_n(pbuffer, number_of_elements, All_Clear_Element);
+        tpn::fill_n(pbuffer, number_of_elements, All_Clear_Element);
       }
       else
       {
-        size_t string_length = tphn::strlen(text);
-        size_t element_index = tphn::min(number_of_elements - 1U, (string_length / Bits_Per_Element));
+        size_t string_length = tpn::strlen(text);
+        size_t element_index = tpn::min(number_of_elements - 1U, (string_length / Bits_Per_Element));
 
         // Only reset elements we need to.
         while (element_index != number_of_elements)
@@ -220,7 +220,7 @@ namespace tphn
         }
 
         // Build from the string.
-        size_t i = tphn::min(total_bits, string_length);
+        size_t i = tpn::min(total_bits, string_length);
 
         while (i > 0)
         {
@@ -236,12 +236,12 @@ namespace tphn
     {
       if (text == TYPHOON_NULLPTR)
       {
-        tphn::fill_n(pbuffer, number_of_elements, All_Clear_Element);
+        tpn::fill_n(pbuffer, number_of_elements, All_Clear_Element);
       }
       else
       {
-        size_t string_length = tphn::strlen(text);
-        size_t element_index = tphn::min(number_of_elements - 1U, (string_length / Bits_Per_Element));
+        size_t string_length = tpn::strlen(text);
+        size_t element_index = tpn::min(number_of_elements - 1U, (string_length / Bits_Per_Element));
 
         // Only reset elements we need to.
         while (element_index != number_of_elements)
@@ -250,7 +250,7 @@ namespace tphn
         }
 
         // Build from the string.
-        size_t i = tphn::min(total_bits, string_length);
+        size_t i = tpn::min(total_bits, string_length);
 
         while (i > 0)
         {
@@ -266,12 +266,12 @@ namespace tphn
     {
       if (text == TYPHOON_NULLPTR)
       {
-        tphn::fill_n(pbuffer, number_of_elements, All_Clear_Element);
+        tpn::fill_n(pbuffer, number_of_elements, All_Clear_Element);
       }
       else
       {
-        size_t string_length = tphn::strlen(text);
-        size_t element_index = tphn::min(number_of_elements - 1U, (string_length / Bits_Per_Element));
+        size_t string_length = tpn::strlen(text);
+        size_t element_index = tpn::min(number_of_elements - 1U, (string_length / Bits_Per_Element));
 
         // Only reset elements we need to.
         while (element_index != number_of_elements)
@@ -280,7 +280,7 @@ namespace tphn
         }
 
         // Build from the string.
-        size_t i = tphn::min(total_bits, string_length);
+        size_t i = tpn::min(total_bits, string_length);
 
         while (i > 0)
         {
@@ -296,12 +296,12 @@ namespace tphn
     {
       if (text == TYPHOON_NULLPTR)
       {
-        tphn::fill_n(pbuffer, number_of_elements, All_Clear_Element);
+        tpn::fill_n(pbuffer, number_of_elements, All_Clear_Element);
       }
       else
       {
-        size_t string_length = tphn::strlen(text);
-        size_t element_index = tphn::min(number_of_elements - 1U, (string_length / Bits_Per_Element));
+        size_t string_length = tpn::strlen(text);
+        size_t element_index = tpn::min(number_of_elements - 1U, (string_length / Bits_Per_Element));
 
         // Only reset elements we need to.
         while (element_index != number_of_elements)
@@ -310,7 +310,7 @@ namespace tphn
         }
 
         // Build from the string.
-        size_t i = tphn::min(total_bits, string_length);
+        size_t i = tpn::min(total_bits, string_length);
 
         while (i > 0)
         {
@@ -356,7 +356,7 @@ namespace tphn
     //*************************************************************************
     template <typename T>
     TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value, T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value, T>::type
       value(const_pointer pbuffer, size_t number_of_elements) const TYPHOON_NOEXCEPT
     {
       T v = T(0);
@@ -369,7 +369,7 @@ namespace tphn
 
         for (size_t i = 0UL; i < number_of_elements; ++i)
         {
-          v |= T(typename tphn::make_unsigned<T>::type(pbuffer[i]) << shift);
+          v |= T(typename tpn::make_unsigned<T>::type(pbuffer[i]) << shift);
           shift += uint_least8_t(Bits_Per_Element);
         }
       }
@@ -396,7 +396,7 @@ namespace tphn
       }
       else
       {
-        index = position >> tphn::log2<Bits_Per_Element>::value;
+        index = position >> tpn::log2<Bits_Per_Element>::value;
         bit = element_type(1) << (position & (Bits_Per_Element - 1));
       }
 
@@ -565,7 +565,7 @@ namespace tphn
       result.resize(active_bits, '\0');
 
       // Check that the string type can contain the digits.
-      TYPHOON_ASSERT_AND_RETURN_VALUE(result.size() == active_bits, TYPHOON_ERROR(tphn::bitset_string_too_small), result);      
+      TYPHOON_ASSERT_AND_RETURN_VALUE(result.size() == active_bits, TYPHOON_ERROR(tpn::bitset_string_too_small), result);      
 
       for (size_t i = active_bits; i > 0; --i)
       {
@@ -589,8 +589,8 @@ namespace tphn
       {
         // Shift by whole element.
         const size_t element_shift = shift / Bits_Per_Element;
-        tphn::copy_backward(pbuffer, pbuffer + number_of_elements - element_shift, pbuffer + number_of_elements);
-        tphn::fill_n(pbuffer, element_shift, All_Clear_Element);
+        tpn::copy_backward(pbuffer, pbuffer + number_of_elements - element_shift, pbuffer + number_of_elements);
+        tpn::fill_n(pbuffer, element_shift, All_Clear_Element);
       }
       else
       {
@@ -607,8 +607,8 @@ namespace tphn
         const size_t lsb_shift = Bits_Per_Element - split_position;
         const size_t msb_shift = split_position;
 
-        const element_type lsb_mask         = element_type(tphn::integral_limits<element_type>::max >> (Bits_Per_Element - split_position));
-        const element_type msb_mask         = tphn::integral_limits<element_type>::max - lsb_mask;
+        const element_type lsb_mask         = element_type(tpn::integral_limits<element_type>::max >> (Bits_Per_Element - split_position));
+        const element_type msb_mask         = tpn::integral_limits<element_type>::max - lsb_mask;
         const element_type lsb_shifted_mask = element_type(lsb_mask << lsb_shift);
           
         // First lsb.
@@ -658,8 +658,8 @@ namespace tphn
       {
         // Shift by whole elements.
         const size_t element_shift = (shift / Bits_Per_Element);
-        pointer pzeros_begin = tphn::copy(pbuffer + element_shift, pbuffer + number_of_elements, pbuffer);      
-        tphn::fill_n(pzeros_begin, element_shift, All_Clear_Element);
+        pointer pzeros_begin = tpn::copy(pbuffer + element_shift, pbuffer + number_of_elements, pbuffer);      
+        tpn::fill_n(pzeros_begin, element_shift, All_Clear_Element);
       }
       else
       {
@@ -676,8 +676,8 @@ namespace tphn
         const size_t lsb_shift = Bits_Per_Element - split_position;
         const size_t msb_shift = split_position;
 
-        const element_type lsb_mask         = element_type(tphn::integral_limits<element_type>::max >> (Bits_Per_Element - split_position));
-        const element_type msb_mask         = tphn::integral_limits<element_type>::max - lsb_mask;
+        const element_type lsb_mask         = element_type(tpn::integral_limits<element_type>::max >> (Bits_Per_Element - split_position));
+        const element_type msb_mask         = tpn::integral_limits<element_type>::max - lsb_mask;
         const element_type msb_shifted_mask = element_type(msb_mask >> msb_shift);
 
         // Now do the shifting.
@@ -751,7 +751,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 void initialise(pointer pbuffer, size_t number_of_elements, unsigned long long value) TYPHOON_NOEXCEPT
     {
-      const size_t Shift = (tphn::integral_limits<unsigned long long>::bits <= (int)Bits_Per_Element) ? 0 : Bits_Per_Element;
+      const size_t Shift = (tpn::integral_limits<unsigned long long>::bits <= (int)Bits_Per_Element) ? 0 : Bits_Per_Element;
 
       // Can we do it in one hit?
       if (Shift == 0)
@@ -798,7 +798,7 @@ namespace tphn
   //***************************************************************************
   template <size_t Active_Bits = 0U,
             typename TElement = void,
-            bool IsSingleElement = tphn::integral_limits<TElement>::bits == Active_Bits>
+            bool IsSingleElement = tpn::integral_limits<TElement>::bits == Active_Bits>
   class bitset;
 
   //***************************************************************************
@@ -828,21 +828,21 @@ namespace tphn
   public:
 
     // The element type is the unsigned variant of 'TElement'.
-    typedef typename tphn::make_unsigned<TElement>::type element_type;
+    typedef typename tpn::make_unsigned<TElement>::type element_type;
 
     typedef element_type*       pointer;
     typedef const element_type* const_pointer;
 
-    static TYPHOON_CONSTANT size_t       Bits_Per_Element   = tphn::integral_limits<element_type>::bits;
+    static TYPHOON_CONSTANT size_t       Bits_Per_Element   = tpn::integral_limits<element_type>::bits;
     static TYPHOON_CONSTANT size_t       Number_Of_Elements = 1U;
     static TYPHOON_CONSTANT size_t       Allocated_Bits     = Bits_Per_Element;
-    static TYPHOON_CONSTANT element_type All_Set_Element    = tphn::integral_limits<typename tphn::make_unsigned<element_type>::type>::max;
+    static TYPHOON_CONSTANT element_type All_Set_Element    = tpn::integral_limits<typename tpn::make_unsigned<element_type>::type>::max;
     static TYPHOON_CONSTANT element_type All_Clear_Element  = element_type(0);
     static TYPHOON_CONSTANT size_t       Top_Mask_Shift     = 0U;
     static TYPHOON_CONSTANT element_type Top_Mask           = All_Set_Element;
 
-    typedef tphn::span<element_type, Number_Of_Elements>       span_type;
-    typedef tphn::span<const element_type, Number_Of_Elements> const_span_type;
+    typedef tpn::span<element_type, Number_Of_Elements>       span_type;
+    typedef tpn::span<const element_type, Number_Of_Elements> const_span_type;
 
     //*************************************************************************
     /// The reference type returned.
@@ -1082,10 +1082,10 @@ namespace tphn
       }
       else
       {
-        size_t string_length = tphn::strlen(text);
+        size_t string_length = tpn::strlen(text);
 
         // Build from the string.
-        string_length = tphn::min(Active_Bits, string_length);
+        string_length = tpn::min(Active_Bits, string_length);
 
         element_type mask = element_type(element_type(1) << (string_length - 1U));
 
@@ -1118,10 +1118,10 @@ namespace tphn
       }
       else
       {
-        size_t string_length = tphn::strlen(text);
+        size_t string_length = tpn::strlen(text);
 
         // Build from the string.
-        string_length = tphn::min(Active_Bits, string_length);
+        string_length = tpn::min(Active_Bits, string_length);
 
         element_type mask = element_type(element_type(1) << (string_length - 1U));
 
@@ -1154,10 +1154,10 @@ namespace tphn
       }
       else
       {
-        size_t string_length = tphn::strlen(text);
+        size_t string_length = tpn::strlen(text);
 
         // Build from the string.
-        string_length = tphn::min(Active_Bits, string_length);
+        string_length = tpn::min(Active_Bits, string_length);
 
         element_type mask = element_type(element_type(1) << (string_length - 1U));
 
@@ -1190,10 +1190,10 @@ namespace tphn
       }
       else
       {
-        size_t string_length = tphn::strlen(text);
+        size_t string_length = tpn::strlen(text);
 
         // Build from the string.
-        string_length = tphn::min(Active_Bits, string_length);
+        string_length = tpn::min(Active_Bits, string_length);
 
         element_type mask = element_type(element_type(1) << (string_length - 1U));
 
@@ -1220,10 +1220,10 @@ namespace tphn
     //*************************************************************************
     template <typename T>
     TYPHOON_CONSTEXPR14
-      typename tphn::enable_if<tphn::is_integral<T>::value, T>::type
+      typename tpn::enable_if<tpn::is_integral<T>::value, T>::type
       value() const TYPHOON_NOEXCEPT
     {
-      TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Only integral types are supported");
+      TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Only integral types are supported");
       TYPHOON_STATIC_ASSERT((sizeof(T) * CHAR_BIT) >= (Number_Of_Elements * Bits_Per_Element), "Integral type too small");
 
       T v = T(0);
@@ -1232,7 +1232,7 @@ namespace tphn
 
       if (OK)
       {
-        v = T(typename tphn::make_unsigned<T>::type(buffer));
+        v = T(typename tpn::make_unsigned<T>::type(buffer));
       }
 
       return v;
@@ -1306,7 +1306,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 size_t count() const TYPHOON_NOEXCEPT
     {
-      return tphn::count_bits(buffer);
+      return tpn::count_bits(buffer);
     }
 
     //*************************************************************************
@@ -1370,7 +1370,7 @@ namespace tphn
     //*************************************************************************
     /// Flip some of the bits.
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, true>& flip_bits(element_type mask = tphn::integral_limits<element_type>::max) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, true>& flip_bits(element_type mask = tpn::integral_limits<element_type>::max) TYPHOON_NOEXCEPT
     {
       buffer ^= mask;
 
@@ -1417,7 +1417,7 @@ namespace tphn
     /// Returns a string representing the bitset.
     //*************************************************************************
 #if TYPHOON_USING_CPP11
-    template <typename TString = tphn::string<Active_Bits>>
+    template <typename TString = tpn::string<Active_Bits>>
 #else
     template <typename TString>
 #endif
@@ -1429,7 +1429,7 @@ namespace tphn
       result.resize(Active_Bits, '\0');
 
       // Check that the string type can contain the digits.
-      TYPHOON_ASSERT_AND_RETURN_VALUE(result.size() == Active_Bits, TYPHOON_ERROR(tphn::bitset_string_too_small), result);
+      TYPHOON_ASSERT_AND_RETURN_VALUE(result.size() == Active_Bits, TYPHOON_ERROR(tpn::bitset_string_too_small), result);
 
       for (size_t i = Active_Bits; i > 0; --i)
       {
@@ -1491,7 +1491,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, true> operator &(const bitset<Active_Bits, TElement, true>& other) const TYPHOON_NOEXCEPT
     {
-      tphn::bitset<Active_Bits, TElement, true> temp(*this);
+      tpn::bitset<Active_Bits, TElement, true> temp(*this);
 
       temp &= other;
 
@@ -1513,7 +1513,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, true> operator |(const bitset<Active_Bits, TElement, true>& other) const TYPHOON_NOEXCEPT
     {
-      tphn::bitset<Active_Bits, TElement, true> temp(*this);
+      tpn::bitset<Active_Bits, TElement, true> temp(*this);
 
       temp |= other;
 
@@ -1535,7 +1535,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, true> operator ^(const bitset<Active_Bits, TElement, true>& other) const TYPHOON_NOEXCEPT
     {
-      tphn::bitset<Active_Bits, TElement, true> temp(*this);
+      tpn::bitset<Active_Bits, TElement, true> temp(*this);
 
       temp ^= other;
 
@@ -1557,7 +1557,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, true> operator ~() const TYPHOON_NOEXCEPT
     {
-      tphn::bitset<Active_Bits, TElement, true> temp(*this);
+      tpn::bitset<Active_Bits, TElement, true> temp(*this);
 
       temp.flip();
 
@@ -1569,7 +1569,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, true> operator <<(size_t shift) const TYPHOON_NOEXCEPT
     {
-      tphn::bitset<Active_Bits, TElement, true> temp(*this);
+      tpn::bitset<Active_Bits, TElement, true> temp(*this);
 
       temp <<= shift;
 
@@ -1598,7 +1598,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, true> operator >>(size_t shift) const TYPHOON_NOEXCEPT
     {
-      tphn::bitset<Active_Bits, TElement> temp(*this);
+      tpn::bitset<Active_Bits, TElement> temp(*this);
 
       temp >>= shift;
 
@@ -1633,7 +1633,7 @@ namespace tphn
     //*************************************************************************
     /// swap
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 void swap(tphn::bitset<Active_Bits, TElement, true>& other) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR14 void swap(tpn::bitset<Active_Bits, TElement, true>& other) TYPHOON_NOEXCEPT
     {
       element_type temp = buffer;
       buffer = other.buffer;
@@ -1677,7 +1677,7 @@ namespace tphn
     //*************************************************************************
     struct select_element_type
     {
-      typedef typename tphn::make_unsigned<typename tphn::conditional<tphn::is_same<void, TElement>::value, char, TElement>::type>::type type;
+      typedef typename tpn::make_unsigned<typename tpn::conditional<tpn::is_same<void, TElement>::value, char, TElement>::type>::type type;
     };  
 
   public:
@@ -1686,18 +1686,18 @@ namespace tphn
     typedef element_type*       pointer;
     typedef const element_type* const_pointer;
       
-    static TYPHOON_CONSTANT size_t       Bits_Per_Element   = tphn::bitset_impl<element_type>::Bits_Per_Element;
+    static TYPHOON_CONSTANT size_t       Bits_Per_Element   = tpn::bitset_impl<element_type>::Bits_Per_Element;
     static TYPHOON_CONSTANT size_t       Number_Of_Elements = (Active_Bits % Bits_Per_Element == 0) ? Active_Bits / Bits_Per_Element : Active_Bits / Bits_Per_Element + 1;
     static TYPHOON_CONSTANT size_t       Allocated_Bits     = Number_Of_Elements * Bits_Per_Element;
     static TYPHOON_CONSTANT size_t       Top_Mask_Shift     = ((Bits_Per_Element - (Allocated_Bits - Active_Bits)) % Bits_Per_Element);
-    static TYPHOON_CONSTANT element_type All_Set_Element    = tphn::bitset_impl<element_type>::All_Set_Element;
-    static TYPHOON_CONSTANT element_type All_Clear_Element  = tphn::bitset_impl<element_type>::All_Clear_Element;
+    static TYPHOON_CONSTANT element_type All_Set_Element    = tpn::bitset_impl<element_type>::All_Set_Element;
+    static TYPHOON_CONSTANT element_type All_Clear_Element  = tpn::bitset_impl<element_type>::All_Clear_Element;
     static TYPHOON_CONSTANT element_type Top_Mask           = element_type(Top_Mask_Shift == 0 ? All_Set_Element : ~(All_Set_Element << Top_Mask_Shift));
 
     static TYPHOON_CONSTANT size_t ALLOCATED_BITS = Allocated_Bits; ///< For backward compatibility.
 
-    typedef tphn::span<element_type, Number_Of_Elements>       span_type;
-    typedef tphn::span<const element_type, Number_Of_Elements> const_span_type;
+    typedef tpn::span<element_type, Number_Of_Elements>       span_type;
+    typedef tpn::span<const element_type, Number_Of_Elements> const_span_type;
 
     //*************************************************************************
     /// The reference type returned.
@@ -1790,7 +1790,7 @@ namespace tphn
     TYPHOON_CONSTEXPR14 bitset(const bitset<Active_Bits, TElement, false>& other) TYPHOON_NOEXCEPT
       : buffer()
     {
-      tphn::copy_n(other.buffer, Number_Of_Elements, buffer);
+      tpn::copy_n(other.buffer, Number_Of_Elements, buffer);
     }
 
     //*************************************************************************
@@ -1848,7 +1848,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset& operator =(const bitset<Active_Bits, TElement, false>& other) TYPHOON_NOEXCEPT
     {
-      tphn::copy_n(other.buffer, Number_Of_Elements, buffer);
+      tpn::copy_n(other.buffer, Number_Of_Elements, buffer);
 
       return *this;
     }
@@ -1858,7 +1858,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, false>& set() TYPHOON_NOEXCEPT
     {
-      tphn::fill_n(buffer, Number_Of_Elements, All_Set_Element);
+      tpn::fill_n(buffer, Number_Of_Elements, All_Set_Element);
       clear_unused_bits_in_msb();
 
       return *this;
@@ -1960,10 +1960,10 @@ namespace tphn
     //*************************************************************************
     template <typename T>
     TYPHOON_CONSTEXPR14
-      typename tphn::enable_if<tphn::is_integral<T>::value, T>::type
+      typename tpn::enable_if<tpn::is_integral<T>::value, T>::type
       value() const TYPHOON_NOEXCEPT
     {
-      TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Only integral types are supported");
+      TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Only integral types are supported");
       TYPHOON_STATIC_ASSERT((sizeof(T) * CHAR_BIT) >= (Number_Of_Elements * Bits_Per_Element), "Type too small");
 
       return ibitset.template value<T>(buffer, Number_Of_Elements);
@@ -1989,7 +1989,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, false>& reset() TYPHOON_NOEXCEPT
     {
-      tphn::fill_n(buffer, Number_Of_Elements, All_Clear_Element);
+      tpn::fill_n(buffer, Number_Of_Elements, All_Clear_Element);
 
       return *this;
     }
@@ -2093,7 +2093,7 @@ namespace tphn
     /// Returns a string representing the bitset.
     //*************************************************************************
 #if TYPHOON_USING_CPP11
-    template <typename TString = tphn::string<Active_Bits>>
+    template <typename TString = tpn::string<Active_Bits>>
 #else
     template <typename TString>
 #endif
@@ -2129,7 +2129,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, false> operator &(const bitset<Active_Bits, TElement, false>& other) const TYPHOON_NOEXCEPT
     {
-      tphn::bitset<Active_Bits, TElement, false> temp(*this);
+      tpn::bitset<Active_Bits, TElement, false> temp(*this);
 
       temp &= other;
 
@@ -2151,7 +2151,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, false> operator |(const bitset<Active_Bits, TElement, false>& other) const TYPHOON_NOEXCEPT
     {
-      tphn::bitset<Active_Bits, TElement, false> temp(*this);
+      tpn::bitset<Active_Bits, TElement, false> temp(*this);
 
       temp |= other;
 
@@ -2173,7 +2173,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, false> operator ^(const bitset<Active_Bits, TElement, false>& other) const TYPHOON_NOEXCEPT
     {
-      tphn::bitset<Active_Bits, TElement, false> temp(*this);
+      tpn::bitset<Active_Bits, TElement, false> temp(*this);
 
       temp ^= other;
 
@@ -2195,7 +2195,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, false> operator ~() const TYPHOON_NOEXCEPT
     {
-      tphn::bitset<Active_Bits, TElement, false> temp(*this);
+      tpn::bitset<Active_Bits, TElement, false> temp(*this);
 
       temp.flip();
 
@@ -2207,7 +2207,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset<Active_Bits, TElement, false> operator <<(size_t shift) const TYPHOON_NOEXCEPT
     {
-      tphn::bitset<Active_Bits, TElement, false> temp(*this);
+      tpn::bitset<Active_Bits, TElement, false> temp(*this);
 
       temp <<= shift;
 
@@ -2266,7 +2266,7 @@ namespace tphn
     //*************************************************************************
     friend TYPHOON_CONSTEXPR14 bool operator ==(const bitset<Active_Bits, TElement, false>& lhs, const bitset<Active_Bits, TElement, false>& rhs) TYPHOON_NOEXCEPT
     {
-      return tphn::equal(lhs.buffer, 
+      return tpn::equal(lhs.buffer, 
                         lhs.buffer + lhs.Number_Of_Elements,
                         rhs.buffer);
     }
@@ -2274,7 +2274,7 @@ namespace tphn
     //*************************************************************************
     /// swap
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 void swap(tphn::bitset<Active_Bits, TElement, false>& other) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR14 void swap(tpn::bitset<Active_Bits, TElement, false>& other) TYPHOON_NOEXCEPT
     {
       ibitset.swap(buffer, other.buffer, Number_Of_Elements);
     }
@@ -2307,7 +2307,7 @@ namespace tphn
       buffer[Number_Of_Elements - 1U] &= Top_Mask;
     }
 
-    tphn::bitset_impl<element_type> ibitset;
+    tpn::bitset_impl<element_type> ibitset;
 
     element_type buffer[Number_Of_Elements > 0U ? Number_Of_Elements : 1U];
   };
@@ -2363,7 +2363,7 @@ namespace tphn
 /// swap
 //*************************************************************************
 template <size_t Active_Bits, typename TElement, bool IsSingleElement>
-TYPHOON_CONSTEXPR14 void swap(tphn::bitset<Active_Bits, TElement, IsSingleElement>& lhs, tphn::bitset<Active_Bits, TElement, IsSingleElement>& rhs) TYPHOON_NOEXCEPT
+TYPHOON_CONSTEXPR14 void swap(tpn::bitset<Active_Bits, TElement, IsSingleElement>& lhs, tpn::bitset<Active_Bits, TElement, IsSingleElement>& rhs) TYPHOON_NOEXCEPT
 {
   lhs.swap(rhs);
 }
@@ -2371,12 +2371,12 @@ TYPHOON_CONSTEXPR14 void swap(tphn::bitset<Active_Bits, TElement, IsSingleElemen
 //***************************************************************************
 /// bitset_ext
 //***************************************************************************
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   template <size_t Active_Bits = 0U,
     typename TElement = void,
-    bool IsSingleElement = tphn::integral_limits<TElement>::bits == Active_Bits>
+    bool IsSingleElement = tpn::integral_limits<TElement>::bits == Active_Bits>
     class bitset_ext;
 
   //***************************************************************************
@@ -2406,21 +2406,21 @@ namespace tphn
   public:
 
     // The element type is the unsigned variant of 'TElement'.
-    typedef typename tphn::make_unsigned<TElement>::type element_type;
+    typedef typename tpn::make_unsigned<TElement>::type element_type;
 
     typedef element_type* pointer;
     typedef const element_type* const_pointer;
 
-    static TYPHOON_CONSTANT size_t       Bits_Per_Element   = tphn::integral_limits<element_type>::bits;
+    static TYPHOON_CONSTANT size_t       Bits_Per_Element   = tpn::integral_limits<element_type>::bits;
     static TYPHOON_CONSTANT size_t       Number_Of_Elements = 1U;
     static TYPHOON_CONSTANT size_t       Allocated_Bits     = Bits_Per_Element;
-    static TYPHOON_CONSTANT element_type All_Set_Element    = tphn::integral_limits<typename tphn::make_unsigned<element_type>::type>::max;
+    static TYPHOON_CONSTANT element_type All_Set_Element    = tpn::integral_limits<typename tpn::make_unsigned<element_type>::type>::max;
     static TYPHOON_CONSTANT element_type All_Clear_Element  = element_type(0);
     static TYPHOON_CONSTANT size_t       Top_Mask_Shift     = 0U;
     static TYPHOON_CONSTANT element_type Top_Mask           = All_Set_Element;
 
-    typedef tphn::span<element_type, Number_Of_Elements>       span_type;
-    typedef tphn::span<const element_type, Number_Of_Elements> const_span_type;
+    typedef tpn::span<element_type, Number_Of_Elements>       span_type;
+    typedef tpn::span<const element_type, Number_Of_Elements> const_span_type;
 
     typedef element_type buffer_type;
 
@@ -2731,10 +2731,10 @@ namespace tphn
       }
       else
       {
-        size_t string_length = tphn::strlen(text);
+        size_t string_length = tpn::strlen(text);
 
         // Build from the string.
-        string_length = tphn::min(Active_Bits, string_length);
+        string_length = tpn::min(Active_Bits, string_length);
 
         element_type mask = element_type(element_type(1) << (string_length - 1U));
 
@@ -2767,10 +2767,10 @@ namespace tphn
       }
       else
       {
-        size_t string_length = tphn::strlen(text);
+        size_t string_length = tpn::strlen(text);
 
         // Build from the string.
-        string_length = tphn::min(Active_Bits, string_length);
+        string_length = tpn::min(Active_Bits, string_length);
 
         element_type mask = element_type(element_type(1) << (string_length - 1U));
 
@@ -2803,10 +2803,10 @@ namespace tphn
       }
       else
       {
-        size_t string_length = tphn::strlen(text);
+        size_t string_length = tpn::strlen(text);
 
         // Build from the string.
-        string_length = tphn::min(Active_Bits, string_length);
+        string_length = tpn::min(Active_Bits, string_length);
 
         element_type mask = element_type(element_type(1) << (string_length - 1U));
 
@@ -2839,10 +2839,10 @@ namespace tphn
       }
       else
       {
-        size_t string_length = tphn::strlen(text);
+        size_t string_length = tpn::strlen(text);
 
         // Build from the string.
-        string_length = tphn::min(Active_Bits, string_length);
+        string_length = tpn::min(Active_Bits, string_length);
 
         element_type mask = element_type(element_type(1) << (string_length - 1U));
 
@@ -2869,10 +2869,10 @@ namespace tphn
     //*************************************************************************
     template <typename T>
     TYPHOON_CONSTEXPR14
-      typename tphn::enable_if<tphn::is_integral<T>::value, T>::type
+      typename tpn::enable_if<tpn::is_integral<T>::value, T>::type
       value() const TYPHOON_NOEXCEPT
     {
-      TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Only integral types are supported");
+      TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Only integral types are supported");
       TYPHOON_STATIC_ASSERT((sizeof(T) * CHAR_BIT) >= (Number_Of_Elements * Bits_Per_Element), "Integral type too small");
 
       T v = T(0);
@@ -2881,7 +2881,7 @@ namespace tphn
 
       if (OK)
       {
-        v = T(typename tphn::make_unsigned<T>::type(*pbuffer));
+        v = T(typename tpn::make_unsigned<T>::type(*pbuffer));
       }
 
       return v;
@@ -2955,7 +2955,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 size_t count() const TYPHOON_NOEXCEPT
     {
-      return tphn::count_bits(*pbuffer);
+      return tpn::count_bits(*pbuffer);
     }
 
     //*************************************************************************
@@ -3019,7 +3019,7 @@ namespace tphn
     //*************************************************************************
     /// Flip some of the bits.
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 bitset_ext<Active_Bits, TElement, true>& flip_bits(element_type mask = tphn::integral_limits<element_type>::max) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR14 bitset_ext<Active_Bits, TElement, true>& flip_bits(element_type mask = tpn::integral_limits<element_type>::max) TYPHOON_NOEXCEPT
     {
       *pbuffer ^= mask;
 
@@ -3066,7 +3066,7 @@ namespace tphn
     /// Returns a string representing the bitset.
     //*************************************************************************
 #if TYPHOON_USING_CPP11
-    template <typename TString = tphn::string<Active_Bits>>
+    template <typename TString = tpn::string<Active_Bits>>
 #else
     template <typename TString>
 #endif
@@ -3078,7 +3078,7 @@ namespace tphn
       result.resize(Active_Bits, '\0');
 
       // Check that the string type can contain the digits.
-      TYPHOON_ASSERT_AND_RETURN_VALUE(result.size() == Active_Bits, TYPHOON_ERROR(tphn::bitset_string_too_small), result);
+      TYPHOON_ASSERT_AND_RETURN_VALUE(result.size() == Active_Bits, TYPHOON_ERROR(tpn::bitset_string_too_small), result);
 
       for (size_t i = Active_Bits; i > 0; --i)
       {
@@ -3210,7 +3210,7 @@ namespace tphn
     //*************************************************************************
     /// swap
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 void swap(tphn::bitset_ext<Active_Bits, TElement, true>& other) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR14 void swap(tpn::bitset_ext<Active_Bits, TElement, true>& other) TYPHOON_NOEXCEPT
     {
       element_type temp = *pbuffer;
       *pbuffer = *other.pbuffer;
@@ -3254,7 +3254,7 @@ namespace tphn
     //*************************************************************************
     struct select_element_type
     {
-      typedef typename tphn::make_unsigned<typename tphn::conditional<tphn::is_same<void, TElement>::value, char, TElement>::type>::type type;
+      typedef typename tpn::make_unsigned<typename tpn::conditional<tpn::is_same<void, TElement>::value, char, TElement>::type>::type type;
     };
 
   public:
@@ -3263,20 +3263,20 @@ namespace tphn
     typedef element_type* pointer;
     typedef const element_type* const_pointer;
 
-    static TYPHOON_CONSTANT size_t       Bits_Per_Element   = tphn::bitset_impl<element_type>::Bits_Per_Element;
+    static TYPHOON_CONSTANT size_t       Bits_Per_Element   = tpn::bitset_impl<element_type>::Bits_Per_Element;
     static TYPHOON_CONSTANT size_t       Number_Of_Elements = (Active_Bits % Bits_Per_Element == 0) ? Active_Bits / Bits_Per_Element : Active_Bits / Bits_Per_Element + 1;
     static TYPHOON_CONSTANT size_t       Allocated_Bits     = Number_Of_Elements * Bits_Per_Element;
     static TYPHOON_CONSTANT size_t       Top_Mask_Shift     = ((Bits_Per_Element - (Allocated_Bits - Active_Bits)) % Bits_Per_Element);
-    static TYPHOON_CONSTANT element_type All_Set_Element    = tphn::bitset_impl<element_type>::All_Set_Element;
-    static TYPHOON_CONSTANT element_type All_Clear_Element  = tphn::bitset_impl<element_type>::All_Clear_Element;
+    static TYPHOON_CONSTANT element_type All_Set_Element    = tpn::bitset_impl<element_type>::All_Set_Element;
+    static TYPHOON_CONSTANT element_type All_Clear_Element  = tpn::bitset_impl<element_type>::All_Clear_Element;
     static TYPHOON_CONSTANT element_type Top_Mask           = element_type(Top_Mask_Shift == 0 ? All_Set_Element : ~(All_Set_Element << Top_Mask_Shift));
 
     static TYPHOON_CONSTANT size_t ALLOCATED_BITS = Allocated_Bits; ///< For backward compatibility.
 
-    typedef tphn::span<element_type, Number_Of_Elements>       span_type;
-    typedef tphn::span<const element_type, Number_Of_Elements> const_span_type;
+    typedef tpn::span<element_type, Number_Of_Elements>       span_type;
+    typedef tpn::span<const element_type, Number_Of_Elements> const_span_type;
 
-    typedef tphn::array<element_type, Number_Of_Elements> buffer_type;
+    typedef tpn::array<element_type, Number_Of_Elements> buffer_type;
 
     //*************************************************************************
     /// The reference type returned.
@@ -3378,7 +3378,7 @@ namespace tphn
     TYPHOON_CONSTEXPR14 bitset_ext(const bitset_ext<Active_Bits, TElement, false>& other, element_type* pbuffer_) TYPHOON_NOEXCEPT
       : pbuffer(pbuffer_)
     {
-      tphn::copy_n(other.pbuffer, Number_Of_Elements, pbuffer);
+      tpn::copy_n(other.pbuffer, Number_Of_Elements, pbuffer);
     }
 
     //*************************************************************************
@@ -3387,7 +3387,7 @@ namespace tphn
     TYPHOON_CONSTEXPR14 bitset_ext(const bitset_ext<Active_Bits, TElement, false>& other, buffer_type& buffer) TYPHOON_NOEXCEPT
       : pbuffer(buffer.data())
     {
-      tphn::copy_n(other.pbuffer, Number_Of_Elements, pbuffer);
+      tpn::copy_n(other.pbuffer, Number_Of_Elements, pbuffer);
     }
 
     //*************************************************************************
@@ -3500,7 +3500,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset_ext& operator =(const bitset_ext<Active_Bits, TElement, false>& other) TYPHOON_NOEXCEPT
     {
-      tphn::copy_n(other.pbuffer, Number_Of_Elements, pbuffer);
+      tpn::copy_n(other.pbuffer, Number_Of_Elements, pbuffer);
 
       return *this;
     }
@@ -3510,7 +3510,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset_ext<Active_Bits, TElement, false>& set() TYPHOON_NOEXCEPT
     {
-      tphn::fill_n(pbuffer, Number_Of_Elements, All_Set_Element);
+      tpn::fill_n(pbuffer, Number_Of_Elements, All_Set_Element);
       clear_unused_bits_in_msb();
 
       return *this;
@@ -3612,10 +3612,10 @@ namespace tphn
     //*************************************************************************
     template <typename T>
     TYPHOON_CONSTEXPR14
-      typename tphn::enable_if<tphn::is_integral<T>::value, T>::type
+      typename tpn::enable_if<tpn::is_integral<T>::value, T>::type
       value() const TYPHOON_NOEXCEPT
     {
-      TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Only integral types are supported");
+      TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Only integral types are supported");
       TYPHOON_STATIC_ASSERT((sizeof(T) * CHAR_BIT) >= (Number_Of_Elements * Bits_Per_Element), "Type too small");
 
       return ibitset.template value<T>(pbuffer, Number_Of_Elements);
@@ -3641,7 +3641,7 @@ namespace tphn
     //*************************************************************************
     TYPHOON_CONSTEXPR14 bitset_ext<Active_Bits, TElement, false>& reset() TYPHOON_NOEXCEPT
     {
-      tphn::fill_n(pbuffer, Number_Of_Elements, All_Clear_Element);
+      tpn::fill_n(pbuffer, Number_Of_Elements, All_Clear_Element);
 
       return *this;
     }
@@ -3745,7 +3745,7 @@ namespace tphn
     /// Returns a string representing the bitset.
     //*************************************************************************
 #if TYPHOON_USING_CPP11
-    template <typename TString = tphn::string<Active_Bits>>
+    template <typename TString = tpn::string<Active_Bits>>
 #else
     template <typename TString>
 #endif
@@ -3846,7 +3846,7 @@ namespace tphn
     //*************************************************************************
     friend TYPHOON_CONSTEXPR14 bool operator ==(const bitset_ext<Active_Bits, TElement, false>& lhs, const bitset_ext<Active_Bits, TElement, false>& rhs) TYPHOON_NOEXCEPT
     {
-      return tphn::equal(lhs.pbuffer,
+      return tpn::equal(lhs.pbuffer,
         lhs.pbuffer + lhs.Number_Of_Elements,
         rhs.pbuffer);
     }
@@ -3854,7 +3854,7 @@ namespace tphn
     //*************************************************************************
     /// swap
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 void swap(tphn::bitset_ext<Active_Bits, TElement, false>& other) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR14 void swap(tpn::bitset_ext<Active_Bits, TElement, false>& other) TYPHOON_NOEXCEPT
     {
       ibitset.swap(pbuffer, other.pbuffer, Number_Of_Elements);
     }
@@ -3887,7 +3887,7 @@ namespace tphn
       pbuffer[Number_Of_Elements - 1U] &= Top_Mask;
     }
 
-    tphn::bitset_impl<element_type> ibitset;
+    tpn::bitset_impl<element_type> ibitset;
     element_type* pbuffer;
   };
 
@@ -3906,7 +3906,7 @@ namespace tphn
 /// swap
 //*************************************************************************
 template <size_t Active_Bits, typename TElement, bool IsSingleElement>
-TYPHOON_CONSTEXPR14 void swap(tphn::bitset_ext<Active_Bits, TElement, IsSingleElement>& lhs, tphn::bitset_ext<Active_Bits, TElement, IsSingleElement>& rhs) TYPHOON_NOEXCEPT
+TYPHOON_CONSTEXPR14 void swap(tpn::bitset_ext<Active_Bits, TElement, IsSingleElement>& lhs, tpn::bitset_ext<Active_Bits, TElement, IsSingleElement>& rhs) TYPHOON_NOEXCEPT
 {
   lhs.swap(rhs);
 }

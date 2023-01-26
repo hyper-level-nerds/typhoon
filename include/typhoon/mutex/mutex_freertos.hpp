@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2020 Phil Wise phil@phil-wise.com
 
@@ -34,7 +34,7 @@ SOFTWARE.
 #include "FreeRTOS.hpp"
 #include <semphr.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   ///\ingroup mutex

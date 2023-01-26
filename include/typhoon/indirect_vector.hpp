@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -46,7 +46,7 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   ///\ingroup vector
@@ -81,11 +81,11 @@ namespace tphn
     typedef T*             pointer;
     typedef const T*       const_pointer;
 
-    typedef typename tphn::ivector<T*>::iterator        indirect_iterator;
-    typedef typename tphn::ivector<T*>::const_iterator  indirect_const_iterator;
+    typedef typename tpn::ivector<T*>::iterator        indirect_iterator;
+    typedef typename tpn::ivector<T*>::const_iterator  indirect_const_iterator;
 
-    typedef typename tphn::ivector<T*>::size_type       size_type;
-    typedef typename tphn::ivector<T*>::difference_type difference_type;
+    typedef typename tpn::ivector<T*>::size_type       size_type;
+    typedef typename tpn::ivector<T*>::difference_type difference_type;
 
     //*************************************************************************
     /// Unary function adaptor.
@@ -172,7 +172,7 @@ namespace tphn
     //*************************************************************************
     /// iterator.
     //*************************************************************************
-    class iterator : public tphn::iterator<TYPHOON_OR_STD::random_access_iterator_tag, T>
+    class iterator : public tpn::iterator<TYPHOON_OR_STD::random_access_iterator_tag, T>
     {
     public:
 
@@ -304,7 +304,7 @@ namespace tphn
     //*************************************************************************
     /// const_iterator.
     //*************************************************************************
-    class const_iterator : public tphn::iterator<TYPHOON_OR_STD::random_access_iterator_tag, const T>
+    class const_iterator : public tpn::iterator<TYPHOON_OR_STD::random_access_iterator_tag, const T>
     {
     public:
 
@@ -424,7 +424,7 @@ namespace tphn
 
     private:
 
-      typedef typename tphn::ivector<T*>::const_iterator lookup_itr_t;
+      typedef typename tpn::ivector<T*>::const_iterator lookup_itr_t;
 
       const_iterator(indirect_const_iterator itr_)
         : lookup_itr(itr_)
@@ -439,7 +439,7 @@ namespace tphn
 
   protected:
 
-    typedef typename tphn::parameter_type<T>::type parameter_t;
+    typedef typename tpn::parameter_type<T>::type parameter_t;
 
   public:
 
@@ -627,7 +627,7 @@ namespace tphn
 
     //*********************************************************************
     /// Returns a reference to the value at index 'i'
-    /// If asserts or exceptions are enabled, emits an tphn::vector_out_of_bounds if the index is out of range.
+    /// If asserts or exceptions are enabled, emits an tpn::vector_out_of_bounds if the index is out of range.
     ///\param i The index.
     ///\return A reference to the value at index 'i'
     //*********************************************************************
@@ -638,7 +638,7 @@ namespace tphn
 
     //*********************************************************************
     /// Returns a const reference to the value at index 'i'
-    /// If asserts or exceptions are enabled, emits an tphn::vector_out_of_bounds if the index is out of range.
+    /// If asserts or exceptions are enabled, emits an tpn::vector_out_of_bounds if the index is out of range.
     ///\param i The index.
     ///\return A const reference to the value at index 'i'
     //*********************************************************************
@@ -693,10 +693,10 @@ namespace tphn
     template <typename TIterator>
     void assign(TIterator first, TIterator last)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_same<typename tphn::remove_cv<T>::type, typename tphn::remove_cv<typename tphn::iterator_traits<TIterator>::value_type>::type>::value), "Iterator type does not match container type");
+      TYPHOON_STATIC_ASSERT((tpn::is_same<typename tpn::remove_cv<T>::type, typename tpn::remove_cv<typename tpn::iterator_traits<TIterator>::value_type>::type>::value), "Iterator type does not match container type");
 
 #if TYPHOON_IS_DEBUG_BUILD
-      difference_type d = tphn::distance(first, last);
+      difference_type d = tpn::distance(first, last);
       TYPHOON_ASSERT(static_cast<size_t>(d) <= capacity(), TYPHOON_ERROR(vector_full));
 #endif
 
@@ -742,7 +742,7 @@ namespace tphn
     //*************************************************************************
     void fill(const T& value)
     {
-      tphn::fill(begin(), end(), value);
+      tpn::fill(begin(), end(), value);
     }
 
     //*********************************************************************
@@ -770,7 +770,7 @@ namespace tphn
 #if defined(TYPHOON_CHECK_PUSH_POP)
       TYPHOON_ASSERT(size() != capacity(), TYPHOON_ERROR(vector_full));
 #endif
-      T* p = storage.create<T>(tphn::move(value));
+      T* p = storage.create<T>(tpn::move(value));
       lookup.push_back(p);
     }
 #endif
@@ -784,7 +784,7 @@ namespace tphn
     template <typename ... Args>
     void emplace_back(Args && ... args)
     {
-      T* p = storage.create<T>(tphn::forward<Args>(args)...);
+      T* p = storage.create<T>(tpn::forward<Args>(args)...);
       lookup.push_back(p);
     }
 #else
@@ -845,7 +845,7 @@ namespace tphn
       TYPHOON_ASSERT(!empty(), TYPHOON_ERROR(vector_empty));
 
       reference object = back();
-      storage.destroy<T>(tphn::addressof(object));
+      storage.destroy<T>(tpn::addressof(object));
       lookup.pop_back();
     }
 
@@ -876,7 +876,7 @@ namespace tphn
     {
       TYPHOON_ASSERT(size() != capacity(), TYPHOON_ERROR(vector_full));
 
-      T* p = storage.create<T>(T(tphn::move(value)));
+      T* p = storage.create<T>(T(tpn::move(value)));
       position = iterator(lookup.insert(position.lookup_itr, p));
 
       return to_iterator(position);
@@ -892,7 +892,7 @@ namespace tphn
     {
       TYPHOON_ASSERT(!full(), TYPHOON_ERROR(vector_full));
 
-      T* p = storage.create<T>(T(tphn::forward<Args>(args)...));
+      T* p = storage.create<T>(T(tpn::forward<Args>(args)...));
       position = iterator(lookup.insert(position.lookup_itr, p));
 
       return position;
@@ -957,7 +957,7 @@ namespace tphn
       iterator position_ = to_iterator(position);
 
       // Make space for the new lookup pointers.
-      typename tphn::ivector<T*>::iterator lookup_itr = position_.lookup_itr;
+      typename tpn::ivector<T*>::iterator lookup_itr = position_.lookup_itr;
       lookup.insert(lookup_itr, n, TYPHOON_NULLPTR);
 
       while (n-- != 0U)
@@ -979,12 +979,12 @@ namespace tphn
     template <class TIterator>
     iterator insert(const_iterator position, TIterator first, TIterator last)
     {
-      size_t count = size_t(tphn::distance(first, last));
+      size_t count = size_t(tpn::distance(first, last));
 
       TYPHOON_ASSERT((size() + count) <= capacity(), TYPHOON_ERROR(vector_full));
 
       // Make space for the new lookup pointers.
-      typename tphn::ivector<T*>::iterator lookup_itr = to_iterator(position).lookup_itr;
+      typename tpn::ivector<T*>::iterator lookup_itr = to_iterator(position).lookup_itr;
       lookup.insert(lookup_itr, count, TYPHOON_NULLPTR);
 
       while (first != last)
@@ -1004,7 +1004,7 @@ namespace tphn
     //*********************************************************************
     iterator erase(iterator i_element)
     {
-      storage.destroy<T>(tphn::addressof(*i_element));
+      storage.destroy<T>(tpn::addressof(*i_element));
 
       return iterator(lookup.erase(i_element.lookup_itr));
     }
@@ -1016,7 +1016,7 @@ namespace tphn
     //*********************************************************************
     iterator erase(const_iterator i_element)
     {
-      storage.destroy<T>(tphn::addressof(*i_element));
+      storage.destroy<T>(tpn::addressof(*i_element));
 
       return iterator(lookup.erase(i_element.lookup_itr));
     }
@@ -1035,7 +1035,7 @@ namespace tphn
 
       while (element != last)
       {
-        storage.destroy<T>(tphn::addressof(*element));
+        storage.destroy<T>(tpn::addressof(*element));
         ++element;
       }
 
@@ -1069,7 +1069,7 @@ namespace tphn
         iterator itr = rhs.begin();
         while (itr != rhs.end())
         {
-          push_back(tphn::move(*itr));
+          push_back(tpn::move(*itr));
           ++itr;
         }
 
@@ -1139,7 +1139,7 @@ namespace tphn
     //*********************************************************************
     /// Constructor.
     //*********************************************************************
-    iindirect_vector(tphn::ivector<T*>& lookup_, tphn::ipool& storage_)
+    iindirect_vector(tpn::ivector<T*>& lookup_, tpn::ipool& storage_)
       : lookup(lookup_)
       , storage(storage_)
     {
@@ -1154,7 +1154,7 @@ namespace tphn
 
       while (itr != end())
       {
-        storage.destroy<T>(tphn::addressof(*itr));
+        storage.destroy<T>(tpn::addressof(*itr));
         ++itr;
       }
 
@@ -1175,7 +1175,7 @@ namespace tphn
 
         while (itr != other.end())
         {
-          push_back(tphn::move(*itr));
+          push_back(tpn::move(*itr));
           ++itr;
         }
 
@@ -1184,8 +1184,8 @@ namespace tphn
     }
 #endif
 
-    tphn::ivector<T*>& lookup;
-    tphn::ipool&       storage;
+    tpn::ivector<T*>& lookup;
+    tpn::ipool&       storage;
 
   private:
 
@@ -1224,9 +1224,9 @@ namespace tphn
   ///\ingroup indirect_vector
   //***************************************************************************
   template <typename T>
-  bool operator ==(const tphn::iindirect_vector<T>& lhs, const tphn::iindirect_vector<T>& rhs)
+  bool operator ==(const tpn::iindirect_vector<T>& lhs, const tpn::iindirect_vector<T>& rhs)
   {
-    return (lhs.size() == rhs.size()) && tphn::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return (lhs.size() == rhs.size()) && tpn::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
   //***************************************************************************
@@ -1237,7 +1237,7 @@ namespace tphn
   ///\ingroup indirect_vector
   //***************************************************************************
   template <typename T>
-  bool operator !=(const tphn::iindirect_vector<T>& lhs, const tphn::iindirect_vector<T>& rhs)
+  bool operator !=(const tpn::iindirect_vector<T>& lhs, const tpn::iindirect_vector<T>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -1250,9 +1250,9 @@ namespace tphn
   ///\ingroup indirect_vector
   //***************************************************************************
   template <typename T>
-  bool operator <(const tphn::iindirect_vector<T>& lhs, const tphn::iindirect_vector<T>& rhs)
+  bool operator <(const tpn::iindirect_vector<T>& lhs, const tpn::iindirect_vector<T>& rhs)
   {
-    return tphn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    return tpn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
   }
 
   //***************************************************************************
@@ -1263,7 +1263,7 @@ namespace tphn
   ///\ingroup indirect_vector
   //***************************************************************************
   template <typename T>
-  bool operator >(const tphn::iindirect_vector<T>& lhs, const tphn::iindirect_vector<T>& rhs)
+  bool operator >(const tpn::iindirect_vector<T>& lhs, const tpn::iindirect_vector<T>& rhs)
   {
     return (rhs < lhs);
   }
@@ -1276,7 +1276,7 @@ namespace tphn
   ///\ingroup indirect_vector
   //***************************************************************************
   template <typename T>
-  bool operator <=(const tphn::iindirect_vector<T>& lhs, const tphn::iindirect_vector<T>& rhs)
+  bool operator <=(const tpn::iindirect_vector<T>& lhs, const tpn::iindirect_vector<T>& rhs)
   {
     return !(lhs > rhs);
   }
@@ -1289,7 +1289,7 @@ namespace tphn
   ///\ingroup indirect_vector
   //***************************************************************************
   template <typename T>
-  bool operator >=(const tphn::iindirect_vector<T>& lhs, const tphn::iindirect_vector<T>& rhs)
+  bool operator >=(const tpn::iindirect_vector<T>& lhs, const tpn::iindirect_vector<T>& rhs)
   {
     return !(lhs < rhs);
   }
@@ -1301,11 +1301,11 @@ namespace tphn
   ///\ingroup indirect_vector
   //***************************************************************************
   template <typename T, const size_t MAX_SIZE_>
-  class indirect_vector : public tphn::iindirect_vector<T>
+  class indirect_vector : public tpn::iindirect_vector<T>
   {
   public:
 
-    TYPHOON_STATIC_ASSERT((MAX_SIZE_ > 0U), "Zero capacity tphn::indirect_vector is not valid");
+    TYPHOON_STATIC_ASSERT((MAX_SIZE_ > 0U), "Zero capacity tpn::indirect_vector is not valid");
 
     static TYPHOON_CONSTANT size_t MAX_SIZE = MAX_SIZE_;
 
@@ -1313,7 +1313,7 @@ namespace tphn
     /// Constructor.
     //*************************************************************************
     indirect_vector()
-      : tphn::iindirect_vector<T>(lookup_vector, storage_pool)
+      : tpn::iindirect_vector<T>(lookup_vector, storage_pool)
     {
     }
 
@@ -1322,7 +1322,7 @@ namespace tphn
     ///\param initial_size The initial size of the indirect_vector.
     //*************************************************************************
     explicit indirect_vector(size_t initial_size)
-      : tphn::iindirect_vector<T>(lookup_vector, storage_pool)
+      : tpn::iindirect_vector<T>(lookup_vector, storage_pool)
     {
       this->resize(initial_size);
     }
@@ -1332,8 +1332,8 @@ namespace tphn
     ///\param initial_size  The initial size of the indirect_vector.
     ///\param value        The value to fill the indirect_vector with.
     //*************************************************************************
-    indirect_vector(size_t initial_size, typename tphn::iindirect_vector<T>::parameter_t value)
-      : tphn::iindirect_vector<T>(lookup_vector, storage_pool)
+    indirect_vector(size_t initial_size, typename tpn::iindirect_vector<T>::parameter_t value)
+      : tpn::iindirect_vector<T>(lookup_vector, storage_pool)
     {
       this->resize(initial_size, value);
     }
@@ -1346,7 +1346,7 @@ namespace tphn
     //*************************************************************************
     template <typename TIterator>
     indirect_vector(TIterator first, TIterator last)
-      : tphn::iindirect_vector<T>(lookup_vector, storage_pool)
+      : tpn::iindirect_vector<T>(lookup_vector, storage_pool)
     {
       this->assign(first, last);
     }
@@ -1356,7 +1356,7 @@ namespace tphn
     /// Constructor, from an initializer_list.
     //*************************************************************************
     indirect_vector(std::initializer_list<T> init)
-      : tphn::iindirect_vector<T>(lookup_vector, storage_pool)
+      : tpn::iindirect_vector<T>(lookup_vector, storage_pool)
     {
       this->assign(init.begin(), init.end());
     }
@@ -1366,7 +1366,7 @@ namespace tphn
     /// Copy constructor.
     //*************************************************************************
     indirect_vector(const indirect_vector& other)
-      : tphn::iindirect_vector<T>(lookup_vector, storage_pool)
+      : tpn::iindirect_vector<T>(lookup_vector, storage_pool)
     {
       this->assign(other.begin(), other.end());
     }
@@ -1389,9 +1389,9 @@ namespace tphn
     /// Move constructor.
     //*************************************************************************
     indirect_vector(indirect_vector&& other)
-      : tphn::iindirect_vector<T>(lookup_vector, storage_pool)
+      : tpn::iindirect_vector<T>(lookup_vector, storage_pool)
     {
-      this->move_container(tphn::move(other));
+      this->move_container(tpn::move(other));
     }
 
     //*************************************************************************
@@ -1399,7 +1399,7 @@ namespace tphn
     //*************************************************************************
     indirect_vector& operator = (indirect_vector&& rhs)
     {
-      this->move_container(tphn::move(rhs));
+      this->move_container(tpn::move(rhs));
 
       return *this;
     }
@@ -1415,8 +1415,8 @@ namespace tphn
 
   private:
 
-    tphn::vector<T*, MAX_SIZE> lookup_vector;
-    tphn::pool<T, MAX_SIZE>    storage_pool;
+    tpn::vector<T*, MAX_SIZE> lookup_vector;
+    tpn::pool<T, MAX_SIZE>    storage_pool;
   };
 
   //*************************************************************************
@@ -1425,7 +1425,7 @@ namespace tphn
 #if TYPHOON_USING_CPP17 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename T, typename... Ts>
   indirect_vector(T, Ts...)
-    ->indirect_vector<tphn::enable_if_t<(tphn::is_same_v<T, Ts> && ...), T>, 1U + sizeof...(Ts)>;
+    ->indirect_vector<tpn::enable_if_t<(tpn::is_same_v<T, Ts> && ...), T>, 1U + sizeof...(Ts)>;
 #endif 
 
   //*************************************************************************
@@ -1433,9 +1433,9 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_CPP11 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename... T>
-  constexpr auto make_indirect_vector(T... t) -> tphn::indirect_vector<typename tphn::common_type_t<T...>, sizeof...(T)>
+  constexpr auto make_indirect_vector(T... t) -> tpn::indirect_vector<typename tpn::common_type_t<T...>, sizeof...(T)>
   {
-    return { { tphn::forward<T>(t)... } };
+    return { { tpn::forward<T>(t)... } };
   }
 #endif
 
@@ -1446,15 +1446,15 @@ namespace tphn
   ///\ingroup indirect_vector
   //***************************************************************************
   template <typename T>
-  class indirect_vector_ext : public tphn::iindirect_vector<T>
+  class indirect_vector_ext : public tpn::iindirect_vector<T>
   {
   public:
 
     //*************************************************************************
     /// Constructor.
     //*************************************************************************
-    indirect_vector_ext(tphn::ivector<T*>& lookup_, tphn::ipool& pool_)
-      : tphn::iindirect_vector<T>(lookup_, pool_)
+    indirect_vector_ext(tpn::ivector<T*>& lookup_, tpn::ipool& pool_)
+      : tpn::iindirect_vector<T>(lookup_, pool_)
     {
       TYPHOON_ASSERT(lookup_.capacity() <= pool_.capacity(), TYPHOON_ERROR(indirect_vector_buffer_missmatch));
     }
@@ -1463,8 +1463,8 @@ namespace tphn
     /// Constructor, with size.
     ///\param initial_size The initial size of the indirect_vector_ext.
     //*************************************************************************
-    explicit indirect_vector_ext(size_t initial_size, tphn::ivector<T*>& lookup_, tphn::ipool& pool_)
-      : tphn::iindirect_vector<T>(lookup_, pool_)
+    explicit indirect_vector_ext(size_t initial_size, tpn::ivector<T*>& lookup_, tpn::ipool& pool_)
+      : tpn::iindirect_vector<T>(lookup_, pool_)
     {
       TYPHOON_ASSERT(lookup_.capacity() <= pool_.capacity(), TYPHOON_ERROR(indirect_vector_buffer_missmatch));
       this->resize(initial_size);
@@ -1475,8 +1475,8 @@ namespace tphn
     ///\param initial_size  The initial size of the indirect_vector_ext.
     ///\param value        The value to fill the indirect_vector_ext with.
     //*************************************************************************
-    indirect_vector_ext(size_t initial_size, typename tphn::iindirect_vector<T>::parameter_t value, tphn::ivector<T*>& lookup_, tphn::ipool& pool_)
-      : tphn::iindirect_vector<T>(lookup_, pool_)
+    indirect_vector_ext(size_t initial_size, typename tpn::iindirect_vector<T>::parameter_t value, tpn::ivector<T*>& lookup_, tpn::ipool& pool_)
+      : tpn::iindirect_vector<T>(lookup_, pool_)
     {
       TYPHOON_ASSERT(lookup_.capacity() <= pool_.capacity(), TYPHOON_ERROR(indirect_vector_buffer_missmatch));
       this->resize(initial_size, value);
@@ -1489,8 +1489,8 @@ namespace tphn
     ///\param last  The iterator to the last element + 1.
     //*************************************************************************
     template <typename TIterator>
-    indirect_vector_ext(TIterator first, TIterator last, tphn::ivector<T*>& lookup_, tphn::ipool& pool_)
-      : tphn::iindirect_vector<T>(lookup_, pool_)
+    indirect_vector_ext(TIterator first, TIterator last, tpn::ivector<T*>& lookup_, tpn::ipool& pool_)
+      : tpn::iindirect_vector<T>(lookup_, pool_)
     {
       TYPHOON_ASSERT(lookup_.capacity() <= pool_.capacity(), TYPHOON_ERROR(indirect_vector_buffer_missmatch));
       this->assign(first, last);
@@ -1500,8 +1500,8 @@ namespace tphn
     //*************************************************************************
     /// Constructor, from an initializer_list.
     //*************************************************************************
-    indirect_vector_ext(std::initializer_list<T> init, tphn::ivector<T*>& lookup_, tphn::ipool& pool_)
-      : tphn::iindirect_vector<T>(lookup_, pool_)
+    indirect_vector_ext(std::initializer_list<T> init, tpn::ivector<T*>& lookup_, tpn::ipool& pool_)
+      : tpn::iindirect_vector<T>(lookup_, pool_)
     {
       TYPHOON_ASSERT(lookup_.capacity() <= pool_.capacity(), TYPHOON_ERROR(indirect_vector_buffer_missmatch));
       this->assign(init.begin(), init.end());
@@ -1511,8 +1511,8 @@ namespace tphn
     //*************************************************************************
     /// Construct a copy.
     //*************************************************************************
-    indirect_vector_ext(const indirect_vector_ext& other, tphn::ivector<T*>& lookup_, tphn::ipool& pool_)
-      : tphn::iindirect_vector<T>(lookup_, pool_)
+    indirect_vector_ext(const indirect_vector_ext& other, tpn::ivector<T*>& lookup_, tpn::ipool& pool_)
+      : tpn::iindirect_vector<T>(lookup_, pool_)
     {
       TYPHOON_ASSERT(lookup_.capacity() <= pool_.capacity(), TYPHOON_ERROR(indirect_vector_buffer_missmatch));
       this->assign(other.begin(), other.end());
@@ -1540,11 +1540,11 @@ namespace tphn
     //*************************************************************************
     /// Move construct.
     //*************************************************************************
-    indirect_vector_ext(indirect_vector_ext&& other, tphn::ivector<T*>& lookup_, tphn::ipool& pool_)
-      : tphn::iindirect_vector<T>(lookup_, pool_)
+    indirect_vector_ext(indirect_vector_ext&& other, tpn::ivector<T*>& lookup_, tpn::ipool& pool_)
+      : tpn::iindirect_vector<T>(lookup_, pool_)
     {
       TYPHOON_ASSERT(lookup_.capacity() <= pool_.capacity(), TYPHOON_ERROR(indirect_vector_buffer_missmatch));
-      this->move_container(tphn::move(other));
+      this->move_container(tpn::move(other));
     }
 
     //*************************************************************************
@@ -1557,7 +1557,7 @@ namespace tphn
     //*************************************************************************
     indirect_vector_ext& operator = (indirect_vector_ext&& rhs)
     {
-      this->move_container(tphn::move(rhs));
+      this->move_container(tpn::move(rhs));
 
       return *this;
     }

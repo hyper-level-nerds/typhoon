@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2016 John Wellbelove
 
@@ -43,7 +43,7 @@ SOFTWARE.
 ///\ingroup string
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   template<typename T> struct char_traits_types;
 
@@ -150,7 +150,7 @@ namespace tphn
     {
       if (p != 0)
       {
-        tphn::fill_n(p, n, c);
+        tpn::fill_n(p, n, c);
       }
 
       return p;
@@ -161,11 +161,11 @@ namespace tphn
     {
       if ((dst < src) || (dst > (src + count)))
       {
-        tphn::copy_n(src, count, dst);
+        tpn::copy_n(src, count, dst);
       }
       else
       {
-        tphn::copy_n(TYPHOON_OR_STD::reverse_iterator<const char_type*>(src + count),
+        tpn::copy_n(TYPHOON_OR_STD::reverse_iterator<const char_type*>(src + count),
                     count,
                     TYPHOON_OR_STD::reverse_iterator<char_type*>(dst + count));
       }
@@ -176,7 +176,7 @@ namespace tphn
     //*************************************************************************
     static TYPHOON_CONSTEXPR char_type* copy(char_type* dst, const char_type* src, size_t count)
     {
-      tphn::copy_n(src, count, dst);
+      tpn::copy_n(src, count, dst);
 
       return dst;
     }
@@ -255,7 +255,7 @@ namespace tphn
   template <typename T>
   TYPHOON_CONSTEXPR size_t strlen(const T* t)
   {
-    return tphn::char_traits<T>::length(t);
+    return tpn::char_traits<T>::length(t);
   }
 
   //***************************************************************************
@@ -264,7 +264,7 @@ namespace tphn
   template <typename T>
   size_t strlen(const T* t, size_t max_length)
   {
-    return tphn::char_traits<T>::length(t, max_length);
+    return tpn::char_traits<T>::length(t, max_length);
   }
 }
 

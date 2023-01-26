@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -43,7 +43,7 @@ SOFTWARE.
 ///\defgroup iterator iterator
 ///\ingroup utilities
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   // iterator tags
@@ -58,7 +58,7 @@ namespace tphn
   // iterator_traits
 
   // For anything not a fundamental type.
-  template <typename TIterator, typename = typename tphn::enable_if<!tphn::is_fundamental<TIterator>::value, void>::type>
+  template <typename TIterator, typename = typename tpn::enable_if<!tpn::is_fundamental<TIterator>::value, void>::type>
   struct iterator_traits
   {
     typedef typename TIterator::iterator_category iterator_category;
@@ -75,7 +75,7 @@ namespace tphn
     typedef TYPHOON_OR_STD::random_access_iterator_tag iterator_category;
     typedef T                                      value_type;
     typedef ptrdiff_t                              difference_type;
-    typedef typename tphn::remove_cv<T>::type*      pointer;
+    typedef typename tpn::remove_cv<T>::type*      pointer;
     typedef T&                                     reference;
   };
 
@@ -86,7 +86,7 @@ namespace tphn
     typedef TYPHOON_OR_STD::random_access_iterator_tag  iterator_category;
     typedef T                                       value_type;
     typedef ptrdiff_t                               difference_type;
-    typedef const typename tphn::remove_cv<T>::type* pointer;
+    typedef const typename tpn::remove_cv<T>::type* pointer;
     typedef const T&                                reference;
   };
 
@@ -138,7 +138,7 @@ namespace tphn
   template <typename TIterator, typename TDistance>
   TYPHOON_CONSTEXPR14 void advance(TIterator& itr, TDistance n)
   {
-    typedef typename tphn::iterator_traits<TIterator>::iterator_category tag;
+    typedef typename tpn::iterator_traits<TIterator>::iterator_category tag;
 
     advance_helper(itr, n, tag());
   }
@@ -146,9 +146,9 @@ namespace tphn
   //***************************************************************************
   // distance
   template<typename TIterator>
-  TYPHOON_CONSTEXPR14 typename tphn::iterator_traits<TIterator>::difference_type distance_helper(TIterator first, TIterator last, TYPHOON_OR_STD::input_iterator_tag)
+  TYPHOON_CONSTEXPR14 typename tpn::iterator_traits<TIterator>::difference_type distance_helper(TIterator first, TIterator last, TYPHOON_OR_STD::input_iterator_tag)
   {
-    typename tphn::iterator_traits<TIterator>::difference_type d = 0;
+    typename tpn::iterator_traits<TIterator>::difference_type d = 0;
 
     while (first != last)
     {
@@ -160,9 +160,9 @@ namespace tphn
   }
 
   template<typename TIterator>
-  TYPHOON_CONSTEXPR14 typename tphn::iterator_traits<TIterator>::difference_type distance_helper(TIterator first, TIterator last, TYPHOON_OR_STD::forward_iterator_tag)
+  TYPHOON_CONSTEXPR14 typename tpn::iterator_traits<TIterator>::difference_type distance_helper(TIterator first, TIterator last, TYPHOON_OR_STD::forward_iterator_tag)
   {
-    typename tphn::iterator_traits<TIterator>::difference_type d = 0;
+    typename tpn::iterator_traits<TIterator>::difference_type d = 0;
 
     while (first != last)
     {
@@ -174,9 +174,9 @@ namespace tphn
   }
 
   template<typename TIterator>
-  TYPHOON_CONSTEXPR14 typename tphn::iterator_traits<TIterator>::difference_type distance_helper(TIterator first, TIterator last, TYPHOON_OR_STD::bidirectional_iterator_tag)
+  TYPHOON_CONSTEXPR14 typename tpn::iterator_traits<TIterator>::difference_type distance_helper(TIterator first, TIterator last, TYPHOON_OR_STD::bidirectional_iterator_tag)
   {
-    typename tphn::iterator_traits<TIterator>::difference_type d = 0;
+    typename tpn::iterator_traits<TIterator>::difference_type d = 0;
 
     while (first != last)
     {
@@ -188,15 +188,15 @@ namespace tphn
   }
 
   template<typename TIterator>
-  TYPHOON_CONSTEXPR14 typename tphn::iterator_traits<TIterator>::difference_type distance_helper(TIterator first, TIterator last, TYPHOON_OR_STD::random_access_iterator_tag)
+  TYPHOON_CONSTEXPR14 typename tpn::iterator_traits<TIterator>::difference_type distance_helper(TIterator first, TIterator last, TYPHOON_OR_STD::random_access_iterator_tag)
   {
     return last - first;
   }
 
   template<typename TIterator>
-  TYPHOON_CONSTEXPR14 typename tphn::iterator_traits<TIterator>::difference_type distance(TIterator first, TIterator last)
+  TYPHOON_CONSTEXPR14 typename tpn::iterator_traits<TIterator>::difference_type distance(TIterator first, TIterator last)
   {
-    typedef typename tphn::iterator_traits<TIterator>::iterator_category tag;
+    typedef typename tpn::iterator_traits<TIterator>::iterator_category tag;
 
     return distance_helper(first, last, tag());
   }
@@ -204,9 +204,9 @@ namespace tphn
   //***************************************************************************
   // Previous
   template<typename TIterator>
-  TYPHOON_CONSTEXPR14 TIterator prev(TIterator itr, typename tphn::iterator_traits<TIterator>::difference_type n = 1)
+  TYPHOON_CONSTEXPR14 TIterator prev(TIterator itr, typename tpn::iterator_traits<TIterator>::difference_type n = 1)
   {
-    tphn::advance(itr, -n);
+    tpn::advance(itr, -n);
 
     return itr;
   }
@@ -214,9 +214,9 @@ namespace tphn
   //***************************************************************************
   // Next
   template<typename TIterator>
-  TYPHOON_CONSTEXPR14 TIterator next(TIterator itr, typename tphn::iterator_traits<TIterator>::difference_type n = 1)
+  TYPHOON_CONSTEXPR14 TIterator next(TIterator itr, typename tpn::iterator_traits<TIterator>::difference_type n = 1)
   {
-    tphn::advance(itr, n);
+    tpn::advance(itr, n);
 
     return itr;
   }
@@ -453,7 +453,7 @@ namespace tphn
 
     reference operator *() const
     {
-      return tphn::move(*current);
+      return tpn::move(*current);
     }
 
     move_iterator& operator++()
@@ -506,7 +506,7 @@ namespace tphn
 
     reference operator [](difference_type n) const
     {
-      return tphn::move(current[n]);
+      return tpn::move(current[n]);
     }
 
   private:
@@ -515,43 +515,43 @@ namespace tphn
   };
 
   template <typename TIterator>
-  bool operator ==(const tphn::move_iterator<TIterator>& lhs,
-                   const tphn::move_iterator<TIterator>& rhs)
+  bool operator ==(const tpn::move_iterator<TIterator>& lhs,
+                   const tpn::move_iterator<TIterator>& rhs)
   {
     return lhs.base() == rhs.base();
   }
 
   template <typename TIterator>
-  bool operator !=(const tphn::move_iterator<TIterator>& lhs,
-                   const tphn::move_iterator<TIterator>& rhs)
+  bool operator !=(const tpn::move_iterator<TIterator>& lhs,
+                   const tpn::move_iterator<TIterator>& rhs)
   {
     return !(lhs == rhs);
   }
 
   template <typename TIterator>
-  bool operator <(const tphn::move_iterator<TIterator>& lhs,
-                  const tphn::move_iterator<TIterator>& rhs)
+  bool operator <(const tpn::move_iterator<TIterator>& lhs,
+                  const tpn::move_iterator<TIterator>& rhs)
   {
     return lhs.base() < rhs.base();
   }
 
   template <typename TIterator>
-  bool operator <=(const tphn::move_iterator<TIterator>& lhs,
-                   const tphn::move_iterator<TIterator>& rhs)
+  bool operator <=(const tpn::move_iterator<TIterator>& lhs,
+                   const tpn::move_iterator<TIterator>& rhs)
   {
     return !(rhs < lhs);
   }
 
   template <typename TIterator>
-  bool operator >(const tphn::move_iterator<TIterator>& lhs,
-                  const tphn::move_iterator<TIterator>& rhs)
+  bool operator >(const tpn::move_iterator<TIterator>& lhs,
+                  const tpn::move_iterator<TIterator>& rhs)
   {
     return (rhs < lhs);
   }
 
   template <typename TIterator>
-  bool operator >=(const tphn::move_iterator<TIterator>& lhs,
-                   const tphn::move_iterator<TIterator>& rhs)
+  bool operator >=(const tpn::move_iterator<TIterator>& lhs,
+                   const tpn::move_iterator<TIterator>& rhs)
   {
     return !(lhs < rhs);
   }
@@ -571,9 +571,9 @@ namespace tphn
   }
 
   template <typename TIterator>
-  tphn::move_iterator<TIterator> make_move_iterator(TIterator itr)
+  tpn::move_iterator<TIterator> make_move_iterator(TIterator itr)
   {
-    return tphn::move_iterator<TIterator>(itr);
+    return tpn::move_iterator<TIterator>(itr);
   }
 
 #endif //TYPHOON_USING_CPP11
@@ -591,7 +591,7 @@ namespace tphn
   /// @tparam TContainer
   //***************************************************************************
   template <typename TContainer>
-  class back_insert_iterator : public tphn::iterator<TYPHOON_OR_STD::output_iterator_tag, void, void, void, void>
+  class back_insert_iterator : public tpn::iterator<TYPHOON_OR_STD::output_iterator_tag, void, void, void, void>
   {
   public:
 
@@ -600,7 +600,7 @@ namespace tphn
 
     /// The only way to create this %iterator is with a container.
     explicit TYPHOON_CONSTEXPR14 back_insert_iterator(TContainer& c)
-      : container(tphn::addressof(c))
+      : container(tpn::addressof(c))
     {
     }
 
@@ -627,7 +627,7 @@ namespace tphn
     //***************************************************************************
     TYPHOON_CONSTEXPR14 back_insert_iterator& operator =(typename TContainer::value_type&& value)
     {
-      container->push_back(tphn::move(value));
+      container->push_back(tpn::move(value));
       
       return (*this);
     }
@@ -679,9 +679,9 @@ namespace tphn
   template <typename TContainer>
   TYPHOON_NODISCARD 
   TYPHOON_CONSTEXPR14 
-  tphn::back_insert_iterator<TContainer> back_inserter(TContainer& container)
+  tpn::back_insert_iterator<TContainer> back_inserter(TContainer& container)
   {
-    return tphn::back_insert_iterator<TContainer>(container);
+    return tpn::back_insert_iterator<TContainer>(container);
   }
 
   //***************************************************************************
@@ -701,7 +701,7 @@ namespace tphn
   ///\tparam TContainer The container type.
   //***************************************************************************
   template <typename TContainer>
-  class front_insert_iterator : public tphn::iterator<TYPHOON_OR_STD::output_iterator_tag, void, void, void, void>
+  class front_insert_iterator : public tpn::iterator<TYPHOON_OR_STD::output_iterator_tag, void, void, void, void>
   {
   public:
 
@@ -713,7 +713,7 @@ namespace tphn
     /// The only way to create this %iterator is with a container.
     //***************************************************************************
     explicit TYPHOON_CONSTEXPR14 front_insert_iterator(TContainer& c)
-      : container(tphn::addressof(c))
+      : container(tpn::addressof(c))
     {
     }
 
@@ -740,7 +740,7 @@ namespace tphn
     //***************************************************************************
     TYPHOON_CONSTEXPR14 front_insert_iterator& operator =(typename TContainer::value_type&& value)
     {
-      container->push_front(tphn::move(value));
+      container->push_front(tpn::move(value));
       return (*this);
     }
 #endif  // TYPHOON_USING_CPP11
@@ -792,9 +792,9 @@ namespace tphn
   template <typename TContainer>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14
-  tphn::front_insert_iterator<TContainer> front_inserter(TContainer& container)
+  tpn::front_insert_iterator<TContainer> front_inserter(TContainer& container)
   {
-    return tphn::front_insert_iterator<TContainer>(container);
+    return tpn::front_insert_iterator<TContainer>(container);
   }
 
   //***************************************************************************
@@ -803,84 +803,84 @@ namespace tphn
   template <typename T>
   struct is_input_iterator
   {
-    static TYPHOON_CONSTANT bool value = tphn::is_same<typename tphn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::input_iterator_tag>::value;
+    static TYPHOON_CONSTANT bool value = tpn::is_same<typename tpn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::input_iterator_tag>::value;
   };
 
   template <typename T>
   struct is_output_iterator
   {
-    static TYPHOON_CONSTANT bool value = tphn::is_same<typename tphn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::output_iterator_tag>::value;
+    static TYPHOON_CONSTANT bool value = tpn::is_same<typename tpn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::output_iterator_tag>::value;
   };
 
   template <typename T>
   struct is_forward_iterator
   {
-    static TYPHOON_CONSTANT bool value = tphn::is_same<typename tphn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::forward_iterator_tag>::value;
+    static TYPHOON_CONSTANT bool value = tpn::is_same<typename tpn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::forward_iterator_tag>::value;
   };
 
   template <typename T>
   struct is_bidirectional_iterator
   {
-    static TYPHOON_CONSTANT bool value = tphn::is_same<typename tphn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::bidirectional_iterator_tag>::value;
+    static TYPHOON_CONSTANT bool value = tpn::is_same<typename tpn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::bidirectional_iterator_tag>::value;
   };
 
   // Deprecated
   template <typename T>
   struct is_random_iterator
   {
-    static TYPHOON_CONSTANT bool value = tphn::is_same<typename tphn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::random_access_iterator_tag>::value;
+    static TYPHOON_CONSTANT bool value = tpn::is_same<typename tpn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::random_access_iterator_tag>::value;
   };
 
   template <typename T>
   struct is_random_access_iterator
   {
-    static TYPHOON_CONSTANT bool value = tphn::is_same<typename tphn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::random_access_iterator_tag>::value;
+    static TYPHOON_CONSTANT bool value = tpn::is_same<typename tpn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::random_access_iterator_tag>::value;
   };
 
   template <typename T>
   struct is_input_iterator_concept
   {
-    static TYPHOON_CONSTANT bool value = tphn::is_input_iterator<T>::value ||
-                                               tphn::is_forward_iterator<T>::value ||
-                                               tphn::is_bidirectional_iterator<T>::value ||
-                                               tphn::is_random_iterator<T>::value;
+    static TYPHOON_CONSTANT bool value = tpn::is_input_iterator<T>::value ||
+                                               tpn::is_forward_iterator<T>::value ||
+                                               tpn::is_bidirectional_iterator<T>::value ||
+                                               tpn::is_random_iterator<T>::value;
   };
 
   template <typename T>
   struct is_output_iterator_concept
   {
-    static TYPHOON_CONSTANT bool value = tphn::is_output_iterator<T>::value ||
-                                               tphn::is_forward_iterator<T>::value ||
-                                               tphn::is_bidirectional_iterator<T>::value ||
-                                               tphn::is_random_iterator<T>::value;
+    static TYPHOON_CONSTANT bool value = tpn::is_output_iterator<T>::value ||
+                                               tpn::is_forward_iterator<T>::value ||
+                                               tpn::is_bidirectional_iterator<T>::value ||
+                                               tpn::is_random_iterator<T>::value;
   };
 
   template <typename T>
   struct is_forward_iterator_concept
   {
-    static TYPHOON_CONSTANT bool value = tphn::is_forward_iterator<T>::value ||
-                                               tphn::is_bidirectional_iterator<T>::value ||
-                                               tphn::is_random_iterator<T>::value;
+    static TYPHOON_CONSTANT bool value = tpn::is_forward_iterator<T>::value ||
+                                               tpn::is_bidirectional_iterator<T>::value ||
+                                               tpn::is_random_iterator<T>::value;
   };
 
   template <typename T>
   struct is_bidirectional_iterator_concept
   {
-    static TYPHOON_CONSTANT bool value = tphn::is_bidirectional_iterator<T>::value ||
-                                               tphn::is_random_iterator<T>::value;
+    static TYPHOON_CONSTANT bool value = tpn::is_bidirectional_iterator<T>::value ||
+                                               tpn::is_random_iterator<T>::value;
   };
 
   // Deprecated
   template <typename T>
   struct is_random_iterator_concept
   {
-    static TYPHOON_CONSTANT bool value = tphn::is_random_iterator<T>::value;
+    static TYPHOON_CONSTANT bool value = tpn::is_random_iterator<T>::value;
   };
 
   template <typename T>
   struct is_random_access_iterator_concept
   {
-    static TYPHOON_CONSTANT bool value = tphn::is_random_access_iterator<T>::value;
+    static TYPHOON_CONSTANT bool value = tpn::is_random_access_iterator<T>::value;
   };
 
 #if TYPHOON_NOT_USING_STL || TYPHOON_CPP11_NOT_SUPPORTED
@@ -1119,7 +1119,7 @@ namespace tphn
   char(&array_size(T(&array)[ARRAY_SIZE]))[ARRAY_SIZE];
 }
 
-#define TYPHOON_ARRAY_SIZE(a) sizeof(tphn::array_size(a))
+#define TYPHOON_ARRAY_SIZE(a) sizeof(tpn::array_size(a))
 
 #endif
 

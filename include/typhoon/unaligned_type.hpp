@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2022 John Wellbelove
 
@@ -43,7 +43,7 @@ SOFTWARE.
 
 #include <string.h>
 
-namespace tphn
+namespace tpn
 {
   namespace private_unaligned_type
   {
@@ -63,8 +63,8 @@ namespace tphn
       typedef const storage_type* const_pointer;
       typedef storage_type* iterator;
       typedef const storage_type* const_iterator;
-      typedef tphn::reverse_iterator<iterator>       reverse_iterator;
-      typedef tphn::reverse_iterator<const_iterator> const_reverse_iterator;
+      typedef tpn::reverse_iterator<iterator>       reverse_iterator;
+      typedef tpn::reverse_iterator<const_iterator> const_reverse_iterator;
 
       //*************************************************************************
       /// Default constructor
@@ -227,7 +227,7 @@ namespace tphn
   {
   public:
 
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value || tphn::is_floating_point<T>::value, "Unaligned type must be integral or floating point");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value || tpn::is_floating_point<T>::value, "Unaligned type must be integral or floating point");
 
     typedef T value_type;
 
@@ -292,7 +292,7 @@ namespace tphn
     //*************************************************************************
     friend TYPHOON_CONSTEXPR14 bool operator ==(const unaligned_type& lhs, const unaligned_type& rhs)
     {
-      return tphn::equal(lhs.data(), lhs.data() + lhs.Size, rhs.data());
+      return tpn::equal(lhs.data(), lhs.data() + lhs.Size, rhs.data());
     }
 
     //*************************************************************************
@@ -403,7 +403,7 @@ namespace tphn
       //*******************************
       static TYPHOON_CONSTEXPR14 void copy(T value, unsigned char* store)
       {
-        if (Endian == tphn::endianness::value())
+        if (Endian == tpn::endianness::value())
         {
           store[0] = static_cast<storage_type>(value);
           store[1] = static_cast<storage_type>(value >> (1U * CHAR_BIT));
@@ -418,7 +418,7 @@ namespace tphn
       //*******************************
       static TYPHOON_CONSTEXPR14 void copy(const_pointer store, T& value)
       {
-        if (Endian == tphn::endianness::value())
+        if (Endian == tpn::endianness::value())
         {
           value = static_cast<T>(static_cast<unsigned char>(store[0]));
           value |= static_cast<T>(static_cast<unsigned char>(store[1])) << (1U * CHAR_BIT);
@@ -455,7 +455,7 @@ namespace tphn
     {
       static TYPHOON_CONSTEXPR14 void copy(T value, unsigned char* store)
       {
-        if (Endian == tphn::endianness::value())
+        if (Endian == tpn::endianness::value())
         {
           store[0] = static_cast<storage_type>(value);
           store[1] = static_cast<storage_type>(value >> (1U * CHAR_BIT));
@@ -474,7 +474,7 @@ namespace tphn
       //*******************************
       static TYPHOON_CONSTEXPR14 void copy(const_pointer store, T& value)
       {
-        if (Endian == tphn::endianness::value())
+        if (Endian == tpn::endianness::value())
         {
           value = static_cast<T>(static_cast<unsigned char>(store[0]));
           value |= static_cast<T>(static_cast<unsigned char>(store[1])) << (1U * CHAR_BIT);
@@ -519,7 +519,7 @@ namespace tphn
     {
       static TYPHOON_CONSTEXPR14 void copy(T value, unsigned char* store)
       {
-        if (Endian == tphn::endianness::value())
+        if (Endian == tpn::endianness::value())
         {
           store[0] = static_cast<storage_type>(value);
           store[1] = static_cast<storage_type>(value >> (1U * CHAR_BIT));
@@ -546,7 +546,7 @@ namespace tphn
       //*******************************
       static TYPHOON_CONSTEXPR14 void copy(const_pointer store, T& value)
       {
-        if (Endian == tphn::endianness::value())
+        if (Endian == tpn::endianness::value())
         {
           value = static_cast<T>(static_cast<unsigned char>(store[0]));
           value |= static_cast<T>(static_cast<unsigned char>(store[1])) << (1U * CHAR_BIT);
@@ -601,89 +601,89 @@ namespace tphn
 
 #if TYPHOON_HAS_CONSTEXPR_ENDIANNESS
   // Host order
-  typedef unaligned_type<char, tphn::endianness::value()> host_char_t;
-  typedef unaligned_type<signed char, tphn::endianness::value()> host_schar_t;
-  typedef unaligned_type<unsigned char, tphn::endianness::value()> host_uchar_t;
-  typedef unaligned_type<short, tphn::endianness::value()> host_short_t;
-  typedef unaligned_type<unsigned short, tphn::endianness::value()> host_ushort_t;
-  typedef unaligned_type<int, tphn::endianness::value()> host_int_t;
-  typedef unaligned_type<unsigned int, tphn::endianness::value()> host_uint_t;
-  typedef unaligned_type<long, tphn::endianness::value()> host_long_t;
-  typedef unaligned_type<unsigned long, tphn::endianness::value()> host_ulong_t;
-  typedef unaligned_type<long long, tphn::endianness::value()> host_long_long_t;
-  typedef unaligned_type<unsigned long long, tphn::endianness::value()> host_ulong_long_t;
+  typedef unaligned_type<char, tpn::endianness::value()> host_char_t;
+  typedef unaligned_type<signed char, tpn::endianness::value()> host_schar_t;
+  typedef unaligned_type<unsigned char, tpn::endianness::value()> host_uchar_t;
+  typedef unaligned_type<short, tpn::endianness::value()> host_short_t;
+  typedef unaligned_type<unsigned short, tpn::endianness::value()> host_ushort_t;
+  typedef unaligned_type<int, tpn::endianness::value()> host_int_t;
+  typedef unaligned_type<unsigned int, tpn::endianness::value()> host_uint_t;
+  typedef unaligned_type<long, tpn::endianness::value()> host_long_t;
+  typedef unaligned_type<unsigned long, tpn::endianness::value()> host_ulong_t;
+  typedef unaligned_type<long long, tpn::endianness::value()> host_long_long_t;
+  typedef unaligned_type<unsigned long long, tpn::endianness::value()> host_ulong_long_t;
 #if TYPHOON_USING_8BIT_TYPES
-  typedef unaligned_type<int8_t, tphn::endianness::value()> host_int8_t;
-  typedef unaligned_type<uint8_t, tphn::endianness::value()> host_uint8_t;
+  typedef unaligned_type<int8_t, tpn::endianness::value()> host_int8_t;
+  typedef unaligned_type<uint8_t, tpn::endianness::value()> host_uint8_t;
 #endif
-  typedef unaligned_type<int16_t, tphn::endianness::value()> host_int16_t;
-  typedef unaligned_type<uint16_t, tphn::endianness::value()> host_uint16_t;
-  typedef unaligned_type<int32_t, tphn::endianness::value()> host_int32_t;
-  typedef unaligned_type<uint32_t, tphn::endianness::value()> host_uint32_t;
+  typedef unaligned_type<int16_t, tpn::endianness::value()> host_int16_t;
+  typedef unaligned_type<uint16_t, tpn::endianness::value()> host_uint16_t;
+  typedef unaligned_type<int32_t, tpn::endianness::value()> host_int32_t;
+  typedef unaligned_type<uint32_t, tpn::endianness::value()> host_uint32_t;
 #if TYPHOON_USING_64BIT_TYPES
-  typedef unaligned_type<int64_t, tphn::endianness::value()> host_int64_t;
-  typedef unaligned_type<uint64_t, tphn::endianness::value()> host_uint64_t;
+  typedef unaligned_type<int64_t, tpn::endianness::value()> host_int64_t;
+  typedef unaligned_type<uint64_t, tpn::endianness::value()> host_uint64_t;
 #endif
-  typedef unaligned_type<float, tphn::endianness::value()> host_float_t;
-  typedef unaligned_type<double, tphn::endianness::value()> host_double_t;
-  typedef unaligned_type<long double, tphn::endianness::value()> host_long_double_t;
+  typedef unaligned_type<float, tpn::endianness::value()> host_float_t;
+  typedef unaligned_type<double, tpn::endianness::value()> host_double_t;
+  typedef unaligned_type<long double, tpn::endianness::value()> host_long_double_t;
 #endif
 
   // Little Endian
-  typedef unaligned_type<char, tphn::endian::little> le_char_t;
-  typedef unaligned_type<signed char, tphn::endian::little> le_schar_t;
-  typedef unaligned_type<unsigned char, tphn::endian::little> le_uchar_t;
-  typedef unaligned_type<short, tphn::endian::little> le_short_t;
-  typedef unaligned_type<unsigned short, tphn::endian::little> le_ushort_t;
-  typedef unaligned_type<int, tphn::endian::little> le_int_t;
-  typedef unaligned_type<unsigned int, tphn::endian::little> le_uint_t;
-  typedef unaligned_type<long, tphn::endian::little> le_long_t;
-  typedef unaligned_type<unsigned long, tphn::endian::little> le_ulong_t;
-  typedef unaligned_type<long long, tphn::endian::little> le_long_long_t;
-  typedef unaligned_type<unsigned long long, tphn::endian::little> le_ulong_long_t;
+  typedef unaligned_type<char, tpn::endian::little> le_char_t;
+  typedef unaligned_type<signed char, tpn::endian::little> le_schar_t;
+  typedef unaligned_type<unsigned char, tpn::endian::little> le_uchar_t;
+  typedef unaligned_type<short, tpn::endian::little> le_short_t;
+  typedef unaligned_type<unsigned short, tpn::endian::little> le_ushort_t;
+  typedef unaligned_type<int, tpn::endian::little> le_int_t;
+  typedef unaligned_type<unsigned int, tpn::endian::little> le_uint_t;
+  typedef unaligned_type<long, tpn::endian::little> le_long_t;
+  typedef unaligned_type<unsigned long, tpn::endian::little> le_ulong_t;
+  typedef unaligned_type<long long, tpn::endian::little> le_long_long_t;
+  typedef unaligned_type<unsigned long long, tpn::endian::little> le_ulong_long_t;
 #if TYPHOON_USING_8BIT_TYPES
-  typedef unaligned_type<int8_t, tphn::endian::little> le_int8_t;
-  typedef unaligned_type<uint8_t, tphn::endian::little> le_uint8_t;
+  typedef unaligned_type<int8_t, tpn::endian::little> le_int8_t;
+  typedef unaligned_type<uint8_t, tpn::endian::little> le_uint8_t;
 #endif
-  typedef unaligned_type<int16_t, tphn::endian::little> le_int16_t;
-  typedef unaligned_type<uint16_t, tphn::endian::little> le_uint16_t;
-  typedef unaligned_type<int32_t, tphn::endian::little> le_int32_t;
-  typedef unaligned_type<uint32_t, tphn::endian::little> le_uint32_t;
+  typedef unaligned_type<int16_t, tpn::endian::little> le_int16_t;
+  typedef unaligned_type<uint16_t, tpn::endian::little> le_uint16_t;
+  typedef unaligned_type<int32_t, tpn::endian::little> le_int32_t;
+  typedef unaligned_type<uint32_t, tpn::endian::little> le_uint32_t;
 #if TYPHOON_USING_64BIT_TYPES
-  typedef unaligned_type<int64_t, tphn::endian::little> le_int64_t;
-  typedef unaligned_type<uint64_t, tphn::endian::little> le_uint64_t;
+  typedef unaligned_type<int64_t, tpn::endian::little> le_int64_t;
+  typedef unaligned_type<uint64_t, tpn::endian::little> le_uint64_t;
 #endif
-  typedef unaligned_type<float, tphn::endian::little> le_float_t;
-  typedef unaligned_type<double, tphn::endian::little> le_double_t;
-  typedef unaligned_type<long double, tphn::endian::little> le_long_double_t;
+  typedef unaligned_type<float, tpn::endian::little> le_float_t;
+  typedef unaligned_type<double, tpn::endian::little> le_double_t;
+  typedef unaligned_type<long double, tpn::endian::little> le_long_double_t;
 
   // Big Endian
-  typedef unaligned_type<char, tphn::endian::big> be_char_t;
-  typedef unaligned_type<signed char, tphn::endian::big> be_schar_t;
-  typedef unaligned_type<unsigned char, tphn::endian::big> be_uchar_t;
-  typedef unaligned_type<short, tphn::endian::big> be_short_t;
-  typedef unaligned_type<unsigned short, tphn::endian::big> be_ushort_t;
-  typedef unaligned_type<int, tphn::endian::big> be_int_t;
-  typedef unaligned_type<unsigned int, tphn::endian::big> be_uint_t;
-  typedef unaligned_type<long, tphn::endian::big> be_long_t;
-  typedef unaligned_type<unsigned long, tphn::endian::big> be_ulong_t;
-  typedef unaligned_type<long long, tphn::endian::big> be_long_long_t;
-  typedef unaligned_type<unsigned long long, tphn::endian::big> be_ulong_long_t;
+  typedef unaligned_type<char, tpn::endian::big> be_char_t;
+  typedef unaligned_type<signed char, tpn::endian::big> be_schar_t;
+  typedef unaligned_type<unsigned char, tpn::endian::big> be_uchar_t;
+  typedef unaligned_type<short, tpn::endian::big> be_short_t;
+  typedef unaligned_type<unsigned short, tpn::endian::big> be_ushort_t;
+  typedef unaligned_type<int, tpn::endian::big> be_int_t;
+  typedef unaligned_type<unsigned int, tpn::endian::big> be_uint_t;
+  typedef unaligned_type<long, tpn::endian::big> be_long_t;
+  typedef unaligned_type<unsigned long, tpn::endian::big> be_ulong_t;
+  typedef unaligned_type<long long, tpn::endian::big> be_long_long_t;
+  typedef unaligned_type<unsigned long long, tpn::endian::big> be_ulong_long_t;
 #if TYPHOON_USING_8BIT_TYPES
-  typedef unaligned_type<int8_t, tphn::endian::big> be_int8_t;
-  typedef unaligned_type<uint8_t, tphn::endian::big> be_uint8_t;
+  typedef unaligned_type<int8_t, tpn::endian::big> be_int8_t;
+  typedef unaligned_type<uint8_t, tpn::endian::big> be_uint8_t;
 #endif
-  typedef unaligned_type<int16_t, tphn::endian::big> be_int16_t;
-  typedef unaligned_type<uint16_t, tphn::endian::big> be_uint16_t;
-  typedef unaligned_type<int32_t, tphn::endian::big> be_int32_t;
-  typedef unaligned_type<uint32_t, tphn::endian::big> be_uint32_t;
+  typedef unaligned_type<int16_t, tpn::endian::big> be_int16_t;
+  typedef unaligned_type<uint16_t, tpn::endian::big> be_uint16_t;
+  typedef unaligned_type<int32_t, tpn::endian::big> be_int32_t;
+  typedef unaligned_type<uint32_t, tpn::endian::big> be_uint32_t;
 #if TYPHOON_USING_64BIT_TYPES
-  typedef unaligned_type<int64_t, tphn::endian::big> be_int64_t;
-  typedef unaligned_type<uint64_t, tphn::endian::big> be_uint64_t;
+  typedef unaligned_type<int64_t, tpn::endian::big> be_int64_t;
+  typedef unaligned_type<uint64_t, tpn::endian::big> be_uint64_t;
 #endif
-  typedef unaligned_type<float, tphn::endian::big> be_float_t;
-  typedef unaligned_type<double, tphn::endian::big> be_double_t;
-  typedef unaligned_type<long double, tphn::endian::big> be_long_double_t;
+  typedef unaligned_type<float, tpn::endian::big> be_float_t;
+  typedef unaligned_type<double, tpn::endian::big> be_double_t;
+  typedef unaligned_type<long double, tpn::endian::big> be_long_double_t;
 
   // Network Order
   typedef be_char_t        net_char_t;
@@ -715,12 +715,12 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
   template <typename T, int Endian>
-  using unaligned_type_t = typename tphn::unaligned_type<T, Endian>::type;
+  using unaligned_type_t = typename tpn::unaligned_type<T, Endian>::type;
 #endif
 
 #if TYPHOON_USING_CPP17
   template <typename T, int Endian>
-  constexpr size_t unaligned_type_v = tphn::unaligned_type<T, Endian>::Size;
+  constexpr size_t unaligned_type_v = tpn::unaligned_type<T, Endian>::Size;
 #endif
 }
 

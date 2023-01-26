@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2016 John Wellbelove
 
@@ -38,13 +38,13 @@ SOFTWARE.
 
 #include <stddef.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Exception base for intrusive stack
   ///\ingroup intrusive_stack
   //***************************************************************************
-  class intrusive_stack_exception : public tphn::exception
+  class intrusive_stack_exception : public tpn::exception
   {
   public:
 
@@ -70,7 +70,7 @@ namespace tphn
 
   //***************************************************************************
   ///\ingroup stack
-  /// Base for intrusive stack. Stores elements derived any type that supports an 'tphn_next' pointer member.
+  /// Base for intrusive stack. Stores elements derived any type that supports an 'tpn_next' pointer member.
   /// \tparam TLink  The link type that the value is derived from.
   //***************************************************************************
   template <typename TLink>
@@ -91,7 +91,7 @@ namespace tphn
 
       if (p_top != TYPHOON_NULLPTR)
       {
-        tphn::link(value, p_top);
+        tpn::link(value, p_top);
       }
 
       p_top = &value;
@@ -108,7 +108,7 @@ namespace tphn
 #if defined(TYPHOON_CHECK_PUSH_POP)
       TYPHOON_ASSERT(!empty(), TYPHOON_ERROR(intrusive_stack_empty));
 #endif
-      link_type* p_next = p_top->tphn_next;
+      link_type* p_next = p_top->tpn_next;
       p_top = p_next;
       --current_size;
     }
@@ -137,8 +137,8 @@ namespace tphn
 
       while (current != TYPHOON_NULLPTR)
       {
-        next = current->tphn_next;
-        current->tphn_next = previous;
+        next = current->tpn_next;
+        current->tpn_next = previous;
         previous = current;
         current = next;
       }
@@ -200,18 +200,18 @@ namespace tphn
 
   //***************************************************************************
   ///\ingroup stack
-  /// An intrusive stack. Stores elements derived from any type that supports an 'tphn_next' pointer member.
+  /// An intrusive stack. Stores elements derived from any type that supports an 'tpn_next' pointer member.
   /// \warning This stack cannot be used for concurrent access from multiple threads.
   /// \tparam TValue The type of value that the stack holds.
   /// \tparam TLink  The link type that the value is derived from.
   //***************************************************************************
   template <typename TValue, typename TLink>
-  class intrusive_stack : public tphn::intrusive_stack_base<TLink>
+  class intrusive_stack : public tpn::intrusive_stack_base<TLink>
   {
   public:
 
     // Node typedef.
-    typedef typename tphn::intrusive_stack_base<TLink>::link_type link_type;
+    typedef typename tpn::intrusive_stack_base<TLink>::link_type link_type;
 
     // STL style typedefs.
     typedef TValue            value_type;

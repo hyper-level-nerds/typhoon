@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -43,15 +43,15 @@ SOFTWARE.
 #include <stddef.h>
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
-  template <size_t MEMORY_MODEL = tphn::memory_model::MEMORY_MODEL_LARGE>
+  template <size_t MEMORY_MODEL = tpn::memory_model::MEMORY_MODEL_LARGE>
   class iqueue_spsc_locked_base
   {
   public:
 
     /// The type used for determining the size of queue.
-    typedef typename tphn::size_type_lookup<MEMORY_MODEL>::type size_type;
+    typedef typename tpn::size_type_lookup<MEMORY_MODEL>::type size_type;
 
     //*************************************************************************
     /// How much free space available in the queue.
@@ -188,7 +188,7 @@ namespace tphn
   /// This queue supports concurrent access by one producer and one consumer.
   /// \tparam T The type of value that the queue_spsc_locked holds.
   //***************************************************************************
-  template <typename T, const size_t MEMORY_MODEL = tphn::memory_model::MEMORY_MODEL_LARGE>
+  template <typename T, const size_t MEMORY_MODEL = tpn::memory_model::MEMORY_MODEL_LARGE>
   class iqueue_spsc_locked : public iqueue_spsc_locked_base<MEMORY_MODEL>
   {
   private:
@@ -234,7 +234,7 @@ namespace tphn
     //*************************************************************************
     bool push_from_unlocked(rvalue_reference value)
     {
-      return push_implementation(tphn::move(value));
+      return push_implementation(tpn::move(value));
     }
 
     //*************************************************************************
@@ -245,7 +245,7 @@ namespace tphn
     {
       lock();
 
-      bool result = push_implementation(tphn::move(value));
+      bool result = push_implementation(tpn::move(value));
 
       unlock();
 
@@ -261,7 +261,7 @@ namespace tphn
     template <typename ... Args>
     bool emplace_from_unlocked(Args&&... args)
     {
-      return emplace_implementation(tphn::forward<Args>(args)...);
+      return emplace_implementation(tpn::forward<Args>(args)...);
     }
     
     //*************************************************************************
@@ -273,7 +273,7 @@ namespace tphn
     {
       lock();
 
-      bool result = emplace_implementation(tphn::forward<Args>(args)...);
+      bool result = emplace_implementation(tpn::forward<Args>(args)...);
 
       unlock();
 
@@ -282,7 +282,7 @@ namespace tphn
 #else
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     //*************************************************************************
     template <typename T1>
     bool emplace_from_unlocked(const T1& value1)
@@ -292,7 +292,7 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     //*************************************************************************
     template <typename T1, typename T2>
     bool emplace_from_unlocked(const T1& value1, const T2& value2)
@@ -302,7 +302,7 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     //*************************************************************************
     template <typename T1, typename T2, typename T3>
     bool emplace_from_unlocked(const T1& value1, const T2& value2, const T3& value3)
@@ -312,7 +312,7 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     //*************************************************************************
     template <typename T1, typename T2, typename T3, typename T4>
     bool emplace_from_unlocked(const T1& value1, const T2& value2, const T3& value3, const T4& value4)
@@ -322,7 +322,7 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     //*************************************************************************
     template <typename T1>
     bool emplace(const T1& value1)
@@ -338,7 +338,7 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     //*************************************************************************
     template <typename T1, typename T2>
     bool emplace(const T1& value1, const T2& value2)
@@ -354,7 +354,7 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     //*************************************************************************
     template <typename T1, typename T2, typename T3>
     bool emplace(const T1& value1, const T2& value2, const T3& value3)
@@ -370,7 +370,7 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     //*************************************************************************
     template <typename T1, typename T2, typename T3, typename T4>
     bool emplace(const T1& value1, const T2& value2, const T3& value3, const T4& value4)
@@ -564,7 +564,7 @@ namespace tphn
     //*************************************************************************
     /// The constructor that is called from derived classes.
     //*************************************************************************
-    iqueue_spsc_locked(T* p_buffer_, size_type max_size_, const tphn::ifunction<void>& lock_, const tphn::ifunction<void>& unlock_)
+    iqueue_spsc_locked(T* p_buffer_, size_type max_size_, const tpn::ifunction<void>& lock_, const tpn::ifunction<void>& unlock_)
       : base_t(max_size_)
       , p_buffer(p_buffer_)
       , lock(lock_)
@@ -603,7 +603,7 @@ namespace tphn
     {
       if (this->current_size != this->MAX_SIZE)
       {
-        ::new (&p_buffer[this->write_index]) T(tphn::move(value));
+        ::new (&p_buffer[this->write_index]) T(tpn::move(value));
 
         this->write_index = this->get_next_index(this->write_index, this->MAX_SIZE);
 
@@ -627,7 +627,7 @@ namespace tphn
     {
       if (this->current_size != this->MAX_SIZE)
       {
-        ::new (&p_buffer[this->write_index]) T(tphn::forward<Args>(args)...);
+        ::new (&p_buffer[this->write_index]) T(tpn::forward<Args>(args)...);
 
         this->write_index = this->get_next_index(this->write_index, this->MAX_SIZE);
 
@@ -738,7 +738,7 @@ namespace tphn
       }
 
 #if TYPHOON_USING_CPP11 && TYPHOON_NOT_USING_STLPORT && !defined(TYPHOON_QUEUE_LOCKABLE_FORCE_CPP03_IMPLEMENTATION)
-      value = tphn::move(p_buffer[this->read_index]);
+      value = tpn::move(p_buffer[this->read_index]);
 #else
       value = p_buffer[this->read_index];
 #endif
@@ -802,8 +802,8 @@ namespace tphn
 
     T* p_buffer; ///< The internal buffer.
 
-    const tphn::ifunction<void>& lock;   ///< The callback that locks interrupts.
-    const tphn::ifunction<void>& unlock; ///< The callback that unlocks interrupts.
+    const tpn::ifunction<void>& lock;   ///< The callback that locks interrupts.
+    const tpn::ifunction<void>& unlock; ///< The callback that unlocks interrupts.
   };
 
   //***************************************************************************
@@ -814,18 +814,18 @@ namespace tphn
   /// \tparam SIZE         The maximum capacity of the queue.
   /// \tparam MEMORY_MODEL The memory model for the queue. Determines the type of the internal counter variables.
   //***************************************************************************
-  template <typename T, size_t SIZE, const size_t MEMORY_MODEL = tphn::memory_model::MEMORY_MODEL_LARGE>
-  class queue_spsc_locked : public tphn::iqueue_spsc_locked<T, MEMORY_MODEL>
+  template <typename T, size_t SIZE, const size_t MEMORY_MODEL = tpn::memory_model::MEMORY_MODEL_LARGE>
+  class queue_spsc_locked : public tpn::iqueue_spsc_locked<T, MEMORY_MODEL>
   {
   private:
 
-    typedef tphn::iqueue_spsc_locked<T, MEMORY_MODEL> base_t;
+    typedef tpn::iqueue_spsc_locked<T, MEMORY_MODEL> base_t;
 
   public:
 
     typedef typename base_t::size_type size_type;
 
-    TYPHOON_STATIC_ASSERT((SIZE <= tphn::integral_limits<size_type>::max), "Size too large for memory model");
+    TYPHOON_STATIC_ASSERT((SIZE <= tpn::integral_limits<size_type>::max), "Size too large for memory model");
 
     static TYPHOON_CONSTANT size_type MAX_SIZE = size_type(SIZE);
 
@@ -833,8 +833,8 @@ namespace tphn
     /// Default constructor.
     //*************************************************************************
 
-    queue_spsc_locked(const tphn::ifunction<void>& lock,
-                      const tphn::ifunction<void>& unlock)
+    queue_spsc_locked(const tpn::ifunction<void>& lock,
+                      const tpn::ifunction<void>& unlock)
       : base_t(reinterpret_cast<T*>(buffer.raw), MAX_SIZE, lock, unlock)
     {
     }
@@ -858,7 +858,7 @@ namespace tphn
 #endif
 
     /// The uninitialised buffer of T used in the queue_lockable.
-    tphn::uninitialized_buffer_of<T, MAX_SIZE> buffer;
+    tpn::uninitialized_buffer_of<T, MAX_SIZE> buffer;
   };
 }
 

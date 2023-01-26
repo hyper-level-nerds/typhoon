@@ -4,8 +4,8 @@
 /******************************************************************************
 The MIT License(MIT)
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 Copyright(c) 2014 John Wellbelove
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files(the "Software"), to deal
@@ -36,7 +36,7 @@ SOFTWARE.
 ///\defgroup checksum Checksum calculation
 ///\ingroup maths
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Standard addition checksum policy.
@@ -77,7 +77,7 @@ namespace tphn
 
     T add(T sum, uint8_t value) const
     {
-      return tphn::rotate_right(sum) + value;
+      return tpn::rotate_right(sum) + value;
     }
 
     T final(T sum) const
@@ -125,7 +125,7 @@ namespace tphn
 
     T add(T sum, uint8_t value) const
     {
-      return tphn::rotate_left(sum) ^ value;
+      return tpn::rotate_left(sum) ^ value;
     }
 
     T final(T sum) const
@@ -149,7 +149,7 @@ namespace tphn
 
     T add(T sum, uint8_t value) const
     {
-      return sum ^ tphn::parity(value);
+      return sum ^ tpn::parity(value);
     }
 
     T final(T sum) const
@@ -162,7 +162,7 @@ namespace tphn
   /// Standard Checksum.
   //*************************************************************************
   template <typename T>
-  class checksum : public tphn::frame_check_sequence<tphn::checksum_policy_sum<T> >
+  class checksum : public tpn::frame_check_sequence<tpn::checksum_policy_sum<T> >
   {
   public:
 
@@ -191,7 +191,7 @@ namespace tphn
   /// BSD Checksum.
   //*************************************************************************
   template <typename T>
-  class bsd_checksum : public tphn::frame_check_sequence<tphn::checksum_policy_bsd<T> >
+  class bsd_checksum : public tpn::frame_check_sequence<tpn::checksum_policy_bsd<T> >
   {
   public:
 
@@ -220,7 +220,7 @@ namespace tphn
   /// XOR Checksum.
   //*************************************************************************
   template <typename T>
-  class xor_checksum : public tphn::frame_check_sequence<tphn::checksum_policy_xor<T> >
+  class xor_checksum : public tpn::frame_check_sequence<tpn::checksum_policy_xor<T> >
   {
   public:
 
@@ -249,7 +249,7 @@ namespace tphn
   /// XOR-shift Checksum.
   //*************************************************************************
   template <typename T>
-  class xor_rotate_checksum : public tphn::frame_check_sequence<tphn::checksum_policy_xor_rotate<T> >
+  class xor_rotate_checksum : public tpn::frame_check_sequence<tpn::checksum_policy_xor_rotate<T> >
   {
   public:
 
@@ -278,7 +278,7 @@ namespace tphn
   /// Parity Checksum.
   //*************************************************************************
   template <typename T>
-  class parity_checksum : public tphn::frame_check_sequence<tphn::checksum_policy_parity<T> >
+  class parity_checksum : public tpn::frame_check_sequence<tpn::checksum_policy_parity<T> >
   {
   public:
 

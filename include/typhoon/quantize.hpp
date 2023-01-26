@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -38,13 +38,13 @@ SOFTWARE.
 #include <math.h>
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Quantize .
   //***************************************************************************
-  template<typename TInput, typename TCompare = tphn::less<TInput> >
-  class quantize  : public tphn::unary_function<TInput, TInput>
+  template<typename TInput, typename TCompare = tpn::less<TInput> >
+  class quantize  : public tpn::unary_function<TInput, TInput>
   {
   public:
 

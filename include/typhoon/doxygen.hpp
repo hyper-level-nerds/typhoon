@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-http://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+http://www.tpncpp.com
 
 Copyright(c) 2014 jwellbelove
 
@@ -26,30 +26,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ******************************************************************************/
 
-///\defgroup tphn Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-http://www.tphncpp.com
+///\defgroup tpn Embedded Template Library.
+https://github.com/TYPHOONCPP/tpn
+http://www.tpncpp.com
 
 ///\defgroup containers Containers
-///\ingroup tphn
+///\ingroup tpn
 
 ///\defgroup utilities Utilities
 /// A set of utility templates.
-///\ingroup tphn
+///\ingroup tpn
 
 ///\defgroup maths Maths
 /// A set of mathematical templates.
-///\ingroup tphn
+///\ingroup tpn
 
 ///\defgroup patterns Patterns
 /// A set of templated design patterns.
-///\ingroup tphn
+///\ingroup tpn
 
 ///\defgroup crc CRC
 /// A set of CRC calculations
 ///\ingroup maths
 
-///\ingroup tphn
-namespace tphn {}
+///\ingroup tpn
+namespace tpn {}
 
 

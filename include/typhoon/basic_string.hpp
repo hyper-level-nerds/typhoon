@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2016 John Wellbelove
 
@@ -60,13 +60,13 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   ///\ingroup string
   /// Exception base for strings
   //***************************************************************************
-  class string_exception : public tphn::exception
+  class string_exception : public tpn::exception
   {
   public:
 
@@ -80,7 +80,7 @@ namespace tphn
   ///\ingroup string
   /// String empty exception.
   //***************************************************************************
-  class string_empty : public tphn::string_exception
+  class string_empty : public tpn::string_exception
   {
   public:
 
@@ -94,7 +94,7 @@ namespace tphn
   ///\ingroup string
   /// String out of bounds exception.
   //***************************************************************************
-  class string_out_of_bounds : public tphn::string_exception
+  class string_out_of_bounds : public tpn::string_exception
   {
   public:
 
@@ -108,7 +108,7 @@ namespace tphn
   ///\ingroup string
   /// String iterator exception.
   //***************************************************************************
-  class string_iterator : public tphn::string_exception
+  class string_iterator : public tpn::string_exception
   {
   public:
 
@@ -122,7 +122,7 @@ namespace tphn
   ///\ingroup string
   /// String truncation exception.
   //***************************************************************************
-  class string_truncation : public tphn::string_exception
+  class string_truncation : public tpn::string_exception
   {
   public:
 
@@ -143,11 +143,11 @@ namespace tphn
     typedef size_t size_type;
 
 #if TYPHOON_USING_CPP11
-    static constexpr size_type npos = tphn::integral_limits<size_type>::max;
+    static constexpr size_type npos = tpn::integral_limits<size_type>::max;
 #else
     enum
     {
-      npos = tphn::integral_limits<size_type>::max
+      npos = tpn::integral_limits<size_type>::max
     };
 #endif
 
@@ -290,14 +290,14 @@ namespace tphn
     {
     }
 
-    static TYPHOON_CONSTANT uint_least8_t IS_TRUNCATED    = tphn::bit<0>::value;
-    static TYPHOON_CONSTANT uint_least8_t CLEAR_AFTER_USE = tphn::bit<1>::value;
+    static TYPHOON_CONSTANT uint_least8_t IS_TRUNCATED    = tpn::bit<0>::value;
+    static TYPHOON_CONSTANT uint_least8_t CLEAR_AFTER_USE = tpn::bit<1>::value;
 
     size_type       current_size;   ///< The current number of elements in the string.
     const size_type CAPACITY;       ///< The maximum number of elements in the string.
 
 #if TYPHOON_HAS_STRING_TRUNCATION_CHECKS || TYPHOON_HAS_STRING_CLEAR_AFTER_USE
-    tphn::flags<uint_least8_t> flags;
+    tpn::flags<uint_least8_t> flags;
 #endif
   };
 
@@ -307,7 +307,7 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  class ibasic_string : public tphn::string_base
+  class ibasic_string : public tpn::string_base
   {
   public:
 
@@ -323,7 +323,7 @@ namespace tphn
     typedef TYPHOON_OR_STD::reverse_iterator<iterator>       reverse_iterator;
     typedef TYPHOON_OR_STD::reverse_iterator<const_iterator> const_reverse_iterator;
 
-    typedef typename tphn::iterator_traits<iterator>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<iterator>::difference_type difference_type;
 
     //*********************************************************************
     /// Returns an iterator to the beginning of the string.
@@ -461,12 +461,12 @@ namespace tphn
 #endif
       }
 
-      new_size = tphn::min(new_size, CAPACITY);
+      new_size = tpn::min(new_size, CAPACITY);
 
       // Size up?
       if (new_size > current_size)
       {
-        tphn::fill(p_buffer + current_size, p_buffer + new_size, value);
+        tpn::fill(p_buffer + current_size, p_buffer + new_size, value);
       }
 
       current_size = new_size;
@@ -481,7 +481,7 @@ namespace tphn
     //*********************************************************************
     void uninitialized_resize(size_type new_size)
     {
-      new_size = tphn::min(new_size, CAPACITY);
+      new_size = tpn::min(new_size, CAPACITY);
 
       current_size = new_size;
       p_buffer[new_size] = 0;
@@ -509,7 +509,7 @@ namespace tphn
 
     //*********************************************************************
     /// Returns a reference to the value at index 'i'
-    /// If asserts or exceptions are enabled, emits an tphn::string_out_of_bounds if the index is out of range.
+    /// If asserts or exceptions are enabled, emits an tpn::string_out_of_bounds if the index is out of range.
     ///\param i The index.
     ///\return A reference to the value at index 'i'
     //*********************************************************************
@@ -521,7 +521,7 @@ namespace tphn
 
     //*********************************************************************
     /// Returns a const reference to the value at index 'i'
-    /// If asserts or exceptions are enabled, emits an tphn::string_out_of_bounds if the index is out of range.
+    /// If asserts or exceptions are enabled, emits an tpn::string_out_of_bounds if the index is out of range.
     ///\param i The index.
     ///\return A const reference to the value at index 'i'
     //*********************************************************************
@@ -608,7 +608,7 @@ namespace tphn
     /// Truncates if the string does not have enough free space.
     ///\param other The other string.
     //*********************************************************************
-    void assign(const tphn::ibasic_string<T>& other)
+    void assign(const tpn::ibasic_string<T>& other)
     {
       assign(other.begin(), other.end());
 
@@ -640,7 +640,7 @@ namespace tphn
     ///\param subposition The position to start from.
     ///\param sublength   The length to copy.
     //*********************************************************************
-    void assign(const tphn::ibasic_string<T>& other, size_type subposition, size_type sublength)
+    void assign(const tpn::ibasic_string<T>& other, size_type subposition, size_type sublength)
     {
       if (sublength == npos)
       {
@@ -713,9 +713,9 @@ namespace tphn
 #endif
 #endif
 
-      length_ = tphn::min(length_, CAPACITY);
+      length_ = tpn::min(length_, CAPACITY);
 
-      tphn::copy_n(other, length_, begin());
+      tpn::copy_n(other, length_, begin());
 
       current_size = length_;
       p_buffer[current_size] = 0;
@@ -732,7 +732,7 @@ namespace tphn
     void assign(TIterator first, TIterator last)
     {
 #if TYPHOON_IS_DEBUG_BUILD
-      difference_type d = tphn::distance(first, last);
+      difference_type d = tpn::distance(first, last);
       TYPHOON_ASSERT(d >= 0, TYPHOON_ERROR(string_iterator));
 #endif
 
@@ -772,9 +772,9 @@ namespace tphn
 #endif
 #endif
 
-      n = tphn::min(n, CAPACITY);
+      n = tpn::min(n, CAPACITY);
 
-      tphn::fill_n(begin(), n, value);
+      tpn::fill_n(begin(), n, value);
       current_size = n;
       p_buffer[current_size] = 0;
     }
@@ -921,7 +921,7 @@ namespace tphn
         {
           // Insert in the middle.
           ++current_size;
-          tphn::copy_backward(insert_position, end() - 1, end());
+          tpn::copy_backward(insert_position, end() - 1, end());
           *insert_position = value;
         }
         else
@@ -937,7 +937,7 @@ namespace tphn
         if (position != end())
         {
           // Insert in the middle.
-          tphn::copy_backward(insert_position, end() - 1, end());
+          tpn::copy_backward(insert_position, end() - 1, end());
           *insert_position = value;
         }
 
@@ -972,7 +972,7 @@ namespace tphn
 
       // Quick hack, as iterators are pointers.
       iterator insert_position = to_iterator(position);
-      const size_type start = tphn::distance(cbegin(), position);
+      const size_type start = tpn::distance(cbegin(), position);
 
       // No effect.
       if (start >= CAPACITY)
@@ -1002,7 +1002,7 @@ namespace tphn
         }
 
         current_size = CAPACITY;
-        tphn::fill(insert_position, end(), value);
+        tpn::fill(insert_position, end(), value);
       }
       else
       {
@@ -1011,7 +1011,7 @@ namespace tphn
         const size_type to_position = start + shift_amount;
         const size_type remaining_characters = current_size - start;
         const size_type max_shift_characters = CAPACITY - start - shift_amount;
-        const size_type characters_to_shift = tphn::min(max_shift_characters, remaining_characters);
+        const size_type characters_to_shift = tpn::min(max_shift_characters, remaining_characters);
 
         // Will the string truncate?
         if ((start + shift_amount + remaining_characters) > CAPACITY)
@@ -1031,8 +1031,8 @@ namespace tphn
           current_size += shift_amount;
         }
 
-        tphn::copy_backward(insert_position, insert_position + characters_to_shift, begin() + to_position + characters_to_shift);
-        tphn::fill(insert_position, insert_position + shift_amount, value);
+        tpn::copy_backward(insert_position, insert_position + characters_to_shift, begin() + to_position + characters_to_shift);
+        tpn::fill(insert_position, insert_position + shift_amount, value);
       }
 
       p_buffer[current_size] = 0;
@@ -1057,8 +1057,8 @@ namespace tphn
         return position_;
       }
 
-      const size_type start = tphn::distance(begin(), position_);
-      const size_type n = tphn::distance(first, last);
+      const size_type start = tpn::distance(begin(), position_);
+      const size_type n = tpn::distance(first, last);
 
       // No effect.
       if (start >= CAPACITY)
@@ -1101,7 +1101,7 @@ namespace tphn
         const size_type to_position = start + shift_amount;
         const size_type remaining_characters = current_size - start;
         const size_type max_shift_characters = CAPACITY - start - shift_amount;
-        const size_type characters_to_shift = tphn::min(max_shift_characters, remaining_characters);
+        const size_type characters_to_shift = tpn::min(max_shift_characters, remaining_characters);
 
         // Will the string truncate?
         if ((start + shift_amount + remaining_characters) > CAPACITY)
@@ -1121,7 +1121,7 @@ namespace tphn
           current_size += shift_amount;
         }
 
-        tphn::copy_backward(position_, position_ + characters_to_shift, begin() + to_position + characters_to_shift);
+        tpn::copy_backward(position_, position_ + characters_to_shift, begin() + to_position + characters_to_shift);
 
         while (first != last)
         {
@@ -1139,7 +1139,7 @@ namespace tphn
     ///\param position The position to insert before.
     ///\param str      The string to insert.
     //*********************************************************************
-    tphn::ibasic_string<T>& insert(size_type position, const tphn::ibasic_string<T>& str)
+    tpn::ibasic_string<T>& insert(size_type position, const tpn::ibasic_string<T>& str)
     {
       TYPHOON_ASSERT(position <= size(), TYPHOON_ERROR(string_out_of_bounds));
 
@@ -1166,7 +1166,7 @@ namespace tphn
     ///\param subposition The subposition to start from.
     ///\param sublength   The number of characters to insert.
     //*********************************************************************
-    tphn::ibasic_string<T>& insert(size_type position, const tphn::ibasic_string<T>& str, size_type subposition, size_type sublength)
+    tpn::ibasic_string<T>& insert(size_type position, const tpn::ibasic_string<T>& str, size_type subposition, size_type sublength)
     {
       TYPHOON_ASSERT(position <= size(), TYPHOON_ERROR(string_out_of_bounds));
       TYPHOON_ASSERT(subposition <= str.size(), TYPHOON_ERROR(string_out_of_bounds));
@@ -1197,11 +1197,11 @@ namespace tphn
     ///\param position The position to insert before.
     ///\param s        The string to insert.
     //*********************************************************************
-    tphn::ibasic_string<T>& insert(size_type position, const_pointer s)
+    tpn::ibasic_string<T>& insert(size_type position, const_pointer s)
     {
       TYPHOON_ASSERT(position <= size(), TYPHOON_ERROR(string_out_of_bounds));
 
-      insert(begin() + position, s, s + tphn::strlen(s));
+      insert(begin() + position, s, s + tpn::strlen(s));
       return *this;
     }
 
@@ -1211,7 +1211,7 @@ namespace tphn
     ///\param s        The string to insert.
     ///\param n        The number of characters to insert.
     //*********************************************************************
-    tphn::ibasic_string<T>& insert(size_type position, const_pointer s, size_type n)
+    tpn::ibasic_string<T>& insert(size_type position, const_pointer s, size_type n)
     {
       TYPHOON_ASSERT(position <= size(), TYPHOON_ERROR(string_out_of_bounds));
 
@@ -1225,7 +1225,7 @@ namespace tphn
     ///\param n        The number of characters to insert.
     ///\param c        The character to insert.
     //*********************************************************************
-    tphn::ibasic_string<T>& insert(size_type position, size_type n, value_type c)
+    tpn::ibasic_string<T>& insert(size_type position, size_type n, value_type c)
     {
       TYPHOON_ASSERT(position <= size(), TYPHOON_ERROR(string_out_of_bounds));
 
@@ -1239,10 +1239,10 @@ namespace tphn
     ///\param length   Number of characters.
     ///\return A refernce to this string.
     //*********************************************************************
-    tphn::ibasic_string<T>& erase(size_type position, size_type length_ = npos)
+    tpn::ibasic_string<T>& erase(size_type position, size_type length_ = npos)
     {
       // Limit the length.
-      length_ = tphn::min(length_, size() - position);
+      length_ = tpn::min(length_, size() - position);
 
       erase(begin() + position, begin() + position + length_);
 
@@ -1256,7 +1256,7 @@ namespace tphn
     //*********************************************************************
     iterator erase(iterator i_element)
     {
-      tphn::copy(i_element + 1, end(), i_element);
+      tpn::copy(i_element + 1, end(), i_element);
       p_buffer[--current_size] = 0;
 
       return i_element;
@@ -1271,7 +1271,7 @@ namespace tphn
     {
       iterator i_element_(to_iterator(i_element));
 
-      tphn::copy(i_element_ + 1, end(), i_element_);
+      tpn::copy(i_element_ + 1, end(), i_element_);
       p_buffer[--current_size] = 0;
 
       return i_element_;
@@ -1295,8 +1295,8 @@ namespace tphn
         return first_;
       }
 
-      tphn::copy(last_, end(), first_);
-      size_type n_delete = tphn::distance(first_, last_);
+      tpn::copy(last_, end(), first_);
+      size_type n_delete = tpn::distance(first_, last_);
 
       current_size -= n_delete;
       p_buffer[current_size] = 0;
@@ -1325,14 +1325,14 @@ namespace tphn
       {
         if (count != npos)
         {
-          count = tphn::min(count, size() - pos);
+          count = tpn::min(count, size() - pos);
         }
         else
         {
           count = size() - pos;
         }
 
-        tphn::copy_n(p_buffer + pos, count, dest);
+        tpn::copy_n(p_buffer + pos, count, dest);
 
         return count;
       }
@@ -1354,7 +1354,7 @@ namespace tphn
         return npos;
       }
 
-      const_iterator iposition = tphn::search(begin() + pos, end(), str.begin(), str.end());
+      const_iterator iposition = tpn::search(begin() + pos, end(), str.begin(), str.end());
 
       if (iposition == end())
       {
@@ -1362,7 +1362,7 @@ namespace tphn
       }
       else
       {
-        return tphn::distance(begin(), iposition);
+        return tpn::distance(begin(), iposition);
       }
     }
 
@@ -1374,13 +1374,13 @@ namespace tphn
     size_type find(const_pointer s, size_type pos = 0) const
     {
 #if TYPHOON_IS_DEBUG_BUILD
-      if ((pos + tphn::strlen(s)) > size())
+      if ((pos + tpn::strlen(s)) > size())
       {
         return npos;
       }
 #endif
 
-      const_iterator iposition = tphn::search(begin() + pos, end(), s, s + tphn::strlen(s));
+      const_iterator iposition = tpn::search(begin() + pos, end(), s, s + tpn::strlen(s));
 
       if (iposition == end())
       {
@@ -1388,7 +1388,7 @@ namespace tphn
       }
       else
       {
-        return tphn::distance(begin(), iposition);
+        return tpn::distance(begin(), iposition);
       }
     }
 
@@ -1401,13 +1401,13 @@ namespace tphn
     size_type find(const_pointer s, size_type pos, size_type n) const
     {
 #if TYPHOON_IS_DEBUG_BUILD
-      if ((pos + tphn::strlen(s) - n) > size())
+      if ((pos + tpn::strlen(s) - n) > size())
       {
         return npos;
       }
 #endif
 
-      const_iterator iposition = tphn::search(begin() + pos, end(), s, s + n);
+      const_iterator iposition = tpn::search(begin() + pos, end(), s, s + n);
 
       if (iposition == end())
       {
@@ -1415,7 +1415,7 @@ namespace tphn
       }
       else
       {
-        return tphn::distance(begin(), iposition);
+        return tpn::distance(begin(), iposition);
       }
     }
 
@@ -1426,11 +1426,11 @@ namespace tphn
     //*********************************************************************
     size_type find(T c, size_type position = 0) const
     {
-      const_iterator i = tphn::find(begin() + position, end(), c);
+      const_iterator i = tpn::find(begin() + position, end(), c);
 
       if (i != end())
       {
-        return tphn::distance(begin(), i);
+        return tpn::distance(begin(), i);
       }
       else
       {
@@ -1457,7 +1457,7 @@ namespace tphn
 
       position = size() - position;
 
-      const_reverse_iterator iposition = tphn::search(rbegin() + position, rend(), str.rbegin(), str.rend());
+      const_reverse_iterator iposition = tpn::search(rbegin() + position, rend(), str.rbegin(), str.rend());
 
       if (iposition == rend())
       {
@@ -1465,7 +1465,7 @@ namespace tphn
       }
       else
       {
-        return size() - str.size() - tphn::distance(rbegin(), iposition);
+        return size() - str.size() - tpn::distance(rbegin(), iposition);
       }
     }
 
@@ -1476,7 +1476,7 @@ namespace tphn
     //*********************************************************************
     size_type rfind(const_pointer s, size_type position = npos) const
     {
-      size_type len = tphn::strlen(s);
+      size_type len = tpn::strlen(s);
 
       if (len > size())
       {
@@ -1493,7 +1493,7 @@ namespace tphn
       const_reverse_iterator srbegin(s + len);
       const_reverse_iterator srend(s);
 
-      const_reverse_iterator iposition = tphn::search(rbegin() + position, rend(), srbegin, srend);
+      const_reverse_iterator iposition = tpn::search(rbegin() + position, rend(), srbegin, srend);
 
       if (iposition == rend())
       {
@@ -1501,7 +1501,7 @@ namespace tphn
       }
       else
       {
-        return size() - len - tphn::distance(rbegin(), iposition);
+        return size() - len - tpn::distance(rbegin(), iposition);
       }
     }
 
@@ -1527,7 +1527,7 @@ namespace tphn
       const_reverse_iterator srbegin(s + length_);
       const_reverse_iterator srend(s);
 
-      const_reverse_iterator iposition = tphn::search(rbegin() + position, rend(), srbegin, srend);
+      const_reverse_iterator iposition = tpn::search(rbegin() + position, rend(), srbegin, srend);
 
       if (iposition == rend())
       {
@@ -1535,7 +1535,7 @@ namespace tphn
       }
       else
       {
-        return size() - length_ - tphn::distance(rbegin(), iposition);
+        return size() - length_ - tpn::distance(rbegin(), iposition);
       }
     }
 
@@ -1553,11 +1553,11 @@ namespace tphn
 
       position = size() - position;
 
-      const_reverse_iterator i = tphn::find(rbegin() + position, rend(), c);
+      const_reverse_iterator i = tpn::find(rbegin() + position, rend(), c);
 
       if (i != rend())
       {
-        return size() - tphn::distance(rbegin(), i) - 1;
+        return size() - tpn::distance(rbegin(), i) - 1;
       }
       else
       {
@@ -1576,7 +1576,7 @@ namespace tphn
       TYPHOON_ASSERT(position <= size(), TYPHOON_ERROR(string_out_of_bounds));
 
       // Limit the length.
-      length_ = tphn::min(length_, size() - position);
+      length_ = tpn::min(length_, size() - position);
 
       // Erase the bit we want to replace.
       erase(position, length_);
@@ -1628,8 +1628,8 @@ namespace tphn
       TYPHOON_ASSERT(subposition <= str.size(), TYPHOON_ERROR(string_out_of_bounds));
 
       // Limit the lengths.
-      length_ = tphn::min(length_, size() - position);
-      sublength = tphn::min(sublength, str.size() - subposition);
+      length_ = tpn::min(length_, size() - position);
+      sublength = tpn::min(sublength, str.size() - subposition);
 
       // Erase the bit we want to replace.
       erase(position, length_);
@@ -1659,13 +1659,13 @@ namespace tphn
       TYPHOON_ASSERT(position <= size(), TYPHOON_ERROR(string_out_of_bounds));
 
       // Limit the length.
-      length_ = tphn::min(length_, size() - position);
+      length_ = tpn::min(length_, size() - position);
 
       // Erase the bit we want to replace.
       erase(position, length_);
 
       // Insert the new stuff.
-      insert(position, s, tphn::strlen(s));
+      insert(position, s, tpn::strlen(s));
 
       return *this;
     }
@@ -1683,7 +1683,7 @@ namespace tphn
       erase(first_, last_);
 
       // Insert the new stuff.
-      insert(first_, s, s + tphn::strlen(s));
+      insert(first_, s, s + tpn::strlen(s));
 
       return *this;
     }
@@ -1696,7 +1696,7 @@ namespace tphn
       TYPHOON_ASSERT(position <= size(), TYPHOON_ERROR(string_out_of_bounds));
 
       // Limit the length.
-      length_ = tphn::min(length_, size() - position);
+      length_ = tpn::min(length_, size() - position);
 
       // Erase the bit we want to replace.
       erase(position, length_);
@@ -1733,7 +1733,7 @@ namespace tphn
       TYPHOON_ASSERT(position <= size(), TYPHOON_ERROR(string_out_of_bounds));
 
       // Limit the length.
-      length_ = tphn::min(length_, size() - position);
+      length_ = tpn::min(length_, size() - position);
 
       // Erase the bit we want to replace.
       erase(position, length_);
@@ -1800,7 +1800,7 @@ namespace tphn
       TYPHOON_ASSERT(position <= size(), TYPHOON_ERROR(string_out_of_bounds));
 
       // Limit the length.
-      length_ = tphn::min(length_, size() - position);
+      length_ = tpn::min(length_, size() - position);
 
       return compare(p_buffer + position,
                      p_buffer + position + length_,
@@ -1817,8 +1817,8 @@ namespace tphn
       TYPHOON_ASSERT(subposition <= str.size(), TYPHOON_ERROR(string_out_of_bounds));
 
       // Limit the lengths.
-      length_ = tphn::min(length_, size() - position);
-      sublength = tphn::min(sublength, str.size() - subposition);
+      length_ = tpn::min(length_, size() - position);
+      sublength = tpn::min(sublength, str.size() - subposition);
 
       return compare(p_buffer + position,
                      p_buffer + position + length_,
@@ -1834,7 +1834,7 @@ namespace tphn
       return compare(p_buffer,
                      p_buffer + size(),
                      s,
-                     s + tphn::strlen(s));
+                     s + tpn::strlen(s));
     }
 
     //*************************************************************************
@@ -1845,7 +1845,7 @@ namespace tphn
       return compare(p_buffer + position,
                      p_buffer + position + length_,
                      s,
-                     s + tphn::strlen(s));
+                     s + tpn::strlen(s));
     }
 
     //*************************************************************************
@@ -1876,7 +1876,7 @@ namespace tphn
     //*********************************************************************
     size_type find_first_of(const_pointer s, size_type position = 0) const
     {
-      return find_first_of(s, position, tphn::strlen(s));
+      return find_first_of(s, position, tpn::strlen(s));
     }
 
     //*********************************************************************
@@ -1942,7 +1942,7 @@ namespace tphn
     //*********************************************************************
     size_type find_last_of(const_pointer s, size_type position = npos) const
     {
-      return find_last_of(s, position, tphn::strlen(s));
+      return find_last_of(s, position, tpn::strlen(s));
     }
 
     //*********************************************************************
@@ -1958,7 +1958,7 @@ namespace tphn
         return npos;
       }
 
-      position = tphn::min(position, size() - 1);
+      position = tpn::min(position, size() - 1);
 
       const_reverse_iterator it = rbegin() + size() - position - 1;
 
@@ -1991,7 +1991,7 @@ namespace tphn
         return npos;
       }
 
-      position = tphn::min(position, size() - 1);
+      position = tpn::min(position, size() - 1);
 
       const_reverse_iterator it = rbegin() + size() - position - 1;
 
@@ -2026,7 +2026,7 @@ namespace tphn
     //*********************************************************************
     size_type find_first_not_of(const_pointer s, size_type position = 0) const
     {
-      return find_first_not_of(s, position, tphn::strlen(s));
+      return find_first_not_of(s, position, tpn::strlen(s));
     }
 
     //*********************************************************************
@@ -2099,7 +2099,7 @@ namespace tphn
     //*********************************************************************
     size_type find_last_not_of(const_pointer s, size_type position = npos) const
     {
-      return find_last_not_of(s, position, tphn::strlen(s));
+      return find_last_not_of(s, position, tpn::strlen(s));
     }
 
     //*********************************************************************
@@ -2115,7 +2115,7 @@ namespace tphn
         return npos;
       }
 
-      position = tphn::min(position, size() - 1);
+      position = tpn::min(position, size() - 1);
 
       const_reverse_iterator it = rbegin() + size() - position - 1;
 
@@ -2153,7 +2153,7 @@ namespace tphn
         return npos;
       }
 
-      position = tphn::min(position, size() - 1);
+      position = tpn::min(position, size() - 1);
 
       const_reverse_iterator it = rbegin() + size() - position - 1;
 
@@ -2239,7 +2239,7 @@ namespace tphn
 #if TYPHOON_HAS_STRING_TRUNCATION_CHECKS
       set_truncated(false);
 #endif
-      tphn::fill(&p_buffer[current_size], &p_buffer[CAPACITY + 1U], T(0));
+      tpn::fill(&p_buffer[current_size], &p_buffer[CAPACITY + 1U], T(0));
     }
 
     //*********************************************************************
@@ -2254,7 +2254,7 @@ namespace tphn
 #endif
 
       p_buffer[CAPACITY] = T(0); // Ensure a terminating null.
-      current_size = tphn::strlen(p_buffer);
+      current_size = tpn::strlen(p_buffer);
     }
 
   protected:
@@ -2339,7 +2339,7 @@ namespace tphn
 #if TYPHOON_HAS_STRING_CLEAR_AFTER_USE
       if (is_secure())
       {
-        tphn::memory_clear_range(&p_buffer[current_size], &p_buffer[CAPACITY]);
+        tpn::memory_clear_range(&p_buffer[current_size], &p_buffer[CAPACITY]);
       }
 #endif
     }
@@ -2392,9 +2392,9 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator ==(const tphn::ibasic_string<T>& lhs, const tphn::ibasic_string<T>& rhs)
+  bool operator ==(const tpn::ibasic_string<T>& lhs, const tpn::ibasic_string<T>& rhs)
   {
-    return (lhs.size() == rhs.size()) && tphn::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return (lhs.size() == rhs.size()) && tpn::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
   //***************************************************************************
@@ -2405,9 +2405,9 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator ==(const tphn::ibasic_string<T>& lhs, const T* rhs)
+  bool operator ==(const tpn::ibasic_string<T>& lhs, const T* rhs)
   {
-    return (lhs.size() == tphn::strlen(rhs)) && tphn::equal(lhs.begin(), lhs.end(), rhs);
+    return (lhs.size() == tpn::strlen(rhs)) && tpn::equal(lhs.begin(), lhs.end(), rhs);
   }
 
   //***************************************************************************
@@ -2418,9 +2418,9 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator ==(const T* lhs, const tphn::ibasic_string<T>& rhs)
+  bool operator ==(const T* lhs, const tpn::ibasic_string<T>& rhs)
   {
-    return (rhs.size() == tphn::strlen(lhs)) && tphn::equal(rhs.begin(), rhs.end(), lhs);
+    return (rhs.size() == tpn::strlen(lhs)) && tpn::equal(rhs.begin(), rhs.end(), lhs);
   }
 
   //***************************************************************************
@@ -2431,7 +2431,7 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator !=(const tphn::ibasic_string<T>& lhs, const tphn::ibasic_string<T>& rhs)
+  bool operator !=(const tpn::ibasic_string<T>& lhs, const tpn::ibasic_string<T>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -2444,7 +2444,7 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator !=(const tphn::ibasic_string<T>& lhs, const T* rhs)
+  bool operator !=(const tpn::ibasic_string<T>& lhs, const T* rhs)
   {
     return !(lhs == rhs);
   }
@@ -2457,7 +2457,7 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator !=(const T* lhs, const tphn::ibasic_string<T>& rhs)
+  bool operator !=(const T* lhs, const tpn::ibasic_string<T>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -2470,9 +2470,9 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator <(const tphn::ibasic_string<T>& lhs, const tphn::ibasic_string<T>& rhs)
+  bool operator <(const tpn::ibasic_string<T>& lhs, const tpn::ibasic_string<T>& rhs)
   {
-    return tphn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    return tpn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
   }
 
   //***************************************************************************
@@ -2483,9 +2483,9 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator <(const tphn::ibasic_string<T>& lhs, const T* rhs)
+  bool operator <(const tpn::ibasic_string<T>& lhs, const T* rhs)
   {
-    return tphn::lexicographical_compare(lhs.begin(), lhs.end(), rhs, rhs + tphn::strlen(rhs));
+    return tpn::lexicographical_compare(lhs.begin(), lhs.end(), rhs, rhs + tpn::strlen(rhs));
   }
 
   //***************************************************************************
@@ -2496,9 +2496,9 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator <(const T* lhs, const tphn::ibasic_string<T>& rhs)
+  bool operator <(const T* lhs, const tpn::ibasic_string<T>& rhs)
   {
-    return tphn::lexicographical_compare(lhs, lhs + tphn::strlen(lhs), rhs.begin(), rhs.end());
+    return tpn::lexicographical_compare(lhs, lhs + tpn::strlen(lhs), rhs.begin(), rhs.end());
   }
 
 
@@ -2510,7 +2510,7 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator >(const tphn::ibasic_string<T>& lhs, const tphn::ibasic_string<T>& rhs)
+  bool operator >(const tpn::ibasic_string<T>& lhs, const tpn::ibasic_string<T>& rhs)
   {
     return (rhs < lhs);
   }
@@ -2523,7 +2523,7 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator >(const tphn::ibasic_string<T>& lhs, const T* rhs)
+  bool operator >(const tpn::ibasic_string<T>& lhs, const T* rhs)
   {
     return (rhs < lhs);
   }
@@ -2536,7 +2536,7 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator >(const T* lhs, const tphn::ibasic_string<T>& rhs)
+  bool operator >(const T* lhs, const tpn::ibasic_string<T>& rhs)
   {
     return (rhs < lhs);
   }
@@ -2550,7 +2550,7 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator <=(const tphn::ibasic_string<T>& lhs, const tphn::ibasic_string<T>& rhs)
+  bool operator <=(const tpn::ibasic_string<T>& lhs, const tpn::ibasic_string<T>& rhs)
   {
     return !(lhs > rhs);
   }
@@ -2563,7 +2563,7 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator <=(const tphn::ibasic_string<T>& lhs, const T* rhs)
+  bool operator <=(const tpn::ibasic_string<T>& lhs, const T* rhs)
   {
     return !(lhs > rhs);
   }
@@ -2576,7 +2576,7 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator <=(const T* lhs, const tphn::ibasic_string<T>& rhs)
+  bool operator <=(const T* lhs, const tpn::ibasic_string<T>& rhs)
   {
     return !(lhs > rhs);
   }
@@ -2590,7 +2590,7 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator >=(const tphn::ibasic_string<T>& lhs, const tphn::ibasic_string<T>& rhs)
+  bool operator >=(const tpn::ibasic_string<T>& lhs, const tpn::ibasic_string<T>& rhs)
   {
     return !(lhs < rhs);
   }
@@ -2603,7 +2603,7 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator >=(const tphn::ibasic_string<T>& lhs, const T* rhs)
+  bool operator >=(const tpn::ibasic_string<T>& lhs, const T* rhs)
   {
     return !(lhs < rhs);
   }
@@ -2616,7 +2616,7 @@ namespace tphn
   ///\ingroup string
   //***************************************************************************
   template <typename T>
-  bool operator >=(const T* lhs, const tphn::ibasic_string<T>& rhs)
+  bool operator >=(const T* lhs, const tpn::ibasic_string<T>& rhs)
   {
     return !(lhs < rhs);
   }

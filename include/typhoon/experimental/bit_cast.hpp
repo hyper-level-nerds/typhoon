@@ -3,9 +3,9 @@
 #include "platform.hpp"
 
 template <typename TDestination, typename TSource>
-typename tphn::enable_if<(sizeof(TDestination) == sizeof(TSource))   && 
-                         tphn::is_trivially_copyable<TSource>::value && 
-                         tphn::is_trivially_copyable<TDestination>::value, TDestination>::type
+typename tpn::enable_if<(sizeof(TDestination) == sizeof(TSource))   && 
+                         tpn::is_trivially_copyable<TSource>::value && 
+                         tpn::is_trivially_copyable<TDestination>::value, TDestination>::type
   bit_cast(const TSource& source) TYPHOON_NOEXCEPT
 {
   TDestination destination;
@@ -17,9 +17,9 @@ typename tphn::enable_if<(sizeof(TDestination) == sizeof(TSource))   &&
 
 template <typename TDestination, typename TSource>
 TYPHOON_CONSTEXPR
-typename tphn::enable_if<(sizeof(TDestination) == sizeof(TSource))   &&
-                         tphn::is_trivially_copyable<TSource>::value &&
-                         tphn::is_trivially_copyable<TDestination>::value, TDestination>::type
+typename tpn::enable_if<(sizeof(TDestination) == sizeof(TSource))   &&
+                         tpn::is_trivially_copyable<TSource>::value &&
+                         tpn::is_trivially_copyable<TDestination>::value, TDestination>::type
   bit_cast(const TSource& source) TYPHOON_NOEXCEPT
 {
   TDestination destination;

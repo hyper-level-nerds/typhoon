@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -40,7 +40,7 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Interface for callback timer
@@ -49,19 +49,19 @@ namespace tphn
   {
   public:
 
-    typedef tphn::delegate<void(void)> callback_type;
-    typedef tphn::delegate<bool(void)> try_lock_type;
-    typedef tphn::delegate<void(void)> lock_type;
-    typedef tphn::delegate<void(void)> unlock_type;
+    typedef tpn::delegate<void(void)> callback_type;
+    typedef tpn::delegate<bool(void)> try_lock_type;
+    typedef tpn::delegate<void(void)> lock_type;
+    typedef tpn::delegate<void(void)> unlock_type;
 
     //*******************************************
     /// Register a timer.
     //*******************************************
-    tphn::timer::id::type register_timer(const callback_type& callback_,
+    tpn::timer::id::type register_timer(const callback_type& callback_,
                                         uint32_t             period_,
                                         bool                 repeating_)
     {
-      tphn::timer::id::type id = tphn::timer::id::NO_TIMER;
+      tpn::timer::id::type id = tpn::timer::id::NO_TIMER;
 
       bool is_space = (number_of_registered_timers < MAX_TIMERS);
 
@@ -72,7 +72,7 @@ namespace tphn
         {
           timer_data& timer = timer_array[i];
 
-          if (timer.id == tphn::timer::id::NO_TIMER)
+          if (timer.id == tpn::timer::id::NO_TIMER)
           {
             // Create in-place.
             new (&timer) timer_data(i, callback_, period_, repeating_);
@@ -89,15 +89,15 @@ namespace tphn
     //*******************************************
     /// Unregister a timer.
     //*******************************************
-    bool unregister_timer(tphn::timer::id::type id_)
+    bool unregister_timer(tpn::timer::id::type id_)
     {
       bool result = false;
 
-      if (id_ != tphn::timer::id::NO_TIMER)
+      if (id_ != tpn::timer::id::NO_TIMER)
       {
         timer_data& timer = timer_array[id_];
 
-        if (timer.id != tphn::timer::id::NO_TIMER)
+        if (timer.id != tpn::timer::id::NO_TIMER)
         {
           if (timer.is_active())
           {
@@ -209,20 +209,20 @@ namespace tphn
     //*******************************************
     /// Starts a timer.
     //*******************************************
-    bool start(tphn::timer::id::type id_, bool immediate_ = false)
+    bool start(tpn::timer::id::type id_, bool immediate_ = false)
     {
       bool result = false;
 
       // Valid timer id?
-      if (id_ != tphn::timer::id::NO_TIMER)
+      if (id_ != tpn::timer::id::NO_TIMER)
       {
         timer_data& timer = timer_array[id_];
 
         // Registered timer?
-        if (timer.id != tphn::timer::id::NO_TIMER)
+        if (timer.id != tpn::timer::id::NO_TIMER)
         {
           // Has a valid period.
-          if (timer.period != tphn::timer::state::INACTIVE)
+          if (timer.period != tpn::timer::state::INACTIVE)
           {
             lock();
             if (timer.is_active())
@@ -245,17 +245,17 @@ namespace tphn
     //*******************************************
     /// Stops a timer.
     //*******************************************
-    bool stop(tphn::timer::id::type id_)
+    bool stop(tpn::timer::id::type id_)
     {
       bool result = false;
 
       // Valid timer id?
-      if (id_ != tphn::timer::id::NO_TIMER)
+      if (id_ != tpn::timer::id::NO_TIMER)
       {
         timer_data& timer = timer_array[id_];
 
         // Registered timer?
-        if (timer.id != tphn::timer::id::NO_TIMER)
+        if (timer.id != tpn::timer::id::NO_TIMER)
         {
           if (timer.is_active())
           {
@@ -274,7 +274,7 @@ namespace tphn
     //*******************************************
     /// Sets a timer's period.
     //*******************************************
-    bool set_period(tphn::timer::id::type id_, uint32_t period_)
+    bool set_period(tpn::timer::id::type id_, uint32_t period_)
     {
       if (stop(id_))
       {
@@ -288,7 +288,7 @@ namespace tphn
     //*******************************************
     /// Sets a timer's mode.
     //*******************************************
-    bool set_mode(tphn::timer::id::type id_, bool repeating_)
+    bool set_mode(tpn::timer::id::type id_, bool repeating_)
     {
       if (stop(id_))
       {
@@ -319,10 +319,10 @@ namespace tphn
       timer_data()
         : callback()
         , period(0U)
-        , delta(tphn::timer::state::INACTIVE)
-        , id(tphn::timer::id::NO_TIMER)
-        , previous(tphn::timer::id::NO_TIMER)
-        , next(tphn::timer::id::NO_TIMER)
+        , delta(tpn::timer::state::INACTIVE)
+        , id(tpn::timer::id::NO_TIMER)
+        , previous(tpn::timer::id::NO_TIMER)
+        , next(tpn::timer::id::NO_TIMER)
         , repeating(true)
       {
       }
@@ -330,16 +330,16 @@ namespace tphn
       //*******************************************
       /// TYPHOON delegate callback
       //*******************************************
-      timer_data(tphn::timer::id::type id_,
+      timer_data(tpn::timer::id::type id_,
                  callback_type        callback_,
                  uint32_t             period_,
                  bool                 repeating_)
         : callback(callback_)
         , period(period_)
-        , delta(tphn::timer::state::INACTIVE)
+        , delta(tpn::timer::state::INACTIVE)
         , id(id_)
-        , previous(tphn::timer::id::NO_TIMER)
-        , next(tphn::timer::id::NO_TIMER)
+        , previous(tpn::timer::id::NO_TIMER)
+        , next(tpn::timer::id::NO_TIMER)
         , repeating(repeating_)
       {
       }
@@ -349,7 +349,7 @@ namespace tphn
       //*******************************************
       bool is_active() const
       {
-        return delta != tphn::timer::state::INACTIVE;
+        return delta != tpn::timer::state::INACTIVE;
       }
 
       //*******************************************
@@ -357,13 +357,13 @@ namespace tphn
       //*******************************************
       void set_inactive()
       {
-        delta = tphn::timer::state::INACTIVE;
+        delta = tpn::timer::state::INACTIVE;
       }
 
       callback_type        callback;
       uint32_t             period;
       uint32_t             delta;
-      tphn::timer::id::type id;
+      tpn::timer::id::type id;
       uint_least8_t        previous;
       uint_least8_t        next;
       bool                 repeating;
@@ -398,9 +398,9 @@ namespace tphn
 
       //*******************************
       timer_list(timer_data* ptimers_)
-        : head(tphn::timer::id::NO_TIMER)
-        , tail(tphn::timer::id::NO_TIMER)
-        , current(tphn::timer::id::NO_TIMER)
+        : head(tpn::timer::id::NO_TIMER)
+        , tail(tpn::timer::id::NO_TIMER)
+        , current(tpn::timer::id::NO_TIMER)
         , ptimers(ptimers_)
       {
       }
@@ -408,30 +408,30 @@ namespace tphn
       //*******************************
       bool empty() const
       {
-        return head == tphn::timer::id::NO_TIMER;
+        return head == tpn::timer::id::NO_TIMER;
       }
 
       //*******************************
       // Inserts the timer at the correct delta position
       //*******************************
-      void insert(tphn::timer::id::type id_)
+      void insert(tpn::timer::id::type id_)
       {
         timer_data& timer = ptimers[id_];
 
-        if (head == tphn::timer::id::NO_TIMER)
+        if (head == tpn::timer::id::NO_TIMER)
         {
           // No entries yet.
           head = id_;
           tail = id_;
-          timer.previous = tphn::timer::id::NO_TIMER;
-          timer.next = tphn::timer::id::NO_TIMER;
+          timer.previous = tpn::timer::id::NO_TIMER;
+          timer.next = tpn::timer::id::NO_TIMER;
         }
         else
         {
           // We already have entries.
-          tphn::timer::id::type test_id = begin();
+          tpn::timer::id::type test_id = begin();
 
-          while (test_id != tphn::timer::id::NO_TIMER)
+          while (test_id != tpn::timer::id::NO_TIMER)
           {
             timer_data& test = ptimers[test_id];
 
@@ -451,7 +451,7 @@ namespace tphn
               // Adjust the next delta to compensate.
               test.delta -= timer.delta;
 
-              if (timer.previous != tphn::timer::id::NO_TIMER)
+              if (timer.previous != tpn::timer::id::NO_TIMER)
               {
                 ptimers[timer.previous].next = timer.id;
               }
@@ -466,19 +466,19 @@ namespace tphn
           }
 
           // Reached the end?
-          if (test_id == tphn::timer::id::NO_TIMER)
+          if (test_id == tpn::timer::id::NO_TIMER)
           {
             // Tag on to the tail.
             ptimers[tail].next = timer.id;
             timer.previous = tail;
-            timer.next = tphn::timer::id::NO_TIMER;
+            timer.next = tpn::timer::id::NO_TIMER;
             tail = timer.id;
           }
         }
       }
 
       //*******************************
-      void remove(tphn::timer::id::type id_, bool has_expired)
+      void remove(tpn::timer::id::type id_, bool has_expired)
       {
         timer_data& timer = ptimers[id_];
 
@@ -503,15 +503,15 @@ namespace tphn
         if (!has_expired)
         {
           // Adjust the next delta.
-          if (timer.next != tphn::timer::id::NO_TIMER)
+          if (timer.next != tpn::timer::id::NO_TIMER)
           {
             ptimers[timer.next].delta += timer.delta;
           }
         }
 
-        timer.previous = tphn::timer::id::NO_TIMER;
-        timer.next = tphn::timer::id::NO_TIMER;
-        timer.delta = tphn::timer::state::INACTIVE;
+        timer.previous = tpn::timer::id::NO_TIMER;
+        timer.next = tpn::timer::id::NO_TIMER;
+        timer.delta = tpn::timer::state::INACTIVE;
       }
 
       //*******************************
@@ -521,21 +521,21 @@ namespace tphn
       }
 
       //*******************************
-      tphn::timer::id::type begin()
+      tpn::timer::id::type begin()
       {
         current = head;
         return current;
       }
 
       //*******************************
-      tphn::timer::id::type previous(tphn::timer::id::type last)
+      tpn::timer::id::type previous(tpn::timer::id::type last)
       {
         current = ptimers[last].previous;
         return current;
       }
 
       //*******************************
-      tphn::timer::id::type next(tphn::timer::id::type last)
+      tpn::timer::id::type next(tpn::timer::id::type last)
       {
         current = ptimers[last].next;
         return current;
@@ -544,25 +544,25 @@ namespace tphn
       //*******************************
       void clear()
       {
-        tphn::timer::id::type id = begin();
+        tpn::timer::id::type id = begin();
 
-        while (id != tphn::timer::id::NO_TIMER)
+        while (id != tpn::timer::id::NO_TIMER)
         {
           timer_data& timer = ptimers[id];
           id = next(id);
-          timer.next = tphn::timer::id::NO_TIMER;
+          timer.next = tpn::timer::id::NO_TIMER;
         }
 
-        head = tphn::timer::id::NO_TIMER;
-        tail = tphn::timer::id::NO_TIMER;
-        current = tphn::timer::id::NO_TIMER;
+        head = tpn::timer::id::NO_TIMER;
+        tail = tpn::timer::id::NO_TIMER;
+        current = tpn::timer::id::NO_TIMER;
       }
 
     private:
 
-      tphn::timer::id::type head;
-      tphn::timer::id::type tail;
-      tphn::timer::id::type current;
+      tpn::timer::id::type head;
+      tpn::timer::id::type tail;
+      tpn::timer::id::type current;
 
       timer_data* const ptimers;
     };
@@ -589,7 +589,7 @@ namespace tphn
   /// The callback timer
   //***************************************************************************
   template <uint_least8_t MAX_TIMERS_>
-  class callback_timer_locked : public tphn::icallback_timer_locked
+  class callback_timer_locked : public tpn::icallback_timer_locked
   {
   public:
 

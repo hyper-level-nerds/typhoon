@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -45,7 +45,7 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The base class for basic_string_view exceptions.
@@ -91,7 +91,7 @@ namespace tphn
   //***************************************************************************
   /// String view.
   //***************************************************************************
-  template <typename T, typename TTraits = tphn::char_traits<T> >
+  template <typename T, typename TTraits = tpn::char_traits<T> >
   class basic_string_view
   {
   public:
@@ -106,7 +106,7 @@ namespace tphn
 
     enum
     {
-      npos = tphn::integral_limits<size_t>::max
+      npos = tpn::integral_limits<size_t>::max
     };
 
     //*************************************************************************
@@ -121,7 +121,7 @@ namespace tphn
     //*************************************************************************
     /// Construct from string.
     //*************************************************************************
-    TYPHOON_CONSTEXPR basic_string_view(const tphn::ibasic_string<T>& str)
+    TYPHOON_CONSTEXPR basic_string_view(const tpn::ibasic_string<T>& str)
       : mbegin(str.begin())
       , mend(str.end())
     {
@@ -290,7 +290,7 @@ namespace tphn
     //*************************************************************************
     /// Assign from a view.
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 tphn::basic_string_view<T, TTraits>& operator=(const tphn::basic_string_view<T, TTraits>& other)
+    TYPHOON_CONSTEXPR14 tpn::basic_string_view<T, TTraits>& operator=(const tpn::basic_string_view<T, TTraits>& other)
     {
       mbegin = other.mbegin;
       mend   = other.mend;
@@ -353,9 +353,9 @@ namespace tphn
 
       if (position < size())
       {
-        n = tphn::min(count, size() - position);
+        n = tpn::min(count, size() - position);
 
-        tphn::copy(mbegin + position, mbegin + position + n, destination);
+        tpn::copy(mbegin + position, mbegin + position + n, destination);
       }
 
       return n;
@@ -370,7 +370,7 @@ namespace tphn
 
       if (position < size())
       {
-        size_t n = tphn::min(count, size() - position);
+        size_t n = tpn::min(count, size() - position);
 
         view = basic_string_view(mbegin + position, mbegin + position + n);
       }
@@ -416,23 +416,23 @@ namespace tphn
 
     TYPHOON_CONSTEXPR14 int compare(const T* text) const
     {
-      return compare(tphn::basic_string_view<T, TTraits>(text));
+      return compare(tpn::basic_string_view<T, TTraits>(text));
     }
 
     TYPHOON_CONSTEXPR14 int compare(size_type position, size_type count, const T* text) const
     {
-      return substr(position, count).compare(tphn::basic_string_view<T, TTraits>(text));
+      return substr(position, count).compare(tpn::basic_string_view<T, TTraits>(text));
     }
 
     TYPHOON_CONSTEXPR14 int compare(size_type position, size_type count1, const T* text, size_type count2) const
     {
-      return substr(position, count1).compare(tphn::basic_string_view<T, TTraits>(text, count2));
+      return substr(position, count1).compare(tpn::basic_string_view<T, TTraits>(text, count2));
     }
 
     //*************************************************************************
     /// Checks if the string view starts with the given prefix
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 bool starts_with(tphn::basic_string_view<T, TTraits> view) const
+    TYPHOON_CONSTEXPR14 bool starts_with(tpn::basic_string_view<T, TTraits> view) const
     {
       return (size() >= view.size()) &&
               (compare(0, view.size(), view) == 0);
@@ -454,7 +454,7 @@ namespace tphn
     //*************************************************************************
     /// Checks if the string view ends with the given suffix
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 bool ends_with(tphn::basic_string_view<T, TTraits> view) const
+    TYPHOON_CONSTEXPR14 bool ends_with(tpn::basic_string_view<T, TTraits> view) const
     {
       return (size() >= view.size()) &&
               (compare(size() - view.size(), npos, view) == 0);
@@ -477,14 +477,14 @@ namespace tphn
     //*************************************************************************
     /// Find characters in the view
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 size_type find(tphn::basic_string_view<T, TTraits> view, size_type position = 0) const
+    TYPHOON_CONSTEXPR14 size_type find(tpn::basic_string_view<T, TTraits> view, size_type position = 0) const
     {
       if ((size() < view.size()))
       {
         return npos;
       }
 
-      const_iterator iposition = tphn::search(begin() + position, end(), view.begin(), view.end());
+      const_iterator iposition = tpn::search(begin() + position, end(), view.begin(), view.end());
 
       if (iposition == end())
       {
@@ -492,38 +492,38 @@ namespace tphn
       }
       else
       {
-        return tphn::distance(begin(), iposition);
+        return tpn::distance(begin(), iposition);
       }
     }
 
     TYPHOON_CONSTEXPR14 size_type find(T c, size_type position = 0) const
     {
-      return find(tphn::basic_string_view<T, TTraits>(&c, 1), position);
+      return find(tpn::basic_string_view<T, TTraits>(&c, 1), position);
     }
 
     TYPHOON_CONSTEXPR14 size_type find(const T* text, size_type position, size_type count) const
     {
-      return find(tphn::basic_string_view<T, TTraits>(text, count), position);
+      return find(tpn::basic_string_view<T, TTraits>(text, count), position);
     }
 
     TYPHOON_CONSTEXPR14 size_type find(const T* text, size_type position = 0) const
     {
-      return find(tphn::basic_string_view<T, TTraits>(text), position);
+      return find(tpn::basic_string_view<T, TTraits>(text), position);
     }
 
     //*************************************************************************
     /// Find the last occurrence of a substring
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 size_type rfind(tphn::basic_string_view<T, TTraits> view, size_type position = npos) const
+    TYPHOON_CONSTEXPR14 size_type rfind(tpn::basic_string_view<T, TTraits> view, size_type position = npos) const
     {
       if ((size() < view.size()))
       {
         return npos;
       }
 
-      position = tphn::min(position, size());
+      position = tpn::min(position, size());
 
-      const_iterator iposition = tphn::find_end(begin(),
+      const_iterator iposition = tpn::find_end(begin(),
         begin() + position,
         view.begin(),
         view.end());
@@ -534,29 +534,29 @@ namespace tphn
       }
       else
       {
-        return tphn::distance(begin(), iposition);
+        return tpn::distance(begin(), iposition);
       }
     }
 
     TYPHOON_CONSTEXPR14 size_type rfind(T c, size_type position = npos) const
     {
-      return rfind(tphn::basic_string_view<T, TTraits>(&c, 1), position);
+      return rfind(tpn::basic_string_view<T, TTraits>(&c, 1), position);
     }
 
     TYPHOON_CONSTEXPR14 size_type rfind(const T* text, size_type position, size_type count) const
     {
-      return rfind(tphn::basic_string_view<T, TTraits>(text, count), position);
+      return rfind(tpn::basic_string_view<T, TTraits>(text, count), position);
     }
 
     TYPHOON_CONSTEXPR14 size_type rfind(const T* text, size_type position = npos) const
     {
-      return rfind(tphn::basic_string_view<T, TTraits>(text), position);
+      return rfind(tpn::basic_string_view<T, TTraits>(text), position);
     }
 
     //*************************************************************************
     ///  Find first occurrence of characters
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 size_type find_first_of(tphn::basic_string_view<T, TTraits> view, size_type position = 0) const
+    TYPHOON_CONSTEXPR14 size_type find_first_of(tpn::basic_string_view<T, TTraits> view, size_type position = 0) const
     {
       const size_t lengthtext = size();
 
@@ -581,30 +581,30 @@ namespace tphn
 
     TYPHOON_CONSTEXPR14 size_type find_first_of(T c, size_type position = 0) const
     {
-      return find_first_of(tphn::basic_string_view<T, TTraits>(&c, 1), position);
+      return find_first_of(tpn::basic_string_view<T, TTraits>(&c, 1), position);
     }
 
     TYPHOON_CONSTEXPR14 size_type find_first_of(const T* text, size_type position, size_type count) const
     {
-      return find_first_of(tphn::basic_string_view<T, TTraits>(text, count), position);
+      return find_first_of(tpn::basic_string_view<T, TTraits>(text, count), position);
     }
 
     TYPHOON_CONSTEXPR14 size_type find_first_of(const T* text, size_type position = 0) const
     {
-      return find_first_of(tphn::basic_string_view<T, TTraits>(text), position);
+      return find_first_of(tpn::basic_string_view<T, TTraits>(text), position);
     }
 
     //*************************************************************************
     /// Find last occurrence of characters
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 size_type find_last_of(tphn::basic_string_view<T, TTraits> view, size_type position = npos) const
+    TYPHOON_CONSTEXPR14 size_type find_last_of(tpn::basic_string_view<T, TTraits> view, size_type position = npos) const
     {
       if (empty())
       {
         return npos;
       }
 
-      position = tphn::min(position, size() - 1);
+      position = tpn::min(position, size() - 1);
 
       const_reverse_iterator it = rbegin() + size() - position - 1;
 
@@ -629,23 +629,23 @@ namespace tphn
 
     TYPHOON_CONSTEXPR14 size_type find_last_of(T c, size_type position = npos) const
     {
-      return find_last_of(tphn::basic_string_view<T, TTraits>(&c, 1), position);
+      return find_last_of(tpn::basic_string_view<T, TTraits>(&c, 1), position);
     }
 
     TYPHOON_CONSTEXPR14 size_type find_last_of(const T* text, size_type position, size_type count) const
     {
-      return find_last_of(tphn::basic_string_view<T, TTraits>(text, count), position);
+      return find_last_of(tpn::basic_string_view<T, TTraits>(text, count), position);
     }
 
     TYPHOON_CONSTEXPR14 size_type find_last_of(const T* text, size_type position = npos) const
     {
-      return find_last_of(tphn::basic_string_view<T, TTraits>(text), position);
+      return find_last_of(tpn::basic_string_view<T, TTraits>(text), position);
     }
 
     //*************************************************************************
     /// Find first absence of characters
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 size_type find_first_not_of(tphn::basic_string_view<T, TTraits> view, size_type position = 0) const
+    TYPHOON_CONSTEXPR14 size_type find_first_not_of(tpn::basic_string_view<T, TTraits> view, size_type position = 0) const
     {
       const size_t lengthtext = size();
 
@@ -677,30 +677,30 @@ namespace tphn
 
     TYPHOON_CONSTEXPR14 size_type find_first_not_of(T c, size_type position = 0) const
     {
-      return find_first_not_of(tphn::basic_string_view<T, TTraits>(&c, 1), position);
+      return find_first_not_of(tpn::basic_string_view<T, TTraits>(&c, 1), position);
     }
 
     TYPHOON_CONSTEXPR14 size_type find_first_not_of(const T* text, size_type position, size_type count) const
     {
-      return find_first_not_of(tphn::basic_string_view<T, TTraits>(text, count), position);
+      return find_first_not_of(tpn::basic_string_view<T, TTraits>(text, count), position);
     }
 
     TYPHOON_CONSTEXPR14 size_type find_first_not_of(const T* text, size_type position = 0) const
     {
-      return find_first_not_of(tphn::basic_string_view<T, TTraits>(text), position);
+      return find_first_not_of(tpn::basic_string_view<T, TTraits>(text), position);
     }
 
     //*************************************************************************
     /// Find last absence of characters
     //*************************************************************************
-    TYPHOON_CONSTEXPR14 size_type find_last_not_of(tphn::basic_string_view<T, TTraits> view, size_type position = npos) const
+    TYPHOON_CONSTEXPR14 size_type find_last_not_of(tpn::basic_string_view<T, TTraits> view, size_type position = npos) const
     {
       if (empty())
       {
         return npos;
       }
 
-      position = tphn::min(position, size() - 1);
+      position = tpn::min(position, size() - 1);
 
       const_reverse_iterator it = rbegin() + size() - position - 1;
 
@@ -732,32 +732,32 @@ namespace tphn
 
     TYPHOON_CONSTEXPR14 size_type find_last_not_of(T c, size_type position = npos) const
     {
-      return find_last_not_of(tphn::basic_string_view<T, TTraits>(&c, 1), position);
+      return find_last_not_of(tpn::basic_string_view<T, TTraits>(&c, 1), position);
     }
 
     TYPHOON_CONSTEXPR14 size_type find_last_not_of(const T* text, size_type position, size_type count) const
     {
-      return find_last_not_of(tphn::basic_string_view<T, TTraits>(text, count), position);
+      return find_last_not_of(tpn::basic_string_view<T, TTraits>(text, count), position);
     }
 
     TYPHOON_CONSTEXPR14 size_type find_last_not_of(const T* text, size_type position = npos) const
     {
-      return find_last_not_of(tphn::basic_string_view<T, TTraits>(text), position);
+      return find_last_not_of(tpn::basic_string_view<T, TTraits>(text), position);
     }
 
     //*************************************************************************
     /// Equality for string_view.
     //*************************************************************************
-    friend TYPHOON_CONSTEXPR14 bool operator == (const tphn::basic_string_view<T, TTraits>& lhs, const tphn::basic_string_view<T, TTraits>& rhs)
+    friend TYPHOON_CONSTEXPR14 bool operator == (const tpn::basic_string_view<T, TTraits>& lhs, const tpn::basic_string_view<T, TTraits>& rhs)
     {
       return (lhs.size() == rhs.size()) &&
-              tphn::equal(lhs.begin(), lhs.end(), rhs.begin());
+              tpn::equal(lhs.begin(), lhs.end(), rhs.begin());
     }
 
     //*************************************************************************
     /// Inequality for string_view.
     //*************************************************************************
-    friend TYPHOON_CONSTEXPR14 bool operator != (const tphn::basic_string_view<T, TTraits>& lhs, const tphn::basic_string_view<T, TTraits>& rhs)
+    friend TYPHOON_CONSTEXPR14 bool operator != (const tpn::basic_string_view<T, TTraits>& lhs, const tpn::basic_string_view<T, TTraits>& rhs)
     {
       return !(lhs == rhs);
     }
@@ -765,15 +765,15 @@ namespace tphn
     //*************************************************************************
     /// Less-than for string_view.
     //*************************************************************************
-    friend TYPHOON_CONSTEXPR14 bool operator < (const tphn::basic_string_view<T, TTraits>& lhs, const tphn::basic_string_view<T, TTraits>& rhs)
+    friend TYPHOON_CONSTEXPR14 bool operator < (const tpn::basic_string_view<T, TTraits>& lhs, const tpn::basic_string_view<T, TTraits>& rhs)
     {
-      return tphn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+      return tpn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
     }
 
     //*************************************************************************
     /// Greater-than for string_view.
     //*************************************************************************
-    friend TYPHOON_CONSTEXPR14 bool operator > (const tphn::basic_string_view<T, TTraits>& lhs, const tphn::basic_string_view<T, TTraits>& rhs)
+    friend TYPHOON_CONSTEXPR14 bool operator > (const tpn::basic_string_view<T, TTraits>& lhs, const tpn::basic_string_view<T, TTraits>& rhs)
     {
       return rhs < lhs;
     }
@@ -781,7 +781,7 @@ namespace tphn
     //*************************************************************************
     /// Less-than-equal for string_view.
     //*************************************************************************
-    friend TYPHOON_CONSTEXPR14 bool operator <= (const tphn::basic_string_view<T, TTraits>& lhs, const tphn::basic_string_view<T, TTraits>& rhs)
+    friend TYPHOON_CONSTEXPR14 bool operator <= (const tpn::basic_string_view<T, TTraits>& lhs, const tpn::basic_string_view<T, TTraits>& rhs)
     {
       return !(lhs > rhs);
     }
@@ -789,7 +789,7 @@ namespace tphn
     //*************************************************************************
     /// Greater-than-equal for string_view.
     //*************************************************************************
-    friend TYPHOON_CONSTEXPR14 bool operator >= (const tphn::basic_string_view<T, TTraits>& lhs, const tphn::basic_string_view<T, TTraits>& rhs)
+    friend TYPHOON_CONSTEXPR14 bool operator >= (const tpn::basic_string_view<T, TTraits>& lhs, const tpn::basic_string_view<T, TTraits>& rhs)
     {
       return !(lhs < rhs);
     }
@@ -800,10 +800,10 @@ namespace tphn
     const_pointer mend;
   };
 
-  typedef tphn::basic_string_view<char>     string_view;
-  typedef tphn::basic_string_view<wchar_t>  wstring_view;
-  typedef tphn::basic_string_view<char16_t> u16string_view;
-  typedef tphn::basic_string_view<char32_t> u32string_view;
+  typedef tpn::basic_string_view<char>     string_view;
+  typedef tpn::basic_string_view<wchar_t>  wstring_view;
+  typedef tpn::basic_string_view<char16_t> u16string_view;
+  typedef tpn::basic_string_view<char32_t> u32string_view;
 
   //*************************************************************************
   /// make_string_view.
@@ -811,7 +811,7 @@ namespace tphn
   template<size_t ARRAY_SIZE>
   TYPHOON_CONSTEXPR14 string_view make_string_view(const char(&text)[ARRAY_SIZE])
   {
-    size_t length = tphn::char_traits<char>::length(text, ARRAY_SIZE - 1U);
+    size_t length = tpn::char_traits<char>::length(text, ARRAY_SIZE - 1U);
 
     return string_view(text, length);
   }
@@ -820,7 +820,7 @@ namespace tphn
   template<size_t ARRAY_SIZE>
   TYPHOON_CONSTEXPR14 wstring_view make_string_view(const wchar_t(&text)[ARRAY_SIZE])
   {
-    size_t length = tphn::char_traits<wchar_t>::length(text, ARRAY_SIZE - 1U);
+    size_t length = tpn::char_traits<wchar_t>::length(text, ARRAY_SIZE - 1U);
 
     return wstring_view(text, length);
   }
@@ -829,7 +829,7 @@ namespace tphn
   template<size_t ARRAY_SIZE>
   TYPHOON_CONSTEXPR14 u16string_view make_string_view(const char16_t(&text)[ARRAY_SIZE])
   {
-    size_t length = tphn::char_traits<char16_t>::length(text, ARRAY_SIZE - 1U);
+    size_t length = tpn::char_traits<char16_t>::length(text, ARRAY_SIZE - 1U);
 
     return u16string_view(text, length);
   }
@@ -838,7 +838,7 @@ namespace tphn
   template<size_t ARRAY_SIZE>
   TYPHOON_CONSTEXPR14 u32string_view make_string_view(const char32_t(&text)[ARRAY_SIZE])
   {
-    size_t length = tphn::char_traits<char32_t>::length(text, ARRAY_SIZE - 1U);
+    size_t length = tpn::char_traits<char32_t>::length(text, ARRAY_SIZE - 1U);
 
     return u32string_view(text, length);
   }
@@ -848,41 +848,41 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_8BIT_TYPES
   template <>
-  struct hash<tphn::string_view>
+  struct hash<tpn::string_view>
   {
-    size_t operator()(const tphn::string_view& text) const
+    size_t operator()(const tpn::string_view& text) const
     {
-      return tphn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&text[0]),
+      return tpn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&text[0]),
         reinterpret_cast<const uint8_t*>(&text[text.size()]));
     }
   };
 
   template <>
-  struct hash<tphn::wstring_view>
+  struct hash<tpn::wstring_view>
   {
-    size_t operator()(const tphn::wstring_view& text) const
+    size_t operator()(const tpn::wstring_view& text) const
     {
-      return tphn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&text[0]),
+      return tpn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&text[0]),
         reinterpret_cast<const uint8_t*>(&text[text.size()]));
     }
   };
 
   template <>
-  struct hash<tphn::u16string_view>
+  struct hash<tpn::u16string_view>
   {
-    size_t operator()(const tphn::u16string_view& text) const
+    size_t operator()(const tpn::u16string_view& text) const
     {
-      return tphn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&text[0]),
+      return tpn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&text[0]),
         reinterpret_cast<const uint8_t*>(&text[text.size()]));
     }
   };
 
   template <>
-  struct hash<tphn::u32string_view>
+  struct hash<tpn::u32string_view>
   {
-    size_t operator()(const tphn::u32string_view& text) const
+    size_t operator()(const tpn::u32string_view& text) const
     {
-      return tphn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&text[0]),
+      return tpn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&text[0]),
         reinterpret_cast<const uint8_t*>(&text[text.size()]));
     }
   };
@@ -893,13 +893,13 @@ namespace tphn
 /// Swaps the values.
 //*************************************************************************
 template <typename T, typename TTraits >
-void swap(tphn::basic_string_view<T, TTraits>& lhs, tphn::basic_string_view<T, TTraits>& rhs)
+void swap(tpn::basic_string_view<T, TTraits>& lhs, tpn::basic_string_view<T, TTraits>& rhs)
 {
   lhs.swap(rhs);
 }
 
 template <typename T>
-void swap(tphn::basic_string_view<T, tphn::char_traits<T> >& lhs, tphn::basic_string_view<T, tphn::char_traits<T> >& rhs)
+void swap(tpn::basic_string_view<T, tpn::char_traits<T> >& lhs, tpn::basic_string_view<T, tpn::char_traits<T> >& rhs)
 {
   lhs.swap(rhs);
 }

@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -37,7 +37,7 @@ SOFTWARE.
 #include "type_traits.hpp"
 #include "static_assert.hpp"
 
-namespace tphn
+namespace tpn
 {
   namespace private_basic_format_spec
   {

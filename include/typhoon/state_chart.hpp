@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2018 John Wellbelove
 
@@ -37,7 +37,7 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Simple Finite State Machine Types
@@ -229,11 +229,11 @@ namespace tphn
   //***************************************************************************
   template <typename                                                  TObject, 
             TObject&                                                  TObject_Ref,
-            const tphn::state_chart_traits::transition<TObject, void>* Transition_Table_Begin,
+            const tpn::state_chart_traits::transition<TObject, void>* Transition_Table_Begin,
             size_t                                                    Transition_Table_Size,
-            const tphn::state_chart_traits::state<TObject>*            State_Table_Begin,
+            const tpn::state_chart_traits::state<TObject>*            State_Table_Begin,
             size_t                                                    State_Table_Size,
-            tphn::state_chart_traits::state_id_t                       Initial_State>
+            tpn::state_chart_traits::state_id_t                       Initial_State>
   class state_chart_ct : public istate_chart<void>
   {
   public:  
@@ -310,7 +310,7 @@ namespace tphn
         while (t != (Transition_Table_Begin + Transition_Table_Size))
         {
           // Scan the transition table from the latest position.
-          t = tphn::find_if(t, (Transition_Table_Begin + Transition_Table_Size), is_transition(event_id, this->current_state_id));
+          t = tpn::find_if(t, (Transition_Table_Begin + Transition_Table_Size), is_transition(event_id, this->current_state_id));
 
           // Found an entry?
           if (t != (Transition_Table_Begin + Transition_Table_Size))
@@ -370,7 +370,7 @@ namespace tphn
     //*************************************************************************
     const state* find_state(state_id_t state_id)
     {
-      return tphn::find_if(State_Table_Begin, State_Table_Begin + State_Table_Size, is_state(state_id));
+      return tpn::find_if(State_Table_Begin, State_Table_Begin + State_Table_Size, is_state(state_id));
     }
 
     //*************************************************************************
@@ -422,11 +422,11 @@ namespace tphn
   template <typename                                                        TObject,
             typename                                                        TParameter,
             TObject&                                                        TObject_Ref,
-            const tphn::state_chart_traits::transition<TObject, TParameter>* Transition_Table_Begin,
+            const tpn::state_chart_traits::transition<TObject, TParameter>* Transition_Table_Begin,
             size_t                                                          Transition_Table_Size,
-            const tphn::state_chart_traits::state<TObject>*                  State_Table_Begin,
+            const tpn::state_chart_traits::state<TObject>*                  State_Table_Begin,
             size_t                                                          State_Table_Size,
-            tphn::state_chart_traits::state_id_t                             Initial_State>
+            tpn::state_chart_traits::state_id_t                             Initial_State>
   class state_chart_ctp : public istate_chart<TParameter>
   {
   public:
@@ -503,7 +503,7 @@ namespace tphn
         while (t != (Transition_Table_Begin + Transition_Table_Size))
         {
           // Scan the transition table from the latest position.
-          t = tphn::find_if(t, (Transition_Table_Begin + Transition_Table_Size), is_transition(event_id, this->current_state_id));
+          t = tpn::find_if(t, (Transition_Table_Begin + Transition_Table_Size), is_transition(event_id, this->current_state_id));
 
           // Found an entry?
           if (t != (Transition_Table_Begin + Transition_Table_Size))
@@ -515,7 +515,7 @@ namespace tphn
               if (t->action != TYPHOON_NULLPTR)
               {
 #if TYPHOON_USING_CPP11
-                (TObject_Ref.*t->action)(tphn::forward<parameter_t>(data));
+                (TObject_Ref.*t->action)(tpn::forward<parameter_t>(data));
 #else
                 (TObject_Ref.*t->action)(data);
 #endif
@@ -567,7 +567,7 @@ namespace tphn
     //*************************************************************************
     const state* find_state(state_id_t state_id)
     {
-      return tphn::find_if(State_Table_Begin, State_Table_Begin + State_Table_Size, is_state(state_id));
+      return tpn::find_if(State_Table_Begin, State_Table_Begin + State_Table_Size, is_state(state_id));
     }
 
     //*************************************************************************
@@ -733,7 +733,7 @@ namespace tphn
         while (t != transition_table_end())
         {
           // Scan the transition table from the latest position.
-          t = tphn::find_if(t, transition_table_end(), is_transition(event_id, this->current_state_id));
+          t = tpn::find_if(t, transition_table_end(), is_transition(event_id, this->current_state_id));
 
           // Found an entry?
           if (t != transition_table_end())
@@ -745,7 +745,7 @@ namespace tphn
               if (t->action != TYPHOON_NULLPTR)
               {
 #if TYPHOON_USING_CPP11
-                (object.*t->action)(tphn::forward<parameter_t>(data));
+                (object.*t->action)(tpn::forward<parameter_t>(data));
 #else
                 (object.*t->action)(data);
 #endif
@@ -803,7 +803,7 @@ namespace tphn
       }
       else
       {
-        return tphn::find_if(state_table_begin, state_table_end(), is_state(state_id));
+        return tpn::find_if(state_table_begin, state_table_end(), is_state(state_id));
       }
     }
 
@@ -987,7 +987,7 @@ namespace tphn
         while (t != transition_table_end())
         {
           // Scan the transition table from the latest position.
-          t = tphn::find_if(t, transition_table_end(), is_transition(event_id, this->current_state_id));
+          t = tpn::find_if(t, transition_table_end(), is_transition(event_id, this->current_state_id));
 
           // Found an entry?
           if (t != transition_table_end())
@@ -1053,7 +1053,7 @@ namespace tphn
       }
       else
       {
-        return tphn::find_if(state_table_begin, state_table_end(), is_state(state_id));
+        return tpn::find_if(state_table_begin, state_table_end(), is_state(state_id));
       }
     }
 

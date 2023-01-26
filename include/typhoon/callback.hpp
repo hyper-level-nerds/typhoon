@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-http://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+http://www.tpncpp.com
 
 Copyright(c) 2015 jwellbelove
 
@@ -31,7 +31,7 @@ SOFTWARE.
 #ifndef __TYPHOON_CALLBACK__
 #define __TYPHOON_CALLBACK__
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// A callback class designed to be multiply inherited by other client classes.
@@ -74,7 +74,7 @@ namespace tphn
 
     typedef parameter<TParameter, ID> type;
 
-    virtual void tphn_callback(type p = type()) = 0;
+    virtual void tpn_callback(type p = type()) = 0;
   };
 }
 

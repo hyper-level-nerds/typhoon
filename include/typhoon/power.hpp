@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -41,7 +41,7 @@ SOFTWARE.
 /// power<N, POWER> : Calculates N to the power POWER.
 ///\ingroup maths
 
-namespace tphn
+namespace tpn
 {
   namespace private_power
   {
@@ -88,7 +88,7 @@ namespace tphn
   {
     enum value_type
     {
-      value = 1 << (tphn::log2<NV - 1>::value + 1)
+      value = 1 << (tpn::log2<NV - 1>::value + 1)
     };
   };
 
@@ -120,7 +120,7 @@ namespace tphn
   {
     enum value_type
     {
-      value = 1 << (tphn::log2<NV - 1>::value)
+      value = 1 << (tpn::log2<NV - 1>::value)
     };
   };
 

@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2020 John Wellbelove
 
@@ -33,7 +33,7 @@ SOFTWARE.
 
 #include "platform.hpp"
 
-namespace tphn
+namespace tpn
 {
   class ireference_counted_message;
 
@@ -45,7 +45,7 @@ namespace tphn
   public:
 
     virtual ~ireference_counted_message_pool() {}
-    virtual void release(const tphn::ireference_counted_message& msg) = 0;
+    virtual void release(const tpn::ireference_counted_message& msg) = 0;
 
   protected:
 

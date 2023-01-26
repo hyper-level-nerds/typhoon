@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -96,11 +96,11 @@ SOFTWARE.
   #define TYPHOON_USING_BUILTIN_IS_TRIVIALLY_COPYABLE 0
 #endif
 
-namespace tphn
+namespace tpn
 {
   namespace traits
   {
-    // Documentation: https://www.tphncpp.com/tphn_traits.html
+    // Documentation: https://www.tpncpp.com/tpn_traits.html
 
     static TYPHOON_CONSTANT bool using_builtin_is_assignable              = (TYPHOON_USING_BUILTIN_IS_ASSIGNABLE == 1);
     static TYPHOON_CONSTANT bool using_builtin_is_constructible           = (TYPHOON_USING_BUILTIN_IS_CONSTRUCTIBLE == 1);

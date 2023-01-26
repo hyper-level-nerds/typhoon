@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -34,7 +34,7 @@ SOFTWARE.
 #include "platform.hpp"
 #include "type_traits.hpp"
 
-namespace tphn
+namespace tpn
 {
   //*************************************************************************
   /// Determine how to pass parameters.
@@ -43,7 +43,7 @@ namespace tphn
   struct parameter_type
   {
     /// By default fundamental and pointer types are passed by value.
-    typedef typename tphn::conditional<tphn::is_fundamental<T>::value || tphn::is_pointer<T>::value,
+    typedef typename tpn::conditional<tpn::is_fundamental<T>::value || tpn::is_pointer<T>::value,
                                          T,
                                          const T&>::type type;
   };

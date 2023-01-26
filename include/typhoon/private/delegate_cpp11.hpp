@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -55,7 +55,7 @@ Original publication: https://www.codeproject.com/Articles/1170503/The-Impossibl
 #include "../utility.hpp"
 #include "../optional.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The base class for delegate exceptions.
@@ -111,7 +111,7 @@ namespace tphn
     //*************************************************************************
     // Construct from lambda or functor.
     //*************************************************************************
-    template <typename TLambda, typename = tphn::enable_if_t<tphn::is_class<TLambda>::value && !tphn::is_same<tphn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
+    template <typename TLambda, typename = tpn::enable_if_t<tpn::is_class<TLambda>::value && !tpn::is_same<tpn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
     TYPHOON_CONSTEXPR14 delegate(TLambda& instance)
     {
       assign((void*)(&instance), lambda_stub<TLambda>);
@@ -120,7 +120,7 @@ namespace tphn
     //*************************************************************************
     // Construct from const lambda or functor.
     //*************************************************************************
-    template <typename TLambda, typename = tphn::enable_if_t<tphn::is_class<TLambda>::value && !tphn::is_same<tphn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
+    template <typename TLambda, typename = tpn::enable_if_t<tpn::is_class<TLambda>::value && !tpn::is_same<tpn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
     TYPHOON_CONSTEXPR14 delegate(const TLambda& instance)
     {
       assign((void*)(&instance), const_lambda_stub<TLambda>);
@@ -139,7 +139,7 @@ namespace tphn
     //*************************************************************************
     /// Create from Lambda or Functor.
     //*************************************************************************
-    template <typename TLambda, typename = tphn::enable_if_t<tphn::is_class<TLambda>::value && !tphn::is_same<tphn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
+    template <typename TLambda, typename = tpn::enable_if_t<tpn::is_class<TLambda>::value && !tpn::is_same<tpn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
     TYPHOON_NODISCARD
     static TYPHOON_CONSTEXPR14 delegate create(TLambda& instance)
     {
@@ -149,7 +149,7 @@ namespace tphn
     //*************************************************************************
     /// Create from const Lambda or Functor.
     //*************************************************************************
-    template <typename TLambda, typename = tphn::enable_if_t<tphn::is_class<TLambda>::value && !tphn::is_same<tphn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
+    template <typename TLambda, typename = tpn::enable_if_t<tpn::is_class<TLambda>::value && !tpn::is_same<tpn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
     TYPHOON_NODISCARD
       static TYPHOON_CONSTEXPR14 delegate create(const TLambda& instance)
     {
@@ -222,7 +222,7 @@ namespace tphn
     //*************************************************************************
     /// Set from Lambda or Functor.
     //*************************************************************************
-    template <typename TLambda, typename = tphn::enable_if_t<tphn::is_class<TLambda>::value && !tphn::is_same<tphn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
+    template <typename TLambda, typename = tpn::enable_if_t<tpn::is_class<TLambda>::value && !tpn::is_same<tpn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
     TYPHOON_CONSTEXPR14 void set(TLambda& instance)
     {
       assign((void*)(&instance), lambda_stub<TLambda>);
@@ -231,7 +231,7 @@ namespace tphn
     //*************************************************************************
     /// Set from const Lambda or Functor.
     //*************************************************************************
-    template <typename TLambda, typename = tphn::enable_if_t<tphn::is_class<TLambda>::value && !tphn::is_same<tphn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
+    template <typename TLambda, typename = tpn::enable_if_t<tpn::is_class<TLambda>::value && !tpn::is_same<tpn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
     TYPHOON_CONSTEXPR14 void set(const TLambda& instance)
     {
       assign((void*)(&instance), const_lambda_stub<TLambda>);
@@ -293,7 +293,7 @@ namespace tphn
     {
       TYPHOON_ASSERT(is_valid(), TYPHOON_ERROR(delegate_uninitialised));
 
-      return (*invocation.stub)(invocation.object, tphn::forward<TParams>(args)...);
+      return (*invocation.stub)(invocation.object, tpn::forward<TParams>(args)...);
     }
 
     //*************************************************************************
@@ -301,12 +301,12 @@ namespace tphn
     /// 'void' return.
     //*************************************************************************
     template <typename TRet = TReturn>
-    typename tphn::enable_if_t<tphn::is_same<TRet, void>::value, bool>
+    typename tpn::enable_if_t<tpn::is_same<TRet, void>::value, bool>
       call_if(TParams... args) const
     {
       if (is_valid())
       {
-        (*invocation.stub)(invocation.object, tphn::forward<TParams>(args)...);
+        (*invocation.stub)(invocation.object, tpn::forward<TParams>(args)...);
         return true;
       }
       else
@@ -320,14 +320,14 @@ namespace tphn
     /// Non 'void' return.
     //*************************************************************************
     template <typename TRet = TReturn>
-    typename tphn::enable_if_t<!tphn::is_same<TRet, void>::value, tphn::optional<TReturn>>
+    typename tpn::enable_if_t<!tpn::is_same<TRet, void>::value, tpn::optional<TReturn>>
       call_if(TParams... args) const
     {
-      tphn::optional<TReturn> result;
+      tpn::optional<TReturn> result;
 
       if (is_valid())
       {
-        result = (*invocation.stub)(invocation.object, tphn::forward<TParams>(args)...);
+        result = (*invocation.stub)(invocation.object, tpn::forward<TParams>(args)...);
       }
 
       return result;
@@ -342,11 +342,11 @@ namespace tphn
     {
       if (is_valid())
       {
-        return (*invocation.stub)(invocation.object, tphn::forward<TParams>(args)...);
+        return (*invocation.stub)(invocation.object, tpn::forward<TParams>(args)...);
       }
       else
       {
-        return alternative(tphn::forward<TParams>(args)...);
+        return alternative(tpn::forward<TParams>(args)...);
       }
     }
 
@@ -359,11 +359,11 @@ namespace tphn
     {
       if (is_valid())
       {
-        return (*invocation.stub)(invocation.object, tphn::forward<TParams>(args)...);
+        return (*invocation.stub)(invocation.object, tpn::forward<TParams>(args)...);
       }
       else
       {
-        return (Method)(tphn::forward<TParams>(args)...);
+        return (Method)(tpn::forward<TParams>(args)...);
       }
     }
 
@@ -375,7 +375,7 @@ namespace tphn
     //*************************************************************************
     /// Create from Lambda or Functor.
     //*************************************************************************
-    template <typename TLambda, typename = tphn::enable_if_t<tphn::is_class<TLambda>::value && !tphn::is_same<tphn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
+    template <typename TLambda, typename = tpn::enable_if_t<tpn::is_class<TLambda>::value && !tpn::is_same<tpn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
     TYPHOON_CONSTEXPR14 delegate& operator =(TLambda& instance)
     {
       assign((void*)(&instance), lambda_stub<TLambda>);
@@ -385,7 +385,7 @@ namespace tphn
     //*************************************************************************
     /// Create from const Lambda or Functor.
     //*************************************************************************
-    template <typename TLambda, typename = tphn::enable_if_t<tphn::is_class<TLambda>::value && !tphn::is_same<tphn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
+    template <typename TLambda, typename = tpn::enable_if_t<tpn::is_class<TLambda>::value && !tpn::is_same<tpn::delegate<TReturn(TParams...)>, TLambda>::value, void>>
     TYPHOON_CONSTEXPR14 delegate& operator =(const TLambda& instance)
     {
       assign((void*)(&instance), const_lambda_stub<TLambda>);
@@ -494,7 +494,7 @@ namespace tphn
     static TYPHOON_CONSTEXPR14 TReturn method_stub(void* object, TParams... params)
     {
       T* p = static_cast<T*>(object);
-      return (p->*Method)(tphn::forward<TParams>(params)...);
+      return (p->*Method)(tpn::forward<TParams>(params)...);
     }
 
     //*************************************************************************
@@ -504,7 +504,7 @@ namespace tphn
     static TYPHOON_CONSTEXPR14 TReturn const_method_stub(void* object, TParams... params)
     {
       T* const p = static_cast<T*>(object);
-      return (p->*Method)(tphn::forward<TParams>(params)...);
+      return (p->*Method)(tpn::forward<TParams>(params)...);
     }
 
     //*************************************************************************
@@ -513,7 +513,7 @@ namespace tphn
     template <typename T, T& Instance, TReturn(T::*Method)(TParams...)>
     static TYPHOON_CONSTEXPR14 TReturn method_instance_stub(void*, TParams... params)
     {
-      return (Instance.*Method)(tphn::forward<TParams>(params)...);
+      return (Instance.*Method)(tpn::forward<TParams>(params)...);
     }
 
     //*************************************************************************
@@ -522,7 +522,7 @@ namespace tphn
     template <typename T, const T& Instance, TReturn(T::*Method)(TParams...) const>
     static TYPHOON_CONSTEXPR14 TReturn const_method_instance_stub(void*, TParams... params)
     {
-      return (Instance.*Method)(tphn::forward<TParams>(params)...);
+      return (Instance.*Method)(tpn::forward<TParams>(params)...);
     }
 
 #if !(defined(TYPHOON_COMPILER_GCC) && (__GNUC__ <= 8))
@@ -532,7 +532,7 @@ namespace tphn
     template <typename T, T& Instance>
     static TYPHOON_CONSTEXPR14 TReturn operator_instance_stub(void*, TParams... params)
     {
-      return Instance.operator()(tphn::forward<TParams>(params)...);
+      return Instance.operator()(tpn::forward<TParams>(params)...);
     }
 #endif
 
@@ -542,7 +542,7 @@ namespace tphn
     template <TReturn(*Method)(TParams...)>
     static TYPHOON_CONSTEXPR14 TReturn function_stub(void*, TParams... params)
     {
-      return (Method)(tphn::forward<TParams>(params)...);
+      return (Method)(tpn::forward<TParams>(params)...);
     }
 
     //*************************************************************************
@@ -552,7 +552,7 @@ namespace tphn
     static TYPHOON_CONSTEXPR14 TReturn lambda_stub(void* object, TParams... arg)
     {
       TLambda* p = static_cast<TLambda*>(object);
-      return (p->operator())(tphn::forward<TParams>(arg)...);
+      return (p->operator())(tpn::forward<TParams>(arg)...);
     }
 
     //*************************************************************************
@@ -562,7 +562,7 @@ namespace tphn
     static TYPHOON_CONSTEXPR14 TReturn const_lambda_stub(void* object, TParams... arg)
     {
       const TLambda* p = static_cast<const TLambda*>(object);
-      return (p->operator())(tphn::forward<TParams>(arg)...);
+      return (p->operator())(tpn::forward<TParams>(arg)...);
     }
 
     //*************************************************************************

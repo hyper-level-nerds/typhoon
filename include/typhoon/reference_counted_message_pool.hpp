@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2020 John Wellbelove
 
@@ -43,12 +43,12 @@ SOFTWARE.
 #include "memory.hpp"
 #include "largest.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
-  /// Exception type for tphn::reference_counted_message_pool
+  /// Exception type for tpn::reference_counted_message_pool
   //***************************************************************************
-  class reference_counted_message_pool_exception : public tphn::exception
+  class reference_counted_message_pool_exception : public tpn::exception
   {
   public:
 
@@ -61,7 +61,7 @@ namespace tphn
   //***************************************************************************
   /// Exception if the allocation failed.
   //***************************************************************************
-  class reference_counted_message_pool_allocation_failure : public tphn::reference_counted_message_pool_exception
+  class reference_counted_message_pool_allocation_failure : public tpn::reference_counted_message_pool_exception
   {
   public:
 
@@ -74,7 +74,7 @@ namespace tphn
   //***************************************************************************
   /// Exception if the release failed.
   //***************************************************************************
-  class reference_counted_message_pool_release_failure : public tphn::reference_counted_message_pool_exception
+  class reference_counted_message_pool_release_failure : public tpn::reference_counted_message_pool_exception
   {
   public:
 
@@ -88,14 +88,14 @@ namespace tphn
   /// A pool for allocating reference counted messages.
   //***************************************************************************
   template <typename TCounter>
-  class reference_counted_message_pool : public tphn::ireference_counted_message_pool
+  class reference_counted_message_pool : public tpn::ireference_counted_message_pool
   {
   public:
 
     //*************************************************************************
     /// Constructor
     //*************************************************************************
-    reference_counted_message_pool(tphn::imemory_block_allocator& memory_block_allocator_)
+    reference_counted_message_pool(tpn::imemory_block_allocator& memory_block_allocator_)
       : memory_block_allocator(memory_block_allocator_)
     {
     }
@@ -104,17 +104,17 @@ namespace tphn
     /// Allocate a reference counted message from the pool.
     //*************************************************************************
     template <typename TMessage>
-    tphn::reference_counted_message<TMessage, TCounter>* allocate(const TMessage& message)
+    tpn::reference_counted_message<TMessage, TCounter>* allocate(const TMessage& message)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TMessage>::value), "Not a message type");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TMessage>::value), "Not a message type");
 
-      typedef tphn::reference_counted_message<TMessage, TCounter> rcm_t;
+      typedef tpn::reference_counted_message<TMessage, TCounter> rcm_t;
       typedef rcm_t* prcm_t;
 
       prcm_t p = TYPHOON_NULLPTR;
 
       lock();
-      p = static_cast<prcm_t>(memory_block_allocator.allocate(sizeof(rcm_t), tphn::alignment_of<rcm_t>::value));
+      p = static_cast<prcm_t>(memory_block_allocator.allocate(sizeof(rcm_t), tpn::alignment_of<rcm_t>::value));
       unlock();
 
       if (p != TYPHOON_NULLPTR)
@@ -122,7 +122,7 @@ namespace tphn
         ::new(p) rcm_t(message, *this);
       }
 
-      TYPHOON_ASSERT((p != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::reference_counted_message_pool_allocation_failure));
+      TYPHOON_ASSERT((p != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::reference_counted_message_pool_allocation_failure));
 
       return p;
     }
@@ -131,17 +131,17 @@ namespace tphn
     /// Allocate a reference counted message from the pool.
     //*************************************************************************
     template <typename TMessage>
-    tphn::reference_counted_message<TMessage, TCounter>* allocate()
+    tpn::reference_counted_message<TMessage, TCounter>* allocate()
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TMessage>::value), "Not a message type");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TMessage>::value), "Not a message type");
 
-      typedef tphn::reference_counted_message<TMessage, TCounter> rcm_t;
+      typedef tpn::reference_counted_message<TMessage, TCounter> rcm_t;
       typedef rcm_t* prcm_t;
 
       prcm_t p = TYPHOON_NULLPTR;
 
       lock();
-      p = static_cast<prcm_t>(memory_block_allocator.allocate(sizeof(rcm_t), tphn::alignment_of<rcm_t>::value));
+      p = static_cast<prcm_t>(memory_block_allocator.allocate(sizeof(rcm_t), tpn::alignment_of<rcm_t>::value));
       unlock();
 
       if (p != TYPHOON_NULLPTR)
@@ -149,7 +149,7 @@ namespace tphn
         ::new(p) rcm_t(*this);
       }
 
-      TYPHOON_ASSERT((p != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::reference_counted_message_pool_allocation_failure));
+      TYPHOON_ASSERT((p != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::reference_counted_message_pool_allocation_failure));
 
       return p;
     }
@@ -157,7 +157,7 @@ namespace tphn
     //*************************************************************************
     /// Destruct a message and send it back to the allocator.
     //*************************************************************************
-    void release(const tphn::ireference_counted_message& rcmessage)
+    void release(const tpn::ireference_counted_message& rcmessage)
     {
       bool released = false;
 
@@ -169,7 +169,7 @@ namespace tphn
       }
       unlock();
 
-      TYPHOON_ASSERT(released, TYPHOON_ERROR(tphn::reference_counted_message_pool_release_failure));
+      TYPHOON_ASSERT(released, TYPHOON_ERROR(tpn::reference_counted_message_pool_release_failure));
     }
 
 #if TYPHOON_USING_CPP11
@@ -180,13 +180,13 @@ namespace tphn
     private:
 
       // Size of the first pool message type.
-      static constexpr size_t size1 = sizeof(tphn::reference_counted_message<TMessage1, TCounter>);
+      static constexpr size_t size1 = sizeof(tpn::reference_counted_message<TMessage1, TCounter>);
 
       // Maximum size of the the rest of the pool message types.
       static constexpr size_t size2 = pool_message_parameters<TMessages...>::max_size;
 
       // Size of the first pool message type.
-      static constexpr size_t alignment1 = tphn::alignment_of<tphn::reference_counted_message<TMessage1, TCounter>>::value;
+      static constexpr size_t alignment1 = tpn::alignment_of<tpn::reference_counted_message<TMessage1, TCounter>>::value;
 
       // Maximum size of the the rest of the pool message types.
       static constexpr size_t alignment2 = pool_message_parameters<TMessages...>::max_alignment;
@@ -206,46 +206,46 @@ namespace tphn
     {
     public:
 
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TMessage1>::value), "TMessage not derived from tphn::imessage");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TMessage1>::value), "TMessage not derived from tpn::imessage");
 
       // The size of this pool message type.
-      static constexpr size_t max_size = sizeof(tphn::reference_counted_message<TMessage1, TCounter>);
+      static constexpr size_t max_size = sizeof(tpn::reference_counted_message<TMessage1, TCounter>);
 
       // The maximum alignment.
-      static constexpr size_t max_alignment = tphn::alignment_of<tphn::reference_counted_message<TMessage1, TCounter>>::value;
+      static constexpr size_t max_alignment = tpn::alignment_of<tpn::reference_counted_message<TMessage1, TCounter>>::value;
     };
 #else
     template <typename TMessage1,              typename TMessage2  = TMessage1, typename TMessage3  = TMessage1, typename TMessage4  = TMessage1,
               typename TMessage5  = TMessage1, typename TMessage6  = TMessage1, typename TMessage7  = TMessage1, typename TMessage8  = TMessage1>
     struct pool_message_parameters
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TMessage1>::value), "TMessage1 not derived from tphn::imessage");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TMessage1>::value), "TMessage2 not derived from tphn::imessage");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TMessage1>::value), "TMessage3 not derived from tphn::imessage");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TMessage1>::value), "TMessage4 not derived from tphn::imessage");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TMessage1>::value), "TMessage5 not derived from tphn::imessage");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TMessage1>::value), "TMessage6 not derived from tphn::imessage");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TMessage1>::value), "TMessage7 not derived from tphn::imessage");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TMessage1>::value), "TMessage8 not derived from tphn::imessage");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TMessage1>::value), "TMessage1 not derived from tpn::imessage");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TMessage1>::value), "TMessage2 not derived from tpn::imessage");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TMessage1>::value), "TMessage3 not derived from tpn::imessage");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TMessage1>::value), "TMessage4 not derived from tpn::imessage");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TMessage1>::value), "TMessage5 not derived from tpn::imessage");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TMessage1>::value), "TMessage6 not derived from tpn::imessage");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TMessage1>::value), "TMessage7 not derived from tpn::imessage");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TMessage1>::value), "TMessage8 not derived from tpn::imessage");
 
-      static TYPHOON_CONSTANT size_t max_size = tphn::largest<tphn::reference_counted_message<TMessage1, TCounter>,
-                                                  tphn::reference_counted_message<TMessage2, TCounter>,
-                                                  tphn::reference_counted_message<TMessage3, TCounter>,
-                                                  tphn::reference_counted_message<TMessage4, TCounter>,
-                                                  tphn::reference_counted_message<TMessage5, TCounter>,
-                                                  tphn::reference_counted_message<TMessage6, TCounter>,
-                                                  tphn::reference_counted_message<TMessage7, TCounter>,
-                                                  tphn::reference_counted_message<TMessage8, TCounter> >::size;
+      static TYPHOON_CONSTANT size_t max_size = tpn::largest<tpn::reference_counted_message<TMessage1, TCounter>,
+                                                  tpn::reference_counted_message<TMessage2, TCounter>,
+                                                  tpn::reference_counted_message<TMessage3, TCounter>,
+                                                  tpn::reference_counted_message<TMessage4, TCounter>,
+                                                  tpn::reference_counted_message<TMessage5, TCounter>,
+                                                  tpn::reference_counted_message<TMessage6, TCounter>,
+                                                  tpn::reference_counted_message<TMessage7, TCounter>,
+                                                  tpn::reference_counted_message<TMessage8, TCounter> >::size;
 
 
-      static TYPHOON_CONSTANT size_t max_alignment = tphn::largest<tphn::reference_counted_message<TMessage1, TCounter>,
-                                                       tphn::reference_counted_message<TMessage2, TCounter>,
-                                                       tphn::reference_counted_message<TMessage3, TCounter>,
-                                                       tphn::reference_counted_message<TMessage4, TCounter>,
-                                                       tphn::reference_counted_message<TMessage5, TCounter>,
-                                                       tphn::reference_counted_message<TMessage6, TCounter>,
-                                                       tphn::reference_counted_message<TMessage7, TCounter>,
-                                                       tphn::reference_counted_message<TMessage8, TCounter> >::alignment;
+      static TYPHOON_CONSTANT size_t max_alignment = tpn::largest<tpn::reference_counted_message<TMessage1, TCounter>,
+                                                       tpn::reference_counted_message<TMessage2, TCounter>,
+                                                       tpn::reference_counted_message<TMessage3, TCounter>,
+                                                       tpn::reference_counted_message<TMessage4, TCounter>,
+                                                       tpn::reference_counted_message<TMessage5, TCounter>,
+                                                       tpn::reference_counted_message<TMessage6, TCounter>,
+                                                       tpn::reference_counted_message<TMessage7, TCounter>,
+                                                       tpn::reference_counted_message<TMessage8, TCounter> >::alignment;
     };
 #endif
 
@@ -260,7 +260,7 @@ namespace tphn
   };
 
 #if TYPHOON_USING_CPP11 && TYPHOON_HAS_ATOMIC
-  using  atomic_counted_message_pool = reference_counted_message_pool<tphn::atomic_int>;
+  using  atomic_counted_message_pool = reference_counted_message_pool<tpn::atomic_int>;
 #endif
 }
 

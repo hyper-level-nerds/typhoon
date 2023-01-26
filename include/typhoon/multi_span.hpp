@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -41,7 +41,7 @@ SOFTWARE.
 /// Scatter/Gather functionality
 ///\ingroup containers
 
-namespace tphn
+namespace tpn
 {
   template <typename T>
   class multi_span
@@ -49,20 +49,20 @@ namespace tphn
   public:
     
     typedef T                                 element_type;
-    typedef typename tphn::remove_cv<T>::type  value_type;
+    typedef typename tpn::remove_cv<T>::type  value_type;
     typedef size_t                            size_type;
     typedef T&                                reference;
     typedef const T&                          const_reference;
     typedef T*                                pointer;
     typedef const T*                          const_pointer;
 
-    typedef tphn::span<T>                      span_type;
-    typedef tphn::span<const span_type>        span_list_type;
+    typedef tpn::span<T>                      span_type;
+    typedef tpn::span<const span_type>        span_list_type;
 
     //*************************************************************************
     /// Iterator
     //*************************************************************************
-    class iterator : public tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, element_type>
+    class iterator : public tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, element_type>
     {
     public:
 
@@ -217,7 +217,7 @@ namespace tphn
     //*************************************************************************
     template <typename TIterator>
     TYPHOON_CONSTEXPR multi_span(TIterator begin_, TIterator end_)
-      : span_list(tphn::addressof(*begin_), tphn::distance(begin_, end_))
+      : span_list(tpn::addressof(*begin_), tpn::distance(begin_, end_))
     {
     }
 
@@ -226,7 +226,7 @@ namespace tphn
     //*************************************************************************
     template <typename TIterator>
     TYPHOON_CONSTEXPR multi_span(TIterator begin_, size_t length_)
-      : span_list(tphn::addressof(*begin_), length_)
+      : span_list(tpn::addressof(*begin_), length_)
     {
     }
 

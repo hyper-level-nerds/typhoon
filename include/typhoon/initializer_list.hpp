@@ -4,10 +4,10 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
-Documentation: https://www.tphncpp.com/initializer_list.html
+Documentation: https://www.tpncpp.com/initializer_list.html
 
 Copyright(c) 2022 John Wellbelove
 
@@ -217,7 +217,7 @@ namespace std
   }
 #else
 
-  #error No definition for initializer_list is currently available for your compiler. Visit https://github.com/TYPHOONCPP/tphn/issues to request support.
+  #error No definition for initializer_list is currently available for your compiler. Visit https://github.com/TYPHOONCPP/tpn/issues to request support.
 
 #endif // Compiler tests
 }

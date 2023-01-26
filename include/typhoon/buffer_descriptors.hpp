@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2020 John Wellbelove
 
@@ -43,7 +43,7 @@ SOFTWARE.
 
 #if TYPHOON_USING_CPP11
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// buffer_descriptors
@@ -196,7 +196,7 @@ namespace tphn
     };
 
     // The type of the callback function.
-    typedef tphn::delegate<void(notification)> callback_type;
+    typedef tpn::delegate<void(notification)> callback_type;
 
     //*********************************
     buffer_descriptors(TBuffer* pbuffers_, callback_type callback_ = callback_type())
@@ -271,7 +271,7 @@ namespace tphn
 
       if (desc.is_valid())
       {
-        tphn::fill_n(desc.data(), BUFFER_SIZE, fill_);
+        tpn::fill_n(desc.data(), BUFFER_SIZE, fill_);
       }
 
       return desc;
@@ -287,8 +287,8 @@ namespace tphn
     };
 
     callback_type callback;
-    tphn::array<descriptor_item, N_BUFFERS> descriptor_items;
-    tphn::cyclic_value<uint_least8_t, 0U, N_BUFFERS - 1> next;
+    tpn::array<descriptor_item, N_BUFFERS> descriptor_items;
+    tpn::cyclic_value<uint_least8_t, 0U, N_BUFFERS - 1> next;
   };
 }
 #endif

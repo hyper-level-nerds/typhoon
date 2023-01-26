@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -44,17 +44,17 @@ SOFTWARE.
   #include <bit>
 #endif
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// bit_cast - Type to different type.
   //***************************************************************************
   template <typename TDestination, typename TSource>
   TYPHOON_NODISCARD
-  typename tphn::enable_if<!(tphn::is_integral<TDestination>::value&& tphn::is_integral<TSource>::value) &&
+  typename tpn::enable_if<!(tpn::is_integral<TDestination>::value&& tpn::is_integral<TSource>::value) &&
                           (sizeof(TDestination) == sizeof(TSource)) &&
-                          tphn::is_trivially_copyable<TSource>::value &&
-                          tphn::is_trivially_copyable<TDestination>::value, TDestination>::type
+                          tpn::is_trivially_copyable<TSource>::value &&
+                          tpn::is_trivially_copyable<TDestination>::value, TDestination>::type
     bit_cast(const TSource& source) TYPHOON_NOEXCEPT
   {
     TDestination destination;
@@ -70,7 +70,7 @@ namespace tphn
   template <typename TDestination, typename TSource>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14
-  typename tphn::enable_if<(tphn::is_integral<TDestination>::value && tphn::is_integral<TSource>::value) && 
+  typename tpn::enable_if<(tpn::is_integral<TDestination>::value && tpn::is_integral<TSource>::value) && 
                           (sizeof(TDestination) == sizeof(TSource)), TDestination>::type
     bit_cast(const TSource& source) TYPHOON_NOEXCEPT
   {
@@ -82,10 +82,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value, T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value, T>::type
     byteswap(T value) TYPHOON_NOEXCEPT
   {
-    return tphn::reverse_bytes(value);
+    return tpn::reverse_bytes(value);
   }
 
   //***************************************************************************
@@ -93,7 +93,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_NODISCARD TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_unsigned<T>::value, bool>::type has_single_bit(T value) TYPHOON_NOEXCEPT
+    typename tpn::enable_if<tpn::is_unsigned<T>::value, bool>::type has_single_bit(T value) TYPHOON_NOEXCEPT
   {
     return (value & (value - 1)) == 0;
   }
@@ -102,10 +102,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_NODISCARD TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_unsigned<T>::value, int>::type
+    typename tpn::enable_if<tpn::is_unsigned<T>::value, int>::type
     countl_zero(T value) TYPHOON_NOEXCEPT
   {
-    return tphn::count_leading_zeros(value);
+    return tpn::count_leading_zeros(value);
   }
 
   //***************************************************************************
@@ -113,10 +113,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_NODISCARD TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_unsigned<T>::value, int>::type
+    typename tpn::enable_if<tpn::is_unsigned<T>::value, int>::type
     countl_one(T value) TYPHOON_NOEXCEPT
   {
-    return tphn::count_leading_ones(value);
+    return tpn::count_leading_ones(value);
   }
 
   //***************************************************************************
@@ -124,10 +124,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_NODISCARD TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_unsigned<T>::value, int>::type
+    typename tpn::enable_if<tpn::is_unsigned<T>::value, int>::type
     countr_zero(T value) TYPHOON_NOEXCEPT
   {
-    return tphn::count_trailing_zeros(value);
+    return tpn::count_trailing_zeros(value);
   }
 
   //***************************************************************************
@@ -135,10 +135,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_NODISCARD TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_unsigned<T>::value, int>::type
+    typename tpn::enable_if<tpn::is_unsigned<T>::value, int>::type
     countr_one(T value) TYPHOON_NOEXCEPT
   {
-    return tphn::count_trailing_ones(value);;
+    return tpn::count_trailing_ones(value);;
   }
 
 
@@ -147,13 +147,13 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_unsigned<T>::value, T>::type
+    typename tpn::enable_if<tpn::is_unsigned<T>::value, T>::type
     bit_width(T value) TYPHOON_NOEXCEPT
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
     return std::bit_width(value);
 #else
-    return tphn::integral_limits<T>::bits - tphn::countl_zero(value);
+    return tpn::integral_limits<T>::bits - tpn::countl_zero(value);
 #endif
   }
 
@@ -162,7 +162,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_NODISCARD TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_unsigned<T>::value, T>::type
+    typename tpn::enable_if<tpn::is_unsigned<T>::value, T>::type
     bit_ceil(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -174,7 +174,7 @@ namespace tphn
     }
     else
     {
-      return T(1) << tphn::bit_width(T(value - T(1)));
+      return T(1) << tpn::bit_width(T(value - T(1)));
     }
 #endif
   }
@@ -184,7 +184,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_NODISCARD TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_unsigned<T>::value, T>::type
+    typename tpn::enable_if<tpn::is_unsigned<T>::value, T>::type
     bit_floor(T value) TYPHOON_NOEXCEPT
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -196,7 +196,7 @@ namespace tphn
     }
     else
     {
-      return T(1) << (tphn::bit_width(value) - T(1));
+      return T(1) << (tpn::bit_width(value) - T(1));
     }
 #endif
   }
@@ -206,16 +206,16 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_NODISCARD TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_unsigned<T>::value, T>::type
+    typename tpn::enable_if<tpn::is_unsigned<T>::value, T>::type
     rotl(T value, int n) TYPHOON_NOEXCEPT
   {
     if (n < 0)
     {
-      return tphn::rotate_right(value, -n);
+      return tpn::rotate_right(value, -n);
     }
     else
     {
-      return tphn::rotate_left(value, n);
+      return tpn::rotate_left(value, n);
     }
   }
 
@@ -224,16 +224,16 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_NODISCARD TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_unsigned<T>::value, T>::type 
+    typename tpn::enable_if<tpn::is_unsigned<T>::value, T>::type 
     rotr(T value, int n) TYPHOON_NOEXCEPT
   {
     if (n < 0)
     {
-      return tphn::rotate_left(value, -n);
+      return tpn::rotate_left(value, -n);
     }
     else
     {
-      return tphn::rotate_right(value, n);
+      return tpn::rotate_right(value, n);
     }
   }
  
@@ -242,10 +242,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_NODISCARD TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_unsigned<T>::value, int>::type
+    typename tpn::enable_if<tpn::is_unsigned<T>::value, int>::type
     popcount(T value) TYPHOON_NOEXCEPT
   {
-    return tphn::count_bits(value);
+    return tpn::count_bits(value);
   }
 }
 

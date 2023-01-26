@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -90,7 +90,7 @@ SOFTWARE.
   #define TYPHOON_HAS_CONSTEXPR_ENDIANNESS 0
 #endif
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Constants to denote endianness of operations.
@@ -117,23 +117,23 @@ namespace tphn
   //***************************************************************************
   struct endianness
   {
-    tphn::endian operator ()() const
+    tpn::endian operator ()() const
     {
-      return tphn::endian(*this);
+      return tpn::endian(*this);
     }
 
 #if TYPHOON_HAS_CONSTEXPR_ENDIANNESS
     TYPHOON_CONSTEXPR
 #endif
-    operator tphn::endian() const
+    operator tpn::endian() const
     {
       return get();
     }
 
 #if TYPHOON_HAS_CONSTEXPR_ENDIANNESS
-    static TYPHOON_CONSTEXPR tphn::endian value()
+    static TYPHOON_CONSTEXPR tpn::endian value()
 #else
-    static tphn::endian value()
+    static tpn::endian value()
 #endif
     {
       return get();
@@ -142,16 +142,16 @@ namespace tphn
   private:
 
 #if TYPHOON_HAS_CONSTEXPR_ENDIANNESS
-    static TYPHOON_CONSTEXPR tphn::endian get()
+    static TYPHOON_CONSTEXPR tpn::endian get()
     {
-      return tphn::endian::native;
+      return tpn::endian::native;
     }
 #else
-    static tphn::endian get()
+    static tpn::endian get()
     {
       static const uint32_t i = 0xFFFF0000;
 
-      return (*reinterpret_cast<const unsigned char*>(&i) == 0) ? tphn::endian::little : tphn::endian::big;
+      return (*reinterpret_cast<const unsigned char*>(&i) == 0) ? tpn::endian::little : tpn::endian::big;
     }
 #endif
   };
@@ -159,12 +159,12 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value, T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value, T>::type
     ntoh(T value)
   {
     if (endianness::value() == endian::little)
     {
-      return tphn::reverse_bytes(value);
+      return tpn::reverse_bytes(value);
     }
     else
     {
@@ -175,12 +175,12 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value, T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value, T>::type
     hton(T value)
   {
     if (endianness::value() == endian::little)
     {
-      return tphn::reverse_bytes(value);
+      return tpn::reverse_bytes(value);
     }
     else
     {

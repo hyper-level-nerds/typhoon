@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2015 John Wellbelove
 
@@ -36,14 +36,14 @@ SOFTWARE.
 
 ///\defgroup iterator Iterator types
 
-namespace tphn
+namespace tpn
 {
   /// A fixed iterator class.
   /// This iterator can be given an iterator value, which will not be allowed to be incremented or decremented.
   /// This can be useful when using STL algorithms to interact with fixed memory locations such as registers.
   ///\ingroup iterator
   template <typename TIterator>
-  class fixed_iterator : tphn::iterator<typename tphn::iterator_traits<TIterator>::iterator_category, typename tphn::iterator_traits<TIterator>::value_type>
+  class fixed_iterator : tpn::iterator<typename tpn::iterator_traits<TIterator>::iterator_category, typename tpn::iterator_traits<TIterator>::value_type>
   {
   public:
 
@@ -106,7 +106,7 @@ namespace tphn
     //***************************************************************************
     /// Dereference operator.
     //***************************************************************************
-    typename tphn::iterator_traits<TIterator>::value_type operator *()
+    typename tpn::iterator_traits<TIterator>::value_type operator *()
     {
       return *it;
     }
@@ -114,7 +114,7 @@ namespace tphn
     //***************************************************************************
     /// Dereference operator.
     //***************************************************************************
-    const typename tphn::iterator_traits<TIterator>::value_type operator *() const
+    const typename tpn::iterator_traits<TIterator>::value_type operator *() const
     {
       return *it;
     }
@@ -146,7 +146,7 @@ namespace tphn
     //***************************************************************************
     /// += operator.
     //***************************************************************************
-    fixed_iterator& operator +=(typename tphn::iterator_traits<TIterator>::difference_type /*offset*/)
+    fixed_iterator& operator +=(typename tpn::iterator_traits<TIterator>::difference_type /*offset*/)
     {
       return *this;
     }
@@ -154,7 +154,7 @@ namespace tphn
     //***************************************************************************
     /// -= operator.
     //***************************************************************************
-    fixed_iterator& operator -=(typename tphn::iterator_traits<TIterator>::difference_type /*offset*/)
+    fixed_iterator& operator -=(typename tpn::iterator_traits<TIterator>::difference_type /*offset*/)
     {
       return *this;
     }
@@ -186,8 +186,8 @@ namespace tphn
   /// + difference operator.
   //*****************************************************************************
   template <typename TIterator>
-  tphn::fixed_iterator<TIterator>& operator +(tphn::fixed_iterator<TIterator>& lhs,
-                                            typename tphn::iterator_traits<TIterator>::difference_type /*rhs*/)
+  tpn::fixed_iterator<TIterator>& operator +(tpn::fixed_iterator<TIterator>& lhs,
+                                            typename tpn::iterator_traits<TIterator>::difference_type /*rhs*/)
   {
     return lhs;
   }
@@ -196,8 +196,8 @@ namespace tphn
   /// - difference operator.
   //*****************************************************************************
   template <typename TIterator>
-  tphn::fixed_iterator<TIterator>& operator -(tphn::fixed_iterator<TIterator>& lhs,
-                                            typename tphn::iterator_traits<TIterator>::difference_type /*rhs*/)
+  tpn::fixed_iterator<TIterator>& operator -(tpn::fixed_iterator<TIterator>& lhs,
+                                            typename tpn::iterator_traits<TIterator>::difference_type /*rhs*/)
   {
     return lhs;
   }
@@ -206,8 +206,8 @@ namespace tphn
   /// - fixed_iterator operator.
   //*****************************************************************************
   template <typename TIterator>
-  typename tphn::iterator_traits<TIterator>::difference_type operator -(const tphn::fixed_iterator<TIterator>& lhs,
-                                                                       const tphn::fixed_iterator<TIterator>& rhs)
+  typename tpn::iterator_traits<TIterator>::difference_type operator -(const tpn::fixed_iterator<TIterator>& lhs,
+                                                                       const tpn::fixed_iterator<TIterator>& rhs)
   {
     return TIterator(lhs) - TIterator(rhs);
   }
@@ -216,8 +216,8 @@ namespace tphn
   /// Equality operator. fixed_iterator == fixed_iterator.
   //*****************************************************************************
   template <typename TIterator>
-  bool operator ==(const tphn::fixed_iterator<TIterator>& lhs,
-                   const tphn::fixed_iterator<TIterator>& rhs)
+  bool operator ==(const tpn::fixed_iterator<TIterator>& lhs,
+                   const tpn::fixed_iterator<TIterator>& rhs)
   {
     return TIterator(lhs) == TIterator(rhs);
   }
@@ -226,7 +226,7 @@ namespace tphn
   /// Equality operator. fixed_iterator == iterator.
   //*****************************************************************************
   template <typename TIterator>
-  bool operator ==(const tphn::fixed_iterator<TIterator>& lhs,
+  bool operator ==(const tpn::fixed_iterator<TIterator>& lhs,
                    TIterator rhs)
   {
     return TIterator(lhs) == rhs;
@@ -237,7 +237,7 @@ namespace tphn
   //*****************************************************************************
   template <typename TIterator>
   bool operator ==(TIterator lhs,
-                   const tphn::fixed_iterator<TIterator>& rhs)
+                   const tpn::fixed_iterator<TIterator>& rhs)
   {
     return lhs == TIterator(rhs);
   }
@@ -247,8 +247,8 @@ namespace tphn
   /// Inequality operator. fixed_iterator == fixed_iterator.
   //*****************************************************************************
   template <typename TIterator>
-  bool operator !=(const tphn::fixed_iterator<TIterator>& lhs,
-                   const tphn::fixed_iterator<TIterator>& rhs)
+  bool operator !=(const tpn::fixed_iterator<TIterator>& lhs,
+                   const tpn::fixed_iterator<TIterator>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -257,7 +257,7 @@ namespace tphn
   /// Inequality operator. fixed_iterator == iterator.
   //*****************************************************************************
   template <typename TIterator>
-  bool operator !=(const tphn::fixed_iterator<TIterator>& lhs,
+  bool operator !=(const tpn::fixed_iterator<TIterator>& lhs,
                    TIterator rhs)
   {
     return !(lhs == rhs);
@@ -268,7 +268,7 @@ namespace tphn
   //*****************************************************************************
   template <typename TIterator>
   bool operator !=(TIterator& lhs,
-                   const tphn::fixed_iterator<TIterator>& rhs)
+                   const tpn::fixed_iterator<TIterator>& rhs)
   {
     return !(lhs == rhs);
   }

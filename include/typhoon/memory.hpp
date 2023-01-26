@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -50,9 +50,9 @@ SOFTWARE.
 #endif
 
 ///\defgroup memory memory
-///\ingroup tphn
+///\ingroup tpn
 
-namespace tphn
+namespace tpn
 {
 #if TYPHOON_NOT_USING_STL
   //*****************************************************************************
@@ -61,10 +61,10 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator, typename T>
-  typename tphn::enable_if<tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_fill(TOutputIterator o_begin, TOutputIterator o_end, const T& value)
   {
-    tphn::fill(o_begin, o_end, value);
+    tpn::fill(o_begin, o_end, value);
 
     return o_end;
   }
@@ -75,14 +75,14 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator, typename T>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_fill(TOutputIterator o_begin, TOutputIterator o_end, const T& value)
   {
-    typedef typename tphn::iterator_traits<TOutputIterator>::value_type value_type;
+    typedef typename tpn::iterator_traits<TOutputIterator>::value_type value_type;
 
     while (o_begin != o_end)
     {
-      ::new (static_cast<void*>(tphn::addressof(*o_begin))) value_type(value);
+      ::new (static_cast<void*>(tpn::addressof(*o_begin))) value_type(value);
       ++o_begin;
     }
 
@@ -96,12 +96,12 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator, typename T, typename TCounter>
-  typename tphn::enable_if<tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_fill(TOutputIterator o_begin, TOutputIterator o_end, const T& value, TCounter& count)
   {
-    count += int32_t(tphn::distance(o_begin, o_end));
+    count += int32_t(tpn::distance(o_begin, o_end));
 
-    tphn::fill(o_begin, o_end, value);
+    tpn::fill(o_begin, o_end, value);
 
     return o_end;
   }
@@ -113,12 +113,12 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator, typename T, typename TCounter>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_fill(TOutputIterator o_begin, TOutputIterator o_end, const T& value, TCounter& count)
   {
-    count += int32_t(tphn::distance(o_begin, o_end));
+    count += int32_t(tpn::distance(o_begin, o_end));
 
-    tphn::uninitialized_fill(o_begin, o_end, value);
+    tpn::uninitialized_fill(o_begin, o_end, value);
 
     return o_end;
   }
@@ -146,7 +146,7 @@ namespace tphn
   template <typename TOutputIterator, typename T, typename TCounter>
   TOutputIterator  uninitialized_fill(TOutputIterator o_begin, TOutputIterator o_end, const T& value, TCounter& count)
   {
-    count += int32_t(tphn::distance(o_begin, o_end));
+    count += int32_t(tpn::distance(o_begin, o_end));
 
     std::uninitialized_fill(o_begin, o_end, value);
 
@@ -163,7 +163,7 @@ namespace tphn
   template <typename TOutputIterator, typename TSize, typename T>
   TOutputIterator uninitialized_fill_n(TOutputIterator o_begin, TSize n, const T& value)
   {
-    return tphn::uninitialized_fill(o_begin, o_begin + n, value);
+    return tpn::uninitialized_fill(o_begin, o_begin + n, value);
   }
 
   //*****************************************************************************
@@ -177,7 +177,7 @@ namespace tphn
   {
     count += n;
 
-    return tphn::uninitialized_fill(o_begin, o_begin + n, value);
+    return tpn::uninitialized_fill(o_begin, o_begin + n, value);
   }
 #else
   //*****************************************************************************
@@ -213,10 +213,10 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TInputIterator, typename TOutputIterator>
-  typename tphn::enable_if<tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_copy(TInputIterator i_begin, TInputIterator i_end, TOutputIterator o_begin)
   {
-    return tphn::copy(i_begin, i_end, o_begin);
+    return tpn::copy(i_begin, i_end, o_begin);
   }
 
   //*****************************************************************************
@@ -225,16 +225,16 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TInputIterator, typename TOutputIterator>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_copy(TInputIterator i_begin, TInputIterator i_end, TOutputIterator o_begin)
   {
-    typedef typename tphn::iterator_traits<TOutputIterator>::value_type value_type;
+    typedef typename tpn::iterator_traits<TOutputIterator>::value_type value_type;
 
     TOutputIterator o_end = o_begin;
 
     while (i_begin != i_end)
     {
-      ::new (static_cast<void*>(tphn::addressof(*o_end))) value_type(*i_begin);
+      ::new (static_cast<void*>(tpn::addressof(*o_end))) value_type(*i_begin);
       ++i_begin;
       ++o_end;
     }
@@ -249,11 +249,11 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TInputIterator, typename TOutputIterator, typename TCounter>
-  typename tphn::enable_if<tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_copy(TInputIterator i_begin, TInputIterator i_end, TOutputIterator o_begin, TCounter& count)
   {
-    TOutputIterator o_end = tphn::copy(i_begin, i_end, o_begin);
-    count += int32_t(tphn::distance(i_begin, i_end));
+    TOutputIterator o_end = tpn::copy(i_begin, i_end, o_begin);
+    count += int32_t(tpn::distance(i_begin, i_end));
 
     return o_end;
   }
@@ -265,12 +265,12 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TInputIterator, typename TOutputIterator, typename TCounter>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_copy(TInputIterator i_begin, TInputIterator i_end, TOutputIterator o_begin, TCounter& count)
   {
-    TOutputIterator o_end = tphn::uninitialized_copy(i_begin, i_end, o_begin);
+    TOutputIterator o_end = tpn::uninitialized_copy(i_begin, i_end, o_begin);
 
-    count += int32_t(tphn::distance(i_begin, i_end));
+    count += int32_t(tpn::distance(i_begin, i_end));
 
     return o_end;
   }
@@ -295,7 +295,7 @@ namespace tphn
   template <typename TInputIterator, typename TOutputIterator, typename TCounter>
   TOutputIterator uninitialized_copy(TInputIterator i_begin, TInputIterator i_end, TOutputIterator o_begin, TCounter& count)
   {
-    count += int32_t(tphn::distance(i_begin, i_end));
+    count += int32_t(tpn::distance(i_begin, i_end));
 
     return std::uninitialized_copy(i_begin, i_end, o_begin);
   }
@@ -310,7 +310,7 @@ namespace tphn
   template <typename TInputIterator, typename TSize, typename TOutputIterator>
   TOutputIterator uninitialized_copy_n(TInputIterator i_begin, TSize n, TOutputIterator o_begin)
   {
-    return tphn::uninitialized_copy(i_begin, i_begin + n, o_begin);
+    return tpn::uninitialized_copy(i_begin, i_begin + n, o_begin);
   }
 
   //*****************************************************************************
@@ -324,7 +324,7 @@ namespace tphn
   {
     count += n;
 
-    return tphn::uninitialized_copy(i_begin, i_begin + n, o_begin);
+    return tpn::uninitialized_copy(i_begin, i_begin + n, o_begin);
   }
 #else
   //*****************************************************************************
@@ -361,10 +361,10 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TInputIterator, typename TOutputIterator>
-  typename tphn::enable_if<tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_move(TInputIterator i_begin, TInputIterator i_end, TOutputIterator o_begin)
   {
-    return tphn::move(i_begin, i_end, o_begin);
+    return tpn::move(i_begin, i_end, o_begin);
   }
 
   //*****************************************************************************
@@ -373,16 +373,16 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TInputIterator, typename TOutputIterator>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_move(TInputIterator i_begin, TInputIterator i_end, TOutputIterator o_begin)
   {
-    typedef typename tphn::iterator_traits<TOutputIterator>::value_type value_type;
+    typedef typename tpn::iterator_traits<TOutputIterator>::value_type value_type;
 
     TOutputIterator o_end = o_begin;
 
     while (i_begin != i_end)
     {
-      ::new (static_cast<void*>(tphn::addressof(*o_end))) value_type(tphn::move(*i_begin));
+      ::new (static_cast<void*>(tpn::addressof(*o_end))) value_type(tpn::move(*i_begin));
       ++i_begin;
       ++o_end;
     }
@@ -397,11 +397,11 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TInputIterator, typename TOutputIterator, typename TCounter>
-  typename tphn::enable_if<tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_move(TInputIterator i_begin, TInputIterator i_end, TOutputIterator o_begin, TCounter& count)
   {
-    TOutputIterator o_end = tphn::move(i_begin, i_end, o_begin);
-    count += int32_t(tphn::distance(i_begin, i_end));
+    TOutputIterator o_end = tpn::move(i_begin, i_end, o_begin);
+    count += int32_t(tpn::distance(i_begin, i_end));
 
     return o_end;
   }
@@ -413,12 +413,12 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TInputIterator, typename TOutputIterator, typename TCounter>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_move(TInputIterator i_begin, TInputIterator i_end, TOutputIterator o_begin, TCounter& count)
   {
-    TOutputIterator o_end = tphn::uninitialized_move(i_begin, i_end, o_begin);
+    TOutputIterator o_end = tpn::uninitialized_move(i_begin, i_end, o_begin);
 
-    count += int32_t(tphn::distance(i_begin, i_end));
+    count += int32_t(tpn::distance(i_begin, i_end));
 
     return o_end;
   }
@@ -443,7 +443,7 @@ namespace tphn
   template <typename TInputIterator, typename TOutputIterator, typename TCounter>
   TOutputIterator uninitialized_move(TInputIterator i_begin, TInputIterator i_end, TOutputIterator o_begin, TCounter& count)
   {
-    count += int32_t(tphn::distance(i_begin, i_end));
+    count += int32_t(tpn::distance(i_begin, i_end));
 
     return std::uninitialized_move(i_begin, i_end, o_begin);
   }
@@ -471,7 +471,7 @@ namespace tphn
   template <typename TInputIterator, typename TOutputIterator, typename TCounter>
   TOutputIterator uninitialized_move(TInputIterator i_begin, TInputIterator i_end, TOutputIterator o_begin, TCounter& count)
   {
-    count += int32_t(tphn::distance(i_begin, i_end));
+    count += int32_t(tpn::distance(i_begin, i_end));
 
     // Move not supported. Defer to copy.
     return TYPHOON_OR_STD::uninitialized_copy(i_begin, i_end, o_begin);
@@ -486,10 +486,10 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TInputIterator, typename TSize, typename TOutputIterator>
-  typename tphn::enable_if<tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_move_n(TInputIterator i_begin, TSize n, TOutputIterator o_begin)
   {
-    return tphn::move(i_begin, i_begin + n, o_begin);
+    return tpn::move(i_begin, i_begin + n, o_begin);
   }
 
   //*****************************************************************************
@@ -498,16 +498,16 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TInputIterator, typename TSize, typename TOutputIterator>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_move_n(TInputIterator i_begin, TSize n, TOutputIterator o_begin)
   {
-    typedef typename tphn::iterator_traits<TOutputIterator>::value_type value_type;
+    typedef typename tpn::iterator_traits<TOutputIterator>::value_type value_type;
 
     TOutputIterator o_end = o_begin;
 
     while (n-- != 0)
     {
-      ::new (static_cast<void*>(tphn::addressof(*o_end))) value_type(tphn::move(*i_begin));
+      ::new (static_cast<void*>(tpn::addressof(*o_end))) value_type(tpn::move(*i_begin));
       ++i_begin;
       ++o_end;
     }
@@ -522,10 +522,10 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TInputIterator, typename TSize, typename TOutputIterator, typename TCounter>
-  typename tphn::enable_if<tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_move_n(TInputIterator i_begin, TSize n, TOutputIterator o_begin, TCounter& count)
   {
-    TOutputIterator o_end = tphn::move(i_begin, i_begin + n, o_begin);
+    TOutputIterator o_end = tpn::move(i_begin, i_begin + n, o_begin);
     count += TCounter(n);
 
     return o_end;
@@ -538,10 +538,10 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TInputIterator, typename TSize, typename TOutputIterator, typename TCounter>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_move_n(TInputIterator i_begin, TSize n, TOutputIterator o_begin, TCounter& count)
   {
-    TOutputIterator o_end = tphn::uninitialized_move(i_begin, i_begin + n, o_begin);
+    TOutputIterator o_end = tpn::uninitialized_move(i_begin, i_begin + n, o_begin);
 
     count += TCounter(n);
 
@@ -587,7 +587,7 @@ namespace tphn
 #if TYPHOON_USING_CPP11
     return std::uninitialized_copy_n(i_begin, n, o_begin);
 #else
-    return tphn::uninitialized_copy_n(i_begin, n, o_begin);
+    return tpn::uninitialized_copy_n(i_begin, n, o_begin);
 #endif
   }
 
@@ -606,7 +606,7 @@ namespace tphn
 #if TYPHOON_USING_CPP11
     return std::uninitialized_copy_n(i_begin, n, o_begin);
 #else
-    return tphn::uninitialized_copy_n(i_begin, n, o_begin);
+    return tpn::uninitialized_copy_n(i_begin, n, o_begin);
 #endif
   }
 #endif
@@ -618,7 +618,7 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator>
-  typename tphn::enable_if<tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
     uninitialized_default_construct(TOutputIterator /*o_begin*/, TOutputIterator /*o_end*/)
   {
     // Do nothing
@@ -630,15 +630,15 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
     uninitialized_default_construct(TOutputIterator o_begin, TOutputIterator o_end)
   {
 
-    typedef typename tphn::iterator_traits<TOutputIterator>::value_type value_type;
+    typedef typename tpn::iterator_traits<TOutputIterator>::value_type value_type;
 
     while (o_begin != o_end)
     {
-      ::new (static_cast<void*>(tphn::addressof(*o_begin))) value_type;
+      ::new (static_cast<void*>(tpn::addressof(*o_begin))) value_type;
       ++o_begin;
     }
   }
@@ -650,10 +650,10 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator, typename TCounter>
-  typename tphn::enable_if<tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
     uninitialized_default_construct(TOutputIterator o_begin, TOutputIterator o_end, TCounter& count)
   {
-    count = int32_t(tphn::distance(o_begin, o_end));
+    count = int32_t(tpn::distance(o_begin, o_end));
   }
 
   //*****************************************************************************
@@ -663,12 +663,12 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator, typename TCounter>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
     uninitialized_default_construct(TOutputIterator o_begin, TOutputIterator o_end, TCounter& count)
   {
-    count += int32_t(tphn::distance(o_begin, o_end));
+    count += int32_t(tpn::distance(o_begin, o_end));
 
-    tphn::uninitialized_default_construct(o_begin, o_end);
+    tpn::uninitialized_default_construct(o_begin, o_end);
   }
 #else
   //*****************************************************************************
@@ -677,7 +677,7 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
   uninitialized_default_construct(TOutputIterator o_begin, TOutputIterator o_end)
   {
     std::uninitialized_default_construct(o_begin, o_end);
@@ -690,10 +690,10 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator, typename TCounter>
-  typename tphn::enable_if<tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
     uninitialized_default_construct(TOutputIterator o_begin, TOutputIterator o_end, TCounter& count)
   {
-    count = int32_t(tphn::distance(o_begin, o_end));
+    count = int32_t(tpn::distance(o_begin, o_end));
 
     std::uninitialized_default_construct(o_begin, o_end);
   }
@@ -706,7 +706,7 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator, typename TSize>
-  typename tphn::enable_if<tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_default_construct_n(TOutputIterator o_begin, TSize n)
   {
     TOutputIterator o_end = o_begin + n;
@@ -719,12 +719,12 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator, typename TSize>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_default_construct_n(TOutputIterator o_begin, TSize n)
   {
     TOutputIterator o_end = o_begin + n;
 
-    tphn::uninitialized_default_construct(o_begin, o_end);
+    tpn::uninitialized_default_construct(o_begin, o_end);
 
     return o_end;
   }
@@ -736,7 +736,7 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator, typename TSize, typename TCounter>
-  typename tphn::enable_if<tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_default_construct_n(TOutputIterator o_begin, TSize n, TCounter& count)
   {
     TOutputIterator o_end = o_begin + n;
@@ -753,12 +753,12 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator, typename TSize, typename TCounter>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, TOutputIterator>::type
     uninitialized_default_construct_n(TOutputIterator o_begin, TSize n, TCounter& count)
   {
     TOutputIterator o_end = o_begin + n;
 
-    tphn::uninitialized_default_construct(o_begin, o_end);
+    tpn::uninitialized_default_construct(o_begin, o_end);
 
     count += n;
 
@@ -798,12 +798,12 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator>
-  typename tphn::enable_if<tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
     uninitialized_value_construct(TOutputIterator o_begin, TOutputIterator o_end)
   {
-    typedef typename tphn::iterator_traits<TOutputIterator>::value_type value_type;
+    typedef typename tpn::iterator_traits<TOutputIterator>::value_type value_type;
 
-    tphn::fill(o_begin, o_end, value_type());
+    tpn::fill(o_begin, o_end, value_type());
   }
 
   //*****************************************************************************
@@ -812,14 +812,14 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TOutputIterator>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<typename tphn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<typename tpn::iterator_traits<TOutputIterator>::value_type>::value, void>::type
     uninitialized_value_construct(TOutputIterator o_begin, TOutputIterator o_end)
   {
-    typedef typename tphn::iterator_traits<TOutputIterator>::value_type value_type;
+    typedef typename tpn::iterator_traits<TOutputIterator>::value_type value_type;
 
     while (o_begin != o_end)
     {
-      ::new (static_cast<void*>(tphn::addressof(*o_begin))) value_type();
+      ::new (static_cast<void*>(tpn::addressof(*o_begin))) value_type();
       ++o_begin;
     }
   }
@@ -833,9 +833,9 @@ namespace tphn
   template <typename TOutputIterator, typename TCounter>
   void uninitialized_value_construct(TOutputIterator o_begin, TOutputIterator o_end, TCounter& count)
   {
-    count += int32_t(tphn::distance(o_begin, o_end));
+    count += int32_t(tpn::distance(o_begin, o_end));
 
-    tphn::uninitialized_value_construct(o_begin, o_end);
+    tpn::uninitialized_value_construct(o_begin, o_end);
   }
 #else
   //*****************************************************************************
@@ -858,7 +858,7 @@ namespace tphn
   template <typename TOutputIterator, typename TCounter>
   void uninitialized_value_construct(TOutputIterator o_begin, TOutputIterator o_end, TCounter& count)
   {
-    count += int32_t(tphn::distance(o_begin, o_end));
+    count += int32_t(tpn::distance(o_begin, o_end));
 
     std::uninitialized_value_construct(o_begin, o_end);
   }
@@ -876,7 +876,7 @@ namespace tphn
   {
     TOutputIterator o_end = o_begin + n;
 
-    tphn::uninitialized_value_construct(o_begin, o_end);
+    tpn::uninitialized_value_construct(o_begin, o_end);
 
     return o_end;
   }
@@ -892,7 +892,7 @@ namespace tphn
   {
     TOutputIterator o_end = o_begin + n;
 
-    tphn::uninitialized_value_construct(o_begin, o_end);
+    tpn::uninitialized_value_construct(o_begin, o_end);
 
     count += n;
 
@@ -935,7 +935,7 @@ namespace tphn
   template <typename T, typename... TArgs>
   TYPHOON_CONSTEXPR T* construct_at(T* p, TArgs&&... args)
   {
-    return ::new (const_cast<void*>(static_cast<const volatile void*>(p))) T(tphn::forward<TArgs>(args)...);
+    return ::new (const_cast<void*>(static_cast<const volatile void*>(p))) T(tpn::forward<TArgs>(args)...);
   }
 #else
   //*****************************************************************************
@@ -963,7 +963,7 @@ namespace tphn
   template <typename T, typename... TArgs>
   TYPHOON_CONSTEXPR20 T* construct_at(T* p, TArgs&&... args)
   {
-    return std::construct_at(p, tphn::forward<TArgs>(args)...);
+    return std::construct_at(p, tpn::forward<TArgs>(args)...);
   }
 #endif
 
@@ -974,7 +974,7 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename T>
-  typename tphn::enable_if<tphn::is_trivially_destructible<T>::value, void>::type
+  typename tpn::enable_if<tpn::is_trivially_destructible<T>::value, void>::type
     destroy_at(T* /*p*/)
   {
   }
@@ -985,7 +985,7 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename T>
-  typename tphn::enable_if<!tphn::is_trivially_destructible<T>::value, void>::type
+  typename tpn::enable_if<!tpn::is_trivially_destructible<T>::value, void>::type
     destroy_at(T* p)
   {
     p->~T();
@@ -998,7 +998,7 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename T, typename TCounter>
-  typename tphn::enable_if<tphn::is_trivially_destructible<T>::value, void>::type
+  typename tpn::enable_if<tpn::is_trivially_destructible<T>::value, void>::type
     destroy_at(T* /*p*/, TCounter& count)
   {
     --count;
@@ -1011,7 +1011,7 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename T, typename TCounter>
-  typename tphn::enable_if<!tphn::is_trivially_destructible<T>::value, void>::type
+  typename tpn::enable_if<!tpn::is_trivially_destructible<T>::value, void>::type
     destroy_at(T* p, TCounter& count)
   {
     p->~T();
@@ -1050,7 +1050,7 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TIterator>
-  typename tphn::enable_if<tphn::is_trivially_destructible<typename tphn::iterator_traits<TIterator>::value_type>::value, void>::type
+  typename tpn::enable_if<tpn::is_trivially_destructible<typename tpn::iterator_traits<TIterator>::value_type>::value, void>::type
     destroy(TIterator /*i_begin*/, TIterator /*i_end*/)
   {
   }
@@ -1061,12 +1061,12 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TIterator>
-  typename tphn::enable_if<!tphn::is_trivially_destructible<typename tphn::iterator_traits<TIterator>::value_type>::value, void>::type
+  typename tpn::enable_if<!tpn::is_trivially_destructible<typename tpn::iterator_traits<TIterator>::value_type>::value, void>::type
     destroy(TIterator i_begin, TIterator i_end)
   {
     while (i_begin != i_end)
     {
-      tphn::destroy_at(tphn::addressof(*i_begin));
+      tpn::destroy_at(tpn::addressof(*i_begin));
       ++i_begin;
     }
   }
@@ -1078,10 +1078,10 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TIterator, typename TCounter>
-  typename tphn::enable_if<tphn::is_trivially_destructible<typename tphn::iterator_traits<TIterator>::value_type>::value, void>::type
+  typename tpn::enable_if<tpn::is_trivially_destructible<typename tpn::iterator_traits<TIterator>::value_type>::value, void>::type
     destroy(TIterator i_begin, TIterator i_end, TCounter& count)
   {
-    count -= int32_t(tphn::distance(i_begin, i_end));
+    count -= int32_t(tpn::distance(i_begin, i_end));
   }
 
   //*****************************************************************************
@@ -1091,14 +1091,14 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TIterator, typename TCounter>
-  typename tphn::enable_if<!tphn::is_trivially_destructible<typename tphn::iterator_traits<TIterator>::value_type>::value, void>::type
+  typename tpn::enable_if<!tpn::is_trivially_destructible<typename tpn::iterator_traits<TIterator>::value_type>::value, void>::type
     destroy(TIterator i_begin, TIterator i_end, TCounter& count)
   {
-    count -= int32_t(tphn::distance(i_begin, i_end));
+    count -= int32_t(tpn::distance(i_begin, i_end));
 
     while (i_begin != i_end)
     {
-      tphn::destroy_at(tphn::addressof(*i_begin));
+      tpn::destroy_at(tpn::addressof(*i_begin));
       ++i_begin;
     }
   }
@@ -1123,7 +1123,7 @@ namespace tphn
   template <typename TIterator, typename TCounter>
   void destroy(TIterator i_begin, TIterator i_end, TCounter& count)
   {
-    count -= int32_t(tphn::distance(i_begin, i_end));
+    count -= int32_t(tpn::distance(i_begin, i_end));
 
     std::destroy(i_begin, i_end);
   }
@@ -1136,7 +1136,7 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TIterator, typename TSize>
-  typename tphn::enable_if<tphn::is_trivially_destructible<typename tphn::iterator_traits<TIterator>::value_type>::value, TIterator>::type
+  typename tpn::enable_if<tpn::is_trivially_destructible<typename tpn::iterator_traits<TIterator>::value_type>::value, TIterator>::type
     destroy_n(TIterator i_begin, TSize n)
   {
     return i_begin + n;
@@ -1148,12 +1148,12 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TIterator, typename TSize>
-  typename tphn::enable_if<!tphn::is_trivially_destructible<typename tphn::iterator_traits<TIterator>::value_type>::value, TIterator>::type
+  typename tpn::enable_if<!tpn::is_trivially_destructible<typename tpn::iterator_traits<TIterator>::value_type>::value, TIterator>::type
     destroy_n(TIterator i_begin, TSize n)
   {
     while (n > 0)
     {
-      tphn::destroy_at(tphn::addressof(*i_begin));
+      tpn::destroy_at(tpn::addressof(*i_begin));
       ++i_begin;
       --n;
     }
@@ -1168,7 +1168,7 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TIterator, typename TSize, typename TCounter>
-  typename tphn::enable_if<tphn::is_trivially_destructible<typename tphn::iterator_traits<TIterator>::value_type>::value, TIterator>::type
+  typename tpn::enable_if<tpn::is_trivially_destructible<typename tpn::iterator_traits<TIterator>::value_type>::value, TIterator>::type
     destroy_n(TIterator i_begin, TSize n, TCounter& count)
   {
     count -= n;
@@ -1182,14 +1182,14 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename TIterator, typename TSize, typename TCounter>
-  typename tphn::enable_if<!tphn::is_trivially_destructible<typename tphn::iterator_traits<TIterator>::value_type>::value, TIterator>::type
+  typename tpn::enable_if<!tpn::is_trivially_destructible<typename tpn::iterator_traits<TIterator>::value_type>::value, TIterator>::type
     destroy_n(TIterator i_begin, TSize n, TCounter& count)
   {
     count -= n;
 
     while (n > 0)
     {
-      tphn::destroy_at(tphn::addressof(*i_begin));
+      tpn::destroy_at(tpn::addressof(*i_begin));
       ++i_begin;
       --n;
     }
@@ -1284,7 +1284,7 @@ namespace tphn
   /// https://en.cppreference.com/w/cpp/memory/unique_ptr
   ///\ingroup memory
   //*****************************************************************************
-  template <typename T, typename TDeleter = tphn::default_delete<T> >
+  template <typename T, typename TDeleter = tpn::default_delete<T> >
   class unique_ptr
   {
   public:
@@ -1312,7 +1312,7 @@ namespace tphn
       if (&other != this)
       {
         p = other.release();
-        deleter = tphn::move(other.deleter);
+        deleter = tpn::move(other.deleter);
       }
     }
 #else
@@ -1328,9 +1328,9 @@ namespace tphn
 #endif
 
     //*********************************
-    unique_ptr(pointer p_, typename tphn::conditional<tphn::is_reference<TDeleter>::value, 
+    unique_ptr(pointer p_, typename tpn::conditional<tpn::is_reference<TDeleter>::value, 
                                                      TDeleter, 
-                                                     typename tphn::add_lvalue_reference<const TDeleter>::type>::type deleter_) TYPHOON_NOEXCEPT
+                                                     typename tpn::add_lvalue_reference<const TDeleter>::type>::type deleter_) TYPHOON_NOEXCEPT
       : p(p_)
       , deleter(deleter_)
     {
@@ -1338,16 +1338,16 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************
-    unique_ptr(pointer p_, typename tphn::remove_reference<TDeleter>::type&& deleter_) TYPHOON_NOEXCEPT
+    unique_ptr(pointer p_, typename tpn::remove_reference<TDeleter>::type&& deleter_) TYPHOON_NOEXCEPT
       : p(p_)
-      , deleter(tphn::move(deleter_))
+      , deleter(tpn::move(deleter_))
     {
     }
 
     template <typename U, typename E>
     unique_ptr(unique_ptr<U, E>&& u) TYPHOON_NOEXCEPT
       : p(u.release())
-      , deleter(tphn::forward<E>(u.get_deleter()))
+      , deleter(tpn::forward<E>(u.get_deleter()))
     {
     }
 #endif
@@ -1437,7 +1437,7 @@ namespace tphn
       if (&other != this)
       {
         reset(other.release());
-        deleter = tphn::move(other.deleter);
+        deleter = tpn::move(other.deleter);
       }
 
       return *this;
@@ -1518,7 +1518,7 @@ namespace tphn
       if (&other != this)
       {
         p = other.release();
-        deleter = tphn::move(other.deleter);
+        deleter = tpn::move(other.deleter);
       }
     }
 #else
@@ -1535,9 +1535,9 @@ namespace tphn
 
     //*********************************
     unique_ptr(pointer p_, 
-               typename tphn::conditional<tphn::is_reference<TDeleter>::value,
+               typename tpn::conditional<tpn::is_reference<TDeleter>::value,
                                          TDeleter,
-                                         typename tphn::add_lvalue_reference<const TDeleter>::type>::type deleter_) TYPHOON_NOEXCEPT
+                                         typename tpn::add_lvalue_reference<const TDeleter>::type>::type deleter_) TYPHOON_NOEXCEPT
       : p(p_)
       , deleter(deleter_)
     {
@@ -1545,16 +1545,16 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************
-    unique_ptr(pointer p_, typename tphn::remove_reference<TDeleter>::type&& deleter_) TYPHOON_NOEXCEPT
+    unique_ptr(pointer p_, typename tpn::remove_reference<TDeleter>::type&& deleter_) TYPHOON_NOEXCEPT
       : p(p_)
-      , deleter(tphn::move(deleter_))
+      , deleter(tpn::move(deleter_))
     {
     }
 
     template <typename U, typename E>
     unique_ptr(unique_ptr<U, E>&& u) TYPHOON_NOEXCEPT
       : p(u.release())
-      , deleter(tphn::forward<E>(u.get_deleter()))
+      , deleter(tpn::forward<E>(u.get_deleter()))
     {
     }
 #endif
@@ -1643,7 +1643,7 @@ namespace tphn
       if (&other != this)
       {
         reset(other.release());
-        deleter = tphn::move(other.deleter);
+        deleter = tpn::move(other.deleter);
       }
 
       return *this;
@@ -1695,47 +1695,47 @@ namespace tphn
 // Global functions for unique_ptr
 //*****************************************************************************
 template<typename T1, typename TD1, typename T2, typename TD2>
-bool operator ==(const tphn::unique_ptr<T1, TD1>&lhs, const tphn::unique_ptr<T2, TD2>& rhs)
+bool operator ==(const tpn::unique_ptr<T1, TD1>&lhs, const tpn::unique_ptr<T2, TD2>& rhs)
 {
   return lhs.get() == rhs.get();
 }
 
 //*********************************
 template<typename T1, typename TD1, typename T2, typename TD2>
-bool operator <(const tphn::unique_ptr<T1, TD1>&lhs, const tphn::unique_ptr<T2, TD2>& rhs)
+bool operator <(const tpn::unique_ptr<T1, TD1>&lhs, const tpn::unique_ptr<T2, TD2>& rhs)
 {
   return reinterpret_cast<char*>(lhs.get()) < reinterpret_cast<char*>(rhs.get());
 }
 
 //*********************************
 template<typename T1, typename TD1, typename T2, typename TD2>
-bool operator <=(const tphn::unique_ptr<T1, TD1>&lhs, const tphn::unique_ptr<T2, TD2>& rhs)
+bool operator <=(const tpn::unique_ptr<T1, TD1>&lhs, const tpn::unique_ptr<T2, TD2>& rhs)
 {
   return !(rhs < lhs);
 }
 
 //*********************************
 template<typename T1, typename TD1, typename T2, typename TD2>
-bool operator >(const tphn::unique_ptr<T1, TD1>&lhs, const tphn::unique_ptr<T2, TD2>& rhs)
+bool operator >(const tpn::unique_ptr<T1, TD1>&lhs, const tpn::unique_ptr<T2, TD2>& rhs)
 {
   return (rhs < lhs);
 }
 
 //*********************************
 template<typename T1, typename TD1, typename T2, typename TD2>
-bool operator >=(const tphn::unique_ptr<T1, TD1>&lhs, const tphn::unique_ptr<T2, TD2>& rhs)
+bool operator >=(const tpn::unique_ptr<T1, TD1>&lhs, const tpn::unique_ptr<T2, TD2>& rhs)
 {
   return !(lhs < rhs);
 }
 
-namespace tphn
+namespace tpn
 {
   //*****************************************************************************
   /// Default construct an item at address p.
   ///\ingroup memory
   //*****************************************************************************
   template <typename T>
-  typename tphn::enable_if<tphn::is_trivially_constructible<T>::value, void>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<T>::value, void>::type
    create_default_at(T* /*p*/)
   {
   }
@@ -1745,7 +1745,7 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename T, typename TCounter>
-  typename tphn::enable_if<tphn::is_trivially_constructible<T>::value, void>::type
+  typename tpn::enable_if<tpn::is_trivially_constructible<T>::value, void>::type
    create_default_at(T* /*p*/, TCounter& count)
   {
     ++count;
@@ -1756,7 +1756,7 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename T>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<T>::value, void>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<T>::value, void>::type
    create_default_at(T* p)
   {
     ::new (p) T;
@@ -1767,7 +1767,7 @@ namespace tphn
   ///\ingroup memory
   //*****************************************************************************
   template <typename T, typename TCounter>
-  typename tphn::enable_if<!tphn::is_trivially_constructible<T>::value, void>::type
+  typename tpn::enable_if<!tpn::is_trivially_constructible<T>::value, void>::type
    create_default_at(T* p, TCounter& count)
   {
     ::new (p) T;
@@ -1813,7 +1813,7 @@ namespace tphn
   template <typename T>
   void create_copy_at(T* p, T&& value)
   {
-    ::new (p) T(tphn::move(value));
+    ::new (p) T(tpn::move(value));
   }
 #endif
 
@@ -1870,7 +1870,7 @@ namespace tphn
   template <typename T>
   T& make_copy_at(T* p, T&& other)
   {
-    ::new (p) T(tphn::move(other));
+    ::new (p) T(tpn::move(other));
     return *reinterpret_cast<T*>(p);
   }
 #endif
@@ -1906,7 +1906,7 @@ namespace tphn
   template <typename T, typename TParameter>
   T& make_value_at(T* p, TParameter&& value)
   {
-    ::new (p) T(tphn::move(value));
+    ::new (p) T(tpn::move(value));
     return *reinterpret_cast<T*>(p);
   }
 #endif
@@ -2007,7 +2007,7 @@ namespace tphn
   template <typename T>
   void memory_clear_range(volatile T* begin, volatile T* end)
   {
-    const size_t n = static_cast<size_t>(tphn::distance(begin, end));
+    const size_t n = static_cast<size_t>(tpn::distance(begin, end));
 
     memory_clear_range(begin, n);
   }
@@ -2065,7 +2065,7 @@ namespace tphn
   template <typename T>
   void memory_set_range(volatile T* begin, volatile T* end, const char value)
   {
-    const size_t n = static_cast<size_t>(tphn::distance(begin, end));
+    const size_t n = static_cast<size_t>(tpn::distance(begin, end));
 
     memory_set_range(begin, n, value);
   }
@@ -2103,7 +2103,7 @@ namespace tphn
     template <typename T>
     operator T& ()
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_same<T*, void*>::value || ((Alignment % tphn::alignment_of<T>::value) == 0)), "Incompatible alignment");
+      TYPHOON_STATIC_ASSERT((tpn::is_same<T*, void*>::value || ((Alignment % tpn::alignment_of<T>::value) == 0)), "Incompatible alignment");
       return *reinterpret_cast<T*>(raw);
     }
 
@@ -2111,7 +2111,7 @@ namespace tphn
     template <typename T>
     operator const T& () const
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_same<T*, void*>::value || ((Alignment % tphn::alignment_of<T>::value) == 0)), "Incompatible alignment");
+      TYPHOON_STATIC_ASSERT((tpn::is_same<T*, void*>::value || ((Alignment % tpn::alignment_of<T>::value) == 0)), "Incompatible alignment");
       return *reinterpret_cast<const T*>(raw);
     }
 
@@ -2119,7 +2119,7 @@ namespace tphn
     template <typename T>
     operator T* ()
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_same<T*, void*>::value || ((Alignment % tphn::alignment_of<T>::value) == 0)), "Incompatible alignment");
+      TYPHOON_STATIC_ASSERT((tpn::is_same<T*, void*>::value || ((Alignment % tpn::alignment_of<T>::value) == 0)), "Incompatible alignment");
       return reinterpret_cast<T*>(raw);
     }
 
@@ -2127,7 +2127,7 @@ namespace tphn
     template <typename T>
     operator const T* () const
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_same<T*, void*>::value || ((Alignment % tphn::alignment_of<T>::value) == 0)), "Incompatible alignment");
+      TYPHOON_STATIC_ASSERT((tpn::is_same<T*, void*>::value || ((Alignment % tpn::alignment_of<T>::value) == 0)), "Incompatible alignment");
       return reinterpret_cast<const T*>(raw);
     }
 
@@ -2137,7 +2137,7 @@ namespace tphn
     union
     {
       char raw[VObject_Size * VN_Objects];
-      typename tphn::type_with_alignment<Alignment>::type tphn_alignment_type; // A POD type that has the same alignment as VAlignment.
+      typename tpn::type_with_alignment<Alignment>::type tpn_alignment_type; // A POD type that has the same alignment as VAlignment.
     };
 #endif
   };
@@ -2161,7 +2161,7 @@ namespace tphn
 
     static TYPHOON_CONSTANT size_t Object_Size = sizeof(T);
     static TYPHOON_CONSTANT size_t N_Objects   = VN_Objects;
-    static TYPHOON_CONSTANT size_t Alignment   = tphn::alignment_of<T>::value;
+    static TYPHOON_CONSTANT size_t Alignment   = tpn::alignment_of<T>::value;
 
     /// Index operator.
     T& operator [](int i)
@@ -2226,7 +2226,7 @@ namespace tphn
     union
     {
       char raw[sizeof(T) * N_Objects];
-      typename tphn::type_with_alignment<Alignment>::type tphn_alignment_type; // A POD type that has the same alignment as Alignment.
+      typename tpn::type_with_alignment<Alignment>::type tpn_alignment_type; // A POD type that has the same alignment as Alignment.
     };
 #endif
   };
@@ -2245,12 +2245,12 @@ namespace tphn
 /// \return A pointer to the destination.
 //***************************************************************************
   template <typename TPointer>
-  typename tphn::enable_if<tphn::is_trivially_copyable<typename tphn::iterator_traits<TPointer>::value_type>::value, TPointer>::type
+  typename tpn::enable_if<tpn::is_trivially_copyable<typename tpn::iterator_traits<TPointer>::value_type>::value, TPointer>::type
     mem_copy(const TPointer sb, const TPointer se, TPointer db) TYPHOON_NOEXCEPT
   {
     return reinterpret_cast<TPointer>(memcpy(reinterpret_cast<void*>(db), 
                                              reinterpret_cast<void*>(sb), 
-                                             sizeof(typename tphn::iterator_traits<TPointer>::value_type) * static_cast<size_t>(se - sb)));
+                                             sizeof(typename tpn::iterator_traits<TPointer>::value_type) * static_cast<size_t>(se - sb)));
   }
 
   //***************************************************************************
@@ -2261,12 +2261,12 @@ namespace tphn
   /// \param destination begin
   //***************************************************************************
   template <typename TPointer>
-  typename tphn::enable_if<tphn::is_trivially_copyable<typename tphn::iterator_traits<TPointer>::value_type>::value, TPointer>::type
+  typename tpn::enable_if<tpn::is_trivially_copyable<typename tpn::iterator_traits<TPointer>::value_type>::value, TPointer>::type
     mem_copy(const TPointer sb, size_t n, TPointer db) TYPHOON_NOEXCEPT
   {
     return reinterpret_cast<TPointer>(memcpy(reinterpret_cast<void*>(db), 
                                              reinterpret_cast<void*>(sb), 
-                                             sizeof(typename tphn::iterator_traits<TPointer>::value_type) * n));
+                                             sizeof(typename tpn::iterator_traits<TPointer>::value_type) * n));
   }
 
   //***************************************************************************
@@ -2277,12 +2277,12 @@ namespace tphn
   /// \param destination begin
   //***************************************************************************
   template <typename TPointer>
-  typename tphn::enable_if<tphn::is_trivially_copyable<typename tphn::iterator_traits<TPointer>::value_type>::value, TPointer>::type
+  typename tpn::enable_if<tpn::is_trivially_copyable<typename tpn::iterator_traits<TPointer>::value_type>::value, TPointer>::type
     mem_move(const TPointer sb, const TPointer se, TPointer db) TYPHOON_NOEXCEPT
   {
     return reinterpret_cast<TPointer>(memmove(reinterpret_cast<void*>(db), 
                                               reinterpret_cast<void*>(sb), 
-                                              sizeof(typename tphn::iterator_traits<TPointer>::value_type) * static_cast<size_t>(se - sb)));
+                                              sizeof(typename tpn::iterator_traits<TPointer>::value_type) * static_cast<size_t>(se - sb)));
   }
 
   //***************************************************************************
@@ -2293,12 +2293,12 @@ namespace tphn
   /// \param destination begin
   //***************************************************************************
   template <typename TPointer>
-  typename tphn::enable_if<tphn::is_trivially_copyable<typename tphn::iterator_traits<TPointer>::value_type>::value, TPointer>::type
+  typename tpn::enable_if<tpn::is_trivially_copyable<typename tpn::iterator_traits<TPointer>::value_type>::value, TPointer>::type
     mem_move(const TPointer sb, size_t n, TPointer db) TYPHOON_NOEXCEPT
   {
     return reinterpret_cast<TPointer>(memmove(reinterpret_cast<void*>(db), 
                                               reinterpret_cast<void*>(sb), 
-                                              sizeof(typename tphn::iterator_traits<TPointer>::value_type) * n));
+                                              sizeof(typename tpn::iterator_traits<TPointer>::value_type) * n));
   }
 
   //***************************************************************************
@@ -2312,12 +2312,12 @@ namespace tphn
   //***************************************************************************
   template <typename TPointer>
   TYPHOON_NODISCARD
-    typename tphn::enable_if<tphn::is_trivially_copyable<typename tphn::iterator_traits<TPointer>::value_type>::value, int>::type
+    typename tpn::enable_if<tpn::is_trivially_copyable<typename tpn::iterator_traits<TPointer>::value_type>::value, int>::type
     mem_compare(const TPointer sb, const TPointer se, TPointer db) TYPHOON_NOEXCEPT
   {
     return memcmp(reinterpret_cast<void*>(db), 
                   reinterpret_cast<void*>(sb), 
-                  sizeof(typename tphn::iterator_traits<TPointer>::value_type) * static_cast<size_t>(se - sb));
+                  sizeof(typename tpn::iterator_traits<TPointer>::value_type) * static_cast<size_t>(se - sb));
   }
 
   //***************************************************************************
@@ -2331,12 +2331,12 @@ namespace tphn
   //***************************************************************************
   template <typename TPointer>
   TYPHOON_NODISCARD
-    typename tphn::enable_if<tphn::is_trivially_copyable<typename tphn::iterator_traits<TPointer>::value_type>::value, int>::type
+    typename tpn::enable_if<tpn::is_trivially_copyable<typename tpn::iterator_traits<TPointer>::value_type>::value, int>::type
     mem_compare(const TPointer sb, size_t n, TPointer db) TYPHOON_NOEXCEPT
   {
     return memcmp(reinterpret_cast<void*>(db), 
                   reinterpret_cast<void*>(sb), 
-                  sizeof(typename tphn::iterator_traits<TPointer>::value_type) * n);
+                  sizeof(typename tpn::iterator_traits<TPointer>::value_type) * n);
   }
 
   //***************************************************************************
@@ -2347,12 +2347,12 @@ namespace tphn
   /// \return The destination
   //***************************************************************************
   template <typename TPointer, typename T>
-  typename tphn::enable_if<tphn::is_trivially_copyable<typename tphn::iterator_traits<TPointer>::value_type>::value, TPointer>::type
+  typename tpn::enable_if<tpn::is_trivially_copyable<typename tpn::iterator_traits<TPointer>::value_type>::value, TPointer>::type
     mem_set(TPointer db, const TPointer de, T value) TYPHOON_NOEXCEPT
   {
     return reinterpret_cast<TPointer>(memset(reinterpret_cast<void*>(db), 
                                              static_cast<char>(value),
-                                             sizeof(typename tphn::iterator_traits<TPointer>::value_type) * static_cast<size_t>(de - db)));
+                                             sizeof(typename tpn::iterator_traits<TPointer>::value_type) * static_cast<size_t>(de - db)));
   }
 
   //***************************************************************************
@@ -2363,12 +2363,12 @@ namespace tphn
   /// \return The destination
   //***************************************************************************
   template <typename TPointer, typename T>
-  typename tphn::enable_if<tphn::is_trivially_copyable<typename tphn::iterator_traits<TPointer>::value_type>::value, TPointer>::type
+  typename tpn::enable_if<tpn::is_trivially_copyable<typename tpn::iterator_traits<TPointer>::value_type>::value, TPointer>::type
     mem_set(const TPointer db, size_t n, T value) TYPHOON_NOEXCEPT
   {
     return reinterpret_cast<TPointer>(memset(reinterpret_cast<void*>(db),
                                              static_cast<char>(value),
-                                             sizeof(typename tphn::iterator_traits<TPointer>::value_type) * n));
+                                             sizeof(typename tpn::iterator_traits<TPointer>::value_type) * n));
   }
 
   //***************************************************************************
@@ -2380,12 +2380,12 @@ namespace tphn
   //***************************************************************************
   template <typename TPointer, typename T>
   TYPHOON_NODISCARD
-    typename tphn::enable_if<tphn::is_pointer<TPointer>::value && !tphn::is_const<typename tphn::remove_pointer<TPointer>::type>::value, char*>::type
+    typename tpn::enable_if<tpn::is_pointer<TPointer>::value && !tpn::is_const<typename tpn::remove_pointer<TPointer>::type>::value, char*>::type
     mem_char(TPointer sb, TPointer se, T value) TYPHOON_NOEXCEPT
   {
     void* result = memchr(reinterpret_cast<void*>(sb), 
                           static_cast<char>(value),
-                          sizeof(typename tphn::iterator_traits<TPointer>::value_type) * static_cast<size_t>(se - sb));
+                          sizeof(typename tpn::iterator_traits<TPointer>::value_type) * static_cast<size_t>(se - sb));
 
     return (result == 0U) ? reinterpret_cast<char*>(se) : reinterpret_cast<char*>(result);
   }
@@ -2399,12 +2399,12 @@ namespace tphn
   //***************************************************************************
   template <typename TPointer, typename T>
   TYPHOON_NODISCARD
-    typename tphn::enable_if<tphn::is_pointer<TPointer>::value && tphn::is_const<typename tphn::remove_pointer<TPointer>::type>::value, const char*>::type
+    typename tpn::enable_if<tpn::is_pointer<TPointer>::value && tpn::is_const<typename tpn::remove_pointer<TPointer>::type>::value, const char*>::type
     mem_char(TPointer sb, TPointer se, T value) TYPHOON_NOEXCEPT
   {
     const void* result = memchr(reinterpret_cast<const void*>(sb),
                                 static_cast<char>(value),
-                                sizeof(typename tphn::iterator_traits<TPointer>::value_type) * static_cast<size_t>(se - sb));
+                                sizeof(typename tpn::iterator_traits<TPointer>::value_type) * static_cast<size_t>(se - sb));
 
     return (result == 0U) ? reinterpret_cast<const char*>(se) : reinterpret_cast<const char*>(result);
   }
@@ -2418,12 +2418,12 @@ namespace tphn
   //***************************************************************************
   template <typename TPointer, typename T>
   TYPHOON_NODISCARD
-    typename tphn::enable_if<tphn::is_pointer<TPointer>::value && !tphn::is_const<typename tphn::remove_pointer<TPointer>::type>::value, char*>::type
+    typename tpn::enable_if<tpn::is_pointer<TPointer>::value && !tpn::is_const<typename tpn::remove_pointer<TPointer>::type>::value, char*>::type
     mem_char(TPointer sb, size_t n, T value) TYPHOON_NOEXCEPT
   {
     void* result = memchr(reinterpret_cast<void*>(sb), 
                           static_cast<char>(value),
-                          sizeof(typename tphn::iterator_traits<TPointer>::value_type) * n);
+                          sizeof(typename tpn::iterator_traits<TPointer>::value_type) * n);
 
     return (result == 0U) ? reinterpret_cast<char*>(sb + n) : reinterpret_cast<char*>(result);
   }
@@ -2437,12 +2437,12 @@ namespace tphn
   //***************************************************************************
   template <typename TPointer, typename T>
   TYPHOON_NODISCARD
-    typename tphn::enable_if<tphn::is_pointer<TPointer>::value && tphn::is_const<typename tphn::remove_pointer<TPointer>::type>::value, const char*>::type
+    typename tpn::enable_if<tpn::is_pointer<TPointer>::value && tpn::is_const<typename tpn::remove_pointer<TPointer>::type>::value, const char*>::type
     mem_char(TPointer sb, size_t n, T value) TYPHOON_NOEXCEPT
   {
     const void* result = memchr(reinterpret_cast<const void*>(sb),
                                 static_cast<char>(value),
-                                sizeof(typename tphn::iterator_traits<TPointer>::value_type) * n);
+                                sizeof(typename tpn::iterator_traits<TPointer>::value_type) * n);
 
     return (result == 0U) ? reinterpret_cast<const char*>(sb + n) : reinterpret_cast<const char*>(result);
   }

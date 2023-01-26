@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2016 John Wellbelove
 
@@ -54,13 +54,13 @@ SOFTWARE.
 //*************************************
 // Include the user's profile definition.
 #if !defined(TYPHOON_NO_PROFILE_HEADER) && defined(__has_include)
-  #if !__has_include("tphn_profile.hpp")
+  #if !__has_include("tpn_profile.hpp")
     #define TYPHOON_NO_PROFILE_HEADER
   #endif
 #endif
 
 #if !defined(TYPHOON_NO_PROFILE_HEADER)
-  #include "tphn_profile.hpp"
+  #include "tpn_profile.hpp"
 #endif
 
 // Determine the bit width of the platform.
@@ -125,12 +125,12 @@ SOFTWARE.
 #endif
 
 //*************************************
-// Figure out things about the compiler, if haven't already done so in tphn_profile.h
+// Figure out things about the compiler, if haven't already done so in tpn_profile.h
 #include "profiles/determine_compiler_version.hpp"
 #include "profiles/determine_compiler_language_support.hpp"
 
 //*************************************
-// See if we can determine the OS we're compiling on, if haven't already done so in tphn_profile.h
+// See if we can determine the OS we're compiling on, if haven't already done so in tpn_profile.h
 #include "profiles/determine_development_os.hpp"
 
 //*************************************
@@ -243,7 +243,7 @@ SOFTWARE.
   #define TYPHOON_OVERRIDE                    override
   #define TYPHOON_FINAL                       final
   #define TYPHOON_NORETURN                    [[noreturn]]
-  #define TYPHOON_MOVE(x)                     tphn::move(x)
+  #define TYPHOON_MOVE(x)                     tpn::move(x)
   #define TYPHOON_ENUM_CLASS(name)            enum class name
   #define TYPHOON_ENUM_CLASS_TYPE(name, type) enum class name : type
 
@@ -407,11 +407,11 @@ SOFTWARE.
 // Sort out namespaces for STL/No STL options.
 #include "private/choose_namespace.hpp"
 
-namespace tphn
+namespace tpn
 {
   namespace traits
   {
-    // Documentation: https://www.tphncpp.com/tphn_traits.html
+    // Documentation: https://www.tpncpp.com/tpn_traits.html
     // General
     static TYPHOON_CONSTANT long cplusplus                        = __cplusplus;
     static TYPHOON_CONSTANT int  language_standard                = TYPHOON_LANGUAGE_STANDARD;

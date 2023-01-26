@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2015 John Wellbelove, rlindeman
 
@@ -51,7 +51,7 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The base class for priority_queue exceptions.
@@ -71,7 +71,7 @@ namespace tphn
   /// The exception thrown when the queue is full.
   ///\ingroup queue
   //***************************************************************************
-  class priority_queue_full : public tphn::priority_queue_exception
+  class priority_queue_full : public tpn::priority_queue_exception
   {
   public:
 
@@ -85,7 +85,7 @@ namespace tphn
   /// The priority queue iterator exception on reversed iterators
   ///\ingroup queue
   //***************************************************************************
-  class priority_queue_iterator : public tphn::priority_queue_exception
+  class priority_queue_iterator : public tpn::priority_queue_exception
   {
   public:
 
@@ -102,8 +102,8 @@ namespace tphn
   /// The TContainer specified must provide the front, push_back, pop_back, and
   /// assign methods to work correctly with priority_queue.
   ///\code
-  /// tphn::priority_queue<int, 10> myPriorityQueue;
-  /// tphn::ipriority_queue<int>& iQueue = myPriorityQueue;
+  /// tpn::priority_queue<int, 10> myPriorityQueue;
+  /// tpn::ipriority_queue<int>& iQueue = myPriorityQueue;
   ///\endcode
   /// \warning This priority queue cannot be used for concurrent access from
   /// multiple threads.
@@ -111,7 +111,7 @@ namespace tphn
   /// \tparam TContainer to hold the T queue values
   /// \tparam TCompare to use in comparing T values
   //***************************************************************************
-  template <typename T, typename TContainer, typename TCompare = tphn::less<T> >
+  template <typename T, typename TContainer, typename TCompare = tpn::less<T> >
   class ipriority_queue
   {
   public:
@@ -125,7 +125,7 @@ namespace tphn
     typedef T&&                   rvalue_reference;   ///< An rvalue reference to the type used in the queue.
 #endif
     typedef typename TContainer::size_type size_type; ///< The type used for determining the size of the queue.
-    typedef typename tphn::iterator_traits<typename TContainer::iterator>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<typename TContainer::iterator>::difference_type difference_type;
 
     //*************************************************************************
     /// Gets a reference to the highest priority value in the priority queue.<br>
@@ -147,122 +147,122 @@ namespace tphn
 
     //*************************************************************************
     /// Adds a value to the queue.
-    /// If asserts or exceptions are enabled, throws an tphn::priority_queue_full
+    /// If asserts or exceptions are enabled, throws an tpn::priority_queue_full
     /// is the priority queue is already full.
     ///\param value The value to push to the queue.
     //*************************************************************************
     void push(const_reference value)
     {
-      TYPHOON_ASSERT(!full(), TYPHOON_ERROR(tphn::priority_queue_full));
+      TYPHOON_ASSERT(!full(), TYPHOON_ERROR(tpn::priority_queue_full));
 
       // Put element at end
       container.push_back(value);
       // Make elements in container into heap
-      tphn::push_heap(container.begin(), container.end(), compare);
+      tpn::push_heap(container.begin(), container.end(), compare);
     }
 
 #if TYPHOON_USING_CPP11
     //*************************************************************************
     /// Moves a value to the queue.
-    /// If asserts or exceptions are enabled, throws an tphn::priority_queue_full
+    /// If asserts or exceptions are enabled, throws an tpn::priority_queue_full
     /// is the priority queue is already full.
     ///\param value The value to push to the queue.
     //*************************************************************************
     void push(rvalue_reference value)
     {
-      TYPHOON_ASSERT(!full(), TYPHOON_ERROR(tphn::priority_queue_full));
+      TYPHOON_ASSERT(!full(), TYPHOON_ERROR(tpn::priority_queue_full));
 
       // Put element at end
-      container.push_back(tphn::move(value));
+      container.push_back(tpn::move(value));
       // Make elements in container into heap
-      tphn::push_heap(container.begin(), container.end(), compare);
+      tpn::push_heap(container.begin(), container.end(), compare);
     }
 #endif
 
 #if TYPHOON_USING_CPP11 && TYPHOON_NOT_USING_STLPORT && !defined(TYPHOON_PRIORITY_QUEUE_FORCE_CPP03_IMPLEMENTATION)
     //*************************************************************************
     /// Emplaces a value to the queue.
-    /// If asserts or exceptions are enabled, throws an tphn::priority_queue_full
+    /// If asserts or exceptions are enabled, throws an tpn::priority_queue_full
     /// is the priority queue is already full.
     ///\param value The value to push to the queue.
     //*************************************************************************
     template <typename ... Args>
     void emplace(Args && ... args)
     {
-      TYPHOON_ASSERT(!full(), TYPHOON_ERROR(tphn::priority_queue_full));
+      TYPHOON_ASSERT(!full(), TYPHOON_ERROR(tpn::priority_queue_full));
 
       // Put element at end
-      container.emplace_back(tphn::forward<Args>(args)...);
+      container.emplace_back(tpn::forward<Args>(args)...);
       // Make elements in container into heap
-      tphn::push_heap(container.begin(), container.end(), compare);
+      tpn::push_heap(container.begin(), container.end(), compare);
     }
 #else
     //*************************************************************************
     /// Emplaces a value to the queue.
-    /// If asserts or exceptions are enabled, throws an tphn::priority_queue_full
+    /// If asserts or exceptions are enabled, throws an tpn::priority_queue_full
     /// is the priority queue is already full.
     ///\param value The value to push to the queue.
     //*************************************************************************
     template <typename T1>
     void emplace(const T1& value1)
     {
-      TYPHOON_ASSERT(!full(), TYPHOON_ERROR(tphn::priority_queue_full));
+      TYPHOON_ASSERT(!full(), TYPHOON_ERROR(tpn::priority_queue_full));
 
       // Put element at end
       container.emplace_back(value1);
       // Make elements in container into heap
-      tphn::push_heap(container.begin(), container.end(), compare);
+      tpn::push_heap(container.begin(), container.end(), compare);
     }
 
     //*************************************************************************
     /// Emplaces a value to the queue.
-    /// If asserts or exceptions are enabled, throws an tphn::priority_queue_full
+    /// If asserts or exceptions are enabled, throws an tpn::priority_queue_full
     /// is the priority queue is already full.
     ///\param value The value to push to the queue.
     //*************************************************************************
     template <typename T1, typename T2>
     void emplace(const T1& value1, const T2& value2)
     {
-      TYPHOON_ASSERT(!full(), TYPHOON_ERROR(tphn::priority_queue_full));
+      TYPHOON_ASSERT(!full(), TYPHOON_ERROR(tpn::priority_queue_full));
 
       // Put element at end
       container.emplace_back(value1, value2);
       // Make elements in container into heap
-      tphn::push_heap(container.begin(), container.end(), compare);
+      tpn::push_heap(container.begin(), container.end(), compare);
     }
 
     //*************************************************************************
     /// Emplaces a value to the queue.
-    /// If asserts or exceptions are enabled, throws an tphn::priority_queue_full
+    /// If asserts or exceptions are enabled, throws an tpn::priority_queue_full
     /// is the priority queue is already full.
     ///\param value The value to push to the queue.
     //*************************************************************************
     template <typename T1, typename T2, typename T3>
     void emplace(const T1& value1, const T2& value2, const T3& value3)
     {
-      TYPHOON_ASSERT(!full(), TYPHOON_ERROR(tphn::priority_queue_full));
+      TYPHOON_ASSERT(!full(), TYPHOON_ERROR(tpn::priority_queue_full));
 
       // Put element at end
       container.emplace_back(value1, value2, value3);
       // Make elements in container into heap
-      tphn::push_heap(container.begin(), container.end(), compare);
+      tpn::push_heap(container.begin(), container.end(), compare);
     }
 
     //*************************************************************************
     /// Emplaces a value to the queue.
-    /// If asserts or exceptions are enabled, throws an tphn::priority_queue_full
+    /// If asserts or exceptions are enabled, throws an tpn::priority_queue_full
     /// is the priority queue is already full.
     ///\param value The value to push to the queue.
     //*************************************************************************
     template <typename T1, typename T2, typename T3, typename T4>
     void emplace(const T1& value1, const T2& value2, const T3& value3, const T4& value4)
     {
-      TYPHOON_ASSERT(!full(), TYPHOON_ERROR(tphn::priority_queue_full));
+      TYPHOON_ASSERT(!full(), TYPHOON_ERROR(tpn::priority_queue_full));
 
       // Put element at end
       container.emplace_back(value1, value2, value3, value4);
       // Make elements in container into heap
-      tphn::push_heap(container.begin(), container.end(), compare);
+      tpn::push_heap(container.begin(), container.end(), compare);
     }
 #endif
 
@@ -279,14 +279,14 @@ namespace tphn
     void assign(TIterator first, TIterator last)
     {
 #if TYPHOON_IS_DEBUG_BUILD
-      difference_type d = tphn::distance(first, last);
-      TYPHOON_ASSERT(d >= 0, TYPHOON_ERROR(tphn::priority_queue_iterator));
-      TYPHOON_ASSERT(static_cast<size_t>(d) <= max_size(), TYPHOON_ERROR(tphn::priority_queue_full));
+      difference_type d = tpn::distance(first, last);
+      TYPHOON_ASSERT(d >= 0, TYPHOON_ERROR(tpn::priority_queue_iterator));
+      TYPHOON_ASSERT(static_cast<size_t>(d) <= max_size(), TYPHOON_ERROR(tpn::priority_queue_full));
 #endif
 
       clear();
       container.assign(first, last);
-      tphn::make_heap(container.begin(), container.end(), compare);
+      tpn::make_heap(container.begin(), container.end(), compare);
     }
 
     //*************************************************************************
@@ -296,7 +296,7 @@ namespace tphn
     void pop()
     {
       // Move largest element to end
-      tphn::pop_heap(container.begin(), container.end(), compare);
+      tpn::pop_heap(container.begin(), container.end(), compare);
       // Actually remove largest element at end
       container.pop_back();
     }
@@ -383,7 +383,7 @@ namespace tphn
     {
       if (&rhs != this)
       {
-        move(tphn::move(rhs));
+        move(tpn::move(rhs));
       }
 
       return *this;
@@ -408,7 +408,7 @@ namespace tphn
     {
       while (!other.empty())
       {
-        push(tphn::move(other.top()));
+        push(tpn::move(other.top()));
         other.pop();
       }
     }
@@ -439,8 +439,8 @@ namespace tphn
   /// \tparam T    The type this queue should support.
   /// \tparam SIZE The maximum capacity of the queue.
   //***************************************************************************
-  template <typename T, const size_t SIZE, typename TContainer = tphn::vector<T, SIZE>, typename TCompare = tphn::less<typename TContainer::value_type> >
-  class priority_queue : public tphn::ipriority_queue<T, TContainer, TCompare>
+  template <typename T, const size_t SIZE, typename TContainer = tpn::vector<T, SIZE>, typename TCompare = tpn::less<typename TContainer::value_type> >
+  class priority_queue : public tpn::ipriority_queue<T, TContainer, TCompare>
   {
   public:
 
@@ -453,7 +453,7 @@ namespace tphn
     /// Default constructor.
     //*************************************************************************
     priority_queue()
-      : tphn::ipriority_queue<T, TContainer, TCompare>()
+      : tpn::ipriority_queue<T, TContainer, TCompare>()
     {
     }
 
@@ -461,9 +461,9 @@ namespace tphn
     /// Copy constructor
     //*************************************************************************
     priority_queue(const priority_queue& rhs)
-      : tphn::ipriority_queue<T, TContainer, TCompare>()
+      : tpn::ipriority_queue<T, TContainer, TCompare>()
     {
-      tphn::ipriority_queue<T, TContainer, TCompare>::clone(rhs);
+      tpn::ipriority_queue<T, TContainer, TCompare>::clone(rhs);
     }
 
 #if TYPHOON_USING_CPP11
@@ -471,9 +471,9 @@ namespace tphn
     /// Move constructor
     //*************************************************************************
     priority_queue(priority_queue&& rhs)
-      : tphn::ipriority_queue<T, TContainer, TCompare>()
+      : tpn::ipriority_queue<T, TContainer, TCompare>()
     {
-      tphn::ipriority_queue<T, TContainer, TCompare>::move(tphn::move(rhs));
+      tpn::ipriority_queue<T, TContainer, TCompare>::move(tpn::move(rhs));
     }
 #endif
 
@@ -485,9 +485,9 @@ namespace tphn
     //*************************************************************************
     template <typename TIterator>
     priority_queue(TIterator first, TIterator last)
-      : tphn::ipriority_queue<T, TContainer, TCompare>()
+      : tpn::ipriority_queue<T, TContainer, TCompare>()
     {
-      tphn::ipriority_queue<T, TContainer, TCompare>::assign(first, last);
+      tpn::ipriority_queue<T, TContainer, TCompare>::assign(first, last);
     }
 
     //*************************************************************************
@@ -495,7 +495,7 @@ namespace tphn
     //*************************************************************************
     ~priority_queue()
     {
-      tphn::ipriority_queue<T, TContainer, TCompare>::clear();
+      tpn::ipriority_queue<T, TContainer, TCompare>::clear();
     }
 
     //*************************************************************************
@@ -505,7 +505,7 @@ namespace tphn
     {
       if (&rhs != this)
       {
-        tphn::ipriority_queue<T, TContainer, TCompare>::clone(rhs);
+        tpn::ipriority_queue<T, TContainer, TCompare>::clone(rhs);
       }
 
       return *this;
@@ -519,7 +519,7 @@ namespace tphn
     {
       if (&rhs != this)
       {
-        tphn::ipriority_queue<T, TContainer, TCompare>::move(tphn::move(rhs));
+        tpn::ipriority_queue<T, TContainer, TCompare>::move(tpn::move(rhs));
       }
 
       return *this;

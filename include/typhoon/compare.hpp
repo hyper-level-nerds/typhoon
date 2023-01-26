@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -41,17 +41,17 @@ SOFTWARE.
 ///\ingroup utilities
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Defines <=, >, >= in terms of <
   /// Default
   //***************************************************************************
-  template <typename T, typename TLess = tphn::less<T> >
+  template <typename T, typename TLess = tpn::less<T> >
   struct compare
   {
-    typedef typename tphn::parameter_type<T>::type first_argument_type;
-    typedef typename tphn::parameter_type<T>::type second_argument_type;
+    typedef typename tpn::parameter_type<T>::type first_argument_type;
+    typedef typename tpn::parameter_type<T>::type second_argument_type;
     typedef bool result_type;
 
     static result_type lt(first_argument_type lhs, second_argument_type rhs)

@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -39,7 +39,7 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   // Base class for all reference counted messages.
@@ -49,10 +49,10 @@ namespace tphn
   public:
 
     virtual ~ireference_counted_message() {}
-    TYPHOON_NODISCARD virtual tphn::imessage& get_message() = 0;                                 ///< Get a reference to the message.
-    TYPHOON_NODISCARD virtual const tphn::imessage& get_message() const = 0;                     ///< Get a const reference to the message.
-    TYPHOON_NODISCARD virtual tphn::ireference_counter& get_reference_counter() = 0;             ///< Get a reference to the reference counter.
-    TYPHOON_NODISCARD virtual const tphn::ireference_counter& get_reference_counter() const = 0; ///< Get a const reference to the reference counter.
+    TYPHOON_NODISCARD virtual tpn::imessage& get_message() = 0;                                 ///< Get a reference to the message.
+    TYPHOON_NODISCARD virtual const tpn::imessage& get_message() const = 0;                     ///< Get a const reference to the message.
+    TYPHOON_NODISCARD virtual tpn::ireference_counter& get_reference_counter() = 0;             ///< Get a reference to the reference counter.
+    TYPHOON_NODISCARD virtual const tpn::ireference_counter& get_reference_counter() const = 0; ///< Get a const reference to the reference counter.
     virtual void release() = 0;                                                             ///< Release back to the owner.
   };
 
@@ -60,11 +60,11 @@ namespace tphn
   // Reference counted message with a counter and owner.
   //***************************************************************************
   template <typename TMessage, typename TCounter>
-  class reference_counted_message : public tphn::ireference_counted_message
+  class reference_counted_message : public tpn::ireference_counted_message
   {
   public:
 
-    TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TMessage>::value), "Not a message type");
+    TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TMessage>::value), "Not a message type");
 
     typedef TMessage message_type;
     typedef TCounter counter_type;
@@ -73,7 +73,7 @@ namespace tphn
     /// Constructor
     /// \param owner The message owner.
     //***************************************************************************
-    reference_counted_message(tphn::ireference_counted_message_pool& owner_)
+    reference_counted_message(tpn::ireference_counted_message_pool& owner_)
       : owner(owner_)
     {
     }
@@ -83,7 +83,7 @@ namespace tphn
     /// \param msg   The message to count.
     /// \param owner The message owner.
     //***************************************************************************
-    reference_counted_message(const TMessage& msg_, tphn::ireference_counted_message_pool& owner_)
+    reference_counted_message(const TMessage& msg_, tpn::ireference_counted_message_pool& owner_)
       : rc_object(msg_)
       , owner(owner_)
     {
@@ -111,7 +111,7 @@ namespace tphn
     /// Get a reference to the reference counter.
     /// \return A reference to the reference counter.
     //***************************************************************************
-    TYPHOON_NODISCARD virtual tphn::ireference_counter& get_reference_counter() TYPHOON_OVERRIDE
+    TYPHOON_NODISCARD virtual tpn::ireference_counter& get_reference_counter() TYPHOON_OVERRIDE
     {
       return rc_object.get_reference_counter();
     }
@@ -120,7 +120,7 @@ namespace tphn
     /// Get a const reference to the reference counter.
     /// \return A const reference to the reference counter.
     //***************************************************************************
-    TYPHOON_NODISCARD virtual const tphn::ireference_counter& get_reference_counter() const TYPHOON_OVERRIDE
+    TYPHOON_NODISCARD virtual const tpn::ireference_counter& get_reference_counter() const TYPHOON_OVERRIDE
     {
       return rc_object.get_reference_counter();
     }
@@ -136,19 +136,19 @@ namespace tphn
 
   private:
 
-    tphn::reference_counted_object<TMessage, TCounter> rc_object; ///< The reference counted object.
-    tphn::ireference_counted_message_pool& owner;                 ///< The pool that owns this object.
+    tpn::reference_counted_object<TMessage, TCounter> rc_object; ///< The reference counted object.
+    tpn::ireference_counted_message_pool& owner;                 ///< The pool that owns this object.
   };
 
   //***************************************************************************
   // A persistent message with no counter and owner.
   //***************************************************************************
   template <typename TMessage>
-  class persistent_message : public tphn::ireference_counted_message
+  class persistent_message : public tpn::ireference_counted_message
   {
   public:
 
-    TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TMessage>::value), "Not a message type");
+    TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TMessage>::value), "Not a message type");
 
     typedef TMessage message_type;
     typedef void counter_type;
@@ -184,7 +184,7 @@ namespace tphn
     /// Get a reference to the reference counter.
     /// \return A reference to the reference counter.
     //***************************************************************************
-    TYPHOON_NODISCARD virtual tphn::ireference_counter& get_reference_counter() TYPHOON_OVERRIDE
+    TYPHOON_NODISCARD virtual tpn::ireference_counter& get_reference_counter() TYPHOON_OVERRIDE
     {
       return rc_object.get_reference_counter();
     }
@@ -193,7 +193,7 @@ namespace tphn
     /// Get a const reference to the reference counter.
     /// \return A const reference to the reference counter.
     //***************************************************************************
-    TYPHOON_NODISCARD virtual const tphn::ireference_counter& get_reference_counter() const TYPHOON_OVERRIDE
+    TYPHOON_NODISCARD virtual const tpn::ireference_counter& get_reference_counter() const TYPHOON_OVERRIDE
     {
       return rc_object.get_reference_counter();
     }
@@ -209,7 +209,7 @@ namespace tphn
 
   private:
 
-    tphn::reference_counted_object<TMessage, void> rc_object; ///< The reference counted object.
+    tpn::reference_counted_object<TMessage, void> rc_object; ///< The reference counted object.
   };
 
 #if TYPHOON_USING_CPP11 && TYPHOON_HAS_ATOMIC
@@ -218,7 +218,7 @@ namespace tphn
   /// \tparam TObject  The type to be reference counted.
   //***************************************************************************
   template <typename TMessage>
-  using atomic_counted_message = tphn::reference_counted_message<TMessage, tphn::atomic_int32_t>;
+  using atomic_counted_message = tpn::reference_counted_message<TMessage, tpn::atomic_int32_t>;
 #endif
 }
 

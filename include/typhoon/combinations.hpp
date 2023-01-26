@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2018 John Wellbelove
 
@@ -39,7 +39,7 @@ SOFTWARE.
 /// combinations<N, K> : Calculates K combinations from N.
 ///\ingroup maths
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   ///\ingroup combinations
@@ -48,7 +48,7 @@ namespace tphn
   template <const size_t NV, const size_t KV>
   struct combinations
   {
-    static TYPHOON_CONSTANT size_t value = tphn::permutations<NV, KV>::value / tphn::factorial<KV>::value;
+    static TYPHOON_CONSTANT size_t value = tpn::permutations<NV, KV>::value / tpn::factorial<KV>::value;
   };
 
 #if TYPHOON_USING_CPP17

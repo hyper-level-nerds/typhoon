@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2015 John Wellbelove
 
@@ -50,15 +50,15 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The base class for specifically sized flat_multimaps.
   /// Can be used as a reference type for all flat_multimaps containing a specific type.
   ///\ingroup flat_multimap
   //***************************************************************************
-  template <typename TKey, typename TMapped, typename TKeyCompare = tphn::less<TKey> >
-  class iflat_multimap : public tphn::ireference_flat_multimap<TKey, TMapped, TKeyCompare>
+  template <typename TKey, typename TMapped, typename TKeyCompare = tpn::less<TKey> >
+  class iflat_multimap : public tpn::ireference_flat_multimap<TKey, TMapped, TKeyCompare>
   {
   public:
 
@@ -66,9 +66,9 @@ namespace tphn
 
   private:
 
-    typedef tphn::ireference_flat_multimap<TKey, TMapped, TKeyCompare> refmap_t;
+    typedef tpn::ireference_flat_multimap<TKey, TMapped, TKeyCompare> refmap_t;
     typedef typename refmap_t::lookup_t lookup_t;
-    typedef tphn::ipool         storage_t;
+    typedef tpn::ipool         storage_t;
 
   public:
 
@@ -89,7 +89,7 @@ namespace tphn
 
     typedef TYPHOON_OR_STD::reverse_iterator<iterator>       reverse_iterator;
     typedef TYPHOON_OR_STD::reverse_iterator<const_iterator> const_reverse_iterator;
-    typedef typename tphn::iterator_traits<iterator>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<iterator>::difference_type difference_type;
 
   protected:
 
@@ -238,7 +238,7 @@ namespace tphn
     void assign(TIterator first, TIterator last)
     {
 #if TYPHOON_IS_DEBUG_BUILD
-      difference_type d = tphn::distance(first, last);
+      difference_type d = tpn::distance(first, last);
       TYPHOON_ASSERT(d <= difference_type(capacity()), TYPHOON_ERROR(flat_multimap_full));
 #endif
 
@@ -287,7 +287,7 @@ namespace tphn
       iterator i_element = upper_bound(value.first);
 
       value_type* pvalue = storage.allocate<value_type>();
-      ::new (pvalue) value_type(tphn::move(value));
+      ::new (pvalue) value_type(tpn::move(value));
       TYPHOON_INCREMENT_DEBUG_COUNT
       result = refmap_t::insert_at(i_element, *pvalue);
 
@@ -315,7 +315,7 @@ namespace tphn
     //*********************************************************************
     iterator insert(const_iterator /*position*/, rvalue_reference value)
     {
-      return insert(tphn::move(value)).first;
+      return insert(tpn::move(value)).first;
     }
 #endif
 
@@ -353,8 +353,8 @@ namespace tphn
 
       // Create it.
       value_type* pvalue = storage.allocate<value_type>();
-      ::new ((void*)tphn::addressof(pvalue->first)) key_type(key);
-      ::new ((void*)tphn::addressof(pvalue->second)) mapped_type(value);
+      ::new ((void*)tpn::addressof(pvalue->first)) key_type(key);
+      ::new ((void*)tpn::addressof(pvalue->second)) mapped_type(value);
       iterator i_element = upper_bound(key);
       TYPHOON_INCREMENT_DEBUG_COUNT
 
@@ -372,8 +372,8 @@ namespace tphn
 
       // Create it.
       value_type* pvalue = storage.allocate<value_type>();
-      ::new ((void*)tphn::addressof(pvalue->first)) key_type(key);
-      ::new ((void*)tphn::addressof(pvalue->second)) mapped_type(tphn::forward<Args>(args)...);
+      ::new ((void*)tpn::addressof(pvalue->first)) key_type(key);
+      ::new ((void*)tpn::addressof(pvalue->second)) mapped_type(tpn::forward<Args>(args)...);
       iterator i_element = upper_bound(key);
       TYPHOON_INCREMENT_DEBUG_COUNT
 
@@ -391,8 +391,8 @@ namespace tphn
 
       // Create it.
       value_type* pvalue = storage.allocate<value_type>();
-      ::new ((void*)tphn::addressof(pvalue->first)) key_type(key);
-      ::new ((void*)tphn::addressof(pvalue->second)) mapped_type(value1);
+      ::new ((void*)tpn::addressof(pvalue->first)) key_type(key);
+      ::new ((void*)tpn::addressof(pvalue->second)) mapped_type(value1);
       iterator i_element = upper_bound(key);
       TYPHOON_INCREMENT_DEBUG_COUNT
 
@@ -409,8 +409,8 @@ namespace tphn
 
       // Create it.
       value_type* pvalue = storage.allocate<value_type>();
-      ::new ((void*)tphn::addressof(pvalue->first)) key_type(key);
-      ::new ((void*)tphn::addressof(pvalue->second)) mapped_type(value1, value2);
+      ::new ((void*)tpn::addressof(pvalue->first)) key_type(key);
+      ::new ((void*)tpn::addressof(pvalue->second)) mapped_type(value1, value2);
       iterator i_element = upper_bound(key);
       TYPHOON_INCREMENT_DEBUG_COUNT
 
@@ -427,8 +427,8 @@ namespace tphn
 
       // Create it.
       value_type* pvalue = storage.allocate<value_type>();
-      ::new ((void*)tphn::addressof(pvalue->first)) key_type(key);
-      ::new ((void*)tphn::addressof(pvalue->second)) mapped_type(value1, value2, value3);
+      ::new ((void*)tpn::addressof(pvalue->first)) key_type(key);
+      ::new ((void*)tpn::addressof(pvalue->second)) mapped_type(value1, value2, value3);
       iterator i_element = upper_bound(key);
       TYPHOON_INCREMENT_DEBUG_COUNT
 
@@ -445,8 +445,8 @@ namespace tphn
 
       // Create it.
       value_type* pvalue = storage.allocate<value_type>();
-      ::new ((void*)tphn::addressof(pvalue->first)) key_type(key);
-      ::new ((void*)tphn::addressof(pvalue->second)) mapped_type(value1, value2, value3, value4);
+      ::new ((void*)tpn::addressof(pvalue->first)) key_type(key);
+      ::new ((void*)tpn::addressof(pvalue->second)) mapped_type(value1, value2, value3, value4);
       iterator i_element = upper_bound(key);
       TYPHOON_INCREMENT_DEBUG_COUNT
 
@@ -470,7 +470,7 @@ namespace tphn
       }
       else
       {
-        size_t d = tphn::distance(range.first, range.second);
+        size_t d = tpn::distance(range.first, range.second);
         erase(range.first, range.second);
         return d;
       }
@@ -478,10 +478,10 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     size_t erase(K&& key)
     {
-      TYPHOON_OR_STD::pair<iterator, iterator> range = equal_range(tphn::forward<K>(key));
+      TYPHOON_OR_STD::pair<iterator, iterator> range = equal_range(tpn::forward<K>(key));
 
       if (range.first == end())
       {
@@ -489,7 +489,7 @@ namespace tphn
       }
       else
       {
-        size_t d = tphn::distance(range.first, range.second);
+        size_t d = tpn::distance(range.first, range.second);
         erase(range.first, range.second);
         return d;
       }
@@ -503,7 +503,7 @@ namespace tphn
     iterator erase(iterator i_element)
     {
       i_element->~value_type();
-      storage.release(tphn::addressof(*i_element));
+      storage.release(tpn::addressof(*i_element));
       TYPHOON_DECREMENT_DEBUG_COUNT
       return refmap_t::erase(i_element);
     }
@@ -515,7 +515,7 @@ namespace tphn
     iterator erase(const_iterator i_element)
     {
       i_element->~value_type();
-      storage.release(tphn::addressof(*i_element));
+      storage.release(tpn::addressof(*i_element));
       TYPHOON_DECREMENT_DEBUG_COUNT
       return refmap_t::erase(i_element);
     }
@@ -534,7 +534,7 @@ namespace tphn
       while (itr != last)
       {
         itr->~value_type();
-        storage.release(tphn::addressof(*itr));
+        storage.release(tpn::addressof(*itr));
         ++itr;
         TYPHOON_DECREMENT_DEBUG_COUNT
       }
@@ -547,7 +547,7 @@ namespace tphn
     //*************************************************************************
     void clear()
     {
-      if TYPHOON_IF_CONSTEXPR(tphn::is_trivially_destructible<value_type>::value)
+      if TYPHOON_IF_CONSTEXPR(tpn::is_trivially_destructible<value_type>::value)
       {
         storage.release_all();
       }
@@ -558,7 +558,7 @@ namespace tphn
         while (itr != end())
         {
           itr->~value_type();
-          storage.release(tphn::addressof(*itr));
+          storage.release(tpn::addressof(*itr));
           ++itr;
         }
       }
@@ -579,7 +579,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     iterator find(const K& key)
     {
       return refmap_t::find(key);
@@ -598,7 +598,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     const_iterator find(const K& key) const
     {
       return refmap_t::find(key);
@@ -617,7 +617,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     size_t count(const K& key) const
     {
       return refmap_t::count(key);
@@ -636,7 +636,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     iterator lower_bound(const K& key)
     {
       return refmap_t::lower_bound(key);
@@ -655,7 +655,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     const_iterator lower_bound(const K& key) const
     {
       return refmap_t::lower_bound(key);
@@ -674,7 +674,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     iterator upper_bound(const K& key)
     {
       return refmap_t::upper_bound(key);
@@ -693,7 +693,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     const_iterator upper_bound(const K& key) const
     {
       return refmap_t::upper_bound(key);
@@ -712,7 +712,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     TYPHOON_OR_STD::pair<iterator, iterator> equal_range(const K& key)
     {
       return refmap_t::equal_range(key);
@@ -731,7 +731,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     TYPHOON_OR_STD::pair<const_iterator, const_iterator> equal_range(const K& key) const
     {
       return refmap_t::equal_range(key);
@@ -748,7 +748,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*************************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     bool contains(const K& k) const
     {
       return find(k) != end();
@@ -774,7 +774,7 @@ namespace tphn
     //*************************************************************************
     iflat_multimap& operator = (iflat_multimap&& rhs)
     {
-      move_container(tphn::move(rhs));
+      move_container(tpn::move(rhs));
 
       return *this;
     }
@@ -856,16 +856,16 @@ namespace tphn
       {
         this->clear();
 
-        tphn::iflat_multimap<TKey, TMapped, TKeyCompare>::iterator first = rhs.begin();
-        tphn::iflat_multimap<TKey, TMapped, TKeyCompare>::iterator last = rhs.end();
+        tpn::iflat_multimap<TKey, TMapped, TKeyCompare>::iterator first = rhs.begin();
+        tpn::iflat_multimap<TKey, TMapped, TKeyCompare>::iterator last = rhs.end();
 
         // Move all of the elements.
         while (first != last)
         {
-          typename tphn::iflat_multimap<TKey, TMapped, TKeyCompare>::iterator temp = first;
+          typename tpn::iflat_multimap<TKey, TMapped, TKeyCompare>::iterator temp = first;
           ++temp;
 
-          this->insert(tphn::move(*first));
+          this->insert(tpn::move(*first));
           first = temp;
         }
       }
@@ -906,9 +906,9 @@ namespace tphn
   ///\ingroup flat_multimap
   //***************************************************************************
   template <typename TKey, typename TMapped, typename TKeyCompare>
-  bool operator ==(const tphn::iflat_multimap<TKey, TMapped, TKeyCompare>& lhs, const tphn::iflat_multimap<TKey, TMapped, TKeyCompare>& rhs)
+  bool operator ==(const tpn::iflat_multimap<TKey, TMapped, TKeyCompare>& lhs, const tpn::iflat_multimap<TKey, TMapped, TKeyCompare>& rhs)
   {
-    return (lhs.size() == rhs.size()) && tphn::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return (lhs.size() == rhs.size()) && tpn::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
   //***************************************************************************
@@ -919,7 +919,7 @@ namespace tphn
   ///\ingroup flat_multimap
   //***************************************************************************
   template <typename TKey, typename TMapped, typename TKeyCompare>
-  bool operator !=(const tphn::iflat_multimap<TKey, TMapped, TKeyCompare>& lhs, const tphn::iflat_multimap<TKey, TMapped, TKeyCompare>& rhs)
+  bool operator !=(const tpn::iflat_multimap<TKey, TMapped, TKeyCompare>& lhs, const tpn::iflat_multimap<TKey, TMapped, TKeyCompare>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -928,12 +928,12 @@ namespace tphn
   /// A flat_multimap implementation that uses a fixed size buffer.
   ///\tparam TKey     The key type.
   ///\tparam TValue   The value type.
-  ///\tparam TCompare The type to compare keys. Default = tphn::less<TKey>
+  ///\tparam TCompare The type to compare keys. Default = tpn::less<TKey>
   ///\tparam MAX_SIZE_ The maximum number of elements that can be stored.
   ///\ingroup flat_multimap
   //***************************************************************************
-  template <typename TKey, typename TValue, const size_t MAX_SIZE_, typename TCompare = tphn::less<TKey> >
-  class flat_multimap : public tphn::iflat_multimap<TKey, TValue, TCompare>
+  template <typename TKey, typename TValue, const size_t MAX_SIZE_, typename TCompare = tpn::less<TKey> >
+  class flat_multimap : public tpn::iflat_multimap<TKey, TValue, TCompare>
   {
   public:
 
@@ -943,7 +943,7 @@ namespace tphn
     /// Constructor.
     //*************************************************************************
     flat_multimap()
-      : tphn::iflat_multimap<TKey, TValue, TCompare>(lookup, storage)
+      : tpn::iflat_multimap<TKey, TValue, TCompare>(lookup, storage)
     {
     }
 
@@ -951,7 +951,7 @@ namespace tphn
     /// Copy constructor.
     //*************************************************************************
     flat_multimap(const flat_multimap& other)
-      : tphn::iflat_multimap<TKey, TValue, TCompare>(lookup, storage)
+      : tpn::iflat_multimap<TKey, TValue, TCompare>(lookup, storage)
     {
       this->assign(other.cbegin(), other.cend());
     }
@@ -961,11 +961,11 @@ namespace tphn
     /// Move constructor.
     //*************************************************************************
     flat_multimap(flat_multimap&& other)
-      : tphn::iflat_multimap<TKey, TValue, TCompare>(lookup, storage)
+      : tpn::iflat_multimap<TKey, TValue, TCompare>(lookup, storage)
     {
       if (&other != this)
       {
-        this->move_container(tphn::move(other));
+        this->move_container(tpn::move(other));
       }
     }
 #endif
@@ -978,7 +978,7 @@ namespace tphn
     //*************************************************************************
     template <typename TIterator>
     flat_multimap(TIterator first, TIterator last)
-      : tphn::iflat_multimap<TKey, TValue, TCompare>(lookup, storage)
+      : tpn::iflat_multimap<TKey, TValue, TCompare>(lookup, storage)
     {
       this->assign(first, last);
     }
@@ -987,8 +987,8 @@ namespace tphn
     //*************************************************************************
     /// Construct from initializer_list.
     //*************************************************************************
-    flat_multimap(std::initializer_list<typename tphn::iflat_multimap<TKey, TValue, TCompare>::value_type> init)
-      : tphn::iflat_multimap<TKey, TValue, TCompare>(lookup, storage)
+    flat_multimap(std::initializer_list<typename tpn::iflat_multimap<TKey, TValue, TCompare>::value_type> init)
+      : tpn::iflat_multimap<TKey, TValue, TCompare>(lookup, storage)
     {
       this->assign(init.begin(), init.end());
     }
@@ -1023,7 +1023,7 @@ namespace tphn
     {
       if (&rhs != this)
       {
-        this->move_container(tphn::move(rhs));
+        this->move_container(tpn::move(rhs));
       }
 
       return *this;
@@ -1032,13 +1032,13 @@ namespace tphn
 
   private:
 
-    typedef typename tphn::iflat_multimap<TKey, TValue, TCompare>::value_type node_t;
+    typedef typename tpn::iflat_multimap<TKey, TValue, TCompare>::value_type node_t;
 
     // The pool of nodes.
-    tphn::pool<node_t, MAX_SIZE> storage;
+    tpn::pool<node_t, MAX_SIZE> storage;
 
     // The vector that stores pointers to the nodes.
-    tphn::vector<node_t*, MAX_SIZE> lookup;
+    tpn::vector<node_t*, MAX_SIZE> lookup;
   };
 
   //*************************************************************************
@@ -1046,8 +1046,8 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_CPP17 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename... TPairs>
-  flat_multimap(TPairs...) -> flat_multimap<typename tphn::nth_type_t<0, TPairs...>::first_type,
-                                            typename tphn::nth_type_t<0, TPairs...>::second_type,
+  flat_multimap(TPairs...) -> flat_multimap<typename tpn::nth_type_t<0, TPairs...>::first_type,
+                                            typename tpn::nth_type_t<0, TPairs...>::second_type,
                                             sizeof...(TPairs)>;
 #endif
 
@@ -1055,10 +1055,10 @@ namespace tphn
   /// Make
   //*************************************************************************
 #if TYPHOON_USING_CPP11 && TYPHOON_HAS_INITIALIZER_LIST
-  template <typename TKey, typename TMapped, typename TKeyCompare = tphn::less<TKey>, typename... TPairs>
-  constexpr auto make_flat_multimap(TPairs&&... pairs) -> tphn::flat_multimap<TKey, TMapped, sizeof...(TPairs), TKeyCompare>
+  template <typename TKey, typename TMapped, typename TKeyCompare = tpn::less<TKey>, typename... TPairs>
+  constexpr auto make_flat_multimap(TPairs&&... pairs) -> tpn::flat_multimap<TKey, TMapped, sizeof...(TPairs), TKeyCompare>
   {
-    return { {tphn::forward<TPairs>(pairs)...} };
+    return { {tpn::forward<TPairs>(pairs)...} };
   }
 #endif
 }

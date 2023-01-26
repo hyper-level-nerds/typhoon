@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2020 John Wellbelove
 
@@ -36,7 +36,7 @@ SOFTWARE.
 #include "platform.hpp"
 #include "to_string.hpp"
 
-namespace tphn
+namespace tpn
 {
   template <typename TFormat, typename TIString, typename TStringView>
   class basic_string_stream
@@ -128,82 +128,82 @@ namespace tphn
     }
 
     //*********************************
-    /// tphn::base_spec from tphn::setbase, tphn::bin, tphn::oct, tphn::dec & tphn::hex stream manipulators
+    /// tpn::base_spec from tpn::setbase, tpn::bin, tpn::oct, tpn::dec & tpn::hex stream manipulators
     //*********************************
-    friend basic_string_stream& operator <<(basic_string_stream& ss, tphn::private_basic_format_spec::base_spec spec)
+    friend basic_string_stream& operator <<(basic_string_stream& ss, tpn::private_basic_format_spec::base_spec spec)
     {
       ss.spec.base(spec.base);
       return ss;
     }
 
     //*********************************
-    /// tphn::width_spec from tphn::setw stream manipulator
+    /// tpn::width_spec from tpn::setw stream manipulator
     //*********************************
-    friend basic_string_stream& operator <<(basic_string_stream& ss, tphn::private_basic_format_spec::width_spec spec)
+    friend basic_string_stream& operator <<(basic_string_stream& ss, tpn::private_basic_format_spec::width_spec spec)
     {
       ss.spec.width(spec.width);
       return ss;
     }
 
     //*********************************
-    /// tphn::fill_spec from tphn::setfill stream manipulator
+    /// tpn::fill_spec from tpn::setfill stream manipulator
     //*********************************
     template <typename TChar>
-    friend basic_string_stream& operator <<(basic_string_stream& ss, tphn::private_basic_format_spec::fill_spec<TChar> spec)
+    friend basic_string_stream& operator <<(basic_string_stream& ss, tpn::private_basic_format_spec::fill_spec<TChar> spec)
     {
       ss.spec.fill(spec.fill);
       return ss;
     }
 
     //*********************************
-    /// tphn::precision_spec from tphn::setprecision stream manipulator
+    /// tpn::precision_spec from tpn::setprecision stream manipulator
     //*********************************
-    friend basic_string_stream& operator <<(basic_string_stream& ss, tphn::private_basic_format_spec::precision_spec spec)
+    friend basic_string_stream& operator <<(basic_string_stream& ss, tpn::private_basic_format_spec::precision_spec spec)
     {
       ss.spec.precision(spec.precision);
       return ss;
     }
 
     //*********************************
-    /// tphn::boolalpha_spec from tphn::boolalpha & tphn::noboolalpha stream manipulators
+    /// tpn::boolalpha_spec from tpn::boolalpha & tpn::noboolalpha stream manipulators
     //*********************************
-    friend basic_string_stream& operator <<(basic_string_stream& ss, tphn::private_basic_format_spec::boolalpha_spec spec)
+    friend basic_string_stream& operator <<(basic_string_stream& ss, tpn::private_basic_format_spec::boolalpha_spec spec)
     {
       ss.spec.boolalpha(spec.boolalpha);
       return ss;
     }
 
     //*********************************
-    /// tphn::uppercase_spec from tphn::uppercase & tphn::nouppercase stream manipulators
+    /// tpn::uppercase_spec from tpn::uppercase & tpn::nouppercase stream manipulators
     //*********************************
-    friend basic_string_stream& operator <<(basic_string_stream& ss, tphn::private_basic_format_spec::uppercase_spec spec)
+    friend basic_string_stream& operator <<(basic_string_stream& ss, tpn::private_basic_format_spec::uppercase_spec spec)
     {
       ss.spec.upper_case(spec.upper_case);
       return ss;
     }
 
     //*********************************
-    /// tphn::showbase_spec from tphn::showbase & tphn::noshowbase stream manipulators
+    /// tpn::showbase_spec from tpn::showbase & tpn::noshowbase stream manipulators
     //*********************************
-    friend basic_string_stream& operator <<(basic_string_stream& ss, tphn::private_basic_format_spec::showbase_spec spec)
+    friend basic_string_stream& operator <<(basic_string_stream& ss, tpn::private_basic_format_spec::showbase_spec spec)
     {
       ss.spec.show_base(spec.show_base);
       return ss;
     }
 
     //*********************************
-    /// tphn::left_spec from tphn::left stream manipulator
+    /// tpn::left_spec from tpn::left stream manipulator
     //*********************************
-    friend basic_string_stream& operator <<(basic_string_stream& ss, tphn::private_basic_format_spec::left_spec /*spec*/)
+    friend basic_string_stream& operator <<(basic_string_stream& ss, tpn::private_basic_format_spec::left_spec /*spec*/)
     {
       ss.spec.left();
       return ss;
     }
 
     //*********************************
-    /// tphn::right_spec from tphn::left stream manipulator
+    /// tpn::right_spec from tpn::left stream manipulator
     //*********************************
-    friend basic_string_stream& operator <<(basic_string_stream& ss, tphn::private_basic_format_spec::right_spec /*spec*/)
+    friend basic_string_stream& operator <<(basic_string_stream& ss, tpn::private_basic_format_spec::right_spec /*spec*/)
     {
       ss.spec.right();
       return ss;
@@ -214,7 +214,7 @@ namespace tphn
     //*********************************
     friend basic_string_stream& operator <<(basic_string_stream& ss, TStringView view)
     {
-      tphn::to_string(view, ss.text, ss.spec, true);
+      tpn::to_string(view, ss.text, ss.spec, true);
       return ss;
     }
 
@@ -243,7 +243,7 @@ namespace tphn
     //*********************************
     friend basic_string_stream& operator <<(basic_string_stream& ss, const TIString& text)
     {
-      tphn::to_string(text, ss.text, ss.spec, true);
+      tpn::to_string(text, ss.text, ss.spec, true);
       return ss;
     }
 
@@ -254,7 +254,7 @@ namespace tphn
     friend basic_string_stream& operator <<(basic_string_stream& ss, const TString<SIZE>& text)
     {
       const TIString& itext = text;
-      tphn::to_string(itext, ss.str(), ss.get_format(), true);
+      tpn::to_string(itext, ss.str(), ss.get_format(), true);
       return ss;
     }
 
@@ -264,7 +264,7 @@ namespace tphn
     template <typename T>
     friend basic_string_stream& operator <<(basic_string_stream& ss, const T& value)
     {
-      tphn::to_string(value, ss.text, ss.spec, true);
+      tpn::to_string(value, ss.text, ss.spec, true);
       return ss;
     }
 

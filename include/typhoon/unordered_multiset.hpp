@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2016 John Wellbelove
 
@@ -59,18 +59,18 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Exception for the unordered_multiset.
   ///\ingroup unordered_multiset
   //***************************************************************************
-  class unordered_multiset_exception : public tphn::exception
+  class unordered_multiset_exception : public tpn::exception
   {
   public:
 
     unordered_multiset_exception(string_type reason_, string_type file_name_, numeric_type line_number_)
-      : tphn::exception(reason_, file_name_, line_number_)
+      : tpn::exception(reason_, file_name_, line_number_)
     {
     }
   };
@@ -79,12 +79,12 @@ namespace tphn
   /// Full exception for the unordered_multiset.
   ///\ingroup unordered_multiset
   //***************************************************************************
-  class unordered_multiset_full : public tphn::unordered_multiset_exception
+  class unordered_multiset_full : public tpn::unordered_multiset_exception
   {
   public:
 
     unordered_multiset_full(string_type file_name_, numeric_type line_number_)
-      : tphn::unordered_multiset_exception(TYPHOON_ERROR_TEXT("unordered_multiset:full", TYPHOON_UNORDERED_MULTISET_FILE_ID"A"), file_name_, line_number_)
+      : tpn::unordered_multiset_exception(TYPHOON_ERROR_TEXT("unordered_multiset:full", TYPHOON_UNORDERED_MULTISET_FILE_ID"A"), file_name_, line_number_)
     {
     }
   };
@@ -93,12 +93,12 @@ namespace tphn
   /// Out of range exception for the unordered_multiset.
   ///\ingroup unordered_multiset
   //***************************************************************************
-  class unordered_multiset_out_of_range : public tphn::unordered_multiset_exception
+  class unordered_multiset_out_of_range : public tpn::unordered_multiset_exception
   {
   public:
 
     unordered_multiset_out_of_range(string_type file_name_, numeric_type line_number_)
-      : tphn::unordered_multiset_exception(TYPHOON_ERROR_TEXT("unordered_multiset:range", TYPHOON_UNORDERED_MULTISET_FILE_ID"B"), file_name_, line_number_)
+      : tpn::unordered_multiset_exception(TYPHOON_ERROR_TEXT("unordered_multiset:range", TYPHOON_UNORDERED_MULTISET_FILE_ID"B"), file_name_, line_number_)
     {}
   };
 
@@ -106,12 +106,12 @@ namespace tphn
   /// Iterator exception for the unordered_multiset.
   ///\ingroup unordered_multiset
   //***************************************************************************
-  class unordered_multiset_iterator : public tphn::unordered_multiset_exception
+  class unordered_multiset_iterator : public tpn::unordered_multiset_exception
   {
   public:
 
     unordered_multiset_iterator(string_type file_name_, numeric_type line_number_)
-      : tphn::unordered_multiset_exception(TYPHOON_ERROR_TEXT("unordered_multiset:iterator", TYPHOON_UNORDERED_MULTISET_FILE_ID"C"), file_name_, line_number_)
+      : tpn::unordered_multiset_exception(TYPHOON_ERROR_TEXT("unordered_multiset:iterator", TYPHOON_UNORDERED_MULTISET_FILE_ID"C"), file_name_, line_number_)
     {
     }
   };
@@ -121,7 +121,7 @@ namespace tphn
   /// Can be used as a reference type for all unordered_multiset containing a specific type.
   ///\ingroup unordered_multiset
   //***************************************************************************
-  template <typename TKey, typename THash = tphn::hash<TKey>, typename TKeyEqual = tphn::equal_to<TKey> >
+  template <typename TKey, typename THash = tpn::hash<TKey>, typename TKeyEqual = tpn::equal_to<TKey> >
   class iunordered_multiset
   {
   public:
@@ -141,7 +141,7 @@ namespace tphn
 
     typedef const TKey& key_parameter_t;
 
-    typedef tphn::forward_link<0> link_t;
+    typedef tpn::forward_link<0> link_t;
 
     //*********************************************************************
     // The nodes that store the elements.
@@ -167,8 +167,8 @@ namespace tphn
 
   protected:
 
-    typedef tphn::intrusive_forward_list<node_t, link_t> bucket_t;
-    typedef tphn::ipool pool_t;
+    typedef tpn::intrusive_forward_list<node_t, link_t> bucket_t;
+    typedef tpn::ipool pool_t;
 
   public:
 
@@ -177,11 +177,11 @@ namespace tphn
     typedef typename bucket_t::const_iterator const_local_iterator;
 
     //*********************************************************************
-    class iterator : public tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, TKey>
+    class iterator : public tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, TKey>
     {
     public:
 
-      typedef typename tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, TKey>::value_type value_type;
+      typedef typename tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, TKey>::value_type value_type;
       typedef typename iunordered_multiset::key_type        key_type;
       typedef typename iunordered_multiset::hasher          hasher;
       typedef typename iunordered_multiset::key_equal       key_equal;
@@ -319,11 +319,11 @@ namespace tphn
     };
 
     //*********************************************************************
-    class const_iterator : public tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, const TKey>
+    class const_iterator : public tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, const TKey>
     {
     public:
 
-      typedef typename tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, const TKey>::value_type value_type;
+      typedef typename tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, const TKey>::value_type value_type;
       typedef typename iunordered_multiset::key_type        key_type;
       typedef typename iunordered_multiset::hasher          hasher;
       typedef typename iunordered_multiset::key_equal       key_equal;
@@ -469,7 +469,7 @@ namespace tphn
       local_iterator inode;
     };
 
-    typedef typename tphn::iterator_traits<iterator>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<iterator>::difference_type difference_type;
 
     //*********************************************************************
     /// Returns an iterator to the beginning of the unordered_multiset.
@@ -596,7 +596,7 @@ namespace tphn
     {
       size_t index = bucket(key);
 
-      return tphn::distance(pbuckets[index].begin(), pbuckets[index].end());
+      return tpn::distance(pbuckets[index].begin(), pbuckets[index].end());
     }
 
     //*********************************************************************
@@ -628,7 +628,7 @@ namespace tphn
     void assign(TIterator first_, TIterator last_)
     {
 #if TYPHOON_IS_DEBUG_BUILD
-      difference_type d = tphn::distance(first_, last_);
+      difference_type d = tpn::distance(first_, last_);
       TYPHOON_ASSERT(d >= 0, TYPHOON_ERROR(unordered_multiset_iterator));
       TYPHOON_ASSERT(size_t(d) <= max_size(), TYPHOON_ERROR(unordered_multiset_full));
 #endif
@@ -734,7 +734,7 @@ namespace tphn
       {
         // Get a new node.
         node_t& node = create_data_node();
-        ::new (&node.key) value_type(tphn::move(key));
+        ::new (&node.key) value_type(tpn::move(key));
         TYPHOON_INCREMENT_DEBUG_COUNT
 
         // Just add the pointer to the bucket;
@@ -764,7 +764,7 @@ namespace tphn
 
         // Get a new node.
         node_t& node = create_data_node();
-        ::new (&node.key) value_type(tphn::move(key));
+        ::new (&node.key) value_type(tpn::move(key));
         TYPHOON_INCREMENT_DEBUG_COUNT
 
           // Add the node to the end of the bucket;
@@ -861,7 +861,7 @@ namespace tphn
       local_iterator icurrent = ielement.get_local_iterator();
 
       // Find the node previous to the one we're interested in.
-      while (iprevious->tphn_next != &*icurrent)
+      while (iprevious->tpn_next != &*icurrent)
       {
         ++iprevious;
       }
@@ -902,7 +902,7 @@ namespace tphn
       local_iterator iend        = last_.get_local_iterator(); // Note: May not be in the same bucket as icurrent.
 
       // Find the node previous to the first one.
-      while (iprevious->tphn_next != &*icurrent)
+      while (iprevious->tpn_next != &*icurrent)
       {
         ++iprevious;
       }
@@ -1269,7 +1269,7 @@ namespace tphn
       {
         iterator temp = first;
         ++temp;
-        insert(tphn::move(*first));
+        insert(tpn::move(*first));
         first = temp;
       }
     }
@@ -1282,7 +1282,7 @@ namespace tphn
     //*************************************************************************
     node_t& create_data_node()
     {
-      node_t* (tphn::ipool::*func)() = &tphn::ipool::allocate<node_t>;
+      node_t* (tpn::ipool::*func)() = &tpn::ipool::allocate<node_t>;
       return *(pnodepool->*func)();
     }
 
@@ -1399,7 +1399,7 @@ namespace tphn
   ///\ingroup unordered_multiset
   //***************************************************************************
   template <typename TKey, typename TMapped, typename TKeyCompare>
-  bool operator ==(const tphn::iunordered_multiset<TKey, TMapped, TKeyCompare>& lhs, const tphn::iunordered_multiset<TKey, TMapped, TKeyCompare>& rhs)
+  bool operator ==(const tpn::iunordered_multiset<TKey, TMapped, TKeyCompare>& lhs, const tpn::iunordered_multiset<TKey, TMapped, TKeyCompare>& rhs)
   {
     const bool sizes_match = (lhs.size() == rhs.size());
     bool elements_match = true;
@@ -1408,7 +1408,7 @@ namespace tphn
     {
       for (size_t i = 0; (i < lhs.bucket_count()) && elements_match; ++i)
       {
-        if (!tphn::is_permutation(lhs.begin(i), lhs.end(i), rhs.begin(i)))
+        if (!tpn::is_permutation(lhs.begin(i), lhs.end(i), rhs.begin(i)))
         {
           elements_match = false;
         }
@@ -1426,7 +1426,7 @@ namespace tphn
   ///\ingroup unordered_multiset
   //***************************************************************************
   template <typename TKey, typename TMapped, typename TKeyCompare>
-  bool operator !=(const tphn::iunordered_multiset<TKey, TMapped, TKeyCompare>& lhs, const tphn::iunordered_multiset<TKey, TMapped, TKeyCompare>& rhs)
+  bool operator !=(const tpn::iunordered_multiset<TKey, TMapped, TKeyCompare>& lhs, const tpn::iunordered_multiset<TKey, TMapped, TKeyCompare>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -1434,12 +1434,12 @@ namespace tphn
   //*************************************************************************
   /// A templated unordered_multiset implementation that uses a fixed size buffer.
   //*************************************************************************
-  template <typename TKey, const size_t MAX_SIZE_, size_t MAX_BUCKETS_ = MAX_SIZE_, typename THash = tphn::hash<TKey>, typename TKeyEqual = tphn::equal_to<TKey> >
-  class unordered_multiset : public tphn::iunordered_multiset<TKey, THash, TKeyEqual>
+  template <typename TKey, const size_t MAX_SIZE_, size_t MAX_BUCKETS_ = MAX_SIZE_, typename THash = tpn::hash<TKey>, typename TKeyEqual = tpn::equal_to<TKey> >
+  class unordered_multiset : public tpn::iunordered_multiset<TKey, THash, TKeyEqual>
   {
   private:
 
-    typedef tphn::iunordered_multiset<TKey, THash, TKeyEqual> base;
+    typedef tpn::iunordered_multiset<TKey, THash, TKeyEqual> base;
 
   public:
 
@@ -1532,7 +1532,7 @@ namespace tphn
     //*************************************************************************
     unordered_multiset& operator = (unordered_multiset&& rhs)
     {
-      base::operator =(tphn::move(rhs));
+      base::operator =(tpn::move(rhs));
 
       return *this;
     }
@@ -1541,7 +1541,7 @@ namespace tphn
   private:
 
     /// The pool of nodes used for the unordered_multiset.
-    tphn::pool<typename base::node_t, MAX_SIZE> node_pool;
+    tpn::pool<typename base::node_t, MAX_SIZE> node_pool;
 
     /// The buckets of node lists.
     typename base::bucket_t buckets[MAX_BUCKETS_];
@@ -1552,17 +1552,17 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_CPP17 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename... T>
-  unordered_multiset(T...) -> unordered_multiset<tphn::nth_type_t<0, T...>, sizeof...(T)>;
+  unordered_multiset(T...) -> unordered_multiset<tpn::nth_type_t<0, T...>, sizeof...(T)>;
 #endif
 
   //*************************************************************************
   /// Make
   //*************************************************************************
 #if TYPHOON_USING_CPP11 && TYPHOON_HAS_INITIALIZER_LIST
-  template <typename TKey, typename THash = tphn::hash<TKey>, typename TKeyEqual = tphn::equal_to<TKey>, typename... T>
-  constexpr auto make_unordered_multiset(T&&... keys) -> tphn::unordered_multiset<TKey, sizeof...(T), sizeof...(T), THash, TKeyEqual>
+  template <typename TKey, typename THash = tpn::hash<TKey>, typename TKeyEqual = tpn::equal_to<TKey>, typename... T>
+  constexpr auto make_unordered_multiset(T&&... keys) -> tpn::unordered_multiset<TKey, sizeof...(T), sizeof...(T), THash, TKeyEqual>
   {
-    return { {tphn::forward<T>(keys)...} };
+    return { {tpn::forward<T>(keys)...} };
   }
 #endif
 }

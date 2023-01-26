@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -38,7 +38,7 @@ SOFTWARE.
 // The parameters for these CRCs were created from https://crccalc.com/
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   namespace private_crc
   {
@@ -50,7 +50,7 @@ namespace tphn
       static TYPHOON_CONSTANT TAccumulator Initial          = Initial_;
       static TYPHOON_CONSTANT TAccumulator Xor_Out          = Xor_Out_;
       static TYPHOON_CONSTANT bool         Reflect          = Reflect_;
-      static TYPHOON_CONSTANT size_t       Accumulator_Bits = tphn::integral_limits<accumulator_type>::bits; 
+      static TYPHOON_CONSTANT size_t       Accumulator_Bits = tpn::integral_limits<accumulator_type>::bits; 
     };
 
     // 8 bit.

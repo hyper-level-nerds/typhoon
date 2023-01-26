@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -49,7 +49,7 @@ SOFTWARE.
 /// A replacement for std::array if you haven't got C++0x11.
 ///\ingroup containers
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   ///\ingroup array
@@ -88,7 +88,7 @@ namespace tphn
   {
   private:
 
-    typedef typename tphn::parameter_type<T>::type parameter_t;
+    typedef typename tpn::parameter_type<T>::type parameter_t;
 
   public:
 
@@ -341,7 +341,7 @@ namespace tphn
     //*************************************************************************
     void fill(parameter_t value)
     {
-      tphn::fill(begin(), end(), value);
+      tpn::fill(begin(), end(), value);
     }
 
     //*************************************************************************
@@ -367,7 +367,7 @@ namespace tphn
     template <typename TIterator>
     void assign(TIterator first, const TIterator last)
     {
-      tphn::copy_s(first, last, begin(), end());
+      tpn::copy_s(first, last, begin(), end());
     }
 
     //*************************************************************************
@@ -380,10 +380,10 @@ namespace tphn
     void assign(TIterator first, const TIterator last, parameter_t value)
     {
       // Copy from the range.
-      iterator p = tphn::copy(first, last, begin());
+      iterator p = tpn::copy(first, last, begin());
 
       // Initialise any that are left.
-      tphn::fill(p, end(), value);
+      tpn::fill(p, end(), value);
     }
 
     //*************************************************************************
@@ -405,7 +405,7 @@ namespace tphn
     {
       iterator p = to_iterator(position);
 
-      tphn::move_backward(p, end() - 1, end());
+      tpn::move_backward(p, end() - 1, end());
       *p = value;
 
       return p;
@@ -435,18 +435,18 @@ namespace tphn
       iterator p = to_iterator(position);
       iterator result(p);
 
-      size_t source_size       = tphn::distance(first, last);
-      size_t destination_space = tphn::distance(position, cend());
+      size_t source_size       = tpn::distance(first, last);
+      size_t destination_space = tpn::distance(position, cend());
 
       // Do we need to move anything?
       if (source_size < destination_space)
       {
-        size_t length = SIZE - (tphn::distance(begin(), p) + source_size);
-        tphn::move_backward(p, p + length, end());
+        size_t length = SIZE - (tpn::distance(begin(), p) + source_size);
+        tpn::move_backward(p, p + length, end());
       }
 
       // Copy from the range.
-      tphn::copy_s(first, last, p, end());
+      tpn::copy_s(first, last, p, end());
 
       return result;
     }
@@ -469,7 +469,7 @@ namespace tphn
     iterator erase(const_iterator position)
     {
       iterator p = to_iterator(position);
-      tphn::move(p + 1, end(), p);
+      tpn::move(p + 1, end(), p);
 
       return p;
     }
@@ -494,7 +494,7 @@ namespace tphn
     iterator erase(const_iterator first, const_iterator last)
     {
       iterator p = to_iterator(first);
-      tphn::move(last, cend(), p);
+      tpn::move(last, cend(), p);
       return p;
     }
 
@@ -517,7 +517,7 @@ namespace tphn
     {
       iterator p = to_iterator(position);
 
-      tphn::move(p + 1, end(), p);
+      tpn::move(p + 1, end(), p);
       back() = value;
 
       return p;
@@ -543,8 +543,8 @@ namespace tphn
     {
       iterator p = to_iterator(first);
 
-      p = tphn::move(last, cend(), p);
-      tphn::fill(p, end(), value);
+      p = tpn::move(last, cend(), p);
+      tpn::fill(p, end(), value);
 
       return to_iterator(first);
     }
@@ -568,7 +568,7 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_CPP17
   template <typename... T>
-  array(T...) -> array<typename tphn::common_type<T...>::type, sizeof...(T)>;
+  array(T...) -> array<typename tpn::common_type<T...>::type, sizeof...(T)>;
 #endif  
 
   //*************************************************************************
@@ -576,19 +576,19 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_HAS_INITIALIZER_LIST
   template <typename T, typename... TValues>
-  constexpr auto make_array(TValues&&... values) -> tphn::array<T, sizeof...(TValues)>
+  constexpr auto make_array(TValues&&... values) -> tpn::array<T, sizeof...(TValues)>
   {
-    return { { tphn::forward<T>(values)... } };
+    return { { tpn::forward<T>(values)... } };
   }
 #endif
 
   //*************************************************************************
-  /// Overloaded swap for tphn::array<T, SIZE>
+  /// Overloaded swap for tpn::array<T, SIZE>
   ///\param lhs The first array.
   ///\param rhs The second array.
   //*************************************************************************
   template <typename T, const size_t SIZE>
-  void swap(tphn::array<T, SIZE> &lhs, tphn::array<T, SIZE> &rhs)
+  void swap(tpn::array<T, SIZE> &lhs, tpn::array<T, SIZE> &rhs)
   {
     lhs.swap(rhs);
   }
@@ -600,9 +600,9 @@ namespace tphn
   ///\return <b>true</b> if the arrays are equal, otherwise <b>false</b>
   //*************************************************************************
   template <typename T, size_t SIZE>
-  bool operator ==(const tphn::array<T, SIZE>& lhs, const tphn::array<T, SIZE>& rhs)
+  bool operator ==(const tpn::array<T, SIZE>& lhs, const tpn::array<T, SIZE>& rhs)
   {
-    return tphn::equal(lhs.cbegin(), lhs.cend(), rhs.cbegin());
+    return tpn::equal(lhs.cbegin(), lhs.cend(), rhs.cbegin());
   }
 
   //*************************************************************************
@@ -612,7 +612,7 @@ namespace tphn
   ///\return <b>true</b> if the arrays are not equal, otherwise <b>false</b>
   //*************************************************************************
   template <typename T, size_t SIZE>
-  bool operator !=(const tphn::array<T, SIZE>& lhs, const tphn::array<T, SIZE>& rhs)
+  bool operator !=(const tpn::array<T, SIZE>& lhs, const tpn::array<T, SIZE>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -624,9 +624,9 @@ namespace tphn
   ///\return <b>true</b> if the first array is lexicographically less than the second, otherwise <b>false</b>
   //*************************************************************************
   template <typename T, size_t SIZE>
-  bool operator <(const tphn::array<T, SIZE>& lhs, const tphn::array<T, SIZE>& rhs)
+  bool operator <(const tpn::array<T, SIZE>& lhs, const tpn::array<T, SIZE>& rhs)
   {
-    return tphn::lexicographical_compare(lhs.cbegin(),
+    return tpn::lexicographical_compare(lhs.cbegin(),
                                         lhs.cend(),
                                         rhs.cbegin(),
                                         rhs.cend());
@@ -639,7 +639,7 @@ namespace tphn
   ///\return <b>true</b> if the first array is lexicographically less than or equal to the second, otherwise <b>false</b>
   //*************************************************************************
   template <typename T, size_t SIZE>
-  bool operator <=(const tphn::array<T, SIZE>& lhs, const tphn::array<T, SIZE>& rhs)
+  bool operator <=(const tpn::array<T, SIZE>& lhs, const tpn::array<T, SIZE>& rhs)
   {
     return !(lhs > rhs);
   }
@@ -651,7 +651,7 @@ namespace tphn
   ///\return <b>true</b> if the first array is lexicographically greater than the second, otherwise <b>false</b>
   template <typename T, size_t SIZE>
   //*************************************************************************
-  bool operator >(const tphn::array<T, SIZE>& lhs, const tphn::array<T, SIZE>& rhs)
+  bool operator >(const tpn::array<T, SIZE>& lhs, const tpn::array<T, SIZE>& rhs)
   {
     return (rhs < lhs);
   }
@@ -663,7 +663,7 @@ namespace tphn
   ///\return <b>true</b> if the first array is lexicographically greater than or equal to the second, otherwise <b>false</b>
   //*************************************************************************
   template <typename T, size_t SIZE>
-  bool operator >=(const tphn::array<T, SIZE>& lhs, const tphn::array<T, SIZE>& rhs)
+  bool operator >=(const tpn::array<T, SIZE>& lhs, const tpn::array<T, SIZE>& rhs)
   {
     return !(lhs < rhs);
   }

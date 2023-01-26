@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -43,18 +43,18 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //*************************************************************************
   /// A templated pool implementation that uses a fixed size pool.
   ///\ingroup pool
   //*************************************************************************
   template <typename T, const size_t VSize>
-  class pool : public tphn::generic_pool<sizeof(T), tphn::alignment_of<T>::value, VSize>
+  class pool : public tpn::generic_pool<sizeof(T), tpn::alignment_of<T>::value, VSize>
   {
   private:
 
-    typedef tphn::generic_pool<sizeof(T), tphn::alignment_of<T>::value, VSize> base_t;
+    typedef tpn::generic_pool<sizeof(T), tpn::alignment_of<T>::value, VSize> base_t;
 
   public:
 
@@ -73,7 +73,7 @@ namespace tphn
     /// Allocate an object from the pool.
     /// Uses the default constructor.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     /// Static asserts if the specified type is too large for the pool.
     //*************************************************************************
     T* allocate()
@@ -85,7 +85,7 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with default.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     T* create()
     {
@@ -95,7 +95,7 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 1 parameter.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename T1>
     T* create(const T1& value1)
@@ -106,7 +106,7 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 2 parameters.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename T1, typename T2>
     T* create(const T1& value1, const T2& value2)
@@ -117,7 +117,7 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 3 parameters.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename T1, typename T2, typename T3>
     T* create(const T1& value1, const T2& value2, const T3& value3)
@@ -128,7 +128,7 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 4 parameters.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename T1, typename T2, typename T3, typename T4>
     T* create(const T1& value1, const T2& value2, const T3& value3, const T4& value4)
@@ -139,12 +139,12 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with variadic parameters.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename... Args>
     T* create(Args&&... args)
     {
-      return base_t::template create<T>(tphn::forward<Args>(args)...);
+      return base_t::template create<T>(tpn::forward<Args>(args)...);
     }
 #endif
 
@@ -156,7 +156,7 @@ namespace tphn
     template <typename U>
     void release(const U* const p_object)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_same<U, T>::value || tphn::is_base_of<U, T>::value), "Pool does not contain this type");
+      TYPHOON_STATIC_ASSERT((tpn::is_same<U, T>::value || tpn::is_base_of<U, T>::value), "Pool does not contain this type");
       base_t::release(p_object);
     }
 
@@ -168,7 +168,7 @@ namespace tphn
     template <typename U>
     void destroy(const U* const p_object)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<U, T>::value), "Pool does not contain this type");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<U, T>::value), "Pool does not contain this type");
       base_t::destroy(p_object);
     }
 
@@ -185,10 +185,10 @@ namespace tphn
   ///\ingroup pool
   //*************************************************************************
   template <typename T>
-  class pool_ext : public tphn::generic_pool_ext<sizeof(T), tphn::alignment_of<T>::value> 
+  class pool_ext : public tpn::generic_pool_ext<sizeof(T), tpn::alignment_of<T>::value> 
   {
   private:
-    typedef tphn::generic_pool_ext<sizeof(T), tphn::alignment_of<T>::value> base_t;
+    typedef tpn::generic_pool_ext<sizeof(T), tpn::alignment_of<T>::value> base_t;
 
   public:
     using base_t::ALIGNMENT;
@@ -206,7 +206,7 @@ namespace tphn
     /// Allocate an object from the pool.
     /// Uses the default constructor.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     /// Static asserts if the specified type is too large for the pool.
     //*************************************************************************
     T* allocate() 
@@ -218,7 +218,7 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with default.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     T* create() 
     { 
@@ -228,7 +228,7 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 1 parameter.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename T1>
     T* create(const T1& value1)
@@ -239,7 +239,7 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 2 parameters.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename T1, typename T2>
     T* create(const T1& value1, const T2& value2)
@@ -250,7 +250,7 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 3 parameters.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename T1, typename T2, typename T3>
     T* create(const T1& value1, const T2& value2, const T3& value3)
@@ -261,7 +261,7 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 4 parameters.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename T1, typename T2, typename T3, typename T4>
     T* create(const T1& value1, const T2& value2, const T3& value3, const T4& value4)
@@ -272,12 +272,12 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with variadic parameters.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename... Args>
     T* create(Args&&... args)
     {
-      return base_t::template create<T>(tphn::forward<Args>(args)...);
+      return base_t::template create<T>(tpn::forward<Args>(args)...);
     }
 #endif
 
@@ -289,7 +289,7 @@ namespace tphn
     template <typename U>
     void release(const U* const p_object)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_same<U, T>::value || tphn::is_base_of<U, T>::value), "Pool does not contain this type");
+      TYPHOON_STATIC_ASSERT((tpn::is_same<U, T>::value || tpn::is_base_of<U, T>::value), "Pool does not contain this type");
       base_t::release(p_object);
     }
 
@@ -301,7 +301,7 @@ namespace tphn
     template <typename U>
     void destroy(const U* const p_object)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<U, T>::value), "Pool does not contain this type");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<U, T>::value), "Pool does not contain this type");
       base_t::destroy(p_object);
     }
 

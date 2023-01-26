@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -48,7 +48,7 @@ SOFTWARE.
 
 #include <stddef.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   ///\ingroup reference_flat_set
@@ -97,7 +97,7 @@ namespace tphn
   /// Can be used as a reference type for all reference_flat_sets containing a specific type.
   ///\ingroup reference_flat_set
   //***************************************************************************
-  template <typename T, typename TKeyCompare = tphn::less<T> >
+  template <typename T, typename TKeyCompare = tpn::less<T> >
   class ireference_flat_set
   {
   public:
@@ -113,12 +113,12 @@ namespace tphn
 
   protected:
 
-    typedef tphn::ivector<value_type*> lookup_t;
+    typedef tpn::ivector<value_type*> lookup_t;
 
   public:
 
     //*************************************************************************
-    class iterator : public tphn::iterator<TYPHOON_OR_STD::bidirectional_iterator_tag, value_type>
+    class iterator : public tpn::iterator<TYPHOON_OR_STD::bidirectional_iterator_tag, value_type>
     {
     public:
 
@@ -178,12 +178,12 @@ namespace tphn
 
       pointer operator &() const
       {
-        return tphn::addressof(*(*ilookup));
+        return tpn::addressof(*(*ilookup));
       }
 
       pointer operator ->() const
       {
-        return tphn::addressof(*(*ilookup));
+        return tpn::addressof(*(*ilookup));
       }
 
       friend bool operator == (const iterator& lhs, const iterator& rhs)
@@ -202,7 +202,7 @@ namespace tphn
     };
 
     //*************************************************************************
-    class const_iterator : public tphn::iterator<TYPHOON_OR_STD::bidirectional_iterator_tag, const value_type>
+    class const_iterator : public tpn::iterator<TYPHOON_OR_STD::bidirectional_iterator_tag, const value_type>
     {
     public:
 
@@ -272,12 +272,12 @@ namespace tphn
 
       const_pointer operator &() const
       {
-        return tphn::addressof(*(*ilookup));
+        return tpn::addressof(*(*ilookup));
       }
 
       const_pointer operator ->() const
       {
-        return tphn::addressof(*(*ilookup));
+        return tpn::addressof(*(*ilookup));
       }
 
       friend bool operator == (const const_iterator& lhs, const const_iterator& rhs)
@@ -297,13 +297,13 @@ namespace tphn
 
   protected:
 
-    typedef typename tphn::parameter_type<T>::type parameter_t;
+    typedef typename tpn::parameter_type<T>::type parameter_t;
 
   public:
 
     typedef TYPHOON_OR_STD::reverse_iterator<iterator>       reverse_iterator;
     typedef TYPHOON_OR_STD::reverse_iterator<const_iterator> const_reverse_iterator;
-    typedef typename tphn::iterator_traits<iterator>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<iterator>::difference_type difference_type;
 
     //*********************************************************************
     /// Returns an iterator to the beginning of the reference_flat_set.
@@ -424,7 +424,7 @@ namespace tphn
     void assign(TIterator first, TIterator last)
     {
 #if TYPHOON_IS_DEBUG_BUILD
-      difference_type d = tphn::distance(first, last);
+      difference_type d = tpn::distance(first, last);
       TYPHOON_ASSERT(d <= difference_type(capacity()), TYPHOON_ERROR(flat_set_full));
 #endif
 
@@ -499,10 +499,10 @@ namespace tphn
 
     //*********************************************************************
 #if TYPHOON_USING_CPP11
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     size_t erase(K&& key)
     {
-      iterator i_element = find(tphn::forward<K>(key));
+      iterator i_element = find(tpn::forward<K>(key));
 
       if (i_element == end())
       {
@@ -561,7 +561,7 @@ namespace tphn
     //*********************************************************************
     iterator find(parameter_t key)
     {
-      iterator itr = tphn::lower_bound(begin(), end(), key, compare);
+      iterator itr = tpn::lower_bound(begin(), end(), key, compare);
 
       if (itr != end())
       {
@@ -580,10 +580,10 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     iterator find(const K& key)
     {
-      iterator itr = tphn::lower_bound(begin(), end(), key, compare);
+      iterator itr = tpn::lower_bound(begin(), end(), key, compare);
 
       if (itr != end())
       {
@@ -608,7 +608,7 @@ namespace tphn
     //*********************************************************************
     const_iterator find(parameter_t key) const
     {
-      const_iterator itr = tphn::lower_bound(begin(), end(), key, compare);
+      const_iterator itr = tpn::lower_bound(begin(), end(), key, compare);
 
       if (itr != end())
       {
@@ -627,10 +627,10 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     const_iterator find(const K& key) const
     {
-      const_iterator itr = tphn::lower_bound(begin(), end(), key, compare);
+      const_iterator itr = tpn::lower_bound(begin(), end(), key, compare);
 
       if (itr != end())
       {
@@ -660,7 +660,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     size_t count(const K& key) const
     {
       return (find(key) == end()) ? 0 : 1;
@@ -674,15 +674,15 @@ namespace tphn
     //*********************************************************************
     iterator lower_bound(parameter_t key)
     {
-      return tphn::lower_bound(begin(), end(), key, compare);
+      return tpn::lower_bound(begin(), end(), key, compare);
     }
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     iterator lower_bound(const K& key)
     {
-      return tphn::lower_bound(begin(), end(), key, compare);
+      return tpn::lower_bound(begin(), end(), key, compare);
     }
 #endif
 
@@ -693,15 +693,15 @@ namespace tphn
     //*********************************************************************
     const_iterator lower_bound(parameter_t key) const
     {
-      return tphn::lower_bound(cbegin(), cend(), key, compare);
+      return tpn::lower_bound(cbegin(), cend(), key, compare);
     }
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     const_iterator lower_bound(const K& key) const
     {
-      return tphn::lower_bound(cbegin(), cend(), key, compare);
+      return tpn::lower_bound(cbegin(), cend(), key, compare);
     }
 #endif
 
@@ -712,15 +712,15 @@ namespace tphn
     //*********************************************************************
     iterator upper_bound(parameter_t key)
     {
-      return tphn::upper_bound(begin(), end(), key, compare);
+      return tpn::upper_bound(begin(), end(), key, compare);
     }
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     iterator upper_bound(const K& key)
     {
-      return tphn::upper_bound(begin(), end(), key, compare);
+      return tpn::upper_bound(begin(), end(), key, compare);
     }
 #endif
 
@@ -731,15 +731,15 @@ namespace tphn
     //*********************************************************************
     const_iterator upper_bound(parameter_t key) const
     {
-      return tphn::upper_bound(cbegin(), cend(), key, compare);
+      return tpn::upper_bound(cbegin(), cend(), key, compare);
     }
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     const_iterator upper_bound(const K& key) const
     {
-      return tphn::upper_bound(cbegin(), cend(), key, compare);
+      return tpn::upper_bound(cbegin(), cend(), key, compare);
     }
 #endif
 
@@ -750,15 +750,15 @@ namespace tphn
     //*********************************************************************
     TYPHOON_OR_STD::pair<iterator, iterator> equal_range(parameter_t key)
     {
-      return tphn::equal_range(begin(), end(), key, compare);
+      return tpn::equal_range(begin(), end(), key, compare);
     }
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     TYPHOON_OR_STD::pair<iterator, iterator> equal_range(const K& key)
     {
-      return tphn::equal_range(begin(), end(), key, compare);
+      return tpn::equal_range(begin(), end(), key, compare);
     }
 #endif
 
@@ -769,15 +769,15 @@ namespace tphn
     //*********************************************************************
     TYPHOON_OR_STD::pair<const_iterator, const_iterator> equal_range(parameter_t key) const
     {
-      return tphn::upper_bound(cbegin(), cend(), key, compare);
+      return tpn::upper_bound(cbegin(), cend(), key, compare);
     }
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     TYPHOON_OR_STD::pair<const_iterator, const_iterator> equal_range(const K& key) const
     {
-      return tphn::upper_bound(cbegin(), cend(), key, compare);
+      return tpn::upper_bound(cbegin(), cend(), key, compare);
     }
 #endif
 
@@ -791,7 +791,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*************************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     bool contains(const K& k) const
     {
       return find(k) != end();
@@ -928,7 +928,7 @@ namespace tphn
   /// An reference flat set
   ///\ingroup reference_flat_set
   //***************************************************************************
-  template <typename TKey, const size_t MAX_SIZE_, typename TKeyCompare = tphn::less<TKey> >
+  template <typename TKey, const size_t MAX_SIZE_, typename TKeyCompare = tpn::less<TKey> >
   class reference_flat_set : public ireference_flat_set<TKey, TKeyCompare>
   {
   public:
@@ -978,7 +978,7 @@ namespace tphn
     typedef TKey value_type;
 
     // The vector that stores pointers to the nodes.
-    tphn::vector<value_type*, MAX_SIZE> lookup;
+    tpn::vector<value_type*, MAX_SIZE> lookup;
   };
 
   //*************************************************************************
@@ -986,17 +986,17 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_CPP17 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename... T>
-  reference_flat_set(T...) -> reference_flat_set<tphn::nth_type_t<0, T...>, sizeof...(T)>;
+  reference_flat_set(T...) -> reference_flat_set<tpn::nth_type_t<0, T...>, sizeof...(T)>;
 #endif
 
   //*************************************************************************
   /// Make
   //*************************************************************************
 #if TYPHOON_USING_CPP11 && TYPHOON_HAS_INITIALIZER_LIST
-  template <typename TKey, typename TKeyCompare = tphn::less<TKey>, typename... T>
-  constexpr auto make_reference_flat_set(T&&... keys) -> tphn::reference_flat_set<TKey, sizeof...(T), TKeyCompare>
+  template <typename TKey, typename TKeyCompare = tpn::less<TKey>, typename... T>
+  constexpr auto make_reference_flat_set(T&&... keys) -> tpn::reference_flat_set<TKey, sizeof...(T), TKeyCompare>
   {
-    return { {tphn::forward<T>(keys)...} };
+    return { {tpn::forward<T>(keys)...} };
   }
 #endif
 
@@ -1008,9 +1008,9 @@ namespace tphn
   ///\ingroup reference_flat_set
   //***************************************************************************
   template <typename T, typename TKeyCompare>
-  bool operator ==(const tphn::ireference_flat_set<T, TKeyCompare>& lhs, const tphn::ireference_flat_set<T, TKeyCompare>& rhs)
+  bool operator ==(const tpn::ireference_flat_set<T, TKeyCompare>& lhs, const tpn::ireference_flat_set<T, TKeyCompare>& rhs)
   {
-    return (lhs.size() == rhs.size()) && tphn::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return (lhs.size() == rhs.size()) && tpn::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
   //***************************************************************************
@@ -1021,7 +1021,7 @@ namespace tphn
   ///\ingroup reference_flat_set
   //***************************************************************************
   template <typename T, typename TKeyCompare>
-  bool operator !=(const tphn::ireference_flat_set<T, TKeyCompare>& lhs, const tphn::ireference_flat_set<T, TKeyCompare>& rhs)
+  bool operator !=(const tpn::ireference_flat_set<T, TKeyCompare>& lhs, const tpn::ireference_flat_set<T, TKeyCompare>& rhs)
   {
     return !(lhs == rhs);
   }

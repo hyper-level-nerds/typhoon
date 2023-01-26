@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2022 John Wellbelove
 
@@ -34,9 +34,9 @@ SOFTWARE.
 #include "../platform.hpp"
 #include "../integral_limits.hpp"
 
-namespace tphn
+namespace tpn
 {
-  static TYPHOON_CONSTANT size_t dynamic_extent = tphn::integral_limits<size_t>::max;
+  static TYPHOON_CONSTANT size_t dynamic_extent = tpn::integral_limits<size_t>::max;
 }
 
 #endif

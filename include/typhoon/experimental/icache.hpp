@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-http://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+http://www.tpncpp.com
 
 Copyright(c) 2017 jwellbelove, rlindeman
 
@@ -40,7 +40,7 @@ SOFTWARE.
 
 #include <utility>
 
-namespace tphn
+namespace tpn
 {
   ///**************************************************************************
   /// The base class for all caches.
@@ -76,7 +76,7 @@ namespace tphn
     ///************************************************************************
     /// Sets the function that reads from the store.
     ///************************************************************************
-    void set_read_function(tphn::delegate<key_value_t&(void)> reader_)
+    void set_read_function(tpn::delegate<key_value_t&(void)> reader_)
     {
       read_store = reader;
     }
@@ -84,7 +84,7 @@ namespace tphn
     ///************************************************************************
     /// Sets the function that writes to the store.
     ///************************************************************************
-    void set_write_function(tphn::delegate<void(const key_value_t&)> writer_)
+    void set_write_function(tpn::delegate<void(const key_value_t&)> writer_)
     {
       write_store = writer;
     }
@@ -107,8 +107,8 @@ namespace tphn
 
     bool write_through; ///< If true, the cache should write changed items back to the store immediately. If false then a flush() or destruct will be required.
 
-    tphn::delegate<key_value_t&(void)>*       read_store;  ///< A function that will read a value from the store into the cache.
-    tphn::delegate<void(const key_value_t&)>* write_store; ///< A function that will write a value from the cache into the store.
+    tpn::delegate<key_value_t&(void)>*       read_store;  ///< A function that will read a value from the store into the cache.
+    tpn::delegate<void(const key_value_t&)>* write_store; ///< A function that will write a value from the cache into the store.
   }
 }
 

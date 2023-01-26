@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -59,7 +59,7 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Exception for the list.
@@ -361,7 +361,7 @@ namespace tphn
     //*************************************************************************
     /// The constructor that is called from derived classes.
     //*************************************************************************
-    list_base(tphn::ipool& node_pool_, size_type   max_size_, bool pool_is_shared_)
+    list_base(tpn::ipool& node_pool_, size_type   max_size_, bool pool_is_shared_)
       : p_node_pool(&node_pool_),
         MAX_SIZE(max_size_),
         pool_is_shared(pool_is_shared_)
@@ -372,7 +372,7 @@ namespace tphn
     //*************************************************************************
     /// Set the node pool instance.
     //*************************************************************************
-    void set_node_pool(tphn::ipool& node_pool_)
+    void set_node_pool(tpn::ipool& node_pool_)
     {
       p_node_pool = &node_pool_;
       MAX_SIZE    = p_node_pool->max_size();
@@ -381,7 +381,7 @@ namespace tphn
     //*************************************************************************
     /// Get the node pool instance.
     //*************************************************************************
-    tphn::ipool* get_node_pool()
+    tpn::ipool* get_node_pool()
     {
       return p_node_pool;
     }
@@ -393,7 +393,7 @@ namespace tphn
     {
     }
 
-    tphn::ipool* p_node_pool;     ///< The pool of data nodes used in the list.
+    tpn::ipool* p_node_pool;     ///< The pool of data nodes used in the list.
     node_t      terminal_node;   ///< The node that acts as the list start and end.
     size_type   MAX_SIZE;        ///< The maximum size of the list.
     bool        pool_is_shared;  ///< If <b>true</b> then the pool is shared between lists.
@@ -401,11 +401,11 @@ namespace tphn
   };
 
   //***************************************************************************
-  /// A templated base for all tphn::list types.
+  /// A templated base for all tpn::list types.
   ///\ingroup list
   //***************************************************************************
   template <typename T>
-  class ilist : public tphn::list_base
+  class ilist : public tpn::list_base
   {
   public:
 
@@ -421,7 +421,7 @@ namespace tphn
 
   protected:
 
-    typedef typename tphn::parameter_type<T>::type parameter_t;
+    typedef typename tpn::parameter_type<T>::type parameter_t;
 
     //*************************************************************************
     /// The data node element in the list.
@@ -475,7 +475,7 @@ namespace tphn
     //*************************************************************************
     /// iterator.
     //*************************************************************************
-    class iterator : public tphn::iterator<TYPHOON_OR_STD::bidirectional_iterator_tag, T>
+    class iterator : public tpn::iterator<TYPHOON_OR_STD::bidirectional_iterator_tag, T>
     {
     public:
 
@@ -562,7 +562,7 @@ namespace tphn
     //*************************************************************************
     /// const_iterator
     //*************************************************************************
-    class const_iterator : public tphn::iterator<TYPHOON_OR_STD::bidirectional_iterator_tag, const T>
+    class const_iterator : public tpn::iterator<TYPHOON_OR_STD::bidirectional_iterator_tag, const T>
     {
     public:
 
@@ -655,7 +655,7 @@ namespace tphn
       const node_t* p_node;
     };
 
-    typedef typename tphn::iterator_traits<iterator>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<iterator>::difference_type difference_type;
 
     typedef TYPHOON_OR_STD::reverse_iterator<iterator>       reverse_iterator;
     typedef TYPHOON_OR_STD::reverse_iterator<const_iterator> const_reverse_iterator;
@@ -790,14 +790,14 @@ namespace tphn
 
     //*************************************************************************
     /// Assigns a range of values to the list.
-    /// If asserts or exceptions are enabled throws tphn::list_full if the list does not have enough free space.
+    /// If asserts or exceptions are enabled throws tpn::list_full if the list does not have enough free space.
     /// If TYPHOON_THROW_EXCEPTIONS & TYPHOON_DEBUG are defined throws list_iterator if the iterators are reversed.
     //*************************************************************************
     template <typename TIterator>
-    void assign(TIterator first, TIterator last, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
+    void assign(TIterator first, TIterator last, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
     {
 #if TYPHOON_IS_DEBUG_BUILD
-      difference_type d = tphn::distance(first, last);
+      difference_type d = tpn::distance(first, last);
       TYPHOON_ASSERT(d >= 0, TYPHOON_ERROR(list_iterator));
       TYPHOON_ASSERT(size_t(d) <= MAX_SIZE, TYPHOON_ERROR(list_full));
 #endif
@@ -853,7 +853,7 @@ namespace tphn
 #if defined(TYPHOON_CHECK_PUSH_POP)
       TYPHOON_ASSERT(!full(), TYPHOON_ERROR(list_full));
 #endif
-      insert_node(get_head(), allocate_data_node(tphn::move(value)));
+      insert_node(get_head(), allocate_data_node(tpn::move(value)));
     }
 #endif
 
@@ -870,7 +870,7 @@ namespace tphn
       TYPHOON_ASSERT(p_node_pool != TYPHOON_NULLPTR, TYPHOON_ERROR(list_no_pool));
 
       data_node_t* p_data_node = create_data_node();
-      ::new (&(p_data_node->value)) T(tphn::forward<Args>(args)...);
+      ::new (&(p_data_node->value)) T(tpn::forward<Args>(args)...);
       TYPHOON_INCREMENT_DEBUG_COUNT
       insert_node(get_head(), *p_data_node);
     }
@@ -976,7 +976,7 @@ namespace tphn
 #if defined(TYPHOON_CHECK_PUSH_POP)
       TYPHOON_ASSERT(!full(), TYPHOON_ERROR(list_full));
 #endif
-      insert_node(terminal_node, allocate_data_node(tphn::move(value)));
+      insert_node(terminal_node, allocate_data_node(tpn::move(value)));
     }
 #endif
 
@@ -993,7 +993,7 @@ namespace tphn
       TYPHOON_ASSERT(p_node_pool != TYPHOON_NULLPTR, TYPHOON_ERROR(list_no_pool));
 
       data_node_t* p_data_node = create_data_node();
-      ::new (&(p_data_node->value)) T(tphn::forward<Args>(args)...);
+      ::new (&(p_data_node->value)) T(tpn::forward<Args>(args)...);
       TYPHOON_INCREMENT_DEBUG_COUNT
       insert_node(terminal_node, *p_data_node);
     }
@@ -1088,7 +1088,7 @@ namespace tphn
     {
       TYPHOON_ASSERT(!full(), TYPHOON_ERROR(list_full));
 
-      data_node_t& data_node = allocate_data_node(tphn::move(value));
+      data_node_t& data_node = allocate_data_node(tpn::move(value));
       insert_node(*to_iterator(position).p_node, data_node);
 
       return iterator(data_node);
@@ -1106,7 +1106,7 @@ namespace tphn
       TYPHOON_ASSERT(p_node_pool != TYPHOON_NULLPTR, TYPHOON_ERROR(list_no_pool));
 
       data_node_t* p_data_node = create_data_node();
-      ::new (&(p_data_node->value)) T(tphn::forward<Args>(args)...);
+      ::new (&(p_data_node->value)) T(tpn::forward<Args>(args)...);
       TYPHOON_INCREMENT_DEBUG_COUNT
       insert_node(*to_iterator(position).p_node, *p_data_node);
 
@@ -1188,7 +1188,7 @@ namespace tphn
     /// Inserts a range of values to the list at the specified position.
     //*************************************************************************
     template <typename TIterator>
-    void insert(const_iterator position, TIterator first, TIterator last, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
+    void insert(const_iterator position, TIterator first, TIterator last, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
     {
       while (first != last)
       {
@@ -1262,7 +1262,7 @@ namespace tphn
       else if (n < size())
       {
         iterator i_start = end();
-        tphn::advance(i_start, -difference_type(size() - n));
+        tpn::advance(i_start, -difference_type(size() - n));
         erase(i_start, end());
       }
       // Larger?
@@ -1327,7 +1327,7 @@ namespace tphn
     //*************************************************************************
     void unique()
     {
-      unique(tphn::equal_to<T>());
+      unique(tpn::equal_to<T>());
     }
 
     //*************************************************************************
@@ -1383,7 +1383,7 @@ namespace tphn
         typename ilist<T>::iterator itr = other.begin();
         while (itr != other.end())
         {
-          to = insert(to, tphn::move(*itr));
+          to = insert(to, tpn::move(*itr));
           ++itr;
         }
 
@@ -1424,7 +1424,7 @@ namespace tphn
       else
       {
         // From another list.
-        insert(to, tphn::move(*from));
+        insert(to, tpn::move(*from));
         other.erase(from);
       }
     }
@@ -1465,7 +1465,7 @@ namespace tphn
         ilist::iterator itr = first;
         while (itr != last)
         {
-          to = insert(to, tphn::move(*itr));
+          to = insert(to, tpn::move(*itr));
           ++itr;
           ++to;
         }
@@ -1480,7 +1480,7 @@ namespace tphn
     //*************************************************************************
     void merge(ilist& other)
     {
-      merge(other, tphn::less<value_type>());
+      merge(other, tpn::less<value_type>());
     }
 
     //*************************************************************************
@@ -1492,8 +1492,8 @@ namespace tphn
       if ((this != &other) && !other.empty())
       {
 #if TYPHOON_IS_DEBUG_BUILD
-        TYPHOON_ASSERT(tphn::is_sorted(other.begin(), other.end(), compare), TYPHOON_ERROR(list_unsorted));
-        TYPHOON_ASSERT(tphn::is_sorted(begin(), end(), compare), TYPHOON_ERROR(list_unsorted));
+        TYPHOON_ASSERT(tpn::is_sorted(other.begin(), other.end(), compare), TYPHOON_ERROR(list_unsorted));
+        TYPHOON_ASSERT(tpn::is_sorted(begin(), end(), compare), TYPHOON_ERROR(list_unsorted));
 #endif
 
         ilist::iterator other_begin = other.begin();
@@ -1537,7 +1537,7 @@ namespace tphn
     //*************************************************************************
     void merge(ilist&& other)
     {
-      merge(tphn::move(other), tphn::less<value_type>());
+      merge(tpn::move(other), tpn::less<value_type>());
     }
 
     //*************************************************************************
@@ -1549,8 +1549,8 @@ namespace tphn
       if (!other.empty())
       {
 #if TYPHOON_IS_DEBUG_BUILD
-        TYPHOON_ASSERT(tphn::is_sorted(other.begin(), other.end(), compare), TYPHOON_ERROR(list_unsorted));
-        TYPHOON_ASSERT(tphn::is_sorted(begin(), end(), compare), TYPHOON_ERROR(list_unsorted));
+        TYPHOON_ASSERT(tpn::is_sorted(other.begin(), other.end(), compare), TYPHOON_ERROR(list_unsorted));
+        TYPHOON_ASSERT(tpn::is_sorted(begin(), end(), compare), TYPHOON_ERROR(list_unsorted));
 #endif
 
         ilist::iterator other_begin = other.begin();
@@ -1572,7 +1572,7 @@ namespace tphn
           {
             while ((other_begin != other_end) && (compare(*other_begin, *this_begin)))
             {
-              insert(this_begin, tphn::move(*other_begin));
+              insert(this_begin, tpn::move(*other_begin));
               ++other_begin;
             }
           }
@@ -1583,7 +1583,7 @@ namespace tphn
         {
           while (other_begin != other_end)
           {
-            insert(this_end, tphn::move(*other_begin));
+            insert(this_end, tpn::move(*other_begin));
             ++other_begin;
           }
         }
@@ -1599,7 +1599,7 @@ namespace tphn
     //*************************************************************************
     void sort()
     {
-      sort(tphn::less<T>());
+      sort(tpn::less<T>());
     }
 
     //*************************************************************************
@@ -1761,7 +1761,7 @@ namespace tphn
         iterator itr = rhs.begin();
         while (itr != rhs.end())
         {
-          push_back(tphn::move(*itr));
+          push_back(tpn::move(*itr));
           ++itr;
         }
 
@@ -1785,7 +1785,7 @@ namespace tphn
     //*************************************************************************
     /// Constructor.
     //*************************************************************************
-    ilist(tphn::ipool& node_pool, size_t max_size_, bool pool_is_shared_)
+    ilist(tpn::ipool& node_pool, size_t max_size_, bool pool_is_shared_)
       : list_base(node_pool, max_size_, pool_is_shared_)
     {
     }
@@ -1799,7 +1799,7 @@ namespace tphn
       {
         if (!empty())
         {
-          if (tphn::is_trivially_destructible<T>::value && !has_shared_pool())
+          if (tpn::is_trivially_destructible<T>::value && !has_shared_pool())
           {
             TYPHOON_ASSERT(p_node_pool != TYPHOON_NULLPTR, TYPHOON_ERROR(list_no_pool));
             p_node_pool->release_all();
@@ -1850,14 +1850,14 @@ namespace tphn
           else
           {
             // Add all of the elements.
-            tphn::ilist<T>::iterator first = rhs.begin();
-            tphn::ilist<T>::iterator last = rhs.end();
+            tpn::ilist<T>::iterator first = rhs.begin();
+            tpn::ilist<T>::iterator last = rhs.end();
 
             while (first != last)
             {
               TYPHOON_ASSERT(!full(), TYPHOON_ERROR(list_full));
 
-              insert_node(terminal_node, this->allocate_data_node(tphn::move(*first)));
+              insert_node(terminal_node, this->allocate_data_node(tpn::move(*first)));
               ++first;
             }
 
@@ -1959,7 +1959,7 @@ namespace tphn
       TYPHOON_ASSERT(p_node_pool != TYPHOON_NULLPTR, TYPHOON_ERROR(list_no_pool));
 
       data_node_t* p_data_node = create_data_node();
-      ::new (&(p_data_node->value)) T(tphn::move(value));
+      ::new (&(p_data_node->value)) T(tpn::move(value));
       TYPHOON_INCREMENT_DEBUG_COUNT
 
         return *p_data_node;
@@ -1971,7 +1971,7 @@ namespace tphn
     //*************************************************************************
     data_node_t* create_data_node()
     {
-      data_node_t* (tphn::ipool::*func)() = &tphn::ipool::allocate<data_node_t>;
+      data_node_t* (tpn::ipool::*func)() = &tpn::ipool::allocate<data_node_t>;
       return (p_node_pool->*func)();
     }
 
@@ -2016,11 +2016,11 @@ namespace tphn
   /// A templated list implementation that uses a fixed size buffer.
   //*************************************************************************
   template <typename T, const size_t MAX_SIZE_>
-  class list : public tphn::ilist<T>
+  class list : public tpn::ilist<T>
   {
   public:
 
-    TYPHOON_STATIC_ASSERT((MAX_SIZE_ > 0U), "Zero capacity tphn::list is not valid");
+    TYPHOON_STATIC_ASSERT((MAX_SIZE_ > 0U), "Zero capacity tpn::list is not valid");
 
     static TYPHOON_CONSTANT size_t MAX_SIZE = MAX_SIZE_;
 
@@ -2040,7 +2040,7 @@ namespace tphn
     /// Default constructor.
     //*************************************************************************
     list()
-      : tphn::ilist<T>(node_pool, MAX_SIZE, false)
+      : tpn::ilist<T>(node_pool, MAX_SIZE, false)
     {
     }
 
@@ -2056,7 +2056,7 @@ namespace tphn
     /// Construct from size.
     //*************************************************************************
     explicit list(size_t initial_size)
-      : tphn::ilist<T>(node_pool, MAX_SIZE, false)
+      : tpn::ilist<T>(node_pool, MAX_SIZE, false)
     {
       this->assign(initial_size, T());
     }
@@ -2065,7 +2065,7 @@ namespace tphn
     /// Construct from size and value.
     //*************************************************************************
     list(size_t initial_size, const T& value)
-      : tphn::ilist<T>(node_pool, MAX_SIZE, false)
+      : tpn::ilist<T>(node_pool, MAX_SIZE, false)
     {
       this->assign(initial_size, value);
     }
@@ -2074,7 +2074,7 @@ namespace tphn
     /// Copy constructor.
     //*************************************************************************
     list(const list& other)
-      : tphn::ilist<T>(node_pool, MAX_SIZE, false)
+      : tpn::ilist<T>(node_pool, MAX_SIZE, false)
     {
       if (this != &other)
       {
@@ -2087,16 +2087,16 @@ namespace tphn
     /// Move constructor.
     //*************************************************************************
     list(list&& other)
-      : tphn::ilist<T>(node_pool, MAX_SIZE, false)
+      : tpn::ilist<T>(node_pool, MAX_SIZE, false)
     {
       if (this != &other)
       {
         this->initialise();
 
-        typename tphn::ilist<T>::iterator itr = other.begin();
+        typename tpn::ilist<T>::iterator itr = other.begin();
         while (itr != other.end())
         {
-          this->push_back(tphn::move(*itr));
+          this->push_back(tpn::move(*itr));
           ++itr;
         }
 
@@ -2109,7 +2109,7 @@ namespace tphn
     /// Construct from range.
     //*************************************************************************
     template <typename TIterator>
-    list(TIterator first, TIterator last, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
+    list(TIterator first, TIterator last, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
       : ilist<T>(node_pool, MAX_SIZE, false)
     {
       this->assign(first, last);
@@ -2145,7 +2145,7 @@ namespace tphn
     //*************************************************************************
     list& operator = (list&& rhs)
     {
-      this->move_container(tphn::move(rhs));
+      this->move_container(tpn::move(rhs));
 
       return *this;
     }
@@ -2154,7 +2154,7 @@ namespace tphn
   private:
 
     /// The pool of nodes used in the list.
-    tphn::pool<typename tphn::ilist<T>::data_node_t, MAX_SIZE> node_pool;
+    tpn::pool<typename tpn::ilist<T>::data_node_t, MAX_SIZE> node_pool;
   };
 
   //*************************************************************************
@@ -2162,7 +2162,7 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_CPP17 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename... T>
-  list(T...) -> list<typename tphn::common_type_t<T...>,
+  list(T...) -> list<typename tpn::common_type_t<T...>,
                      sizeof...(T)>;
 #endif
 
@@ -2171,9 +2171,9 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_CPP11 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename... T>
-  constexpr auto make_list(T... t) -> tphn::list<typename tphn::common_type_t<T...>, sizeof...(T)>
+  constexpr auto make_list(T... t) -> tpn::list<typename tpn::common_type_t<T...>, sizeof...(T)>
   {
-    return { { tphn::forward<T>(t)... } };
+    return { { tpn::forward<T>(t)... } };
   }
 #endif
 
@@ -2181,7 +2181,7 @@ namespace tphn
   /// A templated list implementation that uses a fixed size buffer.
   //*************************************************************************
   template <typename T>
-  class list_ext : public tphn::ilist<T>
+  class list_ext : public tpn::ilist<T>
   {
   public:
 
@@ -2192,21 +2192,21 @@ namespace tphn
     typedef const T& const_reference;
     typedef size_t   size_type;
 
-    typedef typename tphn::ilist<T>::data_node_t pool_type;
+    typedef typename tpn::ilist<T>::data_node_t pool_type;
 
     //*************************************************************************
     /// Default constructor.
     //*************************************************************************
     list_ext()
-      : tphn::ilist<T>(true)
+      : tpn::ilist<T>(true)
     {
     }
 
     //*************************************************************************
     /// Default constructor.
     //*************************************************************************
-    explicit list_ext(tphn::ipool& node_pool)
-      : tphn::ilist<T>(node_pool, node_pool.max_size(), true)
+    explicit list_ext(tpn::ipool& node_pool)
+      : tpn::ilist<T>(node_pool, node_pool.max_size(), true)
     {
     }
 
@@ -2221,8 +2221,8 @@ namespace tphn
     //*************************************************************************
     /// Construct from size.
     //*************************************************************************
-    explicit list_ext(size_t initial_size, tphn::ipool& node_pool)
-      : tphn::ilist<T>(node_pool, node_pool.max_size(), true)
+    explicit list_ext(size_t initial_size, tpn::ipool& node_pool)
+      : tpn::ilist<T>(node_pool, node_pool.max_size(), true)
     {
       this->assign(initial_size, T());
     }
@@ -2230,8 +2230,8 @@ namespace tphn
     //*************************************************************************
     /// Construct from size and value.
     //*************************************************************************
-    list_ext(size_t initial_size, const T& value, tphn::ipool& node_pool)
-      : tphn::ilist<T>(node_pool, node_pool.max_size(), true)
+    list_ext(size_t initial_size, const T& value, tpn::ipool& node_pool)
+      : tpn::ilist<T>(node_pool, node_pool.max_size(), true)
     {
       this->assign(initial_size, value);
     }
@@ -2240,7 +2240,7 @@ namespace tphn
     /// Copy constructor. Implicit pool.
     //*************************************************************************
     list_ext(const list_ext& other)
-      : tphn::ilist<T>(*other.p_node_pool, other.p_node_pool->max_size(), true)
+      : tpn::ilist<T>(*other.p_node_pool, other.p_node_pool->max_size(), true)
     {
       if (this != &other)
       {
@@ -2251,8 +2251,8 @@ namespace tphn
     //*************************************************************************
     /// Copy constructor. Explicit pool.
     //*************************************************************************
-    list_ext(const list_ext& other, tphn::ipool& node_pool)
-      : tphn::ilist<T>(node_pool, node_pool.max_size(), true)
+    list_ext(const list_ext& other, tpn::ipool& node_pool)
+      : tpn::ilist<T>(node_pool, node_pool.max_size(), true)
     {
       if (this != &other)
       {
@@ -2265,18 +2265,18 @@ namespace tphn
     /// Move constructor. Implicit pool.
     //*************************************************************************
     list_ext(list_ext&& other)
-      : tphn::ilist<T>(*other.p_node_pool, other.p_node_pool->max_size(), true)
+      : tpn::ilist<T>(*other.p_node_pool, other.p_node_pool->max_size(), true)
     {
-      this->move_container(tphn::move(other));
+      this->move_container(tpn::move(other));
     }
 
     //*************************************************************************
     /// Move constructor. Explicit pool.
     //*************************************************************************
-    list_ext(list_ext&& other, tphn::ipool& node_pool)
-      : tphn::ilist<T>(node_pool, node_pool.max_size(), true)
+    list_ext(list_ext&& other, tpn::ipool& node_pool)
+      : tpn::ilist<T>(node_pool, node_pool.max_size(), true)
     {
-      this->move_container(tphn::move(other));
+      this->move_container(tpn::move(other));
     }
 #endif
 
@@ -2284,7 +2284,7 @@ namespace tphn
     /// Construct from range.
     //*************************************************************************
     template <typename TIterator>
-    list_ext(TIterator first, TIterator last, tphn::ipool& node_pool, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
+    list_ext(TIterator first, TIterator last, tpn::ipool& node_pool, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
       : ilist<T>(node_pool, node_pool.max_size(), true)
     {
       this->assign(first, last);
@@ -2294,7 +2294,7 @@ namespace tphn
     //*************************************************************************
     /// Construct from initializer_list.
     //*************************************************************************
-    list_ext(std::initializer_list<T> init, tphn::ipool& node_pool)
+    list_ext(std::initializer_list<T> init, tpn::ipool& node_pool)
       : ilist<T>(node_pool, node_pool.max_size(), true)
     {
       this->assign(init.begin(), init.end());
@@ -2320,7 +2320,7 @@ namespace tphn
     //*************************************************************************
     list_ext& operator = (list_ext&& rhs)
     {
-      this->move_container(tphn::move(rhs));
+      this->move_container(tpn::move(rhs));
 
       return *this;
     }
@@ -2329,7 +2329,7 @@ namespace tphn
     //*************************************************************************
     /// Set the pool instance.
     //*************************************************************************
-    void set_pool(tphn::ipool& pool)
+    void set_pool(tpn::ipool& pool)
     {
       // Clear the list of any current elements.
       if (this->get_node_pool() != TYPHOON_NULLPTR)
@@ -2343,7 +2343,7 @@ namespace tphn
     //*************************************************************************
     /// Get the pool instance.
     //*************************************************************************
-    tphn::ipool& get_pool() const
+    tpn::ipool& get_pool() const
     {
       return *this->p_node_pool;
     }
@@ -2356,9 +2356,9 @@ namespace tphn
   ///\return <b>true</b> if the arrays are equal, otherwise <b>false</b>.
   //*************************************************************************
   template <typename T>
-  bool operator ==(const tphn::ilist<T>& lhs, const tphn::ilist<T>& rhs)
+  bool operator ==(const tpn::ilist<T>& lhs, const tpn::ilist<T>& rhs)
   {
-    return (lhs.size() == rhs.size()) && tphn::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return (lhs.size() == rhs.size()) && tpn::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
   //*************************************************************************
@@ -2368,7 +2368,7 @@ namespace tphn
   ///\return <b>true</b> if the arrays are not equal, otherwise <b>false</b>.
   //*************************************************************************
   template <typename T>
-  bool operator !=(const tphn::ilist<T>& lhs, const tphn::ilist<T>& rhs)
+  bool operator !=(const tpn::ilist<T>& lhs, const tpn::ilist<T>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -2381,9 +2381,9 @@ namespace tphn
   /// second, otherwise <b>false</b>.
   //*************************************************************************
   template <typename T>
-  bool operator <(const tphn::ilist<T>& lhs, const tphn::ilist<T>& rhs)
+  bool operator <(const tpn::ilist<T>& lhs, const tpn::ilist<T>& rhs)
   {
-    return tphn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    return tpn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
   }
 
   //*************************************************************************
@@ -2394,7 +2394,7 @@ namespace tphn
   /// second, otherwise <b>false</b>.
   //*************************************************************************
   template <typename T>
-  bool operator >(const tphn::ilist<T>& lhs, const tphn::ilist<T>& rhs)
+  bool operator >(const tpn::ilist<T>& lhs, const tpn::ilist<T>& rhs)
   {
     return (rhs < lhs);
   }
@@ -2407,7 +2407,7 @@ namespace tphn
   /// to the second, otherwise <b>false</b>.
   //*************************************************************************
   template <typename T>
-  bool operator <=(const tphn::ilist<T>& lhs, const tphn::ilist<T>& rhs)
+  bool operator <=(const tpn::ilist<T>& lhs, const tpn::ilist<T>& rhs)
   {
     return !(lhs > rhs);
   }
@@ -2420,7 +2420,7 @@ namespace tphn
   /// equal to the second, otherwise <b>false</b>.
   //*************************************************************************
   template <typename T>
-  bool operator >=(const tphn::ilist<T>& lhs, const tphn::ilist<T>& rhs)
+  bool operator >=(const tpn::ilist<T>& lhs, const tpn::ilist<T>& rhs)
   {
     return !(lhs < rhs);
   }

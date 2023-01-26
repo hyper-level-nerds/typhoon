@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -73,7 +73,7 @@ cog.outl("//********************************************************************
 ///\defgroup smallest smallest
 ///\ingroup utilities
 
-namespace tphn
+namespace tpn
 {
 #if TYPHOON_USING_CPP11 && !defined(TYPHOON_SMALLEST_TYPE_FORCE_CPP03_IMPLEMENTATION)
   //***************************************************************************
@@ -94,7 +94,7 @@ namespace tphn
 
     // Set 'type' to be the smallest of the first parameter and any of the others.
     // This is recursive.
-    using type = typename tphn::conditional<(tphn::size_of<T1>::value < tphn::size_of<smallest_other>::value), // Boolean
+    using type = typename tpn::conditional<(tpn::size_of<T1>::value < tpn::size_of<smallest_other>::value), // Boolean
                                             T1,                                                             // TrueType
                                             smallest_other>                                                 // FalseType
                                             ::type;                                                         // The smallest type of the two.
@@ -102,7 +102,7 @@ namespace tphn
     // The size of the smallest type.
     enum
     {
-      size = tphn::size_of<type>::value
+      size = tpn::size_of<type>::value
     };
   };
 
@@ -118,7 +118,7 @@ namespace tphn
 
     enum
     {
-      size = tphn::size_of<type>::value
+      size = tpn::size_of<type>::value
     };
   };
 

@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -37,7 +37,7 @@ SOFTWARE.
 #include "delegate.hpp"
 #include "array.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// An indexed delegate service.
@@ -49,12 +49,12 @@ namespace tphn
 #if TYPHOON_USING_CPP11 && !defined(TYPHOON_DELEGATE_FORCE_CPP03_IMPLEMENTATION)
   template <const size_t Range, 
             const size_t Offset = 0U,
-            const tphn::delegate<void(size_t)>* Delegates = nullptr>
+            const tpn::delegate<void(size_t)>* Delegates = nullptr>
   class delegate_service
   {
   public:
 
-    typedef tphn::delegate<void(size_t)> delegate_type;
+    typedef tpn::delegate<void(size_t)> delegate_type;
 
     //*************************************************************************
     /// Executes the delegate function for the index.
@@ -106,7 +106,7 @@ namespace tphn
   {
   public:
 
-    typedef tphn::delegate<void(size_t)> delegate_type;
+    typedef tpn::delegate<void(size_t)> delegate_type;
 
     //*************************************************************************
     /// Default constructor.
@@ -207,7 +207,7 @@ namespace tphn
     delegate_type unhandled_delegate;
 
     /// Lookup table of delegates.
-    tphn::array<delegate_type, Range> lookup;
+    tpn::array<delegate_type, Range> lookup;
   };
 }
 

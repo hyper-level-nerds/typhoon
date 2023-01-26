@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -35,7 +35,7 @@ SOFTWARE.
 #include "nullptr.hpp"
 #include "successor.hpp"
 
-namespace tphn
+namespace tpn
 {
   //*****************************************************************************
   /// The interface for a memory block pool.
@@ -127,7 +127,7 @@ namespace tphn
   private:
 
     // No copying allowed.
-    imemory_block_allocator(const tphn::imemory_block_allocator&) TYPHOON_DELETE;
+    imemory_block_allocator(const tpn::imemory_block_allocator&) TYPHOON_DELETE;
     imemory_block_allocator& operator =(const imemory_block_allocator&) TYPHOON_DELETE;
   };
 }

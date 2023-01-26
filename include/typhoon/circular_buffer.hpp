@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2020 John Wellbelove
 
@@ -42,12 +42,12 @@ SOFTWARE.
 #include "static_assert.hpp"
 #include "initializer_list.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Exception for the circular_buffer.
   //***************************************************************************
-  class circular_buffer_exception : public tphn::exception
+  class circular_buffer_exception : public tpn::exception
   {
   public:
 
@@ -60,12 +60,12 @@ namespace tphn
   //***************************************************************************
   /// Empty exception for the circular_buffer.
   //***************************************************************************
-  class circular_buffer_empty : public tphn::circular_buffer_exception
+  class circular_buffer_empty : public tpn::circular_buffer_exception
   {
   public:
 
     circular_buffer_empty(string_type file_name_, numeric_type line_number_)
-      : tphn::circular_buffer_exception(TYPHOON_ERROR_TEXT("circular_buffer:empty", TYPHOON_CIRCULAR_BUFFER_FILE_ID"A"), file_name_, line_number_)
+      : tpn::circular_buffer_exception(TYPHOON_ERROR_TEXT("circular_buffer:empty", TYPHOON_CIRCULAR_BUFFER_FILE_ID"A"), file_name_, line_number_)
     {
     }
   };
@@ -177,12 +177,12 @@ namespace tphn
     typedef T*          pointer;
     typedef const T*    const_pointer;
 
-    typedef typename tphn::iterator_traits<pointer>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<pointer>::difference_type difference_type;
 
     //*************************************************************************
     /// Iterator iterating through the circular buffer.
     //*************************************************************************
-    class iterator : public tphn::iterator<TYPHOON_OR_STD::random_access_iterator_tag, T>
+    class iterator : public tpn::iterator<TYPHOON_OR_STD::random_access_iterator_tag, T>
     {
     public:
 
@@ -433,7 +433,7 @@ namespace tphn
     //*************************************************************************
     /// Iterator iterating through the circular buffer.
     //*************************************************************************
-    class const_iterator : public tphn::iterator<TYPHOON_OR_STD::random_access_iterator_tag, const T>
+    class const_iterator : public tpn::iterator<TYPHOON_OR_STD::random_access_iterator_tag, const T>
     {
     public:
 
@@ -691,8 +691,8 @@ namespace tphn
     friend class iterator;
     friend class const_iterator;
 
-    typedef tphn::reverse_iterator<iterator>       reverse_iterator;
-    typedef tphn::reverse_iterator<const_iterator> const_reverse_iterator;
+    typedef tpn::reverse_iterator<iterator>       reverse_iterator;
+    typedef tpn::reverse_iterator<const_iterator> const_reverse_iterator;
 
     //*************************************************************************
     /// Gets an iterator to the start of the buffer.
@@ -882,7 +882,7 @@ namespace tphn
     //*************************************************************************
     void push(rvalue_reference item)
     {
-      ::new (&pbuffer[in]) T(tphn::move(item));
+      ::new (&pbuffer[in]) T(tpn::move(item));
       increment_in();
 
       // Did we catch up with the 'out' index?
@@ -939,7 +939,7 @@ namespace tphn
     //*************************************************************************
     void clear()
     {
-      if TYPHOON_IF_CONSTEXPR(tphn::is_trivially_destructible<T>::value)
+      if TYPHOON_IF_CONSTEXPR(tpn::is_trivially_destructible<T>::value)
       {
         in    = 0U;
         out   = 0U;
@@ -959,7 +959,7 @@ namespace tphn
     //*************************************************************************
     void fill(const T& value)
     {
-      tphn::fill(begin(), end(), value);
+      tpn::fill(begin(), end(), value);
     }
 
     //*************************************************************************
@@ -1066,7 +1066,7 @@ namespace tphn
   {
   public:
 
-    TYPHOON_STATIC_ASSERT((MAX_SIZE_ > 0U), "Zero capacity tphn::circular_buffer is not valid");
+    TYPHOON_STATIC_ASSERT((MAX_SIZE_ > 0U), "Zero capacity tpn::circular_buffer is not valid");
 
     static TYPHOON_CONSTANT typename icircular_buffer<T>::size_type MAX_SIZE = typename icircular_buffer<T>::size_type(MAX_SIZE_);
 
@@ -1083,7 +1083,7 @@ namespace tphn
     /// Constructs a buffer from an iterator range.
     //*************************************************************************
     template <typename TIterator>
-    circular_buffer(TIterator first, const TIterator& last, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
+    circular_buffer(TIterator first, const TIterator& last, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
       : icircular_buffer<T>(reinterpret_cast<T*>(buffer.raw), MAX_SIZE)
     {
       while (first != last)
@@ -1139,10 +1139,10 @@ namespace tphn
     {
       if (this != &other)
       {
-        typename tphn::icircular_buffer<T>::iterator itr = other.begin();
+        typename tpn::icircular_buffer<T>::iterator itr = other.begin();
         while (itr != other.end())
         {
-          this->push(tphn::move(*itr));
+          this->push(tpn::move(*itr));
           ++itr;
         }
       }
@@ -1157,9 +1157,9 @@ namespace tphn
       {
         this->clear();
 
-        for (typename tphn::icircular_buffer<T>::const_iterator itr = other.begin(); itr != other.end(); ++itr)
+        for (typename tpn::icircular_buffer<T>::const_iterator itr = other.begin(); itr != other.end(); ++itr)
         {
-          this->push(tphn::move(*itr));
+          this->push(tpn::move(*itr));
         }
       }
 
@@ -1179,7 +1179,7 @@ namespace tphn
   private:
 
     /// The uninitialised storage.
-    tphn::uninitialized_buffer_of<T, MAX_SIZE + 1> buffer;
+    tpn::uninitialized_buffer_of<T, MAX_SIZE + 1> buffer;
   };
 
   //***************************************************************************
@@ -1213,7 +1213,7 @@ namespace tphn
     /// Constructs a buffer from an iterator range.
     //*************************************************************************
     template <typename TIterator>
-    circular_buffer_ext(TIterator first, const TIterator& last, void* buffer, size_t max_size, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
+    circular_buffer_ext(TIterator first, const TIterator& last, void* buffer, size_t max_size, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
       : icircular_buffer<T>(reinterpret_cast<T*>(buffer), max_size)
     {
       while (first != last)
@@ -1275,10 +1275,10 @@ namespace tphn
     {
       if (this != &other)
       {
-        typename tphn::icircular_buffer<T>::iterator itr = other.begin();
+        typename tpn::icircular_buffer<T>::iterator itr = other.begin();
         while (itr != other.end())
         {
-          this->push(tphn::move(*itr));
+          this->push(tpn::move(*itr));
           ++itr;
         }
       }
@@ -1293,9 +1293,9 @@ namespace tphn
       {
         this->clear();
 
-        for (typename tphn::icircular_buffer<T>::iterator itr = other.begin(); itr != other.end(); ++itr)
+        for (typename tpn::icircular_buffer<T>::iterator itr = other.begin(); itr != other.end(); ++itr)
         {
-          this->push(tphn::move(*itr));
+          this->push(tpn::move(*itr));
         }
       }
 
@@ -1316,7 +1316,7 @@ namespace tphn
       swap(this->buffer_size, other.buffer_size);
 
 #if defined(TYPHOON_DEBUG_COUNT)
-      this->tphn_debug_count.swap(other.tphn_debug_count);
+      this->tpn_debug_count.swap(other.tpn_debug_count);
 #endif
     }
 
@@ -1351,14 +1351,14 @@ namespace tphn
 #if TYPHOON_USING_CPP17 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename T, typename... Ts>
   circular_buffer(T, Ts...)
-    ->circular_buffer<tphn::enable_if_t<(tphn::is_same_v<T, Ts> && ...), T>, 1U + sizeof...(Ts)>;
+    ->circular_buffer<tpn::enable_if_t<(tpn::is_same_v<T, Ts> && ...), T>, 1U + sizeof...(Ts)>;
 #endif
 
   //*************************************************************************
-  /// Overloaded swap for tphn::circular_buffer_ext<T, 0>
+  /// Overloaded swap for tpn::circular_buffer_ext<T, 0>
   //*************************************************************************
   template <typename T>
-  void swap(tphn::circular_buffer_ext<T>& lhs, tphn::circular_buffer_ext<T>& rhs)
+  void swap(tpn::circular_buffer_ext<T>& lhs, tpn::circular_buffer_ext<T>& rhs)
   {
     lhs.swap(rhs);
   }
@@ -1369,7 +1369,7 @@ namespace tphn
   template <typename T>
   bool operator ==(const icircular_buffer<T>& lhs, const icircular_buffer<T>& rhs)
   {
-    return (lhs.size() == rhs.size()) && tphn::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return (lhs.size() == rhs.size()) && tpn::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
   //*************************************************************************

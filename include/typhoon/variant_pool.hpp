@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -59,7 +59,7 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   template <const size_t MAX_SIZE_,
@@ -80,14 +80,14 @@ namespace tphn
             typename T15 = void,
             typename T16 = void>
   class variant_pool
-    : public tphn::generic_pool<tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::size,
-                               tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::alignment,
+    : public tpn::generic_pool<tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::size,
+                               tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::alignment,
                                MAX_SIZE_>
   {
   public:
 
-    typedef tphn::generic_pool<tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::size,
-                              tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::alignment,
+    typedef tpn::generic_pool<tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::size,
+                              tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::alignment,
                               MAX_SIZE_> base_t;
 
     static const size_t MAX_SIZE = MAX_SIZE_;
@@ -106,7 +106,7 @@ namespace tphn
     template <typename T>
     T* create()
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
 
       return base_t::template create<T>();
     }
@@ -117,7 +117,7 @@ namespace tphn
     template <typename T, typename TP1>
     T* create(const TP1& p1)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
 
       return base_t::template create<T>(p1);
     }
@@ -128,7 +128,7 @@ namespace tphn
     template <typename T, typename TP1, typename TP2>
     T* create(const TP1& p1, const TP2& p2)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
 
       return base_t::template create<T>(p1, p2);
     }
@@ -139,7 +139,7 @@ namespace tphn
     template <typename T, typename TP1, typename TP2, typename TP3>
     T* create(const TP1& p1, const TP2& p2, const TP3& p3)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
 
       return base_t::template create<T>(p1, p2, p3);
     }
@@ -150,7 +150,7 @@ namespace tphn
     template <typename T, typename TP1, typename TP2, typename TP3, typename TP4>
     T* create(const TP1& p1, const TP2& p2, const TP3& p3, const TP4& p4)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
 
       return base_t::template create<T>(p1, p2, p3, p4);
     }
@@ -161,7 +161,7 @@ namespace tphn
     template <typename T, typename... Args>
     T* create(Args&&... args)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
 
       return base_t::template create<T>(args...);
     }
@@ -173,23 +173,23 @@ namespace tphn
     template <typename T>
     void destroy(const T* const p)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value ||
-                         tphn::is_base_of<T, T1>::value ||
-                         tphn::is_base_of<T, T2>::value ||
-                         tphn::is_base_of<T, T3>::value ||
-                         tphn::is_base_of<T, T4>::value ||
-                         tphn::is_base_of<T, T5>::value ||
-                         tphn::is_base_of<T, T6>::value ||
-                         tphn::is_base_of<T, T7>::value ||
-                         tphn::is_base_of<T, T8>::value ||
-                         tphn::is_base_of<T, T9>::value ||
-                         tphn::is_base_of<T, T10>::value ||
-                         tphn::is_base_of<T, T11>::value ||
-                         tphn::is_base_of<T, T12>::value ||
-                         tphn::is_base_of<T, T13>::value ||
-                         tphn::is_base_of<T, T14>::value ||
-                         tphn::is_base_of<T, T15>::value ||
-                         tphn::is_base_of<T, T16>::value), "Invalid type");
+      TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value ||
+                         tpn::is_base_of<T, T1>::value ||
+                         tpn::is_base_of<T, T2>::value ||
+                         tpn::is_base_of<T, T3>::value ||
+                         tpn::is_base_of<T, T4>::value ||
+                         tpn::is_base_of<T, T5>::value ||
+                         tpn::is_base_of<T, T6>::value ||
+                         tpn::is_base_of<T, T7>::value ||
+                         tpn::is_base_of<T, T8>::value ||
+                         tpn::is_base_of<T, T9>::value ||
+                         tpn::is_base_of<T, T10>::value ||
+                         tpn::is_base_of<T, T11>::value ||
+                         tpn::is_base_of<T, T12>::value ||
+                         tpn::is_base_of<T, T13>::value ||
+                         tpn::is_base_of<T, T14>::value ||
+                         tpn::is_base_of<T, T15>::value ||
+                         tpn::is_base_of<T, T16>::value), "Invalid type");
 
       base_t::destroy(p);
     }
@@ -226,13 +226,13 @@ namespace tphn
             typename T15 = void,
             typename T16 = void>
   class variant_pool_ext
-    : public tphn::generic_pool_ext<tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::size,
-                                   tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::alignment>
+    : public tpn::generic_pool_ext<tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::size,
+                                   tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::alignment>
   {
   public:
 
-    typedef tphn::generic_pool_ext<tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::size,
-                                  tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::alignment> base_t;
+    typedef tpn::generic_pool_ext<tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::size,
+                                  tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::alignment> base_t;
 
     //*************************************************************************
     /// Default constructor.
@@ -249,7 +249,7 @@ namespace tphn
     template <typename T>
     T* create()
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
 
       return base_t::template create<T>();
     }
@@ -260,7 +260,7 @@ namespace tphn
     template <typename T, typename TP1>
     T* create(const TP1& p1)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
 
       return base_t::template create<T>(p1);
     }
@@ -271,7 +271,7 @@ namespace tphn
     template <typename T, typename TP1, typename TP2>
     T* create(const TP1& p1, const TP2& p2)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
 
       return base_t::template create<T>(p1, p2);
     }
@@ -282,7 +282,7 @@ namespace tphn
     template <typename T, typename TP1, typename TP2, typename TP3>
     T* create(const TP1& p1, const TP2& p2, const TP3& p3)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
 
       return base_t::template create<T>(p1, p2, p3);
     }
@@ -293,7 +293,7 @@ namespace tphn
     template <typename T, typename TP1, typename TP2, typename TP3, typename TP4>
     T* create(const TP1& p1, const TP2& p2, const TP3& p3, const TP4& p4)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
 
       return base_t::template create<T>(p1, p2, p3, p4);
     }
@@ -304,7 +304,7 @@ namespace tphn
     template <typename T, typename... Args>
     T* create(Args&&... args)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value), "Unsupported type");
 
       return base_t::template create<T>(args...);
     }
@@ -316,23 +316,23 @@ namespace tphn
     template <typename T>
     void destroy(const T* const p)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value ||
-                         tphn::is_base_of<T, T1>::value ||
-                         tphn::is_base_of<T, T2>::value ||
-                         tphn::is_base_of<T, T3>::value ||
-                         tphn::is_base_of<T, T4>::value ||
-                         tphn::is_base_of<T, T5>::value ||
-                         tphn::is_base_of<T, T6>::value ||
-                         tphn::is_base_of<T, T7>::value ||
-                         tphn::is_base_of<T, T8>::value ||
-                         tphn::is_base_of<T, T9>::value ||
-                         tphn::is_base_of<T, T10>::value ||
-                         tphn::is_base_of<T, T11>::value ||
-                         tphn::is_base_of<T, T12>::value ||
-                         tphn::is_base_of<T, T13>::value ||
-                         tphn::is_base_of<T, T14>::value ||
-                         tphn::is_base_of<T, T15>::value ||
-                         tphn::is_base_of<T, T16>::value), "Invalid type");
+      TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value ||
+                         tpn::is_base_of<T, T1>::value ||
+                         tpn::is_base_of<T, T2>::value ||
+                         tpn::is_base_of<T, T3>::value ||
+                         tpn::is_base_of<T, T4>::value ||
+                         tpn::is_base_of<T, T5>::value ||
+                         tpn::is_base_of<T, T6>::value ||
+                         tpn::is_base_of<T, T7>::value ||
+                         tpn::is_base_of<T, T8>::value ||
+                         tpn::is_base_of<T, T9>::value ||
+                         tpn::is_base_of<T, T10>::value ||
+                         tpn::is_base_of<T, T11>::value ||
+                         tpn::is_base_of<T, T12>::value ||
+                         tpn::is_base_of<T, T13>::value ||
+                         tpn::is_base_of<T, T14>::value ||
+                         tpn::is_base_of<T, T15>::value ||
+                         tpn::is_base_of<T, T16>::value), "Invalid type");
 
       base_t::destroy(p);
     }

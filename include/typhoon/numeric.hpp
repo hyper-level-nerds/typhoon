@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -43,7 +43,7 @@ SOFTWARE.
 ///\defgroup numeric numeric
 ///\ingroup utilities
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// iota
@@ -67,13 +67,13 @@ namespace tphn
   /// For floating point.
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 typename tphn::enable_if<!tphn::is_pointer<T>::value &&
-                                          !tphn::is_integral<T>::value &&
-                                          tphn::is_floating_point<T>::value, T>::type
+  TYPHOON_CONSTEXPR14 typename tpn::enable_if<!tpn::is_pointer<T>::value &&
+                                          !tpn::is_integral<T>::value &&
+                                          tpn::is_floating_point<T>::value, T>::type
     midpoint(T a, T b) TYPHOON_NOEXCEPT
   {
-    T lo = tphn::numeric_limits<T>::min() * T(2);
-    T hi = tphn::numeric_limits<T>::max() * T(2);
+    T lo = tpn::numeric_limits<T>::min() * T(2);
+    T hi = tpn::numeric_limits<T>::max() * T(2);
 
     return ((abs(a) <= hi) && (abs(b) <= hi)) ?
               (a + b) / T(2) :
@@ -89,10 +89,10 @@ namespace tphn
   /// For unsigned integrals.
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 typename tphn::enable_if<!tphn::is_pointer<T>::value &&
-                                          tphn::is_integral<T>::value &&
-                                          !tphn::is_floating_point<T>::value &&
-                                          tphn::is_unsigned<T>::value, T>::type
+  TYPHOON_CONSTEXPR14 typename tpn::enable_if<!tpn::is_pointer<T>::value &&
+                                          tpn::is_integral<T>::value &&
+                                          !tpn::is_floating_point<T>::value &&
+                                          tpn::is_unsigned<T>::value, T>::type
     midpoint(T a, T b) TYPHOON_NOEXCEPT
   {
     if (a > b)
@@ -110,13 +110,13 @@ namespace tphn
   /// For signed integrals.
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 typename tphn::enable_if<!tphn::is_pointer<T>::value&&
-                                          tphn::is_integral<T>::value &&
-                                          !tphn::is_floating_point<T>::value&&
-                                          tphn::is_signed<T>::value, T>::type
+  TYPHOON_CONSTEXPR14 typename tpn::enable_if<!tpn::is_pointer<T>::value&&
+                                          tpn::is_integral<T>::value &&
+                                          !tpn::is_floating_point<T>::value&&
+                                          tpn::is_signed<T>::value, T>::type
     midpoint(T a, T b) TYPHOON_NOEXCEPT
   {
-    typedef typename tphn::make_unsigned<T>::type utype;
+    typedef typename tpn::make_unsigned<T>::type utype;
 
     if (a > b)
     {
@@ -133,18 +133,18 @@ namespace tphn
   /// For pointers.
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR typename tphn::enable_if<tphn::is_pointer<T>::value&&
-                                        !tphn::is_integral<T>::value &&
-                                        !tphn::is_floating_point<T>::value, T>::type
+  TYPHOON_CONSTEXPR typename tpn::enable_if<tpn::is_pointer<T>::value&&
+                                        !tpn::is_integral<T>::value &&
+                                        !tpn::is_floating_point<T>::value, T>::type
     midpoint(T a, T b) TYPHOON_NOEXCEPT
   {
     if (a > b)
     {
-      return b + (tphn::distance(b, a) / 2U);
+      return b + (tpn::distance(b, a) / 2U);
     }
     else
     {
-      return a + (tphn::distance(a, b) / 2U);
+      return a + (tpn::distance(a, b) / 2U);
     }
   }
 
@@ -153,18 +153,18 @@ namespace tphn
   /// For TYPHOON random access iterators.
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR T midpoint(T a, T b, typename tphn::enable_if<!tphn::is_pointer<T>::value &&
-    !tphn::is_integral<T>::value &&
-    !tphn::is_floating_point<T>::value &&
-    tphn::is_same<typename tphn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::random_access_iterator_tag>::value , int>::type = 0)
+  TYPHOON_CONSTEXPR T midpoint(T a, T b, typename tpn::enable_if<!tpn::is_pointer<T>::value &&
+    !tpn::is_integral<T>::value &&
+    !tpn::is_floating_point<T>::value &&
+    tpn::is_same<typename tpn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::random_access_iterator_tag>::value , int>::type = 0)
   {
     if (a > b)
     {
-      return b + (tphn::distance(b, a) / 2U);
+      return b + (tpn::distance(b, a) / 2U);
     }
     else
     {
-      return a + (tphn::distance(a, b) / 2U);
+      return a + (tpn::distance(a, b) / 2U);
     }
   }
 
@@ -174,13 +174,13 @@ namespace tphn
   /// Parameter 'a' must be before 'b', otherwise the result is undefined.
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR T midpoint(T a, T b, typename tphn::enable_if<(!tphn::is_pointer<T>::value &&
-    !tphn::is_integral<T>::value &&
-    !tphn::is_floating_point<T>::value &&
-    (tphn::is_same<typename tphn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::forward_iterator_tag>::value ||
-     tphn::is_same<typename tphn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::bidirectional_iterator_tag>::value)),  int>::type = 0)
+  TYPHOON_CONSTEXPR T midpoint(T a, T b, typename tpn::enable_if<(!tpn::is_pointer<T>::value &&
+    !tpn::is_integral<T>::value &&
+    !tpn::is_floating_point<T>::value &&
+    (tpn::is_same<typename tpn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::forward_iterator_tag>::value ||
+     tpn::is_same<typename tpn::iterator_traits<T>::iterator_category, TYPHOON_OR_STD::bidirectional_iterator_tag>::value)),  int>::type = 0)
   {
-    tphn::advance(a, tphn::distance(a, b) / 2U);
+    tpn::advance(a, tpn::distance(a, b) / 2U);
     return a;
   }
 
@@ -189,7 +189,7 @@ namespace tphn
   /// For floating point.
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR typename tphn::enable_if<tphn::is_floating_point<T>::value, T>::type
+  TYPHOON_CONSTEXPR typename tpn::enable_if<tpn::is_floating_point<T>::value, T>::type
     lerp(T a, T b, T t) TYPHOON_NOEXCEPT
   {
     return a + (t * (b - a));
@@ -200,16 +200,16 @@ namespace tphn
   /// For when any parameter is not floating point.
   //***************************************************************************
   template <typename TArithmetic1, typename TArithmetic2, typename TArithmetic3>
-  TYPHOON_CONSTEXPR typename tphn::enable_if<!tphn::is_floating_point<TArithmetic1>::value ||
-                                        !tphn::is_floating_point<TArithmetic2>::value ||
-                                        !tphn::is_floating_point<TArithmetic3>::value, typename tphn::conditional<tphn::is_same<TArithmetic1, long double>::value ||
-                                                                                                                tphn::is_same<TArithmetic2, long double>::value ||
-                                                                                                                tphn::is_same<TArithmetic3, long double>::value, long double, double>::type>::type
+  TYPHOON_CONSTEXPR typename tpn::enable_if<!tpn::is_floating_point<TArithmetic1>::value ||
+                                        !tpn::is_floating_point<TArithmetic2>::value ||
+                                        !tpn::is_floating_point<TArithmetic3>::value, typename tpn::conditional<tpn::is_same<TArithmetic1, long double>::value ||
+                                                                                                                tpn::is_same<TArithmetic2, long double>::value ||
+                                                                                                                tpn::is_same<TArithmetic3, long double>::value, long double, double>::type>::type
     lerp(TArithmetic1 a, TArithmetic2 b, TArithmetic3 t) TYPHOON_NOEXCEPT
   {
-    typedef typename tphn::conditional<tphn::is_integral<TArithmetic1>::value, double, TArithmetic1>::type typecast_a;
-    typedef typename tphn::conditional<tphn::is_integral<TArithmetic2>::value, double, TArithmetic2>::type typecast_b;
-    typedef typename tphn::conditional<tphn::is_integral<TArithmetic3>::value, double, TArithmetic3>::type typecast_t;
+    typedef typename tpn::conditional<tpn::is_integral<TArithmetic1>::value, double, TArithmetic1>::type typecast_a;
+    typedef typename tpn::conditional<tpn::is_integral<TArithmetic2>::value, double, TArithmetic2>::type typecast_b;
+    typedef typename tpn::conditional<tpn::is_integral<TArithmetic3>::value, double, TArithmetic3>::type typecast_t;
 
     return typecast_a(a) + (typecast_t(t) * (typecast_b(b) - typecast_a(a)));
   }

@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -81,7 +81,7 @@ cog.outl("//********************************************************************
   #include <type_traits>
 #endif
 
-namespace tphn
+namespace tpn
 {
 #if TYPHOON_USING_CPP11
   template <typename...>
@@ -122,13 +122,13 @@ namespace tphn
   using bool_constant = integral_constant<bool, B>;
 #else
   template <bool B>
-  struct bool_constant : tphn::integral_constant<bool, B> { };
+  struct bool_constant : tpn::integral_constant<bool, B> { };
 #endif
 
   //***************************************************************************
   /// negation
   template <typename T>
-  struct negation : tphn::bool_constant<!bool(T::value)>
+  struct negation : tpn::bool_constant<!bool(T::value)>
   {
   };
 
@@ -302,8 +302,8 @@ namespace tphn
   //***************************************************************************
   /// is_signed
   template <typename T> struct is_signed : false_type {};
-  template <> struct is_signed<char> : tphn::bool_constant<(char(255) < 0)> {};
-  template <> struct is_signed<wchar_t> : public tphn::bool_constant<static_cast<bool>(wchar_t(-1) < wchar_t(0))> {};
+  template <> struct is_signed<char> : tpn::bool_constant<(char(255) < 0)> {};
+  template <> struct is_signed<wchar_t> : public tpn::bool_constant<static_cast<bool>(wchar_t(-1) < wchar_t(0))> {};
   template <> struct is_signed<signed char> : true_type {};
   template <> struct is_signed<short> : true_type {};
   template <> struct is_signed<int> : true_type {};
@@ -325,9 +325,9 @@ namespace tphn
   /// is_unsigned
   template <typename T> struct is_unsigned : false_type {};
   template <> struct is_unsigned<bool> : true_type {};
-  template <> struct is_unsigned<char> : tphn::bool_constant<(char(255) > 0)> {};
+  template <> struct is_unsigned<char> : tpn::bool_constant<(char(255) > 0)> {};
   template <> struct is_unsigned<unsigned char> : true_type {};
-  template <> struct is_unsigned<wchar_t> : public tphn::bool_constant<(wchar_t(-1) > wchar_t(0))> {};
+  template <> struct is_unsigned<wchar_t> : public tpn::bool_constant<(wchar_t(-1) > wchar_t(0))> {};
   template <> struct is_unsigned<unsigned short> : true_type {};
   template <> struct is_unsigned<unsigned int> : true_type {};
   template <> struct is_unsigned<unsigned long> : true_type {};
@@ -378,7 +378,7 @@ namespace tphn
 
   //***************************************************************************
   /// is_arithmetic
-  template<typename T> struct is_arithmetic : tphn::bool_constant<is_integral<T>::value || is_floating_point<T>::value> {};
+  template<typename T> struct is_arithmetic : tpn::bool_constant<is_integral<T>::value || is_floating_point<T>::value> {};
 
 #if TYPHOON_USING_CPP17
   template <typename T>
@@ -387,7 +387,7 @@ namespace tphn
 
   //***************************************************************************
   /// is_fundamental
-  template <typename T> struct is_fundamental : tphn::bool_constant<is_arithmetic<T>::value || is_void<T>::value> {};
+  template <typename T> struct is_fundamental : tpn::bool_constant<is_arithmetic<T>::value || is_void<T>::value> {};
 
 #if TYPHOON_USING_CPP17
   template <typename T>
@@ -396,7 +396,7 @@ namespace tphn
 
   //***************************************************************************
   /// is_compound
-  template <typename T> struct is_compound : tphn::bool_constant<!is_fundamental<T>::value> {};
+  template <typename T> struct is_compound : tpn::bool_constant<!is_fundamental<T>::value> {};
 
 #if TYPHOON_USING_CPP17
   template <typename T>
@@ -433,7 +433,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP17
   template <typename T>
-  inline constexpr bool is_lvalue_reference_v = tphn::is_lvalue_reference<T>::value;
+  inline constexpr bool is_lvalue_reference_v = tpn::is_lvalue_reference<T>::value;
 #endif
 
 #if TYPHOON_USING_CPP11
@@ -445,7 +445,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP17
   template <typename T>
-  inline constexpr bool is_rvalue_reference_v = tphn::is_rvalue_reference<T>::value;
+  inline constexpr bool is_rvalue_reference_v = tpn::is_rvalue_reference<T>::value;
 #endif
 #endif
 
@@ -467,11 +467,11 @@ namespace tphn
   //***************************************************************************
   /// is_pod
   /// Only fundamental and pointers types are recognised.
-  template <typename T> struct is_pod : tphn::bool_constant<tphn::is_fundamental<T>::value || tphn::is_pointer<T>::value> {};
+  template <typename T> struct is_pod : tpn::bool_constant<tpn::is_fundamental<T>::value || tpn::is_pointer<T>::value> {};
 
 #if TYPHOON_USING_CPP17
   template <typename T>
-  inline constexpr bool is_pod_v = tphn::is_pod<T>::value;
+  inline constexpr bool is_pod_v = tpn::is_pod<T>::value;
 #endif
 
   //***************************************************************************
@@ -492,9 +492,9 @@ namespace tphn
 
   template <> struct make_signed<wchar_t>
   {
-    typedef tphn::conditional<sizeof(wchar_t) == sizeof(int16_t),
+    typedef tpn::conditional<sizeof(wchar_t) == sizeof(int16_t),
                              int16_t,
-                             tphn::conditional<sizeof(wchar_t) == sizeof(int32_t),
+                             tpn::conditional<sizeof(wchar_t) == sizeof(int32_t),
                                               int32_t,
                                               void>::type>::type type;
   };
@@ -521,9 +521,9 @@ namespace tphn
 
   template <> struct make_unsigned<wchar_t>
   {
-    typedef tphn::conditional<sizeof(wchar_t) == sizeof(uint16_t),
+    typedef tpn::conditional<sizeof(wchar_t) == sizeof(uint16_t),
                              uint16_t,
-                             tphn::conditional<sizeof(wchar_t) == sizeof(uint32_t),
+                             tpn::conditional<sizeof(wchar_t) == sizeof(uint32_t),
                                               uint32_t,
                                               void>::type>::type type;
   };
@@ -610,10 +610,10 @@ namespace tphn
   template <typename T>
   struct decay
   {
-    typedef typename tphn::remove_reference<T>::type U;
-    typedef typename tphn::conditional<tphn::is_array<U>::value,
-                                      typename tphn::remove_extent<U>::type*,
-                                      typename tphn::remove_cv<U>::type>::type type;
+    typedef typename tpn::remove_reference<T>::type U;
+    typedef typename tpn::conditional<tpn::is_array<U>::value,
+                                      typename tpn::remove_extent<U>::type*,
+                                      typename tpn::remove_cv<U>::type>::type type;
   };
 
 #if TYPHOON_USING_CPP11
@@ -625,7 +625,7 @@ namespace tphn
   /// is_base_of
   template<typename TBase,
            typename TDerived,
-           const bool IsFundamental = (tphn::is_fundamental<TBase>::value || tphn::is_fundamental<TDerived>::value || tphn::is_array<TDerived>::value)>
+           const bool IsFundamental = (tpn::is_fundamental<TBase>::value || tpn::is_fundamental<TDerived>::value || tpn::is_array<TDerived>::value)>
   struct is_base_of
   {
   private:
@@ -666,7 +666,7 @@ namespace tphn
   }
 
   template <typename T>
-  struct is_class : tphn::bool_constant<sizeof(private_type_traits::test<T>(0)) == 1U> {};
+  struct is_class : tpn::bool_constant<sizeof(private_type_traits::test<T>(0)) == 1U> {};
 
 #if TYPHOON_USING_CPP17
   template <typename T>
@@ -684,7 +684,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
   template <typename T>
-  using add_lvalue_reference_t = typename tphn::add_lvalue_reference<T>::type;
+  using add_lvalue_reference_t = typename tpn::add_lvalue_reference<T>::type;
 #endif
 
   //***************************************************************************
@@ -700,14 +700,14 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
   template <typename T>
-  using add_rvalue_reference_t = typename tphn::add_rvalue_reference<T>::type;
+  using add_rvalue_reference_t = typename tpn::add_rvalue_reference<T>::type;
 #endif
 
   //***************************************************************************
   /// declval
 #if TYPHOON_USING_CPP11
   template <typename T>
-  typename tphn::add_rvalue_reference<T>::type declval() TYPHOON_NOEXCEPT;
+  typename tpn::add_rvalue_reference<T>::type declval() TYPHOON_NOEXCEPT;
 #endif
 
 #if TYPHOON_USING_CPP11
@@ -744,7 +744,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP17
   template <typename T>
-  inline constexpr bool is_enum_v = tphn::is_enum<T>::value;
+  inline constexpr bool is_enum_v = tpn::is_enum<T>::value;
 #endif
 
 #endif
@@ -755,35 +755,35 @@ namespace tphn
   namespace private_type_traits
   {
     template <typename>
-    using true_type_for = tphn::true_type;
+    using true_type_for = tpn::true_type;
 
     template <typename T>
     auto returnable(int)->true_type_for<T()>;
 
     template <typename>
-    auto returnable(...)->tphn::false_type;
+    auto returnable(...)->tpn::false_type;
 
     template <typename TFrom, typename TTo>
-    auto nonvoid_convertible(int)->true_type_for<decltype(tphn::declval<void(&)(TTo)>()(tphn::declval<TFrom>()))
+    auto nonvoid_convertible(int)->true_type_for<decltype(tpn::declval<void(&)(TTo)>()(tpn::declval<TFrom>()))
     >;
     template <typename, typename>
-    auto nonvoid_convertible(...)->tphn::false_type;
+    auto nonvoid_convertible(...)->tpn::false_type;
   }
 
 #if defined(TYPHOON_COMPILER_ARM5)
   template <typename TFrom, typename TTo>
-  struct is_convertible : tphn::bool_constant<__is_convertible_to(TFrom, TTo)> {};
+  struct is_convertible : tpn::bool_constant<__is_convertible_to(TFrom, TTo)> {};
 #else
   template <typename TFrom, typename TTo>
-  struct is_convertible : tphn::bool_constant<(decltype(private_type_traits::returnable<TTo>(0))::value &&
+  struct is_convertible : tpn::bool_constant<(decltype(private_type_traits::returnable<TTo>(0))::value &&
                                               decltype(private_type_traits::nonvoid_convertible<TFrom, TTo>(0))::value) ||
-                                              (tphn::is_void<TFrom>::value && tphn::is_void<TTo>::value)> {};
+                                              (tpn::is_void<TFrom>::value && tpn::is_void<TTo>::value)> {};
 #endif
 #endif
 
 #if TYPHOON_USING_CPP17
   template <typename TFrom, typename TTo >
-  inline constexpr bool is_convertible_v = tphn::is_convertible<TFrom, TTo>::value;
+  inline constexpr bool is_convertible_v = tpn::is_convertible<TFrom, TTo>::value;
 #endif
 
   //***************************************************************************
@@ -806,7 +806,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP17
   template <typename T>
-  inline constexpr size_t alignment_of_v = tphn::alignment_of<T>::value;
+  inline constexpr size_t alignment_of_v = tpn::alignment_of<T>::value;
 #endif
 
 #else // Condition = TYPHOON_USING_STL && TYPHOON_USING_CPP11
@@ -967,7 +967,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
   template <typename T>
-  using remove_cvref_t = typename tphn::remove_cvref<T>::type;
+  using remove_cvref_t = typename tpn::remove_cvref<T>::type;
 #endif
 
   //***************************************************************************
@@ -1278,7 +1278,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP17
   template <typename T>
-  inline constexpr bool is_enum_v = tphn::is_enum<T>::value;
+  inline constexpr bool is_enum_v = tpn::is_enum<T>::value;
 #endif
 
 #endif
@@ -1323,14 +1323,14 @@ namespace tphn
   template <typename T, T TRUE_VALUE, T FALSE_VALUE>
   struct conditional_integral_constant<true, T, TRUE_VALUE, FALSE_VALUE>
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Not an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Not an integral type");
     static const T value = TRUE_VALUE;
   };
 
   template <typename T, T TRUE_VALUE, T FALSE_VALUE>
   struct conditional_integral_constant<false, T, TRUE_VALUE, FALSE_VALUE>
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Not an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Not an integral type");
     static const T value = FALSE_VALUE;
   };
 
@@ -1341,14 +1341,14 @@ namespace tphn
   template <typename T, typename T1, typename... TRest>
   struct is_one_of
   {
-    static const bool value = tphn::is_same<T, T1>::value ||
-                              tphn::is_one_of<T, TRest...>::value;
+    static const bool value = tpn::is_same<T, T1>::value ||
+                              tpn::is_one_of<T, TRest...>::value;
   };
 
   template <typename T, typename T1>
   struct is_one_of<T, T1>
   {
-    static const bool value = tphn::is_same<T, T1>::value;
+    static const bool value = tpn::is_same<T, T1>::value;
   };
 #else
   /*[[[cog
@@ -1369,8 +1369,8 @@ namespace tphn
   cog.outl("{")
   cog.outl("  static const bool value = ")
   for n in range(1, int(IsOneOf)):
-      cog.outl("      tphn::is_same<T, T%s>::value ||" % n)
-  cog.outl("      tphn::is_same<T, T%s>::value;" % IsOneOf)
+      cog.outl("      tpn::is_same<T, T%s>::value ||" % n)
+  cog.outl("      tpn::is_same<T, T%s>::value;" % IsOneOf)
   cog.outl("};")
   ]]]*/
   /*[[[end]]]*/
@@ -1378,7 +1378,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP17
   template <typename T, typename... TRest>
-  inline constexpr bool is_one_of_v = tphn::is_one_of<T, TRest...>::value;
+  inline constexpr bool is_one_of_v = tpn::is_one_of<T, TRest...>::value;
 #endif
 
   //***************************************************************************
@@ -1391,7 +1391,7 @@ namespace tphn
   {
   private:
 
-    typedef typename tphn::remove_reference<typename tphn::remove_cv<T>::type>::type type_t;
+    typedef typename tpn::remove_reference<typename tpn::remove_cv<T>::type>::type type_t;
 
   public:
 
@@ -1413,7 +1413,7 @@ namespace tphn
   {
   private:
 
-    typedef typename tphn::remove_reference<typename tphn::remove_cv<T>::type>::type type_t;
+    typedef typename tpn::remove_reference<typename tpn::remove_cv<T>::type>::type type_t;
 
   public:
 
@@ -1435,7 +1435,7 @@ namespace tphn
   {
   private:
 
-    typedef typename tphn::remove_reference<typename tphn::remove_cv<T>::type>::type type_t;
+    typedef typename tpn::remove_reference<typename tpn::remove_cv<T>::type>::type type_t;
 
   public:
 
@@ -1457,7 +1457,7 @@ namespace tphn
   {
   private:
 
-    typedef typename tphn::remove_reference<typename tphn::remove_cv<T>::type>::type type_t;
+    typedef typename tpn::remove_reference<typename tpn::remove_cv<T>::type>::type type_t;
 
   public:
 
@@ -1480,7 +1480,7 @@ namespace tphn
   {
   private:
 
-    typedef typename tphn::remove_reference<typename tphn::remove_cv<T>::type>::type type_t;
+    typedef typename tpn::remove_reference<typename tpn::remove_cv<T>::type>::type type_t;
 
   public:
 
@@ -1523,12 +1523,12 @@ namespace tphn
   //***************************************************************************
   /// size_of
   ///\ingroup types
-  template <typename T> struct size_of : tphn::integral_constant<size_t, sizeof(T)> {};
-  template <> struct size_of<void> : tphn::integral_constant<size_t, 1U> {};
+  template <typename T> struct size_of : tpn::integral_constant<size_t, sizeof(T)> {};
+  template <> struct size_of<void> : tpn::integral_constant<size_t, 1U> {};
 
 #if TYPHOON_USING_CPP17
   template <typename T>
-  inline constexpr size_t size_of_v = tphn::size_of<T>::value;
+  inline constexpr size_t size_of_v = tpn::size_of<T>::value;
 #endif
 
 #if TYPHOON_USING_CPP11
@@ -1537,14 +1537,14 @@ namespace tphn
   template <typename T, typename T1, typename... TRest>
   struct are_all_same
   {
-    static const bool value = tphn::is_same<T, T1>::value &&
-      tphn::are_all_same<T, TRest...>::value;
+    static const bool value = tpn::is_same<T, T1>::value &&
+      tpn::are_all_same<T, TRest...>::value;
   };
 
   template <typename T, typename T1>
   struct are_all_same<T, T1>
   {
-    static const bool value = tphn::is_same<T, T1>::value;
+    static const bool value = tpn::is_same<T, T1>::value;
   };
 #endif
 
@@ -1557,12 +1557,12 @@ namespace tphn
   /// conjunction
 #if TYPHOON_USING_CPP11
   template <typename...>
-  struct conjunction : public tphn::true_type
+  struct conjunction : public tpn::true_type
   {
   };
 
   template <typename T1, typename... Tn>
-  struct conjunction<T1, Tn...> : public tphn::conditional_t<bool(T1::value), tphn::conjunction<Tn...>, T1>
+  struct conjunction<T1, Tn...> : public tpn::conditional_t<bool(T1::value), tpn::conjunction<Tn...>, T1>
   {
   };
 
@@ -1581,12 +1581,12 @@ namespace tphn
   /// disjunction
 #if TYPHOON_USING_CPP11
   template <typename...>
-  struct disjunction : public tphn::false_type
+  struct disjunction : public tpn::false_type
   {
   };
 
   template <typename T1, typename... Tn>
-  struct disjunction<T1, Tn...> : public tphn::conditional_t<bool(T1::value), T1, disjunction<Tn...>>
+  struct disjunction<T1, Tn...> : public tpn::conditional_t<bool(T1::value), T1, disjunction<Tn...>>
   {
   };
 
@@ -1597,7 +1597,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP17
   template <typename... T>
-  inline constexpr bool disjunction_v = tphn::disjunction<T...>::value;
+  inline constexpr bool disjunction_v = tpn::disjunction<T...>::value;
 #endif
 
   //***************************************************************************
@@ -1644,7 +1644,7 @@ namespace tphn
   };
 #else
   template <typename T>
-  struct is_trivially_constructible : public tphn::bool_constant<tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  struct is_trivially_constructible : public tpn::bool_constant<tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   {
   };
 #endif
@@ -1658,7 +1658,7 @@ namespace tphn
   };
 #else
   template <typename T>
-  struct is_trivially_copy_constructible : public tphn::bool_constant<tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  struct is_trivially_copy_constructible : public tpn::bool_constant<tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   {
   };
 #endif
@@ -1672,7 +1672,7 @@ namespace tphn
   };
 #else
   template <typename T>
-  struct is_trivially_destructible : public tphn::bool_constant<tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  struct is_trivially_destructible : public tpn::bool_constant<tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   {
   };
 #endif
@@ -1686,7 +1686,7 @@ namespace tphn
   };
 #else
   template <typename T>
-  struct is_trivially_copy_assignable : public tphn::bool_constant<tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  struct is_trivially_copy_assignable : public tpn::bool_constant<tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   {
   };
 #endif
@@ -1700,7 +1700,7 @@ namespace tphn
   };
 #else
   template <typename T>
-  struct is_trivially_copyable : public tphn::bool_constant<tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  struct is_trivially_copyable : public tpn::bool_constant<tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   {
   };
 #endif
@@ -1748,14 +1748,14 @@ namespace tphn
   //*********************************************
   // is_copy_constructible
   template <typename T>
-  struct is_copy_constructible : public tphn::is_constructible<T, typename tphn::add_lvalue_reference<const T>::type>
+  struct is_copy_constructible : public tpn::is_constructible<T, typename tpn::add_lvalue_reference<const T>::type>
   {
   };
 
   //*********************************************
   // is_move_constructible
   template <typename T>
-  struct is_move_constructible : public tphn::is_constructible<T, T>
+  struct is_move_constructible : public tpn::is_constructible<T, T>
   {
   };
 
@@ -1851,11 +1851,11 @@ namespace tphn
   // is_assignable
   template <typename T1,
             typename T2,
-            bool B = (tphn::is_arithmetic<T1>::value || tphn::is_pointer<T1>::value) && (tphn::is_arithmetic<T2>::value || tphn::is_pointer<T2>::value)>
+            bool B = (tpn::is_arithmetic<T1>::value || tpn::is_pointer<T1>::value) && (tpn::is_arithmetic<T2>::value || tpn::is_pointer<T2>::value)>
   struct is_assignable;
 
   template <typename T1, typename T2>
-  struct is_assignable<T1, T2, true> : public tphn::true_type
+  struct is_assignable<T1, T2, true> : public tpn::true_type
   {
   };
 
@@ -1869,7 +1869,7 @@ namespace tphn
   struct is_constructible_helper;
 
   template <typename T, typename... TArgs>
-  struct is_constructible_helper<T, true, TArgs...> : public tphn::true_type
+  struct is_constructible_helper<T, true, TArgs...> : public tpn::true_type
   {
   };
 
@@ -1877,18 +1877,18 @@ namespace tphn
   struct is_constructible_helper<T, false, TArgs...>;
 
   template <typename T, typename... TArgs>
-  struct is_constructible : public is_constructible_helper<T, tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value, TArgs...>
+  struct is_constructible : public is_constructible_helper<T, tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value, TArgs...>
   {
   };
 #endif
 
   //*********************************************
   // is_copy_constructible
-  template <typename T, bool B = tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  template <typename T, bool B = tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   struct is_copy_constructible;
 
   template <typename T>
-  struct is_copy_constructible<T, true> : public tphn::true_type
+  struct is_copy_constructible<T, true> : public tpn::true_type
   {
   };
 
@@ -1897,11 +1897,11 @@ namespace tphn
 
   //*********************************************
   // is_move_constructible
-  template <typename T, bool B = tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  template <typename T, bool B = tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   struct is_move_constructible;
 
   template <typename T>
-  struct is_move_constructible<T, true> : public tphn::true_type
+  struct is_move_constructible<T, true> : public tpn::true_type
   {
   };
 
@@ -1910,11 +1910,11 @@ namespace tphn
 
   //*********************************************
   // is_trivially_constructible
-  template <typename T, bool B = tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  template <typename T, bool B = tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   struct is_trivially_constructible;
 
   template <typename T>
-  struct is_trivially_constructible<T, true> : public tphn::true_type
+  struct is_trivially_constructible<T, true> : public tpn::true_type
   {
   };
 
@@ -1923,11 +1923,11 @@ namespace tphn
 
   //*********************************************
   // is_trivially_copy_constructible
-  template <typename T, bool B = tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  template <typename T, bool B = tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   struct is_trivially_copy_constructible;
 
   template <typename T>
-  struct is_trivially_copy_constructible<T, true> : public tphn::true_type
+  struct is_trivially_copy_constructible<T, true> : public tpn::true_type
   {
   };
 
@@ -1936,11 +1936,11 @@ namespace tphn
 
   //*********************************************
   // is_trivially_destructible
-  template <typename T, bool B = tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  template <typename T, bool B = tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   struct is_trivially_destructible;
 
   template <typename T>
-  struct is_trivially_destructible<T, true> : public tphn::true_type
+  struct is_trivially_destructible<T, true> : public tpn::true_type
   {
   };
 
@@ -1949,11 +1949,11 @@ namespace tphn
 
   //*********************************************
   // is_trivially_copy_assignable
-  template <typename T, bool B = tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  template <typename T, bool B = tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   struct is_trivially_copy_assignable;
 
   template <typename T>
-  struct is_trivially_copy_assignable<T, true> : public tphn::true_type
+  struct is_trivially_copy_assignable<T, true> : public tpn::true_type
   {
   };
 
@@ -1962,11 +1962,11 @@ namespace tphn
 
   //*********************************************
   // is_trivially_copyable
-  template <typename T, bool B = tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  template <typename T, bool B = tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   struct is_trivially_copyable;
 
   template <typename T>
-  struct is_trivially_copyable<T, true> : public tphn::true_type
+  struct is_trivially_copyable<T, true> : public tpn::true_type
   {
   };
 
@@ -1983,7 +1983,7 @@ namespace tphn
   //*********************************************
   // is_assignable
   template <typename T1, typename T2>
-  struct is_assignable : public tphn::bool_constant<(tphn::is_arithmetic<T1>::value || tphn::is_pointer<T1>::value) && (tphn::is_arithmetic<T2>::value || tphn::is_pointer<T2>::value)>
+  struct is_assignable : public tpn::bool_constant<(tpn::is_arithmetic<T1>::value || tpn::is_pointer<T1>::value) && (tpn::is_arithmetic<T2>::value || tpn::is_pointer<T2>::value)>
   {
   };
 
@@ -1993,10 +1993,10 @@ namespace tphn
   namespace private_type_traits 
   {
     template <class, class T, class... Args>
-    struct is_constructible_ : tphn::false_type {};
+    struct is_constructible_ : tpn::false_type {};
 
     template <class T, class... Args>
-    struct is_constructible_<void_t<decltype(T(tphn::declval<Args>()...))>, T, Args...> : tphn::true_type {};
+    struct is_constructible_<void_t<decltype(T(tpn::declval<Args>()...))>, T, Args...> : tpn::true_type {};
   };
 
 
@@ -2007,7 +2007,7 @@ namespace tphn
 
   //*********************************************
   // is_copy_constructible
-  template <class T> struct is_copy_constructible : public is_constructible<T,  typename tphn::add_lvalue_reference<typename tphn::add_const<T>::type>::type>{};
+  template <class T> struct is_copy_constructible : public is_constructible<T,  typename tpn::add_lvalue_reference<typename tpn::add_const<T>::type>::type>{};
   template <> struct is_copy_constructible<void> : public false_type{};
   template <> struct is_copy_constructible<void const> : public false_type{};
   template <> struct is_copy_constructible<void volatile> : public false_type{};
@@ -2015,7 +2015,7 @@ namespace tphn
 
   //*********************************************
   // is_move_constructible
-  template <typename T> struct is_move_constructible: public is_constructible<T, typename tphn::add_rvalue_reference<T>::type>{};
+  template <typename T> struct is_move_constructible: public is_constructible<T, typename tpn::add_rvalue_reference<T>::type>{};
   template <> struct is_move_constructible<void> : public false_type{};
   template <> struct is_move_constructible<void const> : public false_type{};
   template <> struct is_move_constructible<void volatile> : public false_type{};
@@ -2026,14 +2026,14 @@ namespace tphn
   //*********************************************
   // is_copy_constructible
   template <typename T>
-  struct is_copy_constructible : public tphn::bool_constant<tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  struct is_copy_constructible : public tpn::bool_constant<tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   {
   };
 
   //*********************************************
   // is_move_constructible
   template <typename T>
-  struct is_move_constructible : public tphn::bool_constant<tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  struct is_move_constructible : public tpn::bool_constant<tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   {
   };
 #endif
@@ -2041,77 +2041,77 @@ namespace tphn
   //*********************************************
   // is_trivially_constructible
   template <typename T>
-  struct is_trivially_constructible : public tphn::bool_constant<tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  struct is_trivially_constructible : public tpn::bool_constant<tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   {
   };
 
   //*********************************************
   // is_trivially_copy_constructible
   template <typename T>
-  struct is_trivially_copy_constructible : public tphn::bool_constant<tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  struct is_trivially_copy_constructible : public tpn::bool_constant<tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   {
   };
 
   //*********************************************
   // is_trivially_destructible
   template <typename T>
-  struct is_trivially_destructible : public tphn::bool_constant<tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  struct is_trivially_destructible : public tpn::bool_constant<tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   {
   };
 
   //*********************************************
   // is_trivially_copy_assignable
   template <typename T>
-  struct is_trivially_copy_assignable : public tphn::bool_constant<tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  struct is_trivially_copy_assignable : public tpn::bool_constant<tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   {
   };
 
   //*********************************************
   // is_trivially_copyable
   template <typename T>
-  struct is_trivially_copyable : public tphn::bool_constant<tphn::is_arithmetic<T>::value || tphn::is_pointer<T>::value>
+  struct is_trivially_copyable : public tpn::bool_constant<tpn::is_arithmetic<T>::value || tpn::is_pointer<T>::value>
   {
   };
 
 #endif
 
   template <typename T1, typename T2>
-  struct is_lvalue_assignable : public tphn::is_assignable<typename tphn::add_lvalue_reference<T1>::type,
-                                                          typename tphn::add_lvalue_reference<typename tphn::add_const<T2>::type>::type>
+  struct is_lvalue_assignable : public tpn::is_assignable<typename tpn::add_lvalue_reference<T1>::type,
+                                                          typename tpn::add_lvalue_reference<typename tpn::add_const<T2>::type>::type>
   {
   };
 
 #if TYPHOON_USING_CPP17
 
   template <typename T1, typename T2>
-  inline constexpr bool is_assignable_v = tphn::is_assignable<T1, T2>::value;
+  inline constexpr bool is_assignable_v = tpn::is_assignable<T1, T2>::value;
 
   template <typename T1, typename T2>
-  inline constexpr bool is_lvalue_assignable_v = tphn::is_lvalue_assignable<T1, T2>::value;
+  inline constexpr bool is_lvalue_assignable_v = tpn::is_lvalue_assignable<T1, T2>::value;
 
   template<typename T, typename... TArgs>
-  inline constexpr bool is_constructible_v = tphn::is_constructible<T, TArgs...>::value;
+  inline constexpr bool is_constructible_v = tpn::is_constructible<T, TArgs...>::value;
 
   template<typename T>
-  inline constexpr bool is_copy_constructible_v = tphn::is_copy_constructible<T>::value;
+  inline constexpr bool is_copy_constructible_v = tpn::is_copy_constructible<T>::value;
 
   template<typename T>
-  inline constexpr bool is_move_constructible_v = tphn::is_move_constructible<T>::value;
+  inline constexpr bool is_move_constructible_v = tpn::is_move_constructible<T>::value;
 
   template <typename T>
-  inline constexpr bool is_trivially_constructible_v = tphn::is_trivially_constructible<T>::value;
+  inline constexpr bool is_trivially_constructible_v = tpn::is_trivially_constructible<T>::value;
 
   template <typename T>
-  inline constexpr bool is_trivially_copy_constructible_v = tphn::is_trivially_copy_constructible<T>::value;
+  inline constexpr bool is_trivially_copy_constructible_v = tpn::is_trivially_copy_constructible<T>::value;
 
   template <typename T>
-  inline constexpr bool is_trivially_destructible_v = tphn::is_trivially_destructible<T>::value;
+  inline constexpr bool is_trivially_destructible_v = tpn::is_trivially_destructible<T>::value;
 
   template <typename T>
-  inline constexpr bool is_trivially_copy_assignable_v = tphn::is_trivially_copy_assignable<T>::value;
+  inline constexpr bool is_trivially_copy_assignable_v = tpn::is_trivially_copy_assignable<T>::value;
 
   template <typename T>
-  inline constexpr bool is_trivially_copyable_v = tphn::is_trivially_copyable<T>::value;
+  inline constexpr bool is_trivially_copyable_v = tpn::is_trivially_copyable<T>::value;
 
 #endif
 
@@ -2147,7 +2147,7 @@ namespace tphn
 
     template <typename T1, typename T2>
     struct decay_conditional_result<T1, T2, void_t<conditional_result_t<T1, T2>>>
-      : tphn::decay<conditional_result_t<T1, T2>>
+      : tpn::decay<conditional_result_t<T1, T2>>
     {
     };
 
@@ -2167,10 +2167,10 @@ namespace tphn
   // Two types
   template <typename T1, typename T2>
   struct common_type<T1, T2>
-    : tphn::conditional<tphn::is_same<T1, typename tphn::decay<T1>::type>::value&& tphn::is_same<T2, typename tphn::decay<T2>::type>::value,
+    : tpn::conditional<tpn::is_same<T1, typename tpn::decay<T1>::type>::value&& tpn::is_same<T2, typename tpn::decay<T2>::type>::value,
                        private_common_type::common_type_2_impl<T1, T2>,
-                       common_type<typename tphn::decay<T2>::type,
-                       typename tphn::decay<T2>::type>>::type
+                       common_type<typename tpn::decay<T2>::type,
+                       typename tpn::decay<T2>::type>>::type
   {
   };
 
@@ -2206,10 +2206,10 @@ namespace tphn
   template <typename T>
   struct unsigned_type
   {
-    typedef typename tphn::conditional<sizeof(T) == sizeof(unsigned char), unsigned char,
-      typename tphn::conditional<sizeof(T) == sizeof(unsigned short), unsigned short,
-        typename tphn::conditional<sizeof(T) == sizeof(unsigned int), unsigned int,
-          typename tphn::conditional<sizeof(T) == sizeof(unsigned long), unsigned long,
+    typedef typename tpn::conditional<sizeof(T) == sizeof(unsigned char), unsigned char,
+      typename tpn::conditional<sizeof(T) == sizeof(unsigned short), unsigned short,
+        typename tpn::conditional<sizeof(T) == sizeof(unsigned int), unsigned int,
+          typename tpn::conditional<sizeof(T) == sizeof(unsigned long), unsigned long,
             unsigned long long>::type>::type>::type>::type type;
   };
 
@@ -2224,10 +2224,10 @@ namespace tphn
   template <typename T>
   struct signed_type
   {
-    typedef typename tphn::conditional<sizeof(T) == sizeof(char), char,
-      typename tphn::conditional<sizeof(T) == sizeof(short), short,
-        typename tphn::conditional<sizeof(T) == sizeof(int), int,
-          typename tphn::conditional<sizeof(T) == sizeof(long), long,
+    typedef typename tpn::conditional<sizeof(T) == sizeof(char), char,
+      typename tpn::conditional<sizeof(T) == sizeof(short), short,
+        typename tpn::conditional<sizeof(T) == sizeof(int), int,
+          typename tpn::conditional<sizeof(T) == sizeof(long), long,
             long long>::type>::type>::type>::type type;
   };
 
@@ -2238,13 +2238,13 @@ namespace tphn
 }
 
 // Helper macros
-#define TYPHOON_IS_CHAR_TYPE(type)        (tphn::is_same<char, type>::value || tphn::is_same<signed char, type>::value || tphn::is_same<unsigned char, type>::value)
+#define TYPHOON_IS_CHAR_TYPE(type)        (tpn::is_same<char, type>::value || tpn::is_same<signed char, type>::value || tpn::is_same<unsigned char, type>::value)
 #define TYPHOON_IS_NOT_CHAR_TYPE(type)    (!TYPHOON_IS_CHAR_TYPE(type))
 
-#define TYPHOON_IS_POINTER_TYPE(type)     (tphn::is_pointer<type>::value)
+#define TYPHOON_IS_POINTER_TYPE(type)     (tpn::is_pointer<type>::value)
 #define TYPHOON_IS_NOT_POINTER_TYPE(type) (!TYPHOON_IS_POINTER_TYPE(type))
 
-#define TYPHOON_TARGET_IS_TRIVIALLY_COPYABLE(type)     (tphn::is_trivially_copyable<typename tphn::iterator_traits<type>::value_type>::value)
+#define TYPHOON_TARGET_IS_TRIVIALLY_COPYABLE(type)     (tpn::is_trivially_copyable<typename tpn::iterator_traits<type>::value_type>::value)
 #define TYPHOON_TARGET_IS_NOT_TRIVIALLY_COPYABLE(type) (!TYPHOON_TARGET_IS_TRIVIALLY_COPYABLE(type))
 
 #endif // TYPHOON_TYPE_TRAITS_HPP

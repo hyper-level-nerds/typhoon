@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2018 John Wellbelove
 
@@ -45,15 +45,15 @@ SOFTWARE.
 
 #if TYPHOON_HAS_ATOMIC
 
-namespace tphn
+namespace tpn
 {
-  template <const size_t MEMORY_MODEL = tphn::memory_model::MEMORY_MODEL_LARGE>
+  template <const size_t MEMORY_MODEL = tpn::memory_model::MEMORY_MODEL_LARGE>
   class queue_spsc_atomic_base
   {
   public:
 
     /// The type used for determining the size of queue.
-    typedef typename tphn::size_type_lookup<MEMORY_MODEL>::type size_type;
+    typedef typename tpn::size_type_lookup<MEMORY_MODEL>::type size_type;
 
     //*************************************************************************
     /// Is the queue empty?
@@ -62,7 +62,7 @@ namespace tphn
     //*************************************************************************
     bool empty() const
     {
-      return read.load(tphn::memory_order_acquire) == write.load(tphn::memory_order_acquire);
+      return read.load(tpn::memory_order_acquire) == write.load(tpn::memory_order_acquire);
     }
 
     //*************************************************************************
@@ -72,9 +72,9 @@ namespace tphn
     //*************************************************************************
     bool full() const
     {
-      size_type next_index = get_next_index(write.load(tphn::memory_order_acquire), RESERVED);
+      size_type next_index = get_next_index(write.load(tpn::memory_order_acquire), RESERVED);
 
-      return (next_index == read.load(tphn::memory_order_acquire));
+      return (next_index == read.load(tpn::memory_order_acquire));
     }
 
     //*************************************************************************
@@ -83,8 +83,8 @@ namespace tphn
     //*************************************************************************
     size_type size() const
     {
-      size_type write_index = write.load(tphn::memory_order_acquire);
-      size_type read_index = read.load(tphn::memory_order_acquire);
+      size_type write_index = write.load(tpn::memory_order_acquire);
+      size_type read_index = read.load(tpn::memory_order_acquire);
 
       size_type n;
 
@@ -149,8 +149,8 @@ namespace tphn
       return index;
     }
 
-    tphn::atomic<size_type> write; ///< Where to input new data.
-    tphn::atomic<size_type> read;  ///< Where to get the oldest data.
+    tpn::atomic<size_type> write; ///< Where to input new data.
+    tpn::atomic<size_type> read;  ///< Where to get the oldest data.
     const size_type RESERVED;     ///< The maximum number of items in the queue.
 
   private:
@@ -176,18 +176,18 @@ namespace tphn
   ///\brief This is the base for all queue_spscs that contain a particular type.
   ///\details Normally a reference to this type will be taken from a derived queue_spsc.
   ///\code
-  /// tphn::queue_spsc_atomic<int, 10> myQueue;
-  /// tphn::iqueue_spsc_atomic<int>& iQueue = myQueue;
+  /// tpn::queue_spsc_atomic<int, 10> myQueue;
+  /// tpn::iqueue_spsc_atomic<int>& iQueue = myQueue;
   ///\endcode
   /// This queue supports concurrent access by one producer and one consumer.
   /// \tparam T The type of value that the queue_spsc_atomic holds.
   //***************************************************************************
-  template <typename T, const size_t MEMORY_MODEL = tphn::memory_model::MEMORY_MODEL_LARGE>
+  template <typename T, const size_t MEMORY_MODEL = tpn::memory_model::MEMORY_MODEL_LARGE>
   class iqueue_spsc_atomic : public queue_spsc_atomic_base<MEMORY_MODEL>
   {
   private:
 
-    typedef typename tphn::queue_spsc_atomic_base<MEMORY_MODEL> base_t;
+    typedef typename tpn::queue_spsc_atomic_base<MEMORY_MODEL> base_t;
 
   public:
 
@@ -209,14 +209,14 @@ namespace tphn
     //*************************************************************************
     bool push(const_reference value)
     {
-      size_type write_index = write.load(tphn::memory_order_relaxed);
+      size_type write_index = write.load(tpn::memory_order_relaxed);
       size_type next_index  = get_next_index(write_index, RESERVED);
 
-      if (next_index != read.load(tphn::memory_order_acquire))
+      if (next_index != read.load(tpn::memory_order_acquire))
       {
         ::new (&p_buffer[write_index]) T(value);
 
-        write.store(next_index, tphn::memory_order_release);
+        write.store(next_index, tpn::memory_order_release);
 
         return true;
       }
@@ -231,14 +231,14 @@ namespace tphn
     //*************************************************************************
     bool push(rvalue_reference value)
     {
-      size_type write_index = write.load(tphn::memory_order_relaxed);
+      size_type write_index = write.load(tpn::memory_order_relaxed);
       size_type next_index = get_next_index(write_index, RESERVED);
 
-      if (next_index != read.load(tphn::memory_order_acquire))
+      if (next_index != read.load(tpn::memory_order_acquire))
       {
-        ::new (&p_buffer[write_index]) T(tphn::move(value));
+        ::new (&p_buffer[write_index]) T(tpn::move(value));
 
-        write.store(next_index, tphn::memory_order_release);
+        write.store(next_index, tpn::memory_order_release);
 
         return true;
       }
@@ -251,19 +251,19 @@ namespace tphn
 #if TYPHOON_USING_CPP11 && TYPHOON_NOT_USING_STLPORT && !defined(TYPHOON_QUEUE_ATOMIC_FORCE_CPP03_IMPLEMENTATION)
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     //*************************************************************************
     template <typename ... Args>
     bool emplace(Args&&... args)
     {
-      size_type write_index = write.load(tphn::memory_order_relaxed);
+      size_type write_index = write.load(tpn::memory_order_relaxed);
       size_type next_index  = get_next_index(write_index, RESERVED);
 
-      if (next_index != read.load(tphn::memory_order_acquire))
+      if (next_index != read.load(tpn::memory_order_acquire))
       {
-        ::new (&p_buffer[write_index]) T(tphn::forward<Args>(args)...);
+        ::new (&p_buffer[write_index]) T(tpn::forward<Args>(args)...);
 
-        write.store(next_index, tphn::memory_order_release);
+        write.store(next_index, tpn::memory_order_release);
 
         return true;
       }
@@ -274,19 +274,19 @@ namespace tphn
 #else
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     //*************************************************************************
     template <typename T1>
     bool emplace(const T1& value1)
     {
-      size_type write_index = write.load(tphn::memory_order_relaxed);
+      size_type write_index = write.load(tpn::memory_order_relaxed);
       size_type next_index  = get_next_index(write_index, RESERVED);
 
-      if (next_index != read.load(tphn::memory_order_acquire))
+      if (next_index != read.load(tpn::memory_order_acquire))
       {
         ::new (&p_buffer[write_index]) T(value1);
 
-        write.store(next_index, tphn::memory_order_release);
+        write.store(next_index, tpn::memory_order_release);
 
         return true;
       }
@@ -297,19 +297,19 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     //*************************************************************************
     template <typename T1, typename T2>
     bool emplace(const T1& value1, const T2& value2)
     {
-      size_type write_index = write.load(tphn::memory_order_relaxed);
+      size_type write_index = write.load(tpn::memory_order_relaxed);
       size_type next_index  = get_next_index(write_index, RESERVED);
 
-      if (next_index != read.load(tphn::memory_order_acquire))
+      if (next_index != read.load(tpn::memory_order_acquire))
       {
         ::new (&p_buffer[write_index]) T(value1, value2);
 
-        write.store(next_index, tphn::memory_order_release);
+        write.store(next_index, tpn::memory_order_release);
 
         return true;
       }
@@ -320,19 +320,19 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     //*************************************************************************
     template <typename T1, typename T2, typename T3>
     bool emplace(const T1& value1, const T2& value2, const T3& value3)
     {
-      size_type write_index = write.load(tphn::memory_order_relaxed);
+      size_type write_index = write.load(tpn::memory_order_relaxed);
       size_type next_index  = get_next_index(write_index, RESERVED);
 
-      if (next_index != read.load(tphn::memory_order_acquire))
+      if (next_index != read.load(tpn::memory_order_acquire))
       {
         ::new (&p_buffer[write_index]) T(value1, value2, value3);
 
-        write.store(next_index, tphn::memory_order_release);
+        write.store(next_index, tpn::memory_order_release);
 
         return true;
       }
@@ -343,19 +343,19 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     //*************************************************************************
     template <typename T1, typename T2, typename T3, typename T4>
     bool emplace(const T1& value1, const T2& value2, const T3& value3, const T4& value4)
     {
-      size_type write_index = write.load(tphn::memory_order_relaxed);
+      size_type write_index = write.load(tpn::memory_order_relaxed);
       size_type next_index  = get_next_index(write_index, RESERVED);
 
-      if (next_index != read.load(tphn::memory_order_acquire))
+      if (next_index != read.load(tpn::memory_order_acquire))
       {
         ::new (&p_buffer[write_index]) T(value1, value2, value3, value4);
 
-        write.store(next_index, tphn::memory_order_release);
+        write.store(next_index, tpn::memory_order_release);
 
         return true;
       }
@@ -370,9 +370,9 @@ namespace tphn
     //*************************************************************************
     bool front(reference value)
     {
-      size_type read_index = read.load(tphn::memory_order_relaxed);
+      size_type read_index = read.load(tpn::memory_order_relaxed);
 
-      if (read_index == write.load(tphn::memory_order_acquire))
+      if (read_index == write.load(tpn::memory_order_acquire))
       {
         // Queue is empty
         return false;
@@ -388,9 +388,9 @@ namespace tphn
     //*************************************************************************
     bool pop(reference value)
     {
-      size_type read_index = read.load(tphn::memory_order_relaxed);
+      size_type read_index = read.load(tpn::memory_order_relaxed);
 
-      if (read_index == write.load(tphn::memory_order_acquire))
+      if (read_index == write.load(tpn::memory_order_acquire))
       {
         // Queue is empty
         return false;
@@ -399,14 +399,14 @@ namespace tphn
       size_type next_index = get_next_index(read_index, RESERVED);
 
 #if TYPHOON_USING_CPP11 && TYPHOON_NOT_USING_STLPORT && !defined(TYPHOON_QUEUE_LOCKABLE_FORCE_CPP03_IMPLEMENTATION)
-      value = tphn::move(p_buffer[read_index]);
+      value = tpn::move(p_buffer[read_index]);
 #else
       value = p_buffer[read_index];
 #endif
 
       p_buffer[read_index].~T();
 
-      read.store(next_index, tphn::memory_order_release);
+      read.store(next_index, tpn::memory_order_release);
 
       return true;
     }
@@ -416,9 +416,9 @@ namespace tphn
     //*************************************************************************
     bool pop()
     {
-      size_type read_index = read.load(tphn::memory_order_relaxed);
+      size_type read_index = read.load(tpn::memory_order_relaxed);
 
-      if (read_index == write.load(tphn::memory_order_acquire))
+      if (read_index == write.load(tpn::memory_order_acquire))
       {
         // Queue is empty
         return false;
@@ -428,7 +428,7 @@ namespace tphn
 
       p_buffer[read_index].~T();
 
-      read.store(next_index, tphn::memory_order_release);
+      read.store(next_index, tpn::memory_order_release);
 
       return true;
     }
@@ -438,7 +438,7 @@ namespace tphn
     //*************************************************************************
     reference front()
     {
-      size_type read_index = read.load(tphn::memory_order_relaxed);
+      size_type read_index = read.load(tpn::memory_order_relaxed);
 
       return p_buffer[read_index];
     }
@@ -448,7 +448,7 @@ namespace tphn
     //*************************************************************************
     const_reference front() const
     {
-      size_type read_index = read.load(tphn::memory_order_relaxed);
+      size_type read_index = read.load(tpn::memory_order_relaxed);
 
       return p_buffer[read_index];
     }
@@ -499,12 +499,12 @@ namespace tphn
   /// \tparam SIZE         The maximum capacity of the queue.
   /// \tparam MEMORY_MODEL The memory model for the queue. Determines the type of the internal counter variables.
   //***************************************************************************
-  template <typename T, size_t SIZE, const size_t MEMORY_MODEL = tphn::memory_model::MEMORY_MODEL_LARGE>
+  template <typename T, size_t SIZE, const size_t MEMORY_MODEL = tpn::memory_model::MEMORY_MODEL_LARGE>
   class queue_spsc_atomic : public iqueue_spsc_atomic<T, MEMORY_MODEL>
   {
   private:
 
-    typedef typename tphn::iqueue_spsc_atomic<T, MEMORY_MODEL> base_t;
+    typedef typename tpn::iqueue_spsc_atomic<T, MEMORY_MODEL> base_t;
 
   public:
 
@@ -516,7 +516,7 @@ namespace tphn
 
   public:
 
-    TYPHOON_STATIC_ASSERT((SIZE <= (tphn::integral_limits<size_type>::max - 1)), "Size too large for memory model");
+    TYPHOON_STATIC_ASSERT((SIZE <= (tpn::integral_limits<size_type>::max - 1)), "Size too large for memory model");
 
     static TYPHOON_CONSTANT size_type MAX_SIZE = size_type(SIZE);
 
@@ -539,7 +539,7 @@ namespace tphn
   private:
 
     /// The uninitialised buffer of T used in the queue_spsc.
-    typename tphn::aligned_storage<sizeof(T), tphn::alignment_of<T>::value>::type buffer[RESERVED_SIZE];
+    typename tpn::aligned_storage<sizeof(T), tpn::alignment_of<T>::value>::type buffer[RESERVED_SIZE];
   };
 }
 

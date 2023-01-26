@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -33,7 +33,7 @@ SOFTWARE.
 
 #include <cmsis_os2.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   ///\ingroup mutex

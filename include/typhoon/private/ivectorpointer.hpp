@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2016 John Wellbelove
 
@@ -32,12 +32,12 @@ SOFTWARE.
 #define TYPHOON_IVECTOR_POINTER_HPP
 
 #ifndef TYPHOON_IN_VECTOR_H
-#error  This header is a private element of tphn::ivector
+#error  This header is a private element of tpn::ivector
 #endif
 
 #include "pvoidvector.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The base class for specifically sized vectors.
@@ -59,7 +59,7 @@ namespace tphn
     typedef TYPHOON_OR_STD::reverse_iterator<iterator>       reverse_iterator;
     typedef TYPHOON_OR_STD::reverse_iterator<const_iterator> const_reverse_iterator;
     typedef size_t                                size_type;
-    typedef typename tphn::iterator_traits<iterator>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<iterator>::difference_type difference_type;
 
   protected:
 
@@ -233,7 +233,7 @@ namespace tphn
 
     //*********************************************************************
     /// Returns a reference to the value at index 'i'
-    /// If asserts or exceptions are enabled, emits an tphn::vector_out_of_bounds if the index is out of range.
+    /// If asserts or exceptions are enabled, emits an tpn::vector_out_of_bounds if the index is out of range.
     ///\param i The index.
     ///\return A reference to the value at index 'i'
     //*********************************************************************
@@ -244,7 +244,7 @@ namespace tphn
 
     //*********************************************************************
     /// Returns a const reference to the value at index 'i'
-    /// If asserts or exceptions are enabled, emits an tphn::vector_out_of_bounds if the index is out of range.
+    /// If asserts or exceptions are enabled, emits an tpn::vector_out_of_bounds if the index is out of range.
     ///\param i The index.
     ///\return A const reference to the value at index 'i'
     //*********************************************************************
@@ -461,7 +461,7 @@ namespace tphn
     //*************************************************************************
     ivector& operator = (ivector&& rhs)
     {
-      (void)base_t::operator = (tphn::move(rhs));
+      (void)base_t::operator = (tpn::move(rhs));
 
       return *this;
     }
@@ -500,7 +500,7 @@ namespace tphn
     typedef TYPHOON_OR_STD::reverse_iterator<iterator>       reverse_iterator;
     typedef TYPHOON_OR_STD::reverse_iterator<const_iterator> const_reverse_iterator;
     typedef size_t                                size_type;
-    typedef typename tphn::iterator_traits<iterator>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<iterator>::difference_type difference_type;
 
   protected:
 
@@ -674,7 +674,7 @@ namespace tphn
 
     //*********************************************************************
     /// Returns a reference to the value at index 'i'
-    /// If asserts or exceptions are enabled, emits an tphn::vector_out_of_bounds if the index is out of range.
+    /// If asserts or exceptions are enabled, emits an tpn::vector_out_of_bounds if the index is out of range.
     ///\param i The index.
     ///\return A reference to the value at index 'i'
     //*********************************************************************
@@ -685,7 +685,7 @@ namespace tphn
 
     //*********************************************************************
     /// Returns a const reference to the value at index 'i'
-    /// If asserts or exceptions are enabled, emits an tphn::vector_out_of_bounds if the index is out of range.
+    /// If asserts or exceptions are enabled, emits an tpn::vector_out_of_bounds if the index is out of range.
     ///\param i The index.
     ///\return A const reference to the value at index 'i'
     //*********************************************************************
@@ -884,7 +884,7 @@ namespace tphn
     //*************************************************************************
     ivector& operator = (ivector&& rhs)
     {
-      (void)base_t::operator = (tphn::move(rhs));
+      (void)base_t::operator = (tpn::move(rhs));
 
       return *this;
     }
@@ -916,7 +916,7 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  bool operator ==(const tphn::ivector<T*>& lhs, const tphn::ivector<T*>& rhs)
+  bool operator ==(const tpn::ivector<T*>& lhs, const tpn::ivector<T*>& rhs)
   {
     return pvoidvector_equal(lhs, rhs);
   }
@@ -929,7 +929,7 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  bool operator !=(const tphn::ivector<T*>& lhs, const tphn::ivector<T*>& rhs)
+  bool operator !=(const tpn::ivector<T*>& lhs, const tpn::ivector<T*>& rhs)
   {
     return pvoidvector_not_equal(lhs, rhs);
   }
@@ -942,7 +942,7 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  bool operator <(const tphn::ivector<T*>& lhs, const tphn::ivector<T*>& rhs)
+  bool operator <(const tpn::ivector<T*>& lhs, const tpn::ivector<T*>& rhs)
   {
     return pvoidvector_less_than(lhs, rhs);
   }
@@ -955,7 +955,7 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  bool operator >(const tphn::ivector<T*>& lhs, const tphn::ivector<T*>& rhs)
+  bool operator >(const tpn::ivector<T*>& lhs, const tpn::ivector<T*>& rhs)
   {
     return pvoidvector_greater_than(lhs, rhs);
   }
@@ -968,7 +968,7 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  bool operator <=(const tphn::ivector<T*>& lhs, const tphn::ivector<T*>& rhs)
+  bool operator <=(const tpn::ivector<T*>& lhs, const tpn::ivector<T*>& rhs)
   {
     return pvoidvector_less_than_equal(lhs, rhs);
   }
@@ -981,7 +981,7 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  bool operator >=(const tphn::ivector<T*>& lhs, const tphn::ivector<T*>& rhs)
+  bool operator >=(const tpn::ivector<T*>& lhs, const tpn::ivector<T*>& rhs)
   {
     return pvoidvector_greater_than_equal(lhs, rhs);
   }
@@ -989,32 +989,32 @@ namespace tphn
   //***************************************************************************
   // Helper functions
   //***************************************************************************
-  inline bool pvoidvector_equal(const tphn::pvoidvector& lhs, const tphn::pvoidvector& rhs)
+  inline bool pvoidvector_equal(const tpn::pvoidvector& lhs, const tpn::pvoidvector& rhs)
   {
     return operator ==(lhs, rhs);
   }
 
-  inline bool pvoidvector_not_equal(const tphn::pvoidvector& lhs, const tphn::pvoidvector& rhs)
+  inline bool pvoidvector_not_equal(const tpn::pvoidvector& lhs, const tpn::pvoidvector& rhs)
   {
     return operator !=(lhs, rhs);
   }
 
-  inline bool pvoidvector_less_than(const tphn::pvoidvector& lhs, const tphn::pvoidvector& rhs)
+  inline bool pvoidvector_less_than(const tpn::pvoidvector& lhs, const tpn::pvoidvector& rhs)
   {
     return operator <(lhs, rhs);
   }
 
-  inline bool pvoidvector_greater_than(const tphn::pvoidvector& lhs, const tphn::pvoidvector& rhs)
+  inline bool pvoidvector_greater_than(const tpn::pvoidvector& lhs, const tpn::pvoidvector& rhs)
   {
     return operator >(lhs, rhs);
   }
 
-  inline bool pvoidvector_less_than_equal(const tphn::pvoidvector& lhs, const tphn::pvoidvector& rhs)
+  inline bool pvoidvector_less_than_equal(const tpn::pvoidvector& lhs, const tpn::pvoidvector& rhs)
   {
     return operator <=(lhs, rhs);
   }
 
-  inline bool pvoidvector_greater_than_equal(const tphn::pvoidvector& lhs, const tphn::pvoidvector& rhs)
+  inline bool pvoidvector_greater_than_equal(const tpn::pvoidvector& lhs, const tpn::pvoidvector& rhs)
   {
     return operator >=(lhs, rhs);
   }

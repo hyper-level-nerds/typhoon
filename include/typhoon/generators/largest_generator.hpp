@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -73,7 +73,7 @@ cog.outl("//********************************************************************
 #include "smallest.hpp"
 #include "static_assert.hpp"
 
-namespace tphn
+namespace tpn
 {
 #if TYPHOON_USING_CPP11 && !defined(TYPHOON_LARGEST_TYPE_FORCE_CPP03_IMPLEMENTATION)
   //***************************************************************************
@@ -94,7 +94,7 @@ namespace tphn
 
     // Set 'type' to be the largest of the first parameter and any of the others.
     // This is recursive.
-    using type = typename tphn::conditional<(tphn::size_of<T1>::value > tphn::size_of<largest_other>::value),  // Boolean
+    using type = typename tpn::conditional<(tpn::size_of<T1>::value > tpn::size_of<largest_other>::value),  // Boolean
                                             T1,                                                             // TrueType
                                             largest_other>                                                  // FalseType
                                             ::type;                                                         // The largest type of the two.
@@ -102,7 +102,7 @@ namespace tphn
     // The size of the largest type.
     enum
     {
-      size = tphn::size_of<type>::value
+      size = tpn::size_of<type>::value
     };
   };
 
@@ -118,7 +118,7 @@ namespace tphn
 
     enum
     {
-      size = tphn::size_of<type>::value
+      size = tpn::size_of<type>::value
     };
   };
 
@@ -162,7 +162,7 @@ namespace tphn
   cog.outl("")
   cog.outl("  // Set 'type' to be the largest of the first parameter and any of the others.")
   cog.outl("  // This is recursive.")
-  cog.outl("  typedef typename tphn::conditional<(sizeof(T1) > sizeof(largest_other)), // Boolean")
+  cog.outl("  typedef typename tpn::conditional<(sizeof(T1) > sizeof(largest_other)), // Boolean")
   cog.outl("                                     T1,                                  // TrueType")
   cog.outl("                                     largest_other>                       // FalseType")
   cog.outl("                                     ::type type;                         // The largest type of the two.")
@@ -211,7 +211,7 @@ namespace tphn
 
     // Set 'type' to be the largest of the first parameter and any of the others.
     // This is recursive.
-    using type = typename tphn::conditional<(tphn::alignment_of<T1>::value > tphn::alignment_of<largest_other>::value), // Boolean
+    using type = typename tpn::conditional<(tpn::alignment_of<T1>::value > tpn::alignment_of<largest_other>::value), // Boolean
                                             T1,                                                                      // TrueType
                                             largest_other>                                                           // FalseType
                                             ::type;                                                                  // The largest type of the two.
@@ -219,7 +219,7 @@ namespace tphn
     // The largest alignment.
     enum
     {
-      value = tphn::alignment_of<type>::value
+      value = tpn::alignment_of<type>::value
     };
   };
 
@@ -233,7 +233,7 @@ namespace tphn
 
     enum
     {
-      value = tphn::alignment_of<type>::value
+      value = tpn::alignment_of<type>::value
     };
   };
 
@@ -271,7 +271,7 @@ namespace tphn
   cog.outl("")
   cog.outl("  // Set 'type' to be the largest of the first parameter and any of the others.")
   cog.outl("  // This is recursive.")
-  cog.outl("  typedef typename tphn::conditional<(tphn::alignment_of<T1>::value > tphn::alignment_of<largest_other>::value), // Boolean")
+  cog.outl("  typedef typename tpn::conditional<(tpn::alignment_of<T1>::value > tpn::alignment_of<largest_other>::value), // Boolean")
   cog.outl("                                     T1,                                                                      // TrueType")
   cog.outl("                                     largest_other>                                                           // FalseType")
   cog.outl("                                     ::type type;                                                             // The largest type of the two.")
@@ -279,7 +279,7 @@ namespace tphn
   cog.outl("  // The largest alignment.")
   cog.outl("  enum")
   cog.outl("  {")
-  cog.outl("    value = tphn::alignment_of<type>::value")
+  cog.outl("    value = tpn::alignment_of<type>::value")
   cog.outl("  };")
   cog.outl("};")
   cog.outl("")
@@ -299,7 +299,7 @@ namespace tphn
   cog.outl("")
   cog.outl("  enum")
   cog.outl("  {")
-  cog.outl("    value = tphn::alignment_of<type>::value")
+  cog.outl("    value = tpn::alignment_of<type>::value")
   cog.outl("  };")
   cog.outl("};")
   ]]]*/
@@ -314,9 +314,9 @@ namespace tphn
   template <typename T>
   struct larger_int_type
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Must be an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Must be an integral type");
 
-    typedef typename tphn::smallest_int_for_bits<tphn::integral_limits<typename tphn::make_signed<T>::type>::bits + 1>::type type;
+    typedef typename tpn::smallest_int_for_bits<tpn::integral_limits<typename tpn::make_signed<T>::type>::bits + 1>::type type;
   };
 
 #if TYPHOON_USING_CPP11
@@ -332,9 +332,9 @@ namespace tphn
   template <typename T>
   struct larger_uint_type
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Must be an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Must be an integral type");
 
-    typedef typename tphn::smallest_uint_for_bits<tphn::integral_limits<typename tphn::make_unsigned<T>::type>::bits + 1>::type type;
+    typedef typename tpn::smallest_uint_for_bits<tpn::integral_limits<typename tpn::make_unsigned<T>::type>::bits + 1>::type type;
   };
 
 #if TYPHOON_USING_CPP11
@@ -348,23 +348,23 @@ namespace tphn
   /// The returned type will be of the same sign.
   ///\ingroup largest
   //***************************************************************************
-  template <typename T, bool IS_SIGNED = tphn::is_signed<T>::value>
+  template <typename T, bool IS_SIGNED = tpn::is_signed<T>::value>
   struct larger_type;
 
   template <typename T>
   struct larger_type<T, false>
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Must be an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Must be an integral type");
 
-    typedef typename tphn::smallest_uint_for_bits<tphn::integral_limits<T>::bits + 1>::type type;
+    typedef typename tpn::smallest_uint_for_bits<tpn::integral_limits<T>::bits + 1>::type type;
   };
 
   template <typename T>
   struct larger_type<T, true>
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Must be an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Must be an integral type");
 
-    typedef typename tphn::smallest_int_for_bits<tphn::integral_limits<T>::bits + 1>::type type;
+    typedef typename tpn::smallest_int_for_bits<tpn::integral_limits<T>::bits + 1>::type type;
   };
 
 #if TYPHOON_USING_CPP11
@@ -381,12 +381,12 @@ namespace tphn
   template <typename... T>
     struct largest
   {
-    using type = typename tphn::largest_type<T...>::type;
+    using type = typename tpn::largest_type<T...>::type;
 
     enum
     {
-      size      = tphn::largest_type<T...>::size,
-      alignment = tphn::largest_alignment<T...>::value
+      size      = tpn::largest_type<T...>::size,
+      alignment = tpn::largest_alignment<T...>::value
     };
   };
 
@@ -418,7 +418,7 @@ namespace tphn
   cog.outl("typename T%s = void>" % NTypes)
   cog.outl("struct largest")
   cog.outl("{")
-  cog.out("  typedef typename tphn::largest_type<")
+  cog.out("  typedef typename tpn::largest_type<")
   for n in range(1, int(NTypes)):
       cog.out("T%s, " % n)
       if n % 16 == 0:
@@ -428,14 +428,14 @@ namespace tphn
   cog.outl("")
   cog.outl("  enum")
   cog.outl("  {")
-  cog.out("    size      = tphn::largest_type<")
+  cog.out("    size      = tpn::largest_type<")
   for n in range(1, int(NTypes)):
       cog.out("T%s, " % n)
       if n % 16 == 0:
           cog.outl("")
           cog.out("                                  ")
   cog.outl("T%s>::size," % NTypes)
-  cog.out("    alignment = tphn::largest_alignment<")
+  cog.out("    alignment = tpn::largest_alignment<")
   for n in range(1, int(NTypes)):
       cog.out("T%s, " % n)
       if n % 16 == 0:

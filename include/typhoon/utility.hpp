@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2016 John Wellbelove
 
@@ -45,34 +45,34 @@ SOFTWARE.
 ///\defgroup utility utility
 ///\ingroup utilities
 
-namespace tphn
+namespace tpn
 {
 #if TYPHOON_USING_CPP11
   //******************************************************************************
   template <typename T>
-  constexpr typename tphn::remove_reference<T>::type&& move(T&& t) TYPHOON_NOEXCEPT
+  constexpr typename tpn::remove_reference<T>::type&& move(T&& t) TYPHOON_NOEXCEPT
   {
-    return static_cast<typename tphn::remove_reference<T>::type&&>(t);
+    return static_cast<typename tpn::remove_reference<T>::type&&>(t);
   }
 
   //******************************************************************************
   template <typename T>
-  constexpr T&& forward(typename tphn::remove_reference<T>::type& t) TYPHOON_NOEXCEPT
+  constexpr T&& forward(typename tpn::remove_reference<T>::type& t) TYPHOON_NOEXCEPT
   {
     return static_cast<T&&>(t);
   }
 
   template <typename T>
-  constexpr T&& forward(typename tphn::remove_reference<T>::type&& t) TYPHOON_NOEXCEPT
+  constexpr T&& forward(typename tpn::remove_reference<T>::type&& t) TYPHOON_NOEXCEPT
   {
-    TYPHOON_STATIC_ASSERT(!tphn::is_lvalue_reference<T>::value, "Invalid rvalue to lvalue conversion");
+    TYPHOON_STATIC_ASSERT(!tpn::is_lvalue_reference<T>::value, "Invalid rvalue to lvalue conversion");
     return static_cast<T&&>(t);
   }
 #endif
 
-  // We can't have std::swap and tphn::swap templates coexisting in the unit tests
+  // We can't have std::swap and tpn::swap templates coexisting in the unit tests
   // as the compiler will be unable to decide of which one to use, due to ADL.
-#if TYPHOON_NOT_USING_STL && !defined(TYPHOON_IN_UNIT_TEST)
+// #if TYPHOON_NOT_USING_STL && !defined(TYPHOON_IN_UNIT_TEST)
   //***************************************************************************
   // swap
   template <typename T>
@@ -91,7 +91,7 @@ namespace tphn
       swap(a[i], b[i]);
     }
   }
-#endif
+// #endif
 
   //***************************************************************************
   ///\brief pair holds two objects of arbitrary type
@@ -135,8 +135,8 @@ namespace tphn
     //***************************************************************************
     template <typename U1, typename U2>
     TYPHOON_CONSTEXPR14 pair(U1&& a, U2&& b)
-      : first(tphn::forward<U1>(a))
-      , second(tphn::forward<U2>(b))
+      : first(tpn::forward<U1>(a))
+      , second(tpn::forward<U2>(b))
     {
     }
 #endif
@@ -164,8 +164,8 @@ namespace tphn
     /// Move constructor
     template <typename U1, typename U2>
     TYPHOON_CONSTEXPR14 pair(pair<U1, U2>&& other)
-      : first(tphn::forward<U1>(other.first))
-      , second(tphn::forward<U2>(other.second))
+      : first(tpn::forward<U1>(other.first))
+      , second(tpn::forward<U2>(other.second))
     {
     }
 #endif
@@ -187,11 +187,11 @@ namespace tphn
     }
 
 #if TYPHOON_USING_CPP11
-    /// Constructing to tphn::pair
+    /// Constructing to tpn::pair
     template <typename U1, typename U2>
     pair(std::pair<U1, U2>&& other)
-      : first(tphn::forward<U1>(other.first))
-      , second(tphn::forward<U2>(other.second))
+      : first(tpn::forward<U1>(other.first))
+      , second(tpn::forward<U2>(other.second))
     {
     }
 #endif
@@ -225,8 +225,8 @@ namespace tphn
 #if TYPHOON_USING_CPP11
     pair<T1, T2>& operator =(pair<T1, T2>&& other)
     {
-      first = tphn::forward<T1>(other.first);
-      second = tphn::forward<T2>(other.second);
+      first = tpn::forward<T1>(other.first);
+      second = tpn::forward<T2>(other.second);
 
       return *this;
     }
@@ -234,8 +234,8 @@ namespace tphn
     template <typename U1, typename U2>
     pair<U1, U2>& operator =(pair<U1, U2>&& other)
     {
-      first = tphn::forward<U1>(other.first);
-      second = tphn::forward<U2>(other.second);
+      first = tpn::forward<U1>(other.first);
+      second = tpn::forward<U2>(other.second);
 
       return *this;
     }
@@ -254,7 +254,7 @@ namespace tphn
   template <typename T1, typename T2>
   inline pair<T1, T2> make_pair(T1&& a, T2&& b)
   {
-    return pair<T1, T2>(tphn::forward<T1>(a), tphn::forward<T2>(b));
+    return pair<T1, T2>(tpn::forward<T1>(a), tpn::forward<T2>(b));
   }
 #else
   template <typename T1, typename T2>
@@ -417,7 +417,7 @@ namespace tphn
   /// as_const
   //***************************************************************************
   template <typename T>
-  typename tphn::add_const<T>::type& as_const(T& t)
+  typename tpn::add_const<T>::type& as_const(T& t)
   {
     return t;
   }
@@ -431,7 +431,7 @@ namespace tphn
   {
   public:
   
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Integral types only");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Integral types only");
 
     typedef T value_type;
   
@@ -447,25 +447,25 @@ namespace tphn
     struct make_index_sequence;
 
     template <size_t N, size_t... Indices>
-    struct make_index_sequence<N, tphn::integer_sequence<size_t, Indices...>>
+    struct make_index_sequence<N, tpn::integer_sequence<size_t, Indices...>>
     {
-      typedef typename make_index_sequence<N - 1, tphn::integer_sequence<size_t, N - 1, Indices...>>::type type;
+      typedef typename make_index_sequence<N - 1, tpn::integer_sequence<size_t, N - 1, Indices...>>::type type;
     };
 
     template <size_t... Indices>
-    struct make_index_sequence<0, tphn::integer_sequence<size_t, Indices...>>
+    struct make_index_sequence<0, tpn::integer_sequence<size_t, Indices...>>
     {
-      typedef tphn::integer_sequence<size_t, Indices...> type;
+      typedef tpn::integer_sequence<size_t, Indices...> type;
     };
   }
 
   //***********************************
   template <size_t N>
-  using make_index_sequence = typename private_integer_sequence::make_index_sequence<N, tphn::integer_sequence<size_t>>::type;
+  using make_index_sequence = typename private_integer_sequence::make_index_sequence<N, tpn::integer_sequence<size_t>>::type;
 
   //***********************************
   template <size_t... Indices>
-  using index_sequence = tphn::integer_sequence<size_t, Indices...>;
+  using index_sequence = tpn::integer_sequence<size_t, Indices...>;
 #endif
 
   //***************************************************************************
@@ -558,7 +558,7 @@ namespace tphn
     //*********************************
     constexpr TReturn operator()(TParams... args) const
     {
-      return ptr(tphn::forward<TParams>(args)...);
+      return ptr(tpn::forward<TParams>(args)...);
     }
 
   private:
@@ -584,7 +584,7 @@ namespace tphn
     template <typename T, T& Instance, TReturn(T::* Method)(TParams...)>
     static constexpr TReturn function(TParams... params)
     {
-      return (Instance.*Method)(tphn::forward<TParams>(params)...);
+      return (Instance.*Method)(tpn::forward<TParams>(params)...);
     }
   };
 #endif
@@ -605,7 +605,7 @@ namespace tphn
     template <typename TFunctor, TFunctor& Instance>
     static constexpr TReturn function(TParams... params)
     {
-      return Instance(tphn::forward<TParams>(params)...);
+      return Instance(tpn::forward<TParams>(params)...);
     }
   };
 #endif

@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -56,13 +56,13 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Exception base for deques
   ///\ingroup deque
   //***************************************************************************
-  class deque_exception : public tphn::exception
+  class deque_exception : public tpn::exception
   {
   public:
 
@@ -76,12 +76,12 @@ namespace tphn
   /// Deque full exception.
   ///\ingroup deque
   //***************************************************************************
-  class deque_full : public tphn::deque_exception
+  class deque_full : public tpn::deque_exception
   {
   public:
 
     deque_full(string_type file_name_, numeric_type line_number_)
-      : tphn::deque_exception(TYPHOON_ERROR_TEXT("deque:full", TYPHOON_DEQUE_FILE_ID"A"), file_name_, line_number_)
+      : tpn::deque_exception(TYPHOON_ERROR_TEXT("deque:full", TYPHOON_DEQUE_FILE_ID"A"), file_name_, line_number_)
     {
     }
   };
@@ -90,12 +90,12 @@ namespace tphn
   /// Deque empty exception.
   ///\ingroup deque
   //***************************************************************************
-  class deque_empty : public tphn::deque_exception
+  class deque_empty : public tpn::deque_exception
   {
   public:
 
     deque_empty(string_type file_name_, numeric_type line_number_)
-      : tphn::deque_exception(TYPHOON_ERROR_TEXT("deque:empty", TYPHOON_DEQUE_FILE_ID"B"), file_name_, line_number_)
+      : tpn::deque_exception(TYPHOON_ERROR_TEXT("deque:empty", TYPHOON_DEQUE_FILE_ID"B"), file_name_, line_number_)
     {
     }
   };
@@ -104,12 +104,12 @@ namespace tphn
   /// Deque out of bounds exception.
   ///\ingroup deque
   //***************************************************************************
-  class deque_out_of_bounds : public tphn::deque_exception
+  class deque_out_of_bounds : public tpn::deque_exception
   {
   public:
 
     deque_out_of_bounds(string_type file_name_, numeric_type line_number_)
-      : tphn::deque_exception(TYPHOON_ERROR_TEXT("deque:bounds", TYPHOON_DEQUE_FILE_ID"C"), file_name_, line_number_)
+      : tpn::deque_exception(TYPHOON_ERROR_TEXT("deque:bounds", TYPHOON_DEQUE_FILE_ID"C"), file_name_, line_number_)
     {
     }
   };
@@ -218,12 +218,12 @@ namespace tphn
   };
 
   //***************************************************************************
-  /// The base class for all tphn::deque classes.
+  /// The base class for all tpn::deque classes.
   ///\tparam T The type of values this deque should hold.
   ///\ingroup deque
   //***************************************************************************
   template <typename T>
-  class ideque : public tphn::deque_base
+  class ideque : public tpn::deque_base
   {
   public:
 
@@ -236,12 +236,12 @@ namespace tphn
 #endif
     typedef T* pointer;
     typedef const T* const_pointer;
-    typedef typename tphn::iterator_traits<pointer>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<pointer>::difference_type difference_type;
 
     //*************************************************************************
     /// Iterator
     //*************************************************************************
-    class iterator : public tphn::iterator<TYPHOON_OR_STD::random_access_iterator_tag, T>
+    class iterator : public tpn::iterator<TYPHOON_OR_STD::random_access_iterator_tag, T>
     {
     public:
 
@@ -469,7 +469,7 @@ namespace tphn
     //*************************************************************************
     /// Const Iterator
     //*************************************************************************
-    class const_iterator : public tphn::iterator<TYPHOON_OR_STD::random_access_iterator_tag, const T>
+    class const_iterator : public tpn::iterator<TYPHOON_OR_STD::random_access_iterator_tag, const T>
     {
     public:
 
@@ -715,7 +715,7 @@ namespace tphn
     /// Assigns a range to the deque.
     //*************************************************************************
     template<typename TIterator>
-    typename tphn::enable_if<!tphn::is_integral<TIterator>::value, void>::type
+    typename tpn::enable_if<!tpn::is_integral<TIterator>::value, void>::type
       assign(TIterator range_begin, TIterator range_end)
     {
       initialise();
@@ -729,7 +729,7 @@ namespace tphn
 
     //*************************************************************************
     /// Assigns 'n' copies of a value to the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full is 'n' is too large.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full is 'n' is too large.
     ///\param n     The number of copies to assign.
     ///\param value The value to add.<
     //*************************************************************************
@@ -748,7 +748,7 @@ namespace tphn
 
     //*************************************************************************
     /// Gets a reference to the item at the index.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_out_of_bounds if the index is out of range.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_out_of_bounds if the index is out of range.
     ///\return A reference to the item at the index.
     //*************************************************************************
     reference at(size_t index)
@@ -763,7 +763,7 @@ namespace tphn
 
     //*************************************************************************
     /// Gets a const reference to the item at the index.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_out_of_bounds if the index is out of range.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_out_of_bounds if the index is out of range.
     ///\return A const reference to the item at the index.
     //*************************************************************************
     const_reference at(size_t index) const
@@ -945,12 +945,12 @@ namespace tphn
     //*************************************************************************
     void fill(const T& value)
     {
-      tphn::fill(begin(), end(), value);
+      tpn::fill(begin(), end(), value);
     }
 
     //*************************************************************************
     /// Inserts data into the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is full.
     ///\param insert_position>The insert position.
     ///\param value>The value to insert.
     //*************************************************************************
@@ -973,13 +973,13 @@ namespace tphn
       else
       {
         // Are we closer to the front?
-        if (tphn::distance(_begin, position) < tphn::distance(position, _end - 1))
+        if (tpn::distance(_begin, position) < tpn::distance(position, _end - 1))
         {
           // Construct the _begin.
           create_element_front(*_begin);
 
           // Move the values.
-          tphn::move(_begin + 1, position, _begin);
+          tpn::move(_begin + 1, position, _begin);
 
           // Write the new value.
           *--position = value;
@@ -990,7 +990,7 @@ namespace tphn
           create_element_back(*(_end - 1));
 
           // Move the values.
-          tphn::move_backward(position, _end - 2, _end - 1);
+          tpn::move_backward(position, _end - 2, _end - 1);
 
           // Write the new value.
           *position = value;
@@ -1003,7 +1003,7 @@ namespace tphn
 #if TYPHOON_USING_CPP11
     //*************************************************************************
     /// Inserts data into the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is full.
     ///\param insert_position>The insert position.
     ///\param value>The value to insert.
     //*************************************************************************
@@ -1015,38 +1015,38 @@ namespace tphn
 
       if (insert_position == begin())
       {
-        create_element_front(tphn::move(value));
+        create_element_front(tpn::move(value));
         position = _begin;
       }
       else if (insert_position == end())
       {
-        create_element_back(tphn::move(value));
+        create_element_back(tpn::move(value));
         position = _end - 1;
       }
       else
       {
         // Are we closer to the front?
-        if (tphn::distance(_begin, position) < tphn::distance(position, _end - 1))
+        if (tpn::distance(_begin, position) < tpn::distance(position, _end - 1))
         {
           // Construct the _begin.
-          create_element_front(tphn::move(*_begin));
+          create_element_front(tpn::move(*_begin));
 
           // Move the values.
-          tphn::move(_begin + 1, position, _begin);
+          tpn::move(_begin + 1, position, _begin);
 
           // Write the new value.
-          *--position = tphn::move(value);
+          *--position = tpn::move(value);
         }
         else
         {
           // Construct the _end.
-          create_element_back(tphn::move(*(_end - 1)));
+          create_element_back(tpn::move(*(_end - 1)));
 
           // Move the values.
-          tphn::move_backward(position, _end - 2, _end - 1);
+          tpn::move_backward(position, _end - 2, _end - 1);
 
           // Write the new value.
-          *position = tphn::move(value);
+          *position = tpn::move(value);
         }
       }
 
@@ -1056,7 +1056,7 @@ namespace tphn
 
     //*************************************************************************
     /// Emplaces data into the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is full.
     ///\param insert_position>The insert position.
     //*************************************************************************
 #if TYPHOON_USING_CPP11 && TYPHOON_NOT_USING_STLPORT
@@ -1072,14 +1072,14 @@ namespace tphn
       if (insert_position == begin())
       {
         --_begin;
-        p = tphn::addressof(*_begin);
+        p = tpn::addressof(*_begin);
         ++current_size;
         TYPHOON_INCREMENT_DEBUG_COUNT
           position = _begin;
       }
       else if (insert_position == end())
       {
-        p = tphn::addressof(*_end);
+        p = tpn::addressof(*_end);
         ++_end;
         ++current_size;
         TYPHOON_INCREMENT_DEBUG_COUNT
@@ -1088,18 +1088,18 @@ namespace tphn
       else
       {
         // Are we closer to the front?
-        if (tphn::distance(_begin, position) < tphn::distance(position, _end - 1))
+        if (tpn::distance(_begin, position) < tpn::distance(position, _end - 1))
         {
           // Construct the _begin.
           create_element_front(*_begin);
 
           // Move the values.
-          tphn::move(_begin + 1, position, _begin);
+          tpn::move(_begin + 1, position, _begin);
 
           // Write the new value.
           --position;
           (*position).~T();
-          p = tphn::addressof(*position);
+          p = tpn::addressof(*position);
         }
         else
         {
@@ -1107,15 +1107,15 @@ namespace tphn
           create_element_back(*(_end - 1));
 
           // Move the values.
-          tphn::move_backward(position, _end - 2, _end - 1);
+          tpn::move_backward(position, _end - 2, _end - 1);
 
           // Write the new value.
           (*position).~T();
-          p = tphn::addressof(*position);
+          p = tpn::addressof(*position);
         }
       }
 
-      ::new (p) T(tphn::forward<Args>(args)...);
+      ::new (p) T(tpn::forward<Args>(args)...);
 
       return position;
     }
@@ -1124,7 +1124,7 @@ namespace tphn
 
     //*************************************************************************
     /// Emplaces data into the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is full.
     ///\param insert_position>The insert position.
     //*************************************************************************
     template <typename T1>
@@ -1139,14 +1139,14 @@ namespace tphn
       if (insert_position == begin())
       {
         --_begin;
-        p = tphn::addressof(*_begin);
+        p = tpn::addressof(*_begin);
         ++current_size;
         TYPHOON_INCREMENT_DEBUG_COUNT
           position = _begin;
       }
       else if (insert_position == end())
       {
-        p = tphn::addressof(*_end);
+        p = tpn::addressof(*_end);
         ++_end;
         ++current_size;
         TYPHOON_INCREMENT_DEBUG_COUNT
@@ -1155,18 +1155,18 @@ namespace tphn
       else
       {
         // Are we closer to the front?
-        if (tphn::distance(_begin, position) < tphn::distance(position, _end - 1))
+        if (tpn::distance(_begin, position) < tpn::distance(position, _end - 1))
         {
           // Construct the _begin.
           create_element_front(*_begin);
 
           // Move the values.
-          tphn::move(_begin + 1, position, _begin);
+          tpn::move(_begin + 1, position, _begin);
 
           // Write the new value.
           --position;
           (*position).~T();
-          p = tphn::addressof(*position);
+          p = tpn::addressof(*position);
         }
         else
         {
@@ -1174,11 +1174,11 @@ namespace tphn
           create_element_back(*(_end - 1));
 
           // Move the values.
-          tphn::move_backward(position, _end - 2, _end - 1);
+          tpn::move_backward(position, _end - 2, _end - 1);
 
           // Write the new value.
           (*position).~T();
-          p = tphn::addressof(*position);
+          p = tpn::addressof(*position);
         }
       }
 
@@ -1189,7 +1189,7 @@ namespace tphn
 
     //*************************************************************************
     /// Emplaces data into the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is full.
     ///\param insert_position>The insert position.
     //*************************************************************************
     template <typename T1, typename T2>
@@ -1204,14 +1204,14 @@ namespace tphn
       if (insert_position == begin())
       {
         --_begin;
-        p = tphn::addressof(*_begin);
+        p = tpn::addressof(*_begin);
         ++current_size;
         TYPHOON_INCREMENT_DEBUG_COUNT
           position = _begin;
       }
       else if (insert_position == end())
       {
-        p = tphn::addressof(*_end);
+        p = tpn::addressof(*_end);
         ++_end;
         ++current_size;
         TYPHOON_INCREMENT_DEBUG_COUNT
@@ -1220,18 +1220,18 @@ namespace tphn
       else
       {
         // Are we closer to the front?
-        if (tphn::distance(_begin, position) < tphn::distance(position, _end - 1))
+        if (tpn::distance(_begin, position) < tpn::distance(position, _end - 1))
         {
           // Construct the _begin.
           create_element_front(*_begin);
 
           // Move the values.
-          tphn::move(_begin + 1, position, _begin);
+          tpn::move(_begin + 1, position, _begin);
 
           // Write the new value.
           --position;
           (*position).~T();
-          p = tphn::addressof(*position);
+          p = tpn::addressof(*position);
         }
         else
         {
@@ -1239,11 +1239,11 @@ namespace tphn
           create_element_back(*(_end - 1));
 
           // Move the values.
-          tphn::move_backward(position, _end - 2, _end - 1);
+          tpn::move_backward(position, _end - 2, _end - 1);
 
           // Write the new value.
           (*position).~T();
-          p = tphn::addressof(*position);
+          p = tpn::addressof(*position);
         }
       }
 
@@ -1254,7 +1254,7 @@ namespace tphn
 
     //*************************************************************************
     /// Emplaces data into the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is full.
     ///\param insert_position>The insert position.
     //*************************************************************************
     template <typename T1, typename T2, typename T3>
@@ -1269,14 +1269,14 @@ namespace tphn
       if (insert_position == begin())
       {
         --_begin;
-        p = tphn::addressof(*_begin);
+        p = tpn::addressof(*_begin);
         ++current_size;
         TYPHOON_INCREMENT_DEBUG_COUNT
           position = _begin;
       }
       else if (insert_position == end())
       {
-        p = tphn::addressof(*_end);
+        p = tpn::addressof(*_end);
         ++_end;
         ++current_size;
         TYPHOON_INCREMENT_DEBUG_COUNT
@@ -1285,18 +1285,18 @@ namespace tphn
       else
       {
         // Are we closer to the front?
-        if (tphn::distance(_begin, position) < tphn::distance(position, _end - 1))
+        if (tpn::distance(_begin, position) < tpn::distance(position, _end - 1))
         {
           // Construct the _begin.
           create_element_front(*_begin);
 
           // Move the values.
-          tphn::move(_begin + 1, position, _begin);
+          tpn::move(_begin + 1, position, _begin);
 
           // Write the new value.
           --position;
           (*position).~T();
-          p = tphn::addressof(*position);
+          p = tpn::addressof(*position);
         }
         else
         {
@@ -1304,11 +1304,11 @@ namespace tphn
           create_element_back(*(_end - 1));
 
           // Move the values.
-          tphn::move_backward(position, _end - 2, _end - 1);
+          tpn::move_backward(position, _end - 2, _end - 1);
 
           // Write the new value.
           (*position).~T();
-          p = tphn::addressof(*position);
+          p = tpn::addressof(*position);
         }
       }
 
@@ -1319,7 +1319,7 @@ namespace tphn
 
     //*************************************************************************
     /// Emplaces data into the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is full.
     ///\param insert_position>The insert position.
     //*************************************************************************
     template <typename T1, typename T2, typename T3, typename T4>
@@ -1334,14 +1334,14 @@ namespace tphn
       if (insert_position == begin())
       {
         --_begin;
-        p = tphn::addressof(*_begin);
+        p = tpn::addressof(*_begin);
         ++current_size;
         TYPHOON_INCREMENT_DEBUG_COUNT
           position = _begin;
       }
       else if (insert_position == end())
       {
-        p = tphn::addressof(*_end);
+        p = tpn::addressof(*_end);
         ++_end;
         ++current_size;
         TYPHOON_INCREMENT_DEBUG_COUNT
@@ -1350,18 +1350,18 @@ namespace tphn
       else
       {
         // Are we closer to the front?
-        if (tphn::distance(_begin, position) < tphn::distance(position, _end - 1))
+        if (tpn::distance(_begin, position) < tpn::distance(position, _end - 1))
         {
           // Construct the _begin.
           create_element_front(*_begin);
 
           // Move the values.
-          tphn::move(_begin + 1, position, _begin);
+          tpn::move(_begin + 1, position, _begin);
 
           // Write the new value.
           --position;
           (*position).~T();
-          p = tphn::addressof(*position);
+          p = tpn::addressof(*position);
         }
         else
         {
@@ -1369,11 +1369,11 @@ namespace tphn
           create_element_back(*(_end - 1));
 
           // Move the values.
-          tphn::move_backward(position, _end - 2, _end - 1);
+          tpn::move_backward(position, _end - 2, _end - 1);
 
           // Write the new value.
           (*position).~T();
-          p = tphn::addressof(*position);
+          p = tpn::addressof(*position);
         }
       }
 
@@ -1385,7 +1385,7 @@ namespace tphn
 
     //*************************************************************************
     /// Inserts 'n' copies of a value into the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is full.
     ///\param insert_position The insert position.
     ///\param n               The number of values to insert.
     ///\param value           The value to insert.
@@ -1423,8 +1423,8 @@ namespace tphn
         if (distance(_begin, insert_position) <= difference_type(current_size / 2))
         {
           size_t n_insert = n;
-          size_t n_move = tphn::distance(begin(), position);
-          size_t n_create_copy = tphn::min(n_insert, n_move);
+          size_t n_move = tpn::distance(begin(), position);
+          size_t n_create_copy = tpn::min(n_insert, n_move);
           size_t n_create_new = (n_insert > n_create_copy) ? n_insert - n_create_copy : 0;
           size_t n_copy_new = (n_insert > n_create_new) ? n_insert - n_create_new : 0;
           size_t n_copy_old = n_move - n_create_copy;
@@ -1449,19 +1449,19 @@ namespace tphn
           // Move old.
           from = position - n_copy_old;
           to = _begin + n_create_copy;
-          tphn::move(from, from + n_copy_old, to);
+          tpn::move(from, from + n_copy_old, to);
 
           // Copy new.
           to = position - n_create_copy;
-          tphn::fill_n(to, n_copy_new, value);
+          tpn::fill_n(to, n_copy_new, value);
 
           position = _begin + n_move;
         }
         else
         {
           size_t n_insert = n;
-          size_t n_move = tphn::distance(position, end());
-          size_t n_create_copy = tphn::min(n_insert, n_move);
+          size_t n_move = tpn::distance(position, end());
+          size_t n_create_copy = tpn::min(n_insert, n_move);
           size_t n_create_new = (n_insert > n_create_copy) ? n_insert - n_create_copy : 0;
           size_t n_copy_new = (n_insert > n_create_new) ? n_insert - n_create_new : 0;
           size_t n_copy_old = n_move - n_create_copy;
@@ -1482,10 +1482,10 @@ namespace tphn
           }
 
           // Move old.
-          tphn::move_backward(position, position + n_copy_old, position + n_insert + n_copy_old);
+          tpn::move_backward(position, position + n_copy_old, position + n_insert + n_copy_old);
 
           // Copy new.
-          tphn::fill_n(position, n_copy_new, value);
+          tpn::fill_n(position, n_copy_new, value);
         }
       }
 
@@ -1494,18 +1494,18 @@ namespace tphn
 
     //*************************************************************************
     /// Inserts a range into the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_empty if the deque is full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_empty if the deque is full.
     ///\param insert_position>The insert position.
     ///\param range_begin The beginning of the range to insert.
     ///\param range_end   The end of the range to insert.
     //*************************************************************************
     template<typename TIterator>
-    typename enable_if<!tphn::is_integral<TIterator>::value, iterator>::type
+    typename enable_if<!tpn::is_integral<TIterator>::value, iterator>::type
       insert(const_iterator insert_position, TIterator range_begin, TIterator range_end)
     {
       iterator position;
 
-      difference_type n = tphn::distance(range_begin, range_end);
+      difference_type n = tpn::distance(range_begin, range_end);
 
       TYPHOON_ASSERT((current_size + n) <= CAPACITY, TYPHOON_ERROR(deque_full));
 
@@ -1534,8 +1534,8 @@ namespace tphn
         if (distance(_begin, insert_position) < difference_type(current_size / 2))
         {
           size_t n_insert = n;
-          size_t n_move = tphn::distance(begin(), position);
-          size_t n_create_copy = tphn::min(n_insert, n_move);
+          size_t n_move = tpn::distance(begin(), position);
+          size_t n_create_copy = tpn::min(n_insert, n_move);
           size_t n_create_new = (n_insert > n_create_copy) ? n_insert - n_create_copy : 0;
           size_t n_copy_new = (n_insert > n_create_new) ? n_insert - n_create_new : 0;
           size_t n_copy_old = n_move - n_create_copy;
@@ -1553,20 +1553,20 @@ namespace tphn
           // Move old.
           from = position - n_copy_old;
           to = _begin + n_create_copy;
-          tphn::move(from, from + n_copy_old, to);
+          tpn::move(from, from + n_copy_old, to);
 
           // Copy new.
           to = position - n_create_copy;
           range_begin += n_create_new;
-          tphn::copy(range_begin, range_begin + n_copy_new, to);
+          tpn::copy(range_begin, range_begin + n_copy_new, to);
 
           position = _begin + n_move;
         }
         else
         {
           size_t n_insert = n;
-          size_t n_move = tphn::distance(position, end());
-          size_t n_create_copy = tphn::min(n_insert, n_move);
+          size_t n_move = tpn::distance(position, end());
+          size_t n_create_copy = tpn::min(n_insert, n_move);
           size_t n_create_new = (n_insert > n_create_copy) ? n_insert - n_create_copy : 0;
           size_t n_copy_new = (n_insert > n_create_new) ? n_insert - n_create_new : 0;
           size_t n_copy_old = n_move - n_create_copy;
@@ -1589,11 +1589,11 @@ namespace tphn
           }
 
           // Move old.
-          tphn::move_backward(position, position + n_copy_old, position + n_insert + n_copy_old);
+          tpn::move_backward(position, position + n_copy_old, position + n_insert + n_copy_old);
 
           // Copy new.
           item = range_begin;
-          tphn::copy(item, item + n_copy_new, position);
+          tpn::copy(item, item + n_copy_new, position);
         }
       }
 
@@ -1602,7 +1602,7 @@ namespace tphn
 
     //*************************************************************************
     /// Erase an item.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_out_of_bounds if the position is out of range.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_out_of_bounds if the position is out of range.
     ///\param erase_position The position to erase.
     //*************************************************************************
     iterator erase(const_iterator erase_position)
@@ -1627,13 +1627,13 @@ namespace tphn
         // Are we closer to the front?
         if (distance(_begin, position) < difference_type(current_size / 2))
         {
-          tphn::move_backward(_begin, position, position + 1);
+          tpn::move_backward(_begin, position, position + 1);
           destroy_element_front();
           ++position;
         }
         else
         {
-          tphn::move(position + 1, _end, position);
+          tpn::move(position + 1, _end, position);
           destroy_element_back();
         }
       }
@@ -1643,7 +1643,7 @@ namespace tphn
 
     //*************************************************************************
     /// erase a range.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_out_of_bounds if the iterators are out of range.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_out_of_bounds if the iterators are out of range.
     ///\param range_begin The beginning of the range to erase.
     ///\param range_end   The end of the range to erase.
     //*************************************************************************
@@ -1654,7 +1654,7 @@ namespace tphn
       TYPHOON_ASSERT((distance(range_begin) <= difference_type(current_size)) && (distance(range_end) <= difference_type(current_size)), TYPHOON_ERROR(deque_out_of_bounds));
 
       // How many to erase?
-      size_t length = tphn::distance(range_begin, range_end);
+      size_t length = tpn::distance(range_begin, range_end);
 
       // At the beginning?
       if (position == _begin)
@@ -1683,7 +1683,7 @@ namespace tphn
         if (distance(_begin, position) < difference_type(current_size / 2))
         {
           // Move the items.
-          tphn::move_backward(_begin, position, position + length);
+          tpn::move_backward(_begin, position, position + length);
 
           for (size_t i = 0UL; i < length; ++i)
           {
@@ -1696,7 +1696,7 @@ namespace tphn
           // Must be closer to the back.
         {
           // Move the items.
-          tphn::move(position + length, _end, position);
+          tpn::move(position + length, _end, position);
 
           for (size_t i = 0UL; i < length; ++i)
           {
@@ -1710,7 +1710,7 @@ namespace tphn
 
     //*************************************************************************
     /// Adds an item to the back of the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is already full.
     ///\param item The item to push to the deque.
     //*************************************************************************
     void push_back(const_reference item)
@@ -1724,7 +1724,7 @@ namespace tphn
 #if TYPHOON_USING_CPP11
     //*************************************************************************
     /// Adds an item to the back of the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is already full.
     ///\param item The item to push to the deque.
     //*************************************************************************
     void push_back(rvalue_reference item)
@@ -1732,14 +1732,14 @@ namespace tphn
 #if defined(TYPHOON_CHECK_PUSH_POP)
       TYPHOON_ASSERT(!full(), TYPHOON_ERROR(deque_full));
 #endif
-      create_element_back(tphn::move(item));
+      create_element_back(tpn::move(item));
     }
 #endif
 
 #if TYPHOON_USING_CPP11 && TYPHOON_NOT_USING_STLPORT
     //*************************************************************************
     /// Emplaces an item to the back of the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is already full.
     //*************************************************************************
     template <typename ... Args>
     void emplace_back(Args && ... args)
@@ -1748,7 +1748,7 @@ namespace tphn
       TYPHOON_ASSERT(!full(), TYPHOON_ERROR(deque_full));
 #endif
 
-      ::new (&(*_end)) T(tphn::forward<Args>(args)...);
+      ::new (&(*_end)) T(tpn::forward<Args>(args)...);
       ++_end;
       ++current_size;
       TYPHOON_INCREMENT_DEBUG_COUNT
@@ -1758,7 +1758,7 @@ namespace tphn
 
     //*************************************************************************
     /// Emplaces an item to the back of the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is already full.
     //*************************************************************************
     template <typename T1>
     void emplace_back(const T1& value1)
@@ -1775,7 +1775,7 @@ namespace tphn
 
     //*************************************************************************
     /// Emplaces an item to the back of the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is already full.
     //*************************************************************************
     template <typename T1, typename T2>
     void emplace_back(const T1& value1, const T2& value2)
@@ -1792,7 +1792,7 @@ namespace tphn
 
     //*************************************************************************
     /// Emplaces an item to the back of the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is already full.
     //*************************************************************************
     template <typename T1, typename T2, typename T3>
     void emplace_back(const T1& value1, const T2& value2, const T3& value3)
@@ -1809,7 +1809,7 @@ namespace tphn
 
     //*************************************************************************
     /// Emplaces an item to the back of the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is already full.
     //*************************************************************************
     template <typename T1, typename T2, typename T3, typename T4>
     void emplace_back(const T1& value1, const T2& value2, const T3& value3, const T4& value4)
@@ -1838,7 +1838,7 @@ namespace tphn
 
     //*************************************************************************
     /// Adds an item to the front of the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is already full.
     ///\param item The item to push to the deque.
     //*************************************************************************
     void push_front(const_reference item)
@@ -1852,7 +1852,7 @@ namespace tphn
 #if TYPHOON_USING_CPP11
     //*************************************************************************
     /// Adds an item to the front of the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is already full.
     ///\param item The item to push to the deque.
     //*************************************************************************
     void push_front(rvalue_reference item)
@@ -1860,14 +1860,14 @@ namespace tphn
 #if defined(TYPHOON_CHECK_PUSH_POP)
       TYPHOON_ASSERT(!full(), TYPHOON_ERROR(deque_full));
 #endif
-      create_element_front(tphn::move(item));
+      create_element_front(tpn::move(item));
     }
 #endif
 
 #if TYPHOON_USING_CPP11 && TYPHOON_NOT_USING_STLPORT
     //*************************************************************************
     /// Emplaces an item to the front of the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is already full.
     //*************************************************************************
     template <typename ... Args>
     void emplace_front(Args && ... args)
@@ -1877,7 +1877,7 @@ namespace tphn
 #endif
 
       --_begin;
-      ::new (&(*_begin)) T(tphn::forward<Args>(args)...);
+      ::new (&(*_begin)) T(tpn::forward<Args>(args)...);
       ++current_size;
       TYPHOON_INCREMENT_DEBUG_COUNT
     }
@@ -1886,7 +1886,7 @@ namespace tphn
 
     //*************************************************************************
     /// Emplaces an item to the front of the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is already full.
     //*************************************************************************
     template <typename T1>
     void emplace_front(const T1& value1)
@@ -1903,7 +1903,7 @@ namespace tphn
 
     //*************************************************************************
     /// Emplaces an item to the front of the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is already full.
     //*************************************************************************
     template <typename T1, typename T2>
     void emplace_front(const T1& value1, const T2& value2)
@@ -1920,7 +1920,7 @@ namespace tphn
 
     //*************************************************************************
     /// Emplaces an item to the front of the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is already full.
     //*************************************************************************
     template <typename T1, typename T2, typename T3>
     void emplace_front(const T1& value1, const T2& value2, const T3& value3)
@@ -1937,7 +1937,7 @@ namespace tphn
 
     //*************************************************************************
     /// Emplaces an item to the front of the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full if the deque is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full if the deque is already full.
     //*************************************************************************
     template <typename T1, typename T2, typename T3, typename T4>
     void emplace_front(const T1& value1, const T2& value2, const T3& value3, const T4& value4)
@@ -1966,7 +1966,7 @@ namespace tphn
 
     //*************************************************************************
     /// Resizes the deque.
-    /// If asserts or exceptions are enabled, throws an tphn::deque_full is 'new_size' is too large.
+    /// If asserts or exceptions are enabled, throws an tpn::deque_full is 'new_size' is too large.
     ///\param new_size The new size of the deque.
     ///\param value   The value to assign if the new size is larger. Default = Default constructed value.
     //*************************************************************************
@@ -2051,7 +2051,7 @@ namespace tphn
         iterator itr = rhs.begin();
         while (itr != rhs.end())
         {
-          push_back(tphn::move(*itr));
+          push_back(tpn::move(*itr));
           ++itr;
         }
 
@@ -2085,7 +2085,7 @@ namespace tphn
     //*********************************************************************
     void initialise()
     {
-      if TYPHOON_IF_CONSTEXPR(tphn::is_trivially_destructible<T>::value)
+      if TYPHOON_IF_CONSTEXPR(tpn::is_trivially_destructible<T>::value)
       {
         current_size = 0;
         TYPHOON_RESET_DEBUG_COUNT
@@ -2195,7 +2195,7 @@ namespace tphn
     void create_element_front(rvalue_reference value)
     {
       --_begin;
-      ::new (&(*_begin)) T(tphn::move(value));
+      ::new (&(*_begin)) T(tpn::move(value));
       ++current_size;
       TYPHOON_INCREMENT_DEBUG_COUNT
     }
@@ -2205,7 +2205,7 @@ namespace tphn
     //*********************************************************************
     void create_element_back(rvalue_reference value)
     {
-      ::new (&(*_end)) T(tphn::move(value));
+      ::new (&(*_end)) T(tpn::move(value));
       ++_end;
       ++current_size;
       TYPHOON_INCREMENT_DEBUG_COUNT
@@ -2301,7 +2301,7 @@ namespace tphn
   ///\ingroup deque
   //***************************************************************************
   template <typename T, const size_t MAX_SIZE_>
-  class deque : public tphn::ideque<T>
+  class deque : public tpn::ideque<T>
   {
   public:
 
@@ -2319,13 +2319,13 @@ namespace tphn
     typedef T& reference;
     typedef const T& const_reference;
     typedef size_t   size_type;
-    typedef typename tphn::iterator_traits<pointer>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<pointer>::difference_type difference_type;
 
     //*************************************************************************
     /// Default constructor.
     //*************************************************************************
     deque()
-      : tphn::ideque<T>(reinterpret_cast<T*>(buffer.raw), MAX_SIZE, BUFFER_SIZE)
+      : tpn::ideque<T>(reinterpret_cast<T*>(buffer.raw), MAX_SIZE, BUFFER_SIZE)
     {
       this->initialise();
     }
@@ -2342,7 +2342,7 @@ namespace tphn
     /// Copy constructor.
     //*************************************************************************
     deque(const deque& other)
-      : tphn::ideque<T>(reinterpret_cast<T*>(buffer.raw), MAX_SIZE, BUFFER_SIZE)
+      : tpn::ideque<T>(reinterpret_cast<T*>(buffer.raw), MAX_SIZE, BUFFER_SIZE)
     {
       if (this != &other)
       {
@@ -2355,16 +2355,16 @@ namespace tphn
     /// Move constructor.
     //*************************************************************************
     deque(deque&& other)
-      : tphn::ideque<T>(reinterpret_cast<T*>(buffer.raw), MAX_SIZE, BUFFER_SIZE)
+      : tpn::ideque<T>(reinterpret_cast<T*>(buffer.raw), MAX_SIZE, BUFFER_SIZE)
     {
       if (this != &other)
       {
         this->initialise();
 
-        typename tphn::ideque<T>::iterator itr = other.begin();
+        typename tpn::ideque<T>::iterator itr = other.begin();
         while (itr != other.end())
         {
-          this->push_back(tphn::move(*itr));
+          this->push_back(tpn::move(*itr));
           ++itr;
         }
       }
@@ -2375,8 +2375,8 @@ namespace tphn
     /// Assigns data to the deque.
     //*************************************************************************
     template <typename TIterator>
-    deque(TIterator begin_, TIterator end_, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
-      : tphn::ideque<T>(reinterpret_cast<T*>(buffer.raw), MAX_SIZE, BUFFER_SIZE)
+    deque(TIterator begin_, TIterator end_, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
+      : tpn::ideque<T>(reinterpret_cast<T*>(buffer.raw), MAX_SIZE, BUFFER_SIZE)
     {
       this->assign(begin_, end_);
     }
@@ -2385,7 +2385,7 @@ namespace tphn
     /// Assigns data to the deque.
     //*************************************************************************
     explicit deque(size_t n, const_reference value = value_type())
-      : tphn::ideque<T>(reinterpret_cast<T*>(buffer.raw), MAX_SIZE, BUFFER_SIZE)
+      : tpn::ideque<T>(reinterpret_cast<T*>(buffer.raw), MAX_SIZE, BUFFER_SIZE)
     {
       this->assign(n, value);
     }
@@ -2423,10 +2423,10 @@ namespace tphn
       if (&rhs != this)
       {
         this->clear();
-        typename tphn::ideque<T>::iterator itr = rhs.begin();
+        typename tpn::ideque<T>::iterator itr = rhs.begin();
         while (itr != rhs.end())
         {
-          this->push_back(tphn::move(*itr));
+          this->push_back(tpn::move(*itr));
           ++itr;
         }
       }
@@ -2447,16 +2447,16 @@ namespace tphn
 #endif
     {
 #if TYPHOON_CPP11_TYPE_TRAITS_IS_TRIVIAL_SUPPORTED
-      TYPHOON_ASSERT(tphn::is_trivially_copyable<T>::value, TYPHOON_ERROR(tphn::deque_incompatible_type));
+      TYPHOON_ASSERT(tpn::is_trivially_copyable<T>::value, TYPHOON_ERROR(tpn::deque_incompatible_type));
 #endif
 
-      tphn::ideque<T>::repair_buffer(reinterpret_cast<T*>(buffer.raw));
+      tpn::ideque<T>::repair_buffer(reinterpret_cast<T*>(buffer.raw));
     }
 
   private:
 
     /// The uninitialised buffer of T used in the deque.
-    tphn::uninitialized_buffer_of<T, BUFFER_SIZE> buffer;
+    tpn::uninitialized_buffer_of<T, BUFFER_SIZE> buffer;
   };
 
   //*************************************************************************
@@ -2464,7 +2464,7 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_CPP17 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename... T>
-  deque(T...) -> deque<typename tphn::common_type_t<T...>, sizeof...(T)>;
+  deque(T...) -> deque<typename tpn::common_type_t<T...>, sizeof...(T)>;
 #endif
 
   //*************************************************************************
@@ -2472,9 +2472,9 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_CPP11 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename T, typename... TValues>
-  constexpr auto make_deque(TValues&&... values) -> tphn::deque<T, sizeof...(TValues)>
+  constexpr auto make_deque(TValues&&... values) -> tpn::deque<T, sizeof...(TValues)>
   {
-    return { { tphn::forward<T>(values)... } };
+    return { { tpn::forward<T>(values)... } };
   }
 #endif
 
@@ -2486,9 +2486,9 @@ namespace tphn
   ///\ingroup deque
   //***************************************************************************
   template <typename T>
-  bool operator ==(const tphn::ideque<T>& lhs, const tphn::ideque<T>& rhs)
+  bool operator ==(const tpn::ideque<T>& lhs, const tpn::ideque<T>& rhs)
   {
-    return (lhs.size() == rhs.size()) && tphn::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return (lhs.size() == rhs.size()) && tpn::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
   //***************************************************************************
@@ -2499,7 +2499,7 @@ namespace tphn
   ///\ingroup deque
   //***************************************************************************
   template <typename T>
-  bool operator !=(const tphn::ideque<T>& lhs, const tphn::ideque<T>& rhs)
+  bool operator !=(const tpn::ideque<T>& lhs, const tpn::ideque<T>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -2512,9 +2512,9 @@ namespace tphn
   ///\ingroup deque
   //***************************************************************************
   template <typename T>
-  bool operator <(const tphn::ideque<T>& lhs, const tphn::ideque<T>& rhs)
+  bool operator <(const tpn::ideque<T>& lhs, const tpn::ideque<T>& rhs)
   {
-    return tphn::lexicographical_compare(lhs.begin(),
+    return tpn::lexicographical_compare(lhs.begin(),
       lhs.end(),
       rhs.begin(),
       rhs.end());
@@ -2528,7 +2528,7 @@ namespace tphn
   ///\ingroup deque
   //***************************************************************************
   template <typename T>
-  bool operator <=(const tphn::ideque<T>& lhs, const tphn::ideque<T>& rhs)
+  bool operator <=(const tpn::ideque<T>& lhs, const tpn::ideque<T>& rhs)
   {
     return !(lhs > rhs);
   }
@@ -2541,7 +2541,7 @@ namespace tphn
   ///\ingroup deque
   //***************************************************************************
   template <typename T>
-  bool operator >(const tphn::ideque<T>& lhs, const tphn::ideque<T>& rhs)
+  bool operator >(const tpn::ideque<T>& lhs, const tpn::ideque<T>& rhs)
   {
     return (rhs < lhs);
   }
@@ -2554,7 +2554,7 @@ namespace tphn
   ///\ingroup deque
   //***************************************************************************
   template <typename T>
-  bool operator >=(const tphn::ideque<T>& lhs, const tphn::ideque<T>& rhs)
+  bool operator >=(const tpn::ideque<T>& lhs, const tpn::ideque<T>& rhs)
   {
     return !(lhs < rhs);
   }

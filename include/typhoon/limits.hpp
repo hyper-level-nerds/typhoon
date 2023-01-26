@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2018 John Wellbelove
 
@@ -97,7 +97,7 @@ SOFTWARE.
   #define TYPHOON_HAS_NAN true
 #endif
 
-namespace tphn
+namespace tpn
 {
   enum float_round_style
   {
@@ -116,7 +116,7 @@ namespace tphn
   };
 
 
-  class tphn_integral_limits
+  class tpn_integral_limits
   {
   public:
 
@@ -141,7 +141,7 @@ namespace tphn
     static TYPHOON_CONSTANT float_round_style round_style = round_toward_zero;
   };
 
-  class tphn_floating_point_limits
+  class tpn_floating_point_limits
   {
   public:
 
@@ -182,7 +182,7 @@ namespace tphn
   //***************************************************************************
   // bool
   template<>
-  class numeric_limits<bool> : public tphn_integral_limits
+  class numeric_limits<bool> : public tpn_integral_limits
   {
   public:
 
@@ -205,13 +205,13 @@ namespace tphn
   //***************************************************************************
   // char
   template<>
-  class numeric_limits<char> : public tphn_integral_limits
+  class numeric_limits<char> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits     = (CHAR_BIT * sizeof(char)) - (tphn::is_signed<char>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits     = (CHAR_BIT * sizeof(char)) - (tpn::is_signed<char>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10   = TYPHOON_LOG10_OF_2(digits);
-    static TYPHOON_CONSTANT bool is_signed = tphn::is_signed<char>::value;
+    static TYPHOON_CONSTANT bool is_signed = tpn::is_signed<char>::value;
     static TYPHOON_CONSTANT bool is_modulo = false;
 
     static TYPHOON_CONSTEXPR char min() { return char(CHAR_MIN); }
@@ -228,11 +228,11 @@ namespace tphn
   //***************************************************************************
   // unsigned char
   template<>
-  class numeric_limits<unsigned char> : public tphn_integral_limits
+  class numeric_limits<unsigned char> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits     = (CHAR_BIT * sizeof(unsigned char)) - (tphn::is_signed<unsigned char>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits     = (CHAR_BIT * sizeof(unsigned char)) - (tpn::is_signed<unsigned char>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10   = TYPHOON_LOG10_OF_2(digits);
     static TYPHOON_CONSTANT bool is_signed = false;
     static TYPHOON_CONSTANT bool is_modulo = true;
@@ -251,11 +251,11 @@ namespace tphn
   //***************************************************************************
   // signed char
   template<>
-  class numeric_limits<signed char> : public tphn_integral_limits
+  class numeric_limits<signed char> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(char)) - (tphn::is_signed<char>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(char)) - (tpn::is_signed<char>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10 = TYPHOON_LOG10_OF_2(digits);
     static TYPHOON_CONSTANT bool is_signed = true;
     static TYPHOON_CONSTANT bool is_modulo = false;
@@ -275,13 +275,13 @@ namespace tphn
   //***************************************************************************
   // char8_t
   template<>
-  class numeric_limits<char8_t> : public tphn_integral_limits
+  class numeric_limits<char8_t> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(char8_t)) - (tphn::is_signed<char8_t>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(char8_t)) - (tpn::is_signed<char8_t>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10 = TYPHOON_LOG10_OF_2(digits);
-    static TYPHOON_CONSTANT bool is_signed = tphn::is_signed<char8_t>::value;
+    static TYPHOON_CONSTANT bool is_signed = tpn::is_signed<char8_t>::value;
     static TYPHOON_CONSTANT bool is_modulo = false;
 
     static TYPHOON_CONSTEXPR char8_t min() { return char8_t(CHAR_MIN); }
@@ -300,11 +300,11 @@ namespace tphn
   //***************************************************************************
   // char16_t
   template<>
-  class numeric_limits<char16_t> : public tphn_integral_limits
+  class numeric_limits<char16_t> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(char16_t)) - (tphn::is_signed<char16_t>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(char16_t)) - (tpn::is_signed<char16_t>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10 = TYPHOON_LOG10_OF_2(digits);
     static TYPHOON_CONSTANT bool is_signed = false;
     static TYPHOON_CONSTANT bool is_modulo = true;
@@ -325,11 +325,11 @@ namespace tphn
   //***************************************************************************
   // char32_t
   template<>
-  class numeric_limits<char32_t> : public tphn_integral_limits
+  class numeric_limits<char32_t> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(char32_t)) - (tphn::is_signed<char32_t>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(char32_t)) - (tpn::is_signed<char32_t>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10 = TYPHOON_LOG10_OF_2(digits);
     static TYPHOON_CONSTANT bool is_signed = false;
     static TYPHOON_CONSTANT bool is_modulo = true;
@@ -349,14 +349,14 @@ namespace tphn
   //***************************************************************************
   // wchar_t
   template<>
-  class numeric_limits<wchar_t> : public tphn_integral_limits
+  class numeric_limits<wchar_t> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(wchar_t)) - (tphn::is_signed<wchar_t>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(wchar_t)) - (tpn::is_signed<wchar_t>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10 = TYPHOON_LOG10_OF_2(digits);
-    static TYPHOON_CONSTANT bool is_signed = tphn::is_signed<wchar_t>::value;
-    static TYPHOON_CONSTANT bool is_modulo = tphn::is_unsigned<wchar_t>::value;
+    static TYPHOON_CONSTANT bool is_signed = tpn::is_signed<wchar_t>::value;
+    static TYPHOON_CONSTANT bool is_modulo = tpn::is_unsigned<wchar_t>::value;
     static TYPHOON_CONSTEXPR wchar_t min() { return WCHAR_MIN; }
     static TYPHOON_CONSTEXPR wchar_t max() { return WCHAR_MAX; }
     static TYPHOON_CONSTEXPR wchar_t lowest() { return WCHAR_MIN; }
@@ -371,11 +371,11 @@ namespace tphn
   //***************************************************************************
   // short
   template<>
-  class numeric_limits<short> : public tphn_integral_limits
+  class numeric_limits<short> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(short)) - (tphn::is_signed<short>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(short)) - (tpn::is_signed<short>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10 = TYPHOON_LOG10_OF_2(digits);
     static TYPHOON_CONSTANT bool is_signed = true;
     static TYPHOON_CONSTANT bool is_modulo = false;
@@ -394,11 +394,11 @@ namespace tphn
   //***************************************************************************
   // unsigned short
   template<>
-  class numeric_limits<unsigned short> : public tphn_integral_limits
+  class numeric_limits<unsigned short> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(unsigned short)) - (tphn::is_signed<unsigned short>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(unsigned short)) - (tpn::is_signed<unsigned short>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10 = TYPHOON_LOG10_OF_2(digits);
     static TYPHOON_CONSTANT bool is_signed = false;
     static TYPHOON_CONSTANT bool is_modulo = true;
@@ -418,11 +418,11 @@ namespace tphn
   //***************************************************************************
   // int
   template<>
-  class numeric_limits<int> : public tphn_integral_limits
+  class numeric_limits<int> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(int)) - (tphn::is_signed<int>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(int)) - (tpn::is_signed<int>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10 = TYPHOON_LOG10_OF_2(digits);
     static TYPHOON_CONSTANT bool is_signed = true;
     static TYPHOON_CONSTANT bool is_modulo = false;
@@ -441,11 +441,11 @@ namespace tphn
   //***************************************************************************
   // unsigned int
   template<>
-  class numeric_limits<unsigned int> : public tphn_integral_limits
+  class numeric_limits<unsigned int> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(unsigned int)) - (tphn::is_signed<unsigned int>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(unsigned int)) - (tpn::is_signed<unsigned int>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10 = TYPHOON_LOG10_OF_2(digits);
     static TYPHOON_CONSTANT bool is_signed = false;
     static TYPHOON_CONSTANT bool is_modulo = true;
@@ -464,11 +464,11 @@ namespace tphn
   //***************************************************************************
   // long
   template<>
-  class numeric_limits<long> : public tphn_integral_limits
+  class numeric_limits<long> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(long)) - (tphn::is_signed<long>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(long)) - (tpn::is_signed<long>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10 = TYPHOON_LOG10_OF_2(digits);
     static TYPHOON_CONSTANT bool is_signed = true;
     static TYPHOON_CONSTANT bool is_modulo = false;
@@ -487,11 +487,11 @@ namespace tphn
   //***************************************************************************
   // unsigned long
   template<>
-  class numeric_limits<unsigned long> : public tphn_integral_limits
+  class numeric_limits<unsigned long> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(unsigned long)) - (tphn::is_signed<unsigned long>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(unsigned long)) - (tpn::is_signed<unsigned long>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10 = TYPHOON_LOG10_OF_2(digits);
     static TYPHOON_CONSTANT bool is_signed = false;
     static TYPHOON_CONSTANT bool is_modulo = true;
@@ -510,11 +510,11 @@ namespace tphn
   //***************************************************************************
   // long long
   template<>
-  class numeric_limits<long long> : public tphn_integral_limits
+  class numeric_limits<long long> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(long long)) - (tphn::is_signed<long long>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(long long)) - (tpn::is_signed<long long>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10 = TYPHOON_LOG10_OF_2(digits);
     static TYPHOON_CONSTANT bool is_signed = true;
     static TYPHOON_CONSTANT bool is_modulo = false;
@@ -533,11 +533,11 @@ namespace tphn
   //***************************************************************************
   // unsigned long long
   template<>
-  class numeric_limits<unsigned long long> : public tphn_integral_limits
+  class numeric_limits<unsigned long long> : public tpn_integral_limits
   {
   public:
 
-    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(unsigned long long)) - (tphn::is_signed<unsigned long long>::value ? 1 : 0);
+    static TYPHOON_CONSTANT int digits = (CHAR_BIT * sizeof(unsigned long long)) - (tpn::is_signed<unsigned long long>::value ? 1 : 0);
     static TYPHOON_CONSTANT int digits10 = TYPHOON_LOG10_OF_2(digits);
     static TYPHOON_CONSTANT bool is_signed = false;
     static TYPHOON_CONSTANT bool is_modulo = true;
@@ -556,7 +556,7 @@ namespace tphn
   //***************************************************************************
   // float
   template<>
-  class numeric_limits<float> : public tphn_floating_point_limits
+  class numeric_limits<float> : public tpn_floating_point_limits
   {
   public:
 
@@ -582,7 +582,7 @@ namespace tphn
   //***************************************************************************
   // double
   template<>
-  class numeric_limits<double> : public tphn_floating_point_limits
+  class numeric_limits<double> : public tpn_floating_point_limits
   {
   public:
 
@@ -608,7 +608,7 @@ namespace tphn
   //***************************************************************************
   // long double
   template<>
-  class numeric_limits<long double> : public tphn_floating_point_limits
+  class numeric_limits<long double> : public tpn_floating_point_limits
   {
   public:
 
@@ -636,7 +636,7 @@ namespace tphn
 
 #include <limits>
 
-namespace tphn
+namespace tpn
 {
   enum float_round_style
   {

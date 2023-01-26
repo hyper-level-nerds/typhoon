@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -71,12 +71,12 @@ SOFTWARE.
   #endif
 #endif
 
-namespace tphn
+namespace tpn
 {
 #if defined(TYPHOON_USE_ATOMIC_BUILTINS)
 
-#define TYPHOON_BUILTIN_LOCK   while (__atomic_test_and_set(&flag, tphn::memory_order_seq_cst)) {}
-#define TYPHOON_BUILTIN_UNLOCK __atomic_clear(&flag, tphn::memory_order_seq_cst);
+#define TYPHOON_BUILTIN_LOCK   while (__atomic_test_and_set(&flag, tpn::memory_order_seq_cst)) {}
+#define TYPHOON_BUILTIN_UNLOCK __atomic_clear(&flag, tpn::memory_order_seq_cst);
 
   //***************************************************************************
   // Atomic type for pre C++11 GCC compilers that support the builtin '__atomic' functions.
@@ -96,7 +96,7 @@ namespace tphn
   //***************************************************************************
   /// For all types except bool, pointers and types that are always lock free.
   //***************************************************************************
-  template <typename T, bool integral_type = tphn::is_integral<T>::value>
+  template <typename T, bool integral_type = tpn::is_integral<T>::value>
   class atomic
   {
   public:
@@ -129,111 +129,111 @@ namespace tphn
     // Pre-increment
     T operator ++()
     {
-      return __atomic_add_fetch(&value, 1, tphn::memory_order_seq_cst);
+      return __atomic_add_fetch(&value, 1, tpn::memory_order_seq_cst);
     }
 
     T operator ++() volatile
     {
-      return __atomic_add_fetch(&value, 1, tphn::memory_order_seq_cst);
+      return __atomic_add_fetch(&value, 1, tpn::memory_order_seq_cst);
     }
 
     // Post-increment
     T operator ++(int)
     {
-      return __atomic_fetch_add(&value, 1, tphn::memory_order_seq_cst);
+      return __atomic_fetch_add(&value, 1, tpn::memory_order_seq_cst);
     }
 
     T operator ++(int) volatile
     {
-      return __atomic_fetch_add(&value, 1, tphn::memory_order_seq_cst);
+      return __atomic_fetch_add(&value, 1, tpn::memory_order_seq_cst);
     }
 
     // Pre-decrement
     T operator --()
     {
-      return __atomic_sub_fetch(&value, 1, tphn::memory_order_seq_cst);
+      return __atomic_sub_fetch(&value, 1, tpn::memory_order_seq_cst);
     }
 
     T operator --() volatile
     {
-      return __atomic_sub_fetch(&value, 1, tphn::memory_order_seq_cst);
+      return __atomic_sub_fetch(&value, 1, tpn::memory_order_seq_cst);
     }
 
     // Post-decrement
     T operator --(int)
     {
-      return __atomic_fetch_sub(&value, 1, tphn::memory_order_seq_cst);
+      return __atomic_fetch_sub(&value, 1, tpn::memory_order_seq_cst);
     }
 
     T operator --(int) volatile
     {
-      return __atomic_fetch_sub(&value, 1), tphn::memory_order_seq_cst;
+      return __atomic_fetch_sub(&value, 1), tpn::memory_order_seq_cst;
     }
 
     // Add
     T operator +=(T v)
     {
-      return __atomic_fetch_add(&value, v, tphn::memory_order_seq_cst);
+      return __atomic_fetch_add(&value, v, tpn::memory_order_seq_cst);
     }
 
     T operator +=(T v) volatile
     {
-      return __atomic_fetch_add(&value, v, tphn::memory_order_seq_cst);
+      return __atomic_fetch_add(&value, v, tpn::memory_order_seq_cst);
     }
 
     // Subtract
     T operator -=(T v)
     {
-      return __atomic_fetch_sub(&value, v, tphn::memory_order_seq_cst);
+      return __atomic_fetch_sub(&value, v, tpn::memory_order_seq_cst);
     }
 
     T operator -=(T v) volatile
     {
-      return __atomic_fetch_sub(&value, v, tphn::memory_order_seq_cst);
+      return __atomic_fetch_sub(&value, v, tpn::memory_order_seq_cst);
     }
 
     // And
     T operator &=(T v)
     {
-      return __atomic_fetch_and(&value, v, tphn::memory_order_seq_cst);
+      return __atomic_fetch_and(&value, v, tpn::memory_order_seq_cst);
     }
 
     T operator &=(T v) volatile
     {
-      return __atomic_fetch_and(&value, v, tphn::memory_order_seq_cst);
+      return __atomic_fetch_and(&value, v, tpn::memory_order_seq_cst);
     }
 
     // Or
     T operator |=(T v)
     {
-      return __atomic_fetch_or(&value, v, tphn::memory_order_seq_cst);
+      return __atomic_fetch_or(&value, v, tpn::memory_order_seq_cst);
     }
 
     T operator |=(T v) volatile
     {
-      return __atomic_fetch_or(&value, v, tphn::memory_order_seq_cst);
+      return __atomic_fetch_or(&value, v, tpn::memory_order_seq_cst);
     }
 
     // Exclusive or
     T operator ^=(T v)
     {
-      return __atomic_fetch_xor(&value, v, tphn::memory_order_seq_cst);
+      return __atomic_fetch_xor(&value, v, tpn::memory_order_seq_cst);
     }
 
     T operator ^=(T v) volatile
     {
-      return __atomic_fetch_xor(&value, v, tphn::memory_order_seq_cst);
+      return __atomic_fetch_xor(&value, v, tpn::memory_order_seq_cst);
     }
 
     // Conversion operator
     operator T () const
     {
-      return __atomic_fetch_add(&value, 0, tphn::memory_order_seq_cst);
+      return __atomic_fetch_add(&value, 0, tpn::memory_order_seq_cst);
     }
 
     operator T() volatile const
     {
-      return __atomic_fetch_add(&value, 0, tphn::memory_order_seq_cst);
+      return __atomic_fetch_add(&value, 0, tpn::memory_order_seq_cst);
     }
 
     // Is lock free?
@@ -248,131 +248,131 @@ namespace tphn
     }
 
     // Store
-    void store(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    void store(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       __atomic_store_n(&value, v, order);
     }
 
-    void store(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    void store(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       __atomic_store_n(&value, v, order);
     }
 
     // Load
-    T load(tphn::memory_order order = tphn::memory_order_seq_cst) const
+    T load(tpn::memory_order order = tpn::memory_order_seq_cst) const
     {
       return __atomic_load_n(&value, order);
     }
 
-    T load(tphn::memory_order order = tphn::memory_order_seq_cst) const volatile
+    T load(tpn::memory_order order = tpn::memory_order_seq_cst) const volatile
     {
       return __atomic_load_n(&value, order);
     }
 
     // Fetch add
-    T fetch_add(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T fetch_add(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return __atomic_fetch_add(&value, v, order);
     }
 
-    T fetch_add(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T fetch_add(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return __atomic_fetch_add(&value, v, order);
     }
 
     // Fetch subtract
-    T fetch_sub(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T fetch_sub(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return __atomic_fetch_sub(&value, v, order);
     }
 
-    T fetch_sub(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T fetch_sub(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return __atomic_fetch_sub(&value, v, order);
     }
 
     // Fetch or
-    T fetch_or(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T fetch_or(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return __atomic_fetch_or(&value, v, order);
     }
 
-    T fetch_or(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T fetch_or(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return __atomic_fetch_or(&value, v, order);
     }
 
     // Fetch and
-    T fetch_and(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T fetch_and(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return __atomic_fetch_and(&value, v, order);
     }
 
-    T fetch_and(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T fetch_and(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return __atomic_fetch_and(&value, v, order);
     }
 
     // Fetch exclusive or
-    T fetch_xor(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T fetch_xor(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return __atomic_fetch_xor(&value, v, order);
     }
 
-    T fetch_xor(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T fetch_xor(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return __atomic_fetch_xor(&value, v, order);
     }
 
     // Exchange
-    T exchange(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T exchange(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return __atomic_exchange_n(&value, v, order);
     }
 
-    T exchange(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T exchange(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return __atomic_exchange_n(&value, v, order);
     }
 
     // Compare exchange weak
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return __atomic_compare_exchange_n(&value, &expected, desired, true, order, order);
     }
 
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return __atomic_compare_exchange_n(&value, &expected, desired, true, order, order);
     }
 
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure)
     {
       return __atomic_compare_exchange_n(&value, &expected, desired, true, success, failure);
     }
 
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       return __atomic_compare_exchange_n(&value, &expected, desired, true, success, failure);
     }
 
     // Compare exchange strong
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return __atomic_compare_exchange_n(&value, &expected, desired, false, order, order);
     }
 
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return __atomic_compare_exchange_n(&value, &expected, desired, false, order, order);
     }
 
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure)
     {
       return __atomic_compare_exchange_n(&value, &expected, desired, false, success, failure);
     }
 
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       return __atomic_compare_exchange_n(&value, &expected, desired, false, success, failure);
     }
@@ -421,78 +421,78 @@ namespace tphn
     // Pre-increment
     T* operator ++()
     {
-      return reinterpret_cast<T*>(__atomic_add_fetch(&value, sizeof(T), tphn::memory_order_seq_cst));
+      return reinterpret_cast<T*>(__atomic_add_fetch(&value, sizeof(T), tpn::memory_order_seq_cst));
     }
 
     T* operator ++() volatile
     {
-      return reinterpret_cast<T*>(__atomic_add_fetch(&value, sizeof(T), tphn::memory_order_seq_cst));
+      return reinterpret_cast<T*>(__atomic_add_fetch(&value, sizeof(T), tpn::memory_order_seq_cst));
     }
 
     // Post-increment
     T* operator ++(int)
     {
-      return reinterpret_cast<T*>(__atomic_fetch_add(&value, sizeof(T), tphn::memory_order_seq_cst));
+      return reinterpret_cast<T*>(__atomic_fetch_add(&value, sizeof(T), tpn::memory_order_seq_cst));
     }
 
     T* operator ++(int) volatile
     {
-      return reinterpret_cast<T*>(__atomic_fetch_add(&value, sizeof(T), tphn::memory_order_seq_cst));
+      return reinterpret_cast<T*>(__atomic_fetch_add(&value, sizeof(T), tpn::memory_order_seq_cst));
     }
 
     // Pre-decrement
     T* operator --()
     {
-      return reinterpret_cast<T*>(__atomic_sub_fetch(&value, sizeof(T), tphn::memory_order_seq_cst));
+      return reinterpret_cast<T*>(__atomic_sub_fetch(&value, sizeof(T), tpn::memory_order_seq_cst));
     }
 
     T* operator --() volatile
     {
-      return reinterpret_cast<T*>(__atomic_sub_fetch(&value, sizeof(T), tphn::memory_order_seq_cst));
+      return reinterpret_cast<T*>(__atomic_sub_fetch(&value, sizeof(T), tpn::memory_order_seq_cst));
     }
 
     // Post-decrement
     T* operator --(int)
     {
-      return reinterpret_cast<T*>(__atomic_fetch_sub(&value, sizeof(T), tphn::memory_order_seq_cst));
+      return reinterpret_cast<T*>(__atomic_fetch_sub(&value, sizeof(T), tpn::memory_order_seq_cst));
     }
 
     T* operator --(int) volatile
     {
-      return reinterpret_cast<T*>(__atomic_fetch_sub(&value, sizeof(T), tphn::memory_order_seq_cst));
+      return reinterpret_cast<T*>(__atomic_fetch_sub(&value, sizeof(T), tpn::memory_order_seq_cst));
     }
 
     // Add
     T* operator +=(ptrdiff_t v)
     {
-      return reinterpret_cast<T*>(__atomic_fetch_add(&value, v * sizeof(T), tphn::memory_order_seq_cst));
+      return reinterpret_cast<T*>(__atomic_fetch_add(&value, v * sizeof(T), tpn::memory_order_seq_cst));
     }
 
     T* operator +=(ptrdiff_t v) volatile
     {
-      return reinterpret_cast<T*>(__atomic_fetch_add(&value, v * sizeof(T), tphn::memory_order_seq_cst));
+      return reinterpret_cast<T*>(__atomic_fetch_add(&value, v * sizeof(T), tpn::memory_order_seq_cst));
     }
 
     // Subtract
     T* operator -=(ptrdiff_t v)
     {
-      return reinterpret_cast<T*>(__atomic_fetch_sub(&value, v * sizeof(T), tphn::memory_order_seq_cst));
+      return reinterpret_cast<T*>(__atomic_fetch_sub(&value, v * sizeof(T), tpn::memory_order_seq_cst));
     }
 
     T* operator -=(ptrdiff_t v) volatile
     {
-      return reinterpret_cast<T*>(__atomic_fetch_sub(&value, v * sizeof(T), tphn::memory_order_seq_cst));
+      return reinterpret_cast<T*>(__atomic_fetch_sub(&value, v * sizeof(T), tpn::memory_order_seq_cst));
     }
 
     // Conversion operator
     operator T* () const
     {
-      return reinterpret_cast<T*>(__atomic_fetch_add(&value, 0, tphn::memory_order_seq_cst));
+      return reinterpret_cast<T*>(__atomic_fetch_add(&value, 0, tpn::memory_order_seq_cst));
     }
 
     operator T*() volatile const
     {
-      return reinterpret_cast<T*>(__atomic_fetch_add(&value, 0, tphn::memory_order_seq_cst));
+      return reinterpret_cast<T*>(__atomic_fetch_add(&value, 0, tpn::memory_order_seq_cst));
     }
 
     // Is lock free?
@@ -507,83 +507,83 @@ namespace tphn
     }
 
     // Store
-    void store(T* v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    void store(T* v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       __atomic_store_n(&value, uintptr_t(v), order);
     }
 
-    void store(T* v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    void store(T* v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       __atomic_store_n(&value, uintptr_t(v), order);
     }
 
     // Load
-    T* load(tphn::memory_order order = tphn::memory_order_seq_cst) const
+    T* load(tpn::memory_order order = tpn::memory_order_seq_cst) const
     {
       return reinterpret_cast<T*>(__atomic_load_n(&value, order));
     }
 
-    T* load(tphn::memory_order order = tphn::memory_order_seq_cst) const volatile
+    T* load(tpn::memory_order order = tpn::memory_order_seq_cst) const volatile
     {
       return reinterpret_cast<T*>(__atomic_load_n(&value, order));
     }
 
     // Fetch add
-    T* fetch_add(ptrdiff_t v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T* fetch_add(ptrdiff_t v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return reinterpret_cast<T*>(__atomic_fetch_add(&value, v, order));
     }
 
-    T* fetch_add(ptrdiff_t v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T* fetch_add(ptrdiff_t v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return reinterpret_cast<T*>(__atomic_fetch_add(&value, v, order));
     }
 
     // Fetch subtract
-    T* fetch_sub(ptrdiff_t v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T* fetch_sub(ptrdiff_t v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return reinterpret_cast<T*>(__atomic_fetch_sub(&value, v, order));
     }
 
-    T* fetch_sub(ptrdiff_t v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T* fetch_sub(ptrdiff_t v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return reinterpret_cast<T*>(__atomic_fetch_sub(&value, v, order));
     }
 
     // Exchange
-    T* exchange(T* v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T* exchange(T* v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return reinterpret_cast<T*>(__atomic_exchange_n(&value, uintptr_t(v), order));
     }
 
-    T* exchange(T* v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T* exchange(T* v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return reinterpret_cast<T*>(__atomic_exchange_n(&value, uintptr_t(v), order));
     }
 
     // Compare exchange weak
-    bool compare_exchange_weak(T*& expected, T* desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_weak(T*& expected, T* desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       uintptr_t expected_v = uintptr_t(expected);
 
       return __atomic_compare_exchange_n(&value, &expected_v, uintptr_t(desired), true, order, order);
     }
 
-    bool compare_exchange_weak(T*& expected, T* desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_weak(T*& expected, T* desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       uintptr_t expected_v = uintptr_t(expected);
 
       return __atomic_compare_exchange_n(&value, &expected_v, uintptr_t(desired), true, order, order);
     }
 
-    bool compare_exchange_weak(T*& expected, T* desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_weak(T*& expected, T* desired, tpn::memory_order success, tpn::memory_order failure)
     {
       uintptr_t expected_v = uintptr_t(expected);
 
       return __atomic_compare_exchange_n(&value, &expected_v, uintptr_t(desired), true, success, failure);
     }
 
-    bool compare_exchange_weak(T*& expected, T* desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_weak(T*& expected, T* desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       uintptr_t expected_v = uintptr_t(expected);
 
@@ -591,28 +591,28 @@ namespace tphn
     }
 
     // Compare exchange strong
-    bool compare_exchange_strong(T*& expected, T* desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_strong(T*& expected, T* desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       uintptr_t expected_v = uintptr_t(expected);
 
       return __atomic_compare_exchange_n(&value, &expected_v, uintptr_t(desired), false, order, order);
     }
 
-    bool compare_exchange_strong(T*& expected, T* desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_strong(T*& expected, T* desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       uintptr_t expected_v = uintptr_t(expected);
 
       return __atomic_compare_exchange_n(&value, &expected_v, uintptr_t(desired), false, order, order);
     }
 
-    bool compare_exchange_strong(T*& expected, T* desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_strong(T*& expected, T* desired, tpn::memory_order success, tpn::memory_order failure)
     {
       uintptr_t expected_v = uintptr_t(expected);
 
       return __atomic_compare_exchange_n(&value, &expected_v, uintptr_t(desired), false, success, failure);
     }
 
-    bool compare_exchange_strong(T*& expected, T* desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_strong(T*& expected, T* desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       uintptr_t expected_v = uintptr_t(expected);
 
@@ -663,12 +663,12 @@ namespace tphn
     // Conversion operator
     operator bool () const
     {
-      return static_cast<bool>(__atomic_fetch_add(&value, 0, tphn::memory_order_seq_cst));
+      return static_cast<bool>(__atomic_fetch_add(&value, 0, tpn::memory_order_seq_cst));
     }
 
     operator bool() volatile const
     {
-      return static_cast<bool>(__atomic_fetch_add(&value, 0, tphn::memory_order_seq_cst));
+      return static_cast<bool>(__atomic_fetch_add(&value, 0, tpn::memory_order_seq_cst));
     }
 
     // Is lock free?
@@ -683,40 +683,40 @@ namespace tphn
     }
 
     // Store
-    void store(bool v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    void store(bool v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       __atomic_store_n(&value, char(v), order);
     }
 
-    void store(bool v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    void store(bool v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       __atomic_store_n(&value, char(v), order);
     }
 
     // Load
-    bool load(tphn::memory_order order = tphn::memory_order_seq_cst) const
+    bool load(tpn::memory_order order = tpn::memory_order_seq_cst) const
     {
       return static_cast<bool>(__atomic_load_n(&value, order));
     }
 
-    bool load(tphn::memory_order order = tphn::memory_order_seq_cst) const volatile
+    bool load(tpn::memory_order order = tpn::memory_order_seq_cst) const volatile
     {
       return static_cast<bool>(__atomic_load_n(&value, order));
     }
 
     // Exchange
-    bool exchange(bool v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool exchange(bool v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return static_cast<bool>(__atomic_exchange_n(&value, char(v), order));
     }
 
-    bool exchange(bool v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool exchange(bool v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return static_cast<bool>(__atomic_exchange_n(&value, char(v), order));
     }
 
     // Compare exchange weak
-    bool compare_exchange_weak(bool& expected, bool desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_weak(bool& expected, bool desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       char expected_v = char(expected);
       char desired_v = char(desired);
@@ -724,7 +724,7 @@ namespace tphn
       return __atomic_compare_exchange_n(&value, &expected_v, desired_v, true, order, order);
     }
 
-    bool compare_exchange_weak(bool& expected, bool desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_weak(bool& expected, bool desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       char expected_v = char(expected);
       char desired_v = char(desired);
@@ -732,7 +732,7 @@ namespace tphn
       return __atomic_compare_exchange_n(&value, &expected_v, desired_v, true, order, order);
     }
 
-    bool compare_exchange_weak(bool& expected, bool desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_weak(bool& expected, bool desired, tpn::memory_order success, tpn::memory_order failure)
     {
       char expected_v = char(expected);
       char desired_v = char(desired);
@@ -740,7 +740,7 @@ namespace tphn
       return __atomic_compare_exchange_n(&value, &expected_v, desired_v, true, success, failure);
     }
 
-    bool compare_exchange_weak(bool& expected, bool desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_weak(bool& expected, bool desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       char expected_v = char(expected);
       char desired_v  = char(desired);
@@ -749,7 +749,7 @@ namespace tphn
     }
 
     // Compare exchange strong
-    bool compare_exchange_strong(bool& expected, bool desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_strong(bool& expected, bool desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       char expected_v = char(expected);
       char desired_v  = char(desired);
@@ -757,7 +757,7 @@ namespace tphn
       return __atomic_compare_exchange_n(&value, &expected_v, desired_v, false, order, order);
     }
 
-    bool compare_exchange_strong(bool& expected, bool desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_strong(bool& expected, bool desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       char expected_v = char(expected);
       char desired_v  = char(desired);
@@ -765,7 +765,7 @@ namespace tphn
       return __atomic_compare_exchange_n(&value, &expected_v, desired_v, false, order, order);
     }
 
-    bool compare_exchange_strong(bool& expected, bool desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_strong(bool& expected, bool desired, tpn::memory_order success, tpn::memory_order failure)
     {
       char expected_v = char(expected);
       char desired_v  = char(desired);
@@ -773,7 +773,7 @@ namespace tphn
       return __atomic_compare_exchange_n(&value, &expected_v, desired_v, false, success, failure);
     }
 
-    bool compare_exchange_strong(bool& expected, bool desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_strong(bool& expected, bool desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       char expected_v = char(expected);
       char desired_v  = char(desired);
@@ -856,7 +856,7 @@ namespace tphn
     }
 
     // Store
-    void store(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    void store(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       (void)order;
       TYPHOON_BUILTIN_LOCK;
@@ -864,7 +864,7 @@ namespace tphn
       TYPHOON_BUILTIN_UNLOCK;
     }
 
-    void store(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    void store(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       (void)order;
       TYPHOON_BUILTIN_LOCK;
@@ -873,7 +873,7 @@ namespace tphn
     }
 
     // Load
-    T load(tphn::memory_order order = tphn::memory_order_seq_cst) const volatile
+    T load(tpn::memory_order order = tpn::memory_order_seq_cst) const volatile
     {
       (void)order;
       TYPHOON_BUILTIN_LOCK;
@@ -884,7 +884,7 @@ namespace tphn
     }
 
     // Load
-    T load(tphn::memory_order order = tphn::memory_order_seq_cst) const
+    T load(tpn::memory_order order = tpn::memory_order_seq_cst) const
     {
       (void)order;
       TYPHOON_BUILTIN_LOCK;
@@ -895,7 +895,7 @@ namespace tphn
     }
 
     // Exchange
-    T exchange(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T exchange(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       (void)order;
       TYPHOON_BUILTIN_LOCK;
@@ -906,7 +906,7 @@ namespace tphn
       return result;
     }
 
-    T exchange(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T exchange(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       (void)order;
       TYPHOON_BUILTIN_LOCK;
@@ -918,7 +918,7 @@ namespace tphn
     }
 
     // Compare exchange weak
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       bool result;
 
@@ -938,7 +938,7 @@ namespace tphn
       return result;
     }
 
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       bool result;
 
@@ -958,14 +958,14 @@ namespace tphn
       return result;
     }
 
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure)
     {
       (void)success;
       (void)failure;
       return compare_exchange_weak(expected, desired);
     }
 
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       (void)success;
       (void)failure;
@@ -973,26 +973,26 @@ namespace tphn
     }
 
     // Compare exchange strong
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       (void)order;
       return compare_exchange_weak(expected, desired);
     }
 
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       (void)order;
       return compare_exchange_weak(expected, desired);
     }
 
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure)
     {
       (void)success;
       (void)failure;
       return compare_exchange_weak(expected, desired);
     }
 
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       (void)success;
       (void)failure;
@@ -1033,12 +1033,12 @@ namespace tphn
   //***************************************************************************
   /// For all types except bool and pointers
   //***************************************************************************
-  template <typename T, bool integral_type = tphn::is_integral<T>::value>
+  template <typename T, bool integral_type = tpn::is_integral<T>::value>
   class atomic
   {
   public:
 
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Only integral types are supported");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Only integral types are supported");
 
     atomic()
       : value(0)
@@ -1187,111 +1187,111 @@ namespace tphn
     }
 
     // Store
-    void store(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    void store(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       (void)order;
       (void)__sync_lock_test_and_set(&value, v);
     }
 
-    void store(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    void store(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       (void)order;
       (void)__sync_lock_test_and_set(&value, v);
     }
 
     // Load
-    T load(tphn::memory_order order = tphn::memory_order_seq_cst) const
+    T load(tpn::memory_order order = tpn::memory_order_seq_cst) const
     {
       (void)order;
       return __sync_fetch_and_add(&value, 0);
     }
 
-    T load(tphn::memory_order order = tphn::memory_order_seq_cst) const volatile
+    T load(tpn::memory_order order = tpn::memory_order_seq_cst) const volatile
     {
       (void)order;
       return __sync_fetch_and_add(&value, 0);
     }
 
     // Fetch add
-    T fetch_add(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T fetch_add(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       (void)order;
       return __sync_fetch_and_add(&value, v);
     }
 
-    T fetch_add(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T fetch_add(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       (void)order;
       return __sync_fetch_and_add(&value, v);
     }
 
     // Fetch subtract
-    T fetch_sub(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T fetch_sub(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       (void)order;
       return __sync_fetch_and_sub(&value, v);
     }
 
-    T fetch_sub(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T fetch_sub(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       (void)order;
       return __sync_fetch_and_sub(&value, v);
     }
 
     // Fetch or
-    T fetch_or(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T fetch_or(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       (void)order;
       return __sync_fetch_and_or(&value, v);
     }
 
-    T fetch_or(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T fetch_or(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       (void)order;
       return __sync_fetch_and_or(&value, v);
     }
 
     // Fetch and
-    T fetch_and(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T fetch_and(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       (void)order;
       return __sync_fetch_and_and(&value, v);
     }
 
-    T fetch_and(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T fetch_and(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       (void)order;
       return __sync_fetch_and_and(&value, v);
     }
 
     // Fetch exclusive or
-    T fetch_xor(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T fetch_xor(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       (void)order;
       return __sync_fetch_and_xor(&value, v);
     }
 
-    T fetch_xor(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T fetch_xor(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       (void)order;
       return __sync_fetch_and_xor(&value, v);
     }
 
     // Exchange
-    T exchange(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T exchange(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       (void)order;
       return __sync_lock_test_and_set(&value, v);
     }
 
-    T exchange(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T exchange(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       (void)order;
       return __sync_lock_test_and_set(&value, v);
     }
 
     // Compare exchange weak
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       (void)order;
       T old = __sync_val_compare_and_swap(&value, expected, desired);
@@ -1307,7 +1307,7 @@ namespace tphn
       }
     }
 
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       (void)order;
       T old = __sync_val_compare_and_swap(&value, expected, desired);
@@ -1323,7 +1323,7 @@ namespace tphn
       }
     }
 
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure)
     {
       (void)success;
       (void)failure;
@@ -1340,7 +1340,7 @@ namespace tphn
       }
     }
 
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       (void)success;
       (void)failure;
@@ -1358,7 +1358,7 @@ namespace tphn
     }
 
     // Compare exchange strong
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       (void)order;
       T old = expected;
@@ -1375,7 +1375,7 @@ namespace tphn
       return true;
     }
 
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       (void)order;
       T old = expected;
@@ -1392,7 +1392,7 @@ namespace tphn
       return true;
     }
 
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure)
     {
       (void)success;
       (void)failure;
@@ -1410,7 +1410,7 @@ namespace tphn
       return true;
     }
 
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       (void)success;
       (void)failure;
@@ -1558,62 +1558,62 @@ namespace tphn
     }
 
     // Store
-    void store(T* v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    void store(T* v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       __sync_lock_test_and_set(&value, uintptr_t(v));
     }
 
-    void store(T* v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    void store(T* v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       __sync_lock_test_and_set(&value, uintptr_t(v));
     }
 
     // Load
-    T* load(tphn::memory_order order = tphn::memory_order_seq_cst) const
+    T* load(tpn::memory_order order = tpn::memory_order_seq_cst) const
     {
       return reinterpret_cast<T*>(__sync_fetch_and_add(&value, 0));
     }
 
-    T* load(tphn::memory_order order = tphn::memory_order_seq_cst) const volatile
+    T* load(tpn::memory_order order = tpn::memory_order_seq_cst) const volatile
     {
       return reinterpret_cast<T*>(__sync_fetch_and_add(&value, 0));
     }
 
     // Fetch add
-    T* fetch_add(ptrdiff_t v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T* fetch_add(ptrdiff_t v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return reinterpret_cast<T*>(__sync_fetch_and_add(&value, v));
     }
 
-    T* fetch_add(ptrdiff_t v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T* fetch_add(ptrdiff_t v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return reinterpret_cast<T*>(__sync_fetch_and_add(&value, v));
     }
 
     // Fetch subtract
-    T* fetch_sub(ptrdiff_t v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T* fetch_sub(ptrdiff_t v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return reinterpret_cast<T*>(__sync_fetch_and_sub(&value, v));
     }
 
-    T* fetch_sub(ptrdiff_t v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T* fetch_sub(ptrdiff_t v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return reinterpret_cast<T*>(__sync_fetch_and_sub(&value, v));
     }
 
     // Exchange
-    T* exchange(T* v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T* exchange(T* v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return reinterpret_cast<T*>(__sync_lock_test_and_set(&value, uintptr_t(v)));
     }
 
-    T* exchange(T* v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T* exchange(T* v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return reinterpret_cast<T*>(__sync_lock_test_and_set(&value, uintptr_t(v)));
     }
 
     // Compare exchange weak
-    bool compare_exchange_weak(T*& expected, T* desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_weak(T*& expected, T* desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       T* old = reinterpret_cast<T*>(__sync_val_compare_and_swap(&value, uintptr_t(expected), uintptr_t(desired)));
 
@@ -1628,7 +1628,7 @@ namespace tphn
       }
     }
 
-    bool compare_exchange_weak(T*& expected, T* desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_weak(T*& expected, T* desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       T* old = reinterpret_cast<T*>(__sync_val_compare_and_swap(&value, uintptr_t(expected), uintptr_t(desired)));
 
@@ -1643,7 +1643,7 @@ namespace tphn
       }
     }
 
-    bool compare_exchange_weak(T*& expected, T* desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_weak(T*& expected, T* desired, tpn::memory_order success, tpn::memory_order failure)
     {
       T* old = reinterpret_cast<T*>(__sync_val_compare_and_swap(&value, uintptr_t(expected), uintptr_t(desired)));
 
@@ -1658,7 +1658,7 @@ namespace tphn
       }
     }
 
-    bool compare_exchange_weak(T*& expected, T* desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_weak(T*& expected, T* desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       T* old = reinterpret_cast<T*>(__sync_val_compare_and_swap(&value, uintptr_t(expected), uintptr_t(desired)));
 
@@ -1674,7 +1674,7 @@ namespace tphn
     }
 
     // Compare exchange strong
-    bool compare_exchange_strong(T*& expected, T* desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_strong(T*& expected, T* desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       T* old = expected;
 
@@ -1690,7 +1690,7 @@ namespace tphn
       return true;
     }
 
-    bool compare_exchange_strong(T*& expected, T* desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_strong(T*& expected, T* desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       T* old = expected;
 
@@ -1706,7 +1706,7 @@ namespace tphn
       return true;
     }
 
-    bool compare_exchange_strong(T*& expected, T* desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_strong(T*& expected, T* desired, tpn::memory_order success, tpn::memory_order failure)
     {
       T* old = expected;
 
@@ -1722,7 +1722,7 @@ namespace tphn
       return true;
     }
 
-    bool compare_exchange_strong(T*& expected, T* desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_strong(T*& expected, T* desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       T* old = expected;
 
@@ -1802,40 +1802,40 @@ namespace tphn
     }
 
     // Store
-    void store(bool v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    void store(bool v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       __sync_lock_test_and_set(&value, char(v));
     }
 
-    void store(bool v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    void store(bool v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       __sync_lock_test_and_set(&value, char(v));
     }
 
     // Load
-    bool load(tphn::memory_order order = tphn::memory_order_seq_cst) const
+    bool load(tpn::memory_order order = tpn::memory_order_seq_cst) const
     {
       return static_cast<bool>(__sync_fetch_and_add(&value, 0));
     }
 
-    bool load(tphn::memory_order order = tphn::memory_order_seq_cst) const volatile
+    bool load(tpn::memory_order order = tpn::memory_order_seq_cst) const volatile
     {
       return static_cast<bool>(__sync_fetch_and_add(&value, 0));
     }
 
     // Exchange
-    bool exchange(bool v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool exchange(bool v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return static_cast<bool>(__sync_lock_test_and_set(&value, char(v)));
     }
 
-    bool exchange(bool v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool exchange(bool v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return static_cast<bool>(__sync_lock_test_and_set(&value, char(v)));
     }
 
     // Compare exchange weak
-    bool compare_exchange_weak(bool& expected, bool desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_weak(bool& expected, bool desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       bool old = static_cast<bool>(__sync_val_compare_and_swap(&value, char(expected), char(desired)));
 
@@ -1850,7 +1850,7 @@ namespace tphn
       }
     }
 
-    bool compare_exchange_weak(bool& expected, bool desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_weak(bool& expected, bool desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       bool old = static_cast<bool>(__sync_val_compare_and_swap(&value, char(expected), char(desired)));
 
@@ -1865,7 +1865,7 @@ namespace tphn
       }
     }
 
-    bool compare_exchange_weak(bool& expected, bool desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_weak(bool& expected, bool desired, tpn::memory_order success, tpn::memory_order failure)
     {
       bool old = static_cast<bool>(__sync_val_compare_and_swap(&value, char(expected), char(desired)));
 
@@ -1880,7 +1880,7 @@ namespace tphn
       }
     }
 
-    bool compare_exchange_weak(bool& expected, bool desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_weak(bool& expected, bool desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       bool old = static_cast<bool>(__sync_val_compare_and_swap(&value, char(expected), char(desired)));
 
@@ -1896,7 +1896,7 @@ namespace tphn
     }
 
     // Compare exchange strong
-    bool compare_exchange_strong(bool& expected, bool desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_strong(bool& expected, bool desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       bool old = expected;
 
@@ -1912,7 +1912,7 @@ namespace tphn
       return true;
     }
 
-    bool compare_exchange_strong(bool& expected, bool desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_strong(bool& expected, bool desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       bool old = expected;
 
@@ -1928,7 +1928,7 @@ namespace tphn
       return true;
     }
 
-    bool compare_exchange_strong(bool& expected, bool desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_strong(bool& expected, bool desired, tpn::memory_order success, tpn::memory_order failure)
     {
       bool old = expected;
 
@@ -1944,7 +1944,7 @@ namespace tphn
       return true;
     }
 
-    bool compare_exchange_strong(bool& expected, bool desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_strong(bool& expected, bool desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       bool old = expected;
 
@@ -2035,14 +2035,14 @@ namespace tphn
     }
 
     // Store
-    void store(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    void store(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       TYPHOON_BUILTIN_LOCK;
       value = v;
       TYPHOON_BUILTIN_UNLOCK;
     }
 
-    void store(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    void store(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       TYPHOON_BUILTIN_LOCK;
       value = v;
@@ -2050,7 +2050,7 @@ namespace tphn
     }
 
     // Load
-    T load(tphn::memory_order order = tphn::memory_order_seq_cst) const volatile
+    T load(tpn::memory_order order = tpn::memory_order_seq_cst) const volatile
     {
       TYPHOON_BUILTIN_LOCK;
       T result = value;
@@ -2060,7 +2060,7 @@ namespace tphn
     }
 
     // Load
-    T load(tphn::memory_order order = tphn::memory_order_seq_cst) const
+    T load(tpn::memory_order order = tpn::memory_order_seq_cst) const
     {
       TYPHOON_BUILTIN_LOCK;
       T result = value;
@@ -2070,7 +2070,7 @@ namespace tphn
     }
 
     // Exchange
-    T exchange(T v, tphn::memory_order order = tphn::memory_order_seq_cst)
+    T exchange(T v, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       TYPHOON_BUILTIN_LOCK;
       T result = value;
@@ -2080,7 +2080,7 @@ namespace tphn
       return result;
     }
 
-    T exchange(T v, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    T exchange(T v, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       TYPHOON_BUILTIN_LOCK;
       T result = value;
@@ -2091,7 +2091,7 @@ namespace tphn
     }
 
     // Compare exchange weak
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       bool result;
 
@@ -2110,7 +2110,7 @@ namespace tphn
       return result;
     }
 
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       bool result;
 
@@ -2129,33 +2129,33 @@ namespace tphn
       return result;
     }
 
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure)
     {
       return compare_exchange_weak(expected, desired);
     }
 
-    bool compare_exchange_weak(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_weak(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       return compare_exchange_weak(expected, desired);
     }
 
     // Compare exchange strong
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst)
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst)
     {
       return compare_exchange_weak(expected, desired);
     }
 
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order order = tphn::memory_order_seq_cst) volatile
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order order = tpn::memory_order_seq_cst) volatile
     {
       return compare_exchange_weak(expected, desired);
     }
 
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure)
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure)
     {
       return compare_exchange_weak(expected, desired);
     }
 
-    bool compare_exchange_strong(T& expected, T desired, tphn::memory_order success, tphn::memory_order failure) volatile
+    bool compare_exchange_strong(T& expected, T desired, tpn::memory_order success, tpn::memory_order failure) volatile
     {
       return compare_exchange_weak(expected, desired);
     }
@@ -2171,66 +2171,66 @@ namespace tphn
 
 #endif
 
-  typedef tphn::atomic<bool>                atomic_bool;
-  typedef tphn::atomic<char>                atomic_char;
-  typedef tphn::atomic<signed char>         atomic_schar;
-  typedef tphn::atomic<unsigned char>       atomic_uchar;
-  typedef tphn::atomic<short>               atomic_short;
-  typedef tphn::atomic<unsigned short>      atomic_ushort;
-  typedef tphn::atomic<int>                 atomic_int;
-  typedef tphn::atomic<unsigned int>        atomic_uint;
-  typedef tphn::atomic<long>                atomic_long;
-  typedef tphn::atomic<unsigned long>       atomic_ulong;
-  typedef tphn::atomic<long long>           atomic_llong;
-  typedef tphn::atomic<unsigned long long>  atomic_ullong;
-  typedef tphn::atomic<wchar_t>             atomic_wchar_t;
+  typedef tpn::atomic<bool>                atomic_bool;
+  typedef tpn::atomic<char>                atomic_char;
+  typedef tpn::atomic<signed char>         atomic_schar;
+  typedef tpn::atomic<unsigned char>       atomic_uchar;
+  typedef tpn::atomic<short>               atomic_short;
+  typedef tpn::atomic<unsigned short>      atomic_ushort;
+  typedef tpn::atomic<int>                 atomic_int;
+  typedef tpn::atomic<unsigned int>        atomic_uint;
+  typedef tpn::atomic<long>                atomic_long;
+  typedef tpn::atomic<unsigned long>       atomic_ulong;
+  typedef tpn::atomic<long long>           atomic_llong;
+  typedef tpn::atomic<unsigned long long>  atomic_ullong;
+  typedef tpn::atomic<wchar_t>             atomic_wchar_t;
 #if TYPHOON_HAS_NATIVE_CHAR8_T
-  typedef tphn::atomic<char8_t>             atomic_char8_t;
+  typedef tpn::atomic<char8_t>             atomic_char8_t;
 #endif
 #if TYPHOON_HAS_NATIVE_CHAR16_T
-  typedef tphn::atomic<char16_t>            atomic_char16_t;
+  typedef tpn::atomic<char16_t>            atomic_char16_t;
 #endif
 #if TYPHOON_HAS_NATIVE_CHAR32_T
-  typedef tphn::atomic<char32_t>            atomic_char32_t;
+  typedef tpn::atomic<char32_t>            atomic_char32_t;
 #endif
 #if TYPHOON_USING_8BIT_TYPES
-  typedef tphn::atomic<uint8_t>             atomic_uint8_t;
-  typedef tphn::atomic<int8_t>              atomic_int8_t;
+  typedef tpn::atomic<uint8_t>             atomic_uint8_t;
+  typedef tpn::atomic<int8_t>              atomic_int8_t;
 #endif
-  typedef tphn::atomic<uint16_t>            atomic_uint16_t;
-  typedef tphn::atomic<int16_t>             atomic_int16_t;
-  typedef tphn::atomic<uint32_t>            atomic_uint32_t;
-  typedef tphn::atomic<int32_t>             atomic_int32_t;
+  typedef tpn::atomic<uint16_t>            atomic_uint16_t;
+  typedef tpn::atomic<int16_t>             atomic_int16_t;
+  typedef tpn::atomic<uint32_t>            atomic_uint32_t;
+  typedef tpn::atomic<int32_t>             atomic_int32_t;
 #if TYPHOON_USING_64BIT_TYPES
-  typedef tphn::atomic<uint64_t>            atomic_uint64_t;
-  typedef tphn::atomic<int64_t>             atomic_int64_t;
+  typedef tpn::atomic<uint64_t>            atomic_uint64_t;
+  typedef tpn::atomic<int64_t>             atomic_int64_t;
 #endif
-  typedef tphn::atomic<int_least8_t>        atomic_int_least8_t;
-  typedef tphn::atomic<uint_least8_t>       atomic_uint_least8_t;
-  typedef tphn::atomic<int_least16_t>       atomic_int_least16_t;
-  typedef tphn::atomic<uint_least16_t>      atomic_uint_least16_t;
-  typedef tphn::atomic<int_least32_t>       atomic_int_least32_t;
-  typedef tphn::atomic<uint_least32_t>      atomic_uint_least32_t;
+  typedef tpn::atomic<int_least8_t>        atomic_int_least8_t;
+  typedef tpn::atomic<uint_least8_t>       atomic_uint_least8_t;
+  typedef tpn::atomic<int_least16_t>       atomic_int_least16_t;
+  typedef tpn::atomic<uint_least16_t>      atomic_uint_least16_t;
+  typedef tpn::atomic<int_least32_t>       atomic_int_least32_t;
+  typedef tpn::atomic<uint_least32_t>      atomic_uint_least32_t;
 #if TYPHOON_USING_64BIT_TYPES
-  typedef tphn::atomic<int_least64_t>       atomic_int_least64_t;
-  typedef tphn::atomic<uint_least64_t>      atomic_uint_least64_t;
+  typedef tpn::atomic<int_least64_t>       atomic_int_least64_t;
+  typedef tpn::atomic<uint_least64_t>      atomic_uint_least64_t;
 #endif
-  typedef tphn::atomic<int_fast8_t>         atomic_int_fast8_t;
-  typedef tphn::atomic<uint_fast8_t>        atomic_uint_fast8_t;
-  typedef tphn::atomic<int_fast16_t>        atomic_int_fast16_t;
-  typedef tphn::atomic<uint_fast16_t>       atomic_uint_fast16_t;
-  typedef tphn::atomic<int_fast32_t>        atomic_int_fast32_t;
-  typedef tphn::atomic<uint_fast32_t>       atomic_uint_fast32_t;
+  typedef tpn::atomic<int_fast8_t>         atomic_int_fast8_t;
+  typedef tpn::atomic<uint_fast8_t>        atomic_uint_fast8_t;
+  typedef tpn::atomic<int_fast16_t>        atomic_int_fast16_t;
+  typedef tpn::atomic<uint_fast16_t>       atomic_uint_fast16_t;
+  typedef tpn::atomic<int_fast32_t>        atomic_int_fast32_t;
+  typedef tpn::atomic<uint_fast32_t>       atomic_uint_fast32_t;
 #if TYPHOON_USING_64BIT_TYPES
-  typedef tphn::atomic<int_fast64_t>        atomic_int_fast64_t;
-  typedef tphn::atomic<uint_fast64_t>       atomic_uint_fast64_t;
+  typedef tpn::atomic<int_fast64_t>        atomic_int_fast64_t;
+  typedef tpn::atomic<uint_fast64_t>       atomic_uint_fast64_t;
 #endif
-  typedef tphn::atomic<intptr_t>            atomic_intptr_t;
-  typedef tphn::atomic<uintptr_t>           atomic_uintptr_t;
-  typedef tphn::atomic<size_t>              atomic_size_t;
-  typedef tphn::atomic<ptrdiff_t>           atomic_ptrdiff_t;
-  typedef tphn::atomic<intmax_t>            atomic_intmax_t;
-  typedef tphn::atomic<uintmax_t>           atomic_uintmax_t;
+  typedef tpn::atomic<intptr_t>            atomic_intptr_t;
+  typedef tpn::atomic<uintptr_t>           atomic_uintptr_t;
+  typedef tpn::atomic<size_t>              atomic_size_t;
+  typedef tpn::atomic<ptrdiff_t>           atomic_ptrdiff_t;
+  typedef tpn::atomic<intmax_t>            atomic_intmax_t;
+  typedef tpn::atomic<uintmax_t>           atomic_uintmax_t;
 }
 
 #endif

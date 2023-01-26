@@ -3,8 +3,8 @@
 /******************************************************************************
 The MIT License(MIT)
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 Copyright(c) 2018 John Wellbelove
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files(the "Software"), to deal
@@ -46,12 +46,12 @@ SOFTWARE.
 
 #include "private/minmax_push.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Exception base for bit streams
   //***************************************************************************
-  class bit_stream_exception : public tphn::exception
+  class bit_stream_exception : public tpn::exception
   {
   public:
 
@@ -65,7 +65,7 @@ namespace tphn
   ///\ingroup string
   /// String empty exception.
   //***************************************************************************
-  class bit_stream_overflow : public tphn::bit_stream_exception
+  class bit_stream_overflow : public tpn::bit_stream_exception
   {
   public:
 
@@ -100,7 +100,7 @@ namespace tphn
     //***************************************************************************
     bit_stream(void* begin_, void* end_)
       : pdata(reinterpret_cast<unsigned char*>(begin_)),
-        length_chars(tphn::distance(reinterpret_cast<unsigned char*>(begin_), reinterpret_cast<unsigned char*>(end_)))
+        length_chars(tpn::distance(reinterpret_cast<unsigned char*>(begin_), reinterpret_cast<unsigned char*>(end_)))
     {
       restart();
     }
@@ -130,7 +130,7 @@ namespace tphn
     //***************************************************************************
     void set_stream(void* begin_, void* end_)
     {
-      set_stream(begin_, tphn::distance(reinterpret_cast<unsigned char*>(begin_), reinterpret_cast<unsigned char*>(end_)));
+      set_stream(begin_, tpn::distance(reinterpret_cast<unsigned char*>(begin_), reinterpret_cast<unsigned char*>(end_)));
     }
 
     //***************************************************************************
@@ -175,7 +175,7 @@ namespace tphn
     /// For integral types
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value, bool>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value, bool>::type
       put(T value, uint_least8_t nbits = CHAR_BIT * sizeof(T))
     {
       return put_integral(static_cast<uint32_t>(value), nbits);
@@ -203,7 +203,7 @@ namespace tphn
     /// For floating point types
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_floating_point<T>::value, bool>::type
+    typename tpn::enable_if<tpn::is_floating_point<T>::value, bool>::type
       put(T value)
     {
       bool success = true;
@@ -246,7 +246,7 @@ namespace tphn
     /// For integral types
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value, bool>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value, bool>::type
       get(T& value, uint_least8_t nbits = CHAR_BIT * sizeof(T))
     {
       bool success = false;
@@ -262,9 +262,9 @@ namespace tphn
           // Get the bits from the stream.
           while (nbits != 0)
           {
-            unsigned char mask_width = static_cast<unsigned char>(tphn::min(nbits, bits_available_in_char));
+            unsigned char mask_width = static_cast<unsigned char>(tpn::min(nbits, bits_available_in_char));
             
-            typedef typename tphn::make_unsigned<T>::type chunk_t;           
+            typedef typename tpn::make_unsigned<T>::type chunk_t;           
             chunk_t chunk = get_chunk(mask_width);
 
             nbits -= mask_width;
@@ -276,10 +276,10 @@ namespace tphn
       }
 
       // Sign extend if signed type and not already full bit width.
-      if (tphn::is_signed<T>::value && (bits != (CHAR_BIT * sizeof(T))))
+      if (tpn::is_signed<T>::value && (bits != (CHAR_BIT * sizeof(T))))
       {
-        typedef typename tphn::make_signed<T>::type ST;
-        value = tphn::sign_extend<ST, ST>(value, bits);
+        typedef typename tpn::make_signed<T>::type ST;
+        value = tpn::sign_extend<ST, ST>(value, bits);
       }
 
       return success;
@@ -289,7 +289,7 @@ namespace tphn
     /// For floating point types
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_floating_point<T>::value, bool>::type
+    typename tpn::enable_if<tpn::is_floating_point<T>::value, bool>::type
       get(T& value)
     {
       bool success = false;
@@ -302,7 +302,7 @@ namespace tphn
         if (bits_available >= nbits)
         {
           // Temporary storage.
-          tphn::uninitialized_buffer_of<T, 1U> data;
+          tpn::uninitialized_buffer_of<T, 1U> data;
 
           for (size_t i = 0UL; i < sizeof(T); ++i)
           {
@@ -375,7 +375,7 @@ namespace tphn
           // Send the bits to the stream.
           while (nbits != 0)
           {
-            unsigned char mask_width = static_cast<unsigned char>(tphn::min(nbits, bits_available_in_char));
+            unsigned char mask_width = static_cast<unsigned char>(tpn::min(nbits, bits_available_in_char));
             nbits -= mask_width;
             uint32_t mask = ((uint32_t(1U) << mask_width) - 1U) << nbits;
 
@@ -409,7 +409,7 @@ namespace tphn
           // Send the bits to the stream.
           while (nbits != 0)
           {
-            unsigned char mask_width = static_cast<unsigned char>(tphn::min(nbits, bits_available_in_char));
+            unsigned char mask_width = static_cast<unsigned char>(tpn::min(nbits, bits_available_in_char));
             nbits -= mask_width;
             uint64_t mask = ((uint64_t(1U) << mask_width) - 1U) << nbits;
 
@@ -456,7 +456,7 @@ namespace tphn
 
       if (nbits == CHAR_BIT)
       {
-        mask = tphn::integral_limits<unsigned char>::max;
+        mask = tpn::integral_limits<unsigned char>::max;
       }
       else
       {
@@ -488,16 +488,16 @@ namespace tphn
     template <typename T>
     void from_bytes(const unsigned char* data, T& value)
     {
-      tphn::uninitialized_buffer_of<T, 1U> temp;
+      tpn::uninitialized_buffer_of<T, 1U> temp;
 
       // Network to host.
-      if (tphn::endianness::value() == tphn::endian::little)
+      if (tpn::endianness::value() == tpn::endian::little)
       {
-        tphn::reverse_copy(data, data + sizeof(T), temp.raw);
+        tpn::reverse_copy(data, data + sizeof(T), temp.raw);
       }
       else
       {
-        tphn::copy(data, data + sizeof(T), temp.raw);
+        tpn::copy(data, data + sizeof(T), temp.raw);
       }
 
       value = *reinterpret_cast<T*>(temp.raw);
@@ -512,13 +512,13 @@ namespace tphn
       unsigned char* pf = reinterpret_cast<unsigned char*>(&value);
 
       // Host to network.
-      if (tphn::endianness::value() == tphn::endian::little)
+      if (tpn::endianness::value() == tpn::endian::little)
       {
-        tphn::reverse_copy(pf, pf + sizeof(T), data);
+        tpn::reverse_copy(pf, pf + sizeof(T), data);
       }
       else
       {
-        tphn::copy(pf, pf + sizeof(T), data);
+        tpn::copy(pf, pf + sizeof(T), data);
       }
     }
 
@@ -556,13 +556,13 @@ namespace tphn
     typedef char value_type;
     typedef value_type* iterator;
     typedef const value_type* const_iterator;   
-    typedef tphn::span<value_type> callback_parameter_type;
-    typedef tphn::delegate<void(callback_parameter_type)> callback_type;
+    typedef tpn::span<value_type> callback_parameter_type;
+    typedef tpn::delegate<void(callback_parameter_type)> callback_type;
 
     //***************************************************************************
     /// Construct from span.
     //***************************************************************************
-    bit_stream_writer(tphn::span<char> span_, tphn::endian stream_endianness_, callback_type callback_ = callback_type())
+    bit_stream_writer(tpn::span<char> span_, tpn::endian stream_endianness_, callback_type callback_ = callback_type())
       : pdata(span_.begin())
       , length_chars(span_.size_bytes())
       , stream_endianness(stream_endianness_)
@@ -574,7 +574,7 @@ namespace tphn
     //***************************************************************************
     /// Construct from span.
     //***************************************************************************
-    bit_stream_writer(tphn::span<unsigned char> span_, tphn::endian stream_endianness_, callback_type callback_ = callback_type())
+    bit_stream_writer(tpn::span<unsigned char> span_, tpn::endian stream_endianness_, callback_type callback_ = callback_type())
       : pdata(reinterpret_cast<char*>(span_.begin()))
       , length_chars(span_.size_bytes())
       , stream_endianness(stream_endianness_)
@@ -586,9 +586,9 @@ namespace tphn
     //***************************************************************************
     /// Construct from range.
     //***************************************************************************
-    bit_stream_writer(void* begin_, void* end_, tphn::endian stream_endianness_, callback_type callback_ = callback_type())
+    bit_stream_writer(void* begin_, void* end_, tpn::endian stream_endianness_, callback_type callback_ = callback_type())
       : pdata(reinterpret_cast<char*>(begin_))
-      , length_chars(tphn::distance(reinterpret_cast<unsigned char*>(begin_), reinterpret_cast<unsigned char*>(end_)))
+      , length_chars(tpn::distance(reinterpret_cast<unsigned char*>(begin_), reinterpret_cast<unsigned char*>(end_)))
       , stream_endianness(stream_endianness_)
       , callback(callback_)
     {
@@ -598,7 +598,7 @@ namespace tphn
     //***************************************************************************
     /// Construct from begin and length.
     //***************************************************************************
-    bit_stream_writer(void* begin_, size_t length_chars_, tphn::endian stream_endianness_, callback_type callback_ = callback_type())
+    bit_stream_writer(void* begin_, size_t length_chars_, tpn::endian stream_endianness_, callback_type callback_ = callback_type())
       : pdata(reinterpret_cast<char*>(begin_))
       , length_chars(length_chars_)
       , stream_endianness(stream_endianness_)
@@ -669,7 +669,7 @@ namespace tphn
       }
       else
       {
-        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tphn::bit_stream_overflow));
+        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tpn::bit_stream_overflow));
       }
 
       return success;
@@ -679,10 +679,10 @@ namespace tphn
     /// For integral types
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value, void>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value, void>::type
       write_unchecked(T value, uint_least8_t nbits = CHAR_BIT * sizeof(T))
     {
-      typedef typename tphn::unsigned_type<T>::type unsigned_t;
+      typedef typename tpn::unsigned_type<T>::type unsigned_t;
 
       write_data<unsigned_t>(static_cast<unsigned_t>(value), nbits);
     }
@@ -691,7 +691,7 @@ namespace tphn
     /// For integral types
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value, bool>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value, bool>::type
       write(T value, uint_least8_t nbits = CHAR_BIT * sizeof(T))
     {
       bool success = (available(nbits) > 0U);
@@ -702,7 +702,7 @@ namespace tphn
       }
       else
       {
-        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tphn::bit_stream_overflow));
+        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tpn::bit_stream_overflow));
       }
 
       return success;
@@ -732,7 +732,7 @@ namespace tphn
       }
       else
       {
-        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tphn::bit_stream_overflow));
+        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tpn::bit_stream_overflow));
       }
 
       return success;
@@ -850,33 +850,33 @@ namespace tphn
     //***************************************************************************
     /// Returns a span of the used portion of the stream.
     //***************************************************************************
-    tphn::span<char> used_data()
+    tpn::span<char> used_data()
     {
-      return tphn::span<char>(pdata, pdata + size_bytes());
+      return tpn::span<char>(pdata, pdata + size_bytes());
     }
 
     //***************************************************************************
     /// Returns a span of the used portion of the stream.
     //***************************************************************************
-    tphn::span<const char> used_data() const
+    tpn::span<const char> used_data() const
     {
-      return tphn::span<const char>(pdata, pdata + size_bytes());
+      return tpn::span<const char>(pdata, pdata + size_bytes());
     }
 
     //***************************************************************************
     /// Returns a span of whole the stream.
     //***************************************************************************
-    tphn::span<char> data()
+    tpn::span<char> data()
     {
-      return tphn::span<char>(pdata, pdata + length_chars);
+      return tpn::span<char>(pdata, pdata + length_chars);
     }
 
     //***************************************************************************
     /// Returns a span of whole the stream.
     //***************************************************************************
-    tphn::span<const char> data() const
+    tpn::span<const char> data() const
     {
-      return tphn::span<const char>(pdata, pdata + length_chars);
+      return tpn::span<const char>(pdata, pdata + length_chars);
     }
 
     //***************************************************************************
@@ -924,16 +924,16 @@ namespace tphn
       // Make sure that we are not writing more bits than should be available.
       nbits = (nbits > (CHAR_BIT * sizeof(T))) ? (CHAR_BIT * sizeof(T)) : nbits;
 
-      if (stream_endianness == tphn::endian::little)
+      if (stream_endianness == tpn::endian::little)
       {
-        value = tphn::reverse_bits(value);
+        value = tpn::reverse_bits(value);
         value = value >> ((CHAR_BIT * sizeof(T)) - nbits);
       }
 
       // Send the bits to the stream.
       while (nbits != 0)
       {
-        unsigned char mask_width = static_cast<unsigned char>(tphn::min(nbits, bits_available_in_char));
+        unsigned char mask_width = static_cast<unsigned char>(tpn::min(nbits, bits_available_in_char));
         nbits -= mask_width;
         T mask = ((T(1U) << mask_width) - 1U) << nbits;
 
@@ -1008,7 +1008,7 @@ namespace tphn
 
     char* const       pdata;                  ///< The start of the bitstream buffer.
     const size_t      length_chars;           ///< The length of the bitstream buffer.
-    const tphn::endian stream_endianness;      ///< The endianness of the stream data.
+    const tpn::endian stream_endianness;      ///< The endianness of the stream data.
     unsigned char     bits_available_in_char; ///< The number of available bits in the current char.
     size_t            char_index;             ///< The index of the current char in the bitstream buffer.
     size_t            bits_available;         ///< The number of bits still available in the bitstream buffer.
@@ -1019,7 +1019,7 @@ namespace tphn
   /// Implementation of the write function.
   /// For bool types only.
   //***************************************************************************
-  inline void write_unchecked(tphn::bit_stream_writer& stream, bool value)
+  inline void write_unchecked(tpn::bit_stream_writer& stream, bool value)
   {
     stream.write_unchecked(value);
   }
@@ -1028,7 +1028,7 @@ namespace tphn
   /// Implementation of the write function.
   /// For bool types only.
   //***************************************************************************
-  inline bool write(tphn::bit_stream_writer& stream, bool value)
+  inline bool write(tpn::bit_stream_writer& stream, bool value)
   {
     return stream.write(value);
   }
@@ -1039,8 +1039,8 @@ namespace tphn
   /// Overload this to support custom types.
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<tphn::is_integral<T>::value, void>::type
-    write_unchecked(tphn::bit_stream_writer& stream, const T& value, uint_least8_t nbits = CHAR_BIT * sizeof(T))
+  typename tpn::enable_if<tpn::is_integral<T>::value, void>::type
+    write_unchecked(tpn::bit_stream_writer& stream, const T& value, uint_least8_t nbits = CHAR_BIT * sizeof(T))
   {
     stream.write_unchecked(value, nbits);
   }
@@ -1051,8 +1051,8 @@ namespace tphn
   /// Overload this to support custom types.
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<tphn::is_integral<T>::value, bool>::type
-    write(tphn::bit_stream_writer& stream, const T& value, uint_least8_t nbits = CHAR_BIT * sizeof(T))
+  typename tpn::enable_if<tpn::is_integral<T>::value, bool>::type
+    write(tpn::bit_stream_writer& stream, const T& value, uint_least8_t nbits = CHAR_BIT * sizeof(T))
   {
     return stream.write(value, nbits);
   }
@@ -1070,7 +1070,7 @@ namespace tphn
     //***************************************************************************
     /// Construct from span.
     //***************************************************************************
-    bit_stream_reader(tphn::span<char> span_, tphn::endian stream_endianness_)
+    bit_stream_reader(tpn::span<char> span_, tpn::endian stream_endianness_)
       : pdata(span_.begin())
       , length_chars(span_.size_bytes())
       , stream_endianness(stream_endianness_)
@@ -1081,7 +1081,7 @@ namespace tphn
     //***************************************************************************
     /// Construct from span.
     //***************************************************************************
-    bit_stream_reader(tphn::span<unsigned char> span_, tphn::endian stream_endianness_)
+    bit_stream_reader(tpn::span<unsigned char> span_, tpn::endian stream_endianness_)
       : pdata(reinterpret_cast<char*>(span_.begin()))
       , length_chars(span_.size_bytes())
       , stream_endianness(stream_endianness_)
@@ -1092,9 +1092,9 @@ namespace tphn
     //***************************************************************************
     /// Construct from range.
     //***************************************************************************
-    bit_stream_reader(void* begin_, void* end_, tphn::endian stream_endianness_)
+    bit_stream_reader(void* begin_, void* end_, tpn::endian stream_endianness_)
       : pdata(reinterpret_cast<char*>(begin_))
-      , length_chars(tphn::distance(reinterpret_cast<char*>(begin_), reinterpret_cast<char*>(end_)))
+      , length_chars(tpn::distance(reinterpret_cast<char*>(begin_), reinterpret_cast<char*>(end_)))
       , stream_endianness(stream_endianness_)
     {
       restart();
@@ -1103,7 +1103,7 @@ namespace tphn
     //***************************************************************************
     /// Construct from begin and length.
     //***************************************************************************
-    bit_stream_reader(void* begin_, size_t length_, tphn::endian stream_endianness_)
+    bit_stream_reader(void* begin_, size_t length_, tpn::endian stream_endianness_)
       : pdata(reinterpret_cast<char*>(begin_))
       , length_chars(length_)
       , stream_endianness(stream_endianness_)
@@ -1125,7 +1125,7 @@ namespace tphn
     /// For bool types
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_same<bool, T>::value, bool>::type
+    typename tpn::enable_if<tpn::is_same<bool, T>::value, bool>::type
       read_unchecked()
     {
       return get_bit();
@@ -1135,10 +1135,10 @@ namespace tphn
     /// For bool types
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_same<bool, T>::value, tphn::optional<bool> >::type
+    typename tpn::enable_if<tpn::is_same<bool, T>::value, tpn::optional<bool> >::type
       read()
     {
-      tphn::optional<bool> result;
+      tpn::optional<bool> result;
 
       if (bits_available > 0U)
       {
@@ -1146,7 +1146,7 @@ namespace tphn
       }
       else
       {
-        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tphn::bit_stream_overflow));
+        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tpn::bit_stream_overflow));
       }
 
       return result;
@@ -1156,12 +1156,12 @@ namespace tphn
     /// For integral types
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value && !tphn::is_same<bool, T>::value, T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && !tpn::is_same<bool, T>::value, T>::type
       read_unchecked(uint_least8_t nbits = CHAR_BIT * sizeof(T))
     {
-      typedef typename tphn::unsigned_type<T>::type unsigned_t;
+      typedef typename tpn::unsigned_type<T>::type unsigned_t;
 
-      T value = read_value<unsigned_t>(nbits, tphn::is_signed<T>::value);
+      T value = read_value<unsigned_t>(nbits, tpn::is_signed<T>::value);
 
       return static_cast<T>(value);
     }
@@ -1170,10 +1170,10 @@ namespace tphn
     /// For integral types
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value && !tphn::is_same<bool, T>::value, tphn::optional<T> >::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && !tpn::is_same<bool, T>::value, tpn::optional<T> >::type
       read(uint_least8_t nbits = CHAR_BIT * sizeof(T))
     {
-      tphn::optional<T> result;
+      tpn::optional<T> result;
 
       // Do we have enough bits?
       if (bits_available >= nbits)
@@ -1182,7 +1182,7 @@ namespace tphn
       }
       else
       {
-        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tphn::bit_stream_overflow));
+        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tpn::bit_stream_overflow));
       }
 
       return result;
@@ -1239,9 +1239,9 @@ namespace tphn
     //***************************************************************************
     /// Returns a span of whole the stream.
     //***************************************************************************
-    tphn::span<const char> data() const
+    tpn::span<const char> data() const
     {
-      return tphn::span<const char>(pdata, pdata + length_chars);
+      return tpn::span<const char>(pdata, pdata + length_chars);
     }
 
     //***************************************************************************
@@ -1268,7 +1268,7 @@ namespace tphn
       }
       else
       {
-        TYPHOON_ASSERT_FAIL_AND_RETURN_VALUE(TYPHOON_ERROR(tphn::bit_stream_overflow), false);
+        TYPHOON_ASSERT_FAIL_AND_RETURN_VALUE(TYPHOON_ERROR(tpn::bit_stream_overflow), false);
       }
 
       return success;
@@ -1292,7 +1292,7 @@ namespace tphn
       // Get the bits from the stream.
       while (nbits != 0)
       {
-        unsigned char mask_width = static_cast<unsigned char>(tphn::min(nbits, bits_available_in_char));
+        unsigned char mask_width = static_cast<unsigned char>(tpn::min(nbits, bits_available_in_char));
 
         T chunk = get_chunk(mask_width);
 
@@ -1300,15 +1300,15 @@ namespace tphn
         value |= static_cast<T>(chunk << nbits);
       }
 
-      if (stream_endianness == tphn::endian::little)
+      if (stream_endianness == tpn::endian::little)
       {
         value = value << ((CHAR_BIT * sizeof(T)) - bits);
-        value = tphn::reverse_bits(value);
+        value = tpn::reverse_bits(value);
       }
 
       if (is_signed && (bits != (CHAR_BIT * sizeof(T))))
       {
-        value = tphn::sign_extend<T, T>(value, bits);
+        value = tpn::sign_extend<T, T>(value, bits);
       }
 
       return value;
@@ -1326,7 +1326,7 @@ namespace tphn
 
       if (nbits == CHAR_BIT)
       {
-        mask = tphn::integral_limits<unsigned char>::max;
+        mask = tpn::integral_limits<unsigned char>::max;
       }
       else
       {
@@ -1371,7 +1371,7 @@ namespace tphn
 
     char*             pdata;                  ///< The start of the bitstream buffer.
     size_t            length_chars;           ///< The length, in char, of the bitstream buffer.
-    const tphn::endian stream_endianness;      ///< The endianness of the stream data.
+    const tpn::endian stream_endianness;      ///< The endianness of the stream data.
     unsigned char     bits_available_in_char; ///< The number of available bits in the current char.
     size_t            char_index;             ///< The index of the char in the bitstream buffer.
     size_t            bits_available;         ///< The number of bits still available in the bitstream buffer.
@@ -1381,13 +1381,13 @@ namespace tphn
   /// Read an unchecked type from a stream.
   //***************************************************************************
   template <typename T>
-  T read_unchecked(tphn::bit_stream_reader& stream)
+  T read_unchecked(tpn::bit_stream_reader& stream)
   {
     return stream.read_unchecked<T>();
   }
 
   template <typename T>
-  T read_unchecked(tphn::bit_stream_reader& stream, uint_least8_t nbits)
+  T read_unchecked(tpn::bit_stream_reader& stream, uint_least8_t nbits)
   {
     return stream.read_unchecked<T>(nbits);
   }
@@ -1396,13 +1396,13 @@ namespace tphn
   /// Read a checked type from a stream.
   //***************************************************************************
   template <typename T>
-  tphn::optional<T> read(tphn::bit_stream_reader& stream)
+  tpn::optional<T> read(tpn::bit_stream_reader& stream)
   {
     return stream.read<T>();
   }
 
   template <typename T>
-  tphn::optional<T> read(tphn::bit_stream_reader& stream, uint_least8_t nbits)
+  tpn::optional<T> read(tpn::bit_stream_reader& stream, uint_least8_t nbits)
   {
     return stream.read<T>(nbits);
   }
@@ -1411,7 +1411,7 @@ namespace tphn
   /// Read an unchecked bool from a stream.
   //***************************************************************************
   template <>
-  inline bool read_unchecked<bool>(tphn::bit_stream_reader& stream)
+  inline bool read_unchecked<bool>(tpn::bit_stream_reader& stream)
   {
     return stream.read_unchecked<bool>();
   }
@@ -1420,7 +1420,7 @@ namespace tphn
   /// Read a bool from a stream.
   //***************************************************************************
   template <>
-  inline tphn::optional<bool> read<bool>(tphn::bit_stream_reader& stream)
+  inline tpn::optional<bool> read<bool>(tpn::bit_stream_reader& stream)
   {
     return stream.read<bool>();
   }

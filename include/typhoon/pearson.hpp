@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -49,7 +49,7 @@ TYPHOON_STATIC_ASSERT(TYPHOON_USING_8BIT_TYPES, "This file does not currently su
 ///\defgroup pearson Pearson hash calculation
 ///\ingroup pearson
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Calculates a Pearson hash
@@ -61,7 +61,7 @@ namespace tphn
   {
   public:
 
-    typedef tphn::array<uint8_t, HASH_LENGTH> value_type;
+    typedef tpn::array<uint8_t, HASH_LENGTH> value_type;
 
     //*************************************************************************
     /// Default constructor.
@@ -81,7 +81,7 @@ namespace tphn
     pearson(TIterator begin, const TIterator end)
       : first(true)
     {
-      TYPHOON_STATIC_ASSERT(sizeof(typename tphn::iterator_traits<TIterator>::value_type) == 1, "Type not supported");
+      TYPHOON_STATIC_ASSERT(sizeof(typename tpn::iterator_traits<TIterator>::value_type) == 1, "Type not supported");
 
       reset();
       add(begin, end);
@@ -103,7 +103,7 @@ namespace tphn
     template<typename TIterator>
     void add(TIterator begin, const TIterator end)
     {
-      TYPHOON_STATIC_ASSERT(sizeof(typename tphn::iterator_traits<TIterator>::value_type) == 1, "Type not supported");
+      TYPHOON_STATIC_ASSERT(sizeof(typename tpn::iterator_traits<TIterator>::value_type) == 1, "Type not supported");
 
       while (begin != end)
       {

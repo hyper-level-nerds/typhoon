@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2022 John Wellbelove
 
@@ -52,7 +52,7 @@ SOFTWARE.
 ///\defgroup poly_span poly_span
 ///\ingroup containers
 
-namespace tphn
+namespace tpn
 {
   template <typename U, size_t Extent>
   class poly_span;
@@ -68,7 +68,7 @@ namespace tphn
     public:
 
       template <typename U, size_t Extent>
-      friend class tphn::poly_span;
+      friend class tpn::poly_span;
 
       template <typename UBase>
       friend class const_iterator;
@@ -249,13 +249,13 @@ namespace tphn
   //***************************************************************************
   /// Poly Span - Fixed Extent
   //***************************************************************************
-  template <typename TBase, size_t Extent = tphn::dynamic_extent>
+  template <typename TBase, size_t Extent = tpn::dynamic_extent>
   class poly_span
   {
   public:
 
     typedef TBase                                element_type;
-    typedef typename tphn::remove_cv<TBase>::type value_type;
+    typedef typename tpn::remove_cv<TBase>::type value_type;
     typedef size_t                               size_type;
     typedef TBase&                               reference;
     typedef const TBase&                         const_reference;
@@ -284,13 +284,13 @@ namespace tphn
     //*************************************************************************
     template <typename TIterator, typename TSize>
     TYPHOON_CONSTEXPR poly_span(const TIterator begin_, const TSize /*size_*/) TYPHOON_NOEXCEPT
-      : pbegin(tphn::addressof(*begin_))
-      , element_size(sizeof(typename tphn::iterator_traits<TIterator>::value_type))
+      : pbegin(tpn::addressof(*begin_))
+      , element_size(sizeof(typename tpn::iterator_traits<TIterator>::value_type))
     {
-      typedef typename tphn::iterator_traits<TIterator>::value_type        data_type;
+      typedef typename tpn::iterator_traits<TIterator>::value_type        data_type;
 
-      TYPHOON_STATIC_ASSERT((tphn::is_same<TYPHOON_OR_STD::random_access_iterator_tag, typename tphn::iterator_traits<TIterator>::iterator_category>::value), "Not a random access iterator");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, data_type>::value || tphn::is_same<TBase, data_type>::value), "TBase not a base of the data type");
+      TYPHOON_STATIC_ASSERT((tpn::is_same<TYPHOON_OR_STD::random_access_iterator_tag, typename tpn::iterator_traits<TIterator>::iterator_category>::value), "Not a random access iterator");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, data_type>::value || tpn::is_same<TBase, data_type>::value), "TBase not a base of the data type");
     }
 
     //*************************************************************************
@@ -298,14 +298,14 @@ namespace tphn
     //*************************************************************************
     template <typename TIterator>
     TYPHOON_CONSTEXPR poly_span(const TIterator begin_, const TIterator /*end_*/)
-      : pbegin(tphn::addressof(*begin_))
-      , element_size(sizeof(typename tphn::iterator_traits<TIterator>::value_type))
+      : pbegin(tpn::addressof(*begin_))
+      , element_size(sizeof(typename tpn::iterator_traits<TIterator>::value_type))
     {
-      typedef typename tphn::iterator_traits<TIterator>::value_type        data_type;
-      typedef typename tphn::iterator_traits<TIterator>::iterator_category iterator_category;
+      typedef typename tpn::iterator_traits<TIterator>::value_type        data_type;
+      typedef typename tpn::iterator_traits<TIterator>::iterator_category iterator_category;
 
-      TYPHOON_STATIC_ASSERT((tphn::is_same<TYPHOON_OR_STD::random_access_iterator_tag, iterator_category>::value),    "Not a random access iterator");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, data_type>::value || tphn::is_same<TBase, data_type>::value), "TBase not a base of the data type");
+      TYPHOON_STATIC_ASSERT((tpn::is_same<TYPHOON_OR_STD::random_access_iterator_tag, iterator_category>::value),    "Not a random access iterator");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, data_type>::value || tpn::is_same<TBase, data_type>::value), "TBase not a base of the data type");
     }
 
     //*************************************************************************
@@ -317,31 +317,31 @@ namespace tphn
       , element_size(sizeof(U))
     {
       TYPHOON_STATIC_ASSERT(N <= Extent, "Array data overflow");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, U>::value || tphn::is_same<TBase, U>::value), "TBase not a base of the data type");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, U>::value || tpn::is_same<TBase, U>::value), "TBase not a base of the data type");
     }
 
     //*************************************************************************
-    /// Construct from tphn::array.
+    /// Construct from tpn::array.
     //*************************************************************************
     template <typename U, size_t N>
-    TYPHOON_CONSTEXPR poly_span(tphn::array<U, N>& a) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR poly_span(tpn::array<U, N>& a) TYPHOON_NOEXCEPT
       : pbegin(a.data())
       , element_size(sizeof(U))
     {
       TYPHOON_STATIC_ASSERT(N <= Extent, "Array data overflow");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, U>::value || tphn::is_same<TBase, U>::value), "TBase not a base of the data type");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, U>::value || tpn::is_same<TBase, U>::value), "TBase not a base of the data type");
     }
 
     //*************************************************************************
-    /// Construct from tphn::array.
+    /// Construct from tpn::array.
     //*************************************************************************
     template <typename U, size_t N>
-    TYPHOON_CONSTEXPR poly_span(const tphn::array<U, N>& a) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR poly_span(const tpn::array<U, N>& a) TYPHOON_NOEXCEPT
       : pbegin(a.data())
       , element_size(sizeof(U))
     {
       TYPHOON_STATIC_ASSERT(N <= Extent, "Array data overflow");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, U>::value || tphn::is_same<TBase, U>::value), "TBase not a base of the data type");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, U>::value || tpn::is_same<TBase, U>::value), "TBase not a base of the data type");
     }
 
 #if TYPHOON_USING_STL && TYPHOON_USING_CPP11
@@ -354,7 +354,7 @@ namespace tphn
       , element_size(sizeof(U))
     {
       TYPHOON_STATIC_ASSERT(N <= Extent, "Array data overflow");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, U>::value || tphn::is_same<TBase, U>::value), "TBase not a base of U");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, U>::value || tpn::is_same<TBase, U>::value), "TBase not a base of U");
     }
 
     //*************************************************************************
@@ -366,7 +366,7 @@ namespace tphn
       , element_size(sizeof(U))
     {
       TYPHOON_STATIC_ASSERT(N <= Extent, "Array data overflow");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, U>::value || tphn::is_same<TBase, U>::value), "TBase not a base of U");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, U>::value || tpn::is_same<TBase, U>::value), "TBase not a base of U");
     }
 #endif
 
@@ -510,60 +510,60 @@ namespace tphn
     /// Obtains a poly_span that is a view over the first COUNT elements of this poly_span.
     //*************************************************************************
     template <size_t COUNT>
-    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tphn::poly_span<element_type, COUNT> first() const TYPHOON_NOEXCEPT
+    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tpn::poly_span<element_type, COUNT> first() const TYPHOON_NOEXCEPT
     {
-      return tphn::poly_span<element_type, COUNT>(pbegin, 0U, COUNT, element_size);
+      return tpn::poly_span<element_type, COUNT>(pbegin, 0U, COUNT, element_size);
     }
 
     //*************************************************************************
     /// Obtains a poly_span that is a view over the first count elements of this poly_span.
     //*************************************************************************
-    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tphn::poly_span<element_type, tphn::dynamic_extent> first(size_t count) const
+    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tpn::poly_span<element_type, tpn::dynamic_extent> first(size_t count) const
     {
-      return tphn::poly_span<element_type, tphn::dynamic_extent>(pbegin, 0U, count, element_size);
+      return tpn::poly_span<element_type, tpn::dynamic_extent>(pbegin, 0U, count, element_size);
     }
 
     //*************************************************************************
     /// Obtains a poly_span that is a view over the last COUNT elements of this poly_span.
     //*************************************************************************
     template <size_t COUNT>
-    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tphn::poly_span<element_type, COUNT> last() const TYPHOON_NOEXCEPT
+    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tpn::poly_span<element_type, COUNT> last() const TYPHOON_NOEXCEPT
     {
-      return tphn::poly_span<element_type, COUNT>(pbegin, Extent - COUNT, COUNT, element_size);
+      return tpn::poly_span<element_type, COUNT>(pbegin, Extent - COUNT, COUNT, element_size);
     }
 
     //*************************************************************************
     /// Obtains a poly_span that is a view over the last count elements of this poly_span.
     //*************************************************************************
-    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tphn::poly_span<element_type, tphn::dynamic_extent> last(size_t count) const TYPHOON_NOEXCEPT
+    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tpn::poly_span<element_type, tpn::dynamic_extent> last(size_t count) const TYPHOON_NOEXCEPT
     {
-      return tphn::poly_span<element_type, tphn::dynamic_extent>(pbegin, Extent - count, count, element_size);
+      return tpn::poly_span<element_type, tpn::dynamic_extent>(pbegin, Extent - count, count, element_size);
     }
 
 #if TYPHOON_USING_CPP11
     //*************************************************************************
     /// Obtains a poly_span that is a view from OFFSET over the next COUNT elements of this poly_span.
     //*************************************************************************
-    template <const size_t OFFSET, size_t COUNT = tphn::dynamic_extent>
-    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tphn::poly_span<element_type, COUNT != tphn::dynamic_extent ? COUNT : Extent - OFFSET> subspan() const TYPHOON_NOEXCEPT
+    template <const size_t OFFSET, size_t COUNT = tpn::dynamic_extent>
+    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tpn::poly_span<element_type, COUNT != tpn::dynamic_extent ? COUNT : Extent - OFFSET> subspan() const TYPHOON_NOEXCEPT
     {
-      return (COUNT == tphn::dynamic_extent) ? tphn::poly_span<element_type, COUNT != tphn::dynamic_extent ? COUNT : Extent - OFFSET>(pbegin, OFFSET, Extent, element_size)
-                                            : tphn::poly_span<element_type, COUNT != tphn::dynamic_extent ? COUNT : Extent - OFFSET>(pbegin, OFFSET, COUNT, element_size);
+      return (COUNT == tpn::dynamic_extent) ? tpn::poly_span<element_type, COUNT != tpn::dynamic_extent ? COUNT : Extent - OFFSET>(pbegin, OFFSET, Extent, element_size)
+                                            : tpn::poly_span<element_type, COUNT != tpn::dynamic_extent ? COUNT : Extent - OFFSET>(pbegin, OFFSET, COUNT, element_size);
     }
 #else
     //*************************************************************************
     /// Obtains a poly_span that is a view from OFFSET over the next COUNT elements of this poly_span.
     //*************************************************************************
     template <const size_t OFFSET, size_t COUNT>
-    tphn::poly_span<element_type, COUNT != tphn::dynamic_extent ? COUNT : Extent - OFFSET> subspan() const
+    tpn::poly_span<element_type, COUNT != tpn::dynamic_extent ? COUNT : Extent - OFFSET> subspan() const
     {
-      if (COUNT == tphn::dynamic_extent)
+      if (COUNT == tpn::dynamic_extent)
       {
-        return tphn::poly_span<element_type, COUNT != tphn::dynamic_extent ? COUNT : Extent - OFFSET>(pbegin, OFFSET, Extent, element_size);
+        return tpn::poly_span<element_type, COUNT != tpn::dynamic_extent ? COUNT : Extent - OFFSET>(pbegin, OFFSET, Extent, element_size);
       }
       else
       {
-        return tphn::poly_span<element_type, COUNT != tphn::dynamic_extent ? COUNT : Extent - OFFSET>(pbegin, OFFSET, element_size);
+        return tpn::poly_span<element_type, COUNT != tpn::dynamic_extent ? COUNT : Extent - OFFSET>(pbegin, OFFSET, element_size);
       }
     }
 #endif
@@ -571,10 +571,10 @@ namespace tphn
     //*************************************************************************
     /// Obtains a poly_span that is a view from 'offset' over the next 'count' elements of this poly_span.
     //*************************************************************************
-    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tphn::poly_span<element_type, tphn::dynamic_extent> subspan(size_t offset, size_t count = tphn::dynamic_extent) const TYPHOON_NOEXCEPT
+    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tpn::poly_span<element_type, tpn::dynamic_extent> subspan(size_t offset, size_t count = tpn::dynamic_extent) const TYPHOON_NOEXCEPT
     {
-      return (count == tphn::dynamic_extent) ? tphn::poly_span<element_type, tphn::dynamic_extent>(pbegin, offset, Extent, element_size)
-                                            : tphn::poly_span<element_type, tphn::dynamic_extent>(pbegin, offset, count, element_size);
+      return (count == tpn::dynamic_extent) ? tpn::poly_span<element_type, tpn::dynamic_extent>(pbegin, offset, Extent, element_size)
+                                            : tpn::poly_span<element_type, tpn::dynamic_extent>(pbegin, offset, count, element_size);
     }
 
   protected:
@@ -583,7 +583,7 @@ namespace tphn
     template <typename TFrom>
     struct char_ptr_type
     {
-      typedef typename tphn::conditional<tphn::is_const<TFrom>::value, const char*, char*>::type type;
+      typedef typename tpn::conditional<tpn::is_const<TFrom>::value, const char*, char*>::type type;
     };
 
     typedef typename char_ptr_type<TBase>::type char_ptr_t;
@@ -615,21 +615,21 @@ namespace tphn
   /// Poly Span - Dynamic Extent
   //***************************************************************************
   template <typename TBase>
-  class poly_span<TBase, tphn::dynamic_extent>
+  class poly_span<TBase, tpn::dynamic_extent>
   {
   public:
 
     typedef TBase        element_type;
-    typedef typename tphn::remove_cv<TBase>::type value_type;
+    typedef typename tpn::remove_cv<TBase>::type value_type;
     typedef size_t       size_type;
     typedef TBase&       reference;
     typedef const TBase& const_reference;
     typedef TBase*       pointer;
     typedef const TBase* const_pointer;
-    typedef tphn::private_poly_span::iterator<TBase> iterator;
+    typedef tpn::private_poly_span::iterator<TBase> iterator;
     typedef TYPHOON_OR_STD::reverse_iterator<iterator> reverse_iterator;
  
-    static TYPHOON_CONSTANT size_t extent = tphn::dynamic_extent;
+    static TYPHOON_CONSTANT size_t extent = tpn::dynamic_extent;
 
     template <typename UBase, size_t UExtent>
     friend class poly_span;
@@ -649,15 +649,15 @@ namespace tphn
     //*************************************************************************
     template <typename TIterator, typename TSize>
     TYPHOON_CONSTEXPR poly_span(const TIterator begin_, const TSize size_) TYPHOON_NOEXCEPT
-      : pbegin(tphn::addressof(*begin_))
-      , element_size(sizeof(typename tphn::iterator_traits<TIterator>::value_type))
+      : pbegin(tpn::addressof(*begin_))
+      , element_size(sizeof(typename tpn::iterator_traits<TIterator>::value_type))
       , span_extent(size_)
     {
-      typedef typename tphn::iterator_traits<TIterator>::value_type        data_type;
-      typedef typename tphn::iterator_traits<TIterator>::iterator_category iterator_category;
+      typedef typename tpn::iterator_traits<TIterator>::value_type        data_type;
+      typedef typename tpn::iterator_traits<TIterator>::iterator_category iterator_category;
 
-      TYPHOON_STATIC_ASSERT((tphn::is_same<TYPHOON_OR_STD::random_access_iterator_tag, iterator_category>::value), "Not a random access iterator");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, data_type>::value || tphn::is_same<TBase, data_type>::value), "TBase not a base of the data type");
+      TYPHOON_STATIC_ASSERT((tpn::is_same<TYPHOON_OR_STD::random_access_iterator_tag, iterator_category>::value), "Not a random access iterator");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, data_type>::value || tpn::is_same<TBase, data_type>::value), "TBase not a base of the data type");
     }
 
     //*************************************************************************
@@ -665,15 +665,15 @@ namespace tphn
     //*************************************************************************
     template <typename TIterator>
     TYPHOON_CONSTEXPR poly_span(const TIterator begin_, const TIterator end_)
-      : pbegin(tphn::addressof(*begin_))
-      , element_size(sizeof(typename tphn::iterator_traits<TIterator>::value_type))
-      , span_extent(size_t(tphn::distance(begin_, end_)))
+      : pbegin(tpn::addressof(*begin_))
+      , element_size(sizeof(typename tpn::iterator_traits<TIterator>::value_type))
+      , span_extent(size_t(tpn::distance(begin_, end_)))
     {
-      typedef typename tphn::iterator_traits<TIterator>::value_type        data_type;
-      typedef typename tphn::iterator_traits<TIterator>::iterator_category iterator_category;
+      typedef typename tpn::iterator_traits<TIterator>::value_type        data_type;
+      typedef typename tpn::iterator_traits<TIterator>::iterator_category iterator_category;
 
-      TYPHOON_STATIC_ASSERT((tphn::is_same<TYPHOON_OR_STD::random_access_iterator_tag, iterator_category>::value), "Not a random access iterator");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, data_type>::value || tphn::is_same<TBase, data_type>::value), "TBase not a base of the data type");
+      TYPHOON_STATIC_ASSERT((tpn::is_same<TYPHOON_OR_STD::random_access_iterator_tag, iterator_category>::value), "Not a random access iterator");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, data_type>::value || tpn::is_same<TBase, data_type>::value), "TBase not a base of the data type");
     }
 
     //*************************************************************************
@@ -685,31 +685,31 @@ namespace tphn
       , element_size(sizeof(U))
       , span_extent(N)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, U>::value || tphn::is_same<TBase, U>::value), "TBase not a base of the data type");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, U>::value || tpn::is_same<TBase, U>::value), "TBase not a base of the data type");
     }
 
     //*************************************************************************
-    /// Construct from tphn::array.
+    /// Construct from tpn::array.
     //*************************************************************************
     template <typename U, size_t N>
-    TYPHOON_CONSTEXPR poly_span(tphn::array<U, N>& a) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR poly_span(tpn::array<U, N>& a) TYPHOON_NOEXCEPT
       : pbegin(a.data())
       , element_size(sizeof(U))
       , span_extent(N)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, U>::value || tphn::is_same<TBase, U>::value), "TBase not a base of the data type");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, U>::value || tpn::is_same<TBase, U>::value), "TBase not a base of the data type");
     }
 
     //*************************************************************************
-    /// Construct from tphn::array.
+    /// Construct from tpn::array.
     //*************************************************************************
     template <typename U, size_t N>
-    TYPHOON_CONSTEXPR poly_span(const tphn::array<U, N>& a) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR poly_span(const tpn::array<U, N>& a) TYPHOON_NOEXCEPT
       : pbegin(a.data())
       , element_size(sizeof(U))
       , span_extent(N)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, U>::value || tphn::is_same<TBase, U>::value), "TBase not a base of the data type");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, U>::value || tpn::is_same<TBase, U>::value), "TBase not a base of the data type");
     }
 
 #if TYPHOON_USING_STL && TYPHOON_USING_CPP11
@@ -722,7 +722,7 @@ namespace tphn
       , element_size(sizeof(U))
       , span_extent(N)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, U>::value || tphn::is_same<TBase, U>::value), "TBase not a base of U");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, U>::value || tpn::is_same<TBase, U>::value), "TBase not a base of U");
     }
 
     //*************************************************************************
@@ -734,14 +734,14 @@ namespace tphn
       , element_size(sizeof(U))
       , span_extent(N)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, U>::value || tphn::is_same<TBase, U>::value), "TBase not a base of U");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, U>::value || tpn::is_same<TBase, U>::value), "TBase not a base of U");
     }
 #endif
 
     //*************************************************************************
     /// Copy constructor
     //*************************************************************************
-    TYPHOON_CONSTEXPR poly_span(const poly_span<TBase, tphn::dynamic_extent>& other) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR poly_span(const poly_span<TBase, tpn::dynamic_extent>& other) TYPHOON_NOEXCEPT
       : pbegin(other.pbegin)
       , element_size(other.element_size)
       , span_extent(other.span_extent)
@@ -752,7 +752,7 @@ namespace tphn
     /// Copy constructor
     //*************************************************************************
     template <typename UBase>
-    TYPHOON_CONSTEXPR poly_span(const poly_span<UBase, tphn::dynamic_extent>& other) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR poly_span(const poly_span<UBase, tpn::dynamic_extent>& other) TYPHOON_NOEXCEPT
       : pbegin(other.pbegin)
       , element_size(other.element_size)
       , span_extent(other.span_extent)
@@ -862,7 +862,7 @@ namespace tphn
     /// Assign from a poly_span.
     //*************************************************************************
     template <typename UBase>
-    TYPHOON_CONSTEXPR14 poly_span& operator =(const poly_span<UBase, tphn::dynamic_extent>& other) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR14 poly_span& operator =(const poly_span<UBase, tpn::dynamic_extent>& other) TYPHOON_NOEXCEPT
     {
       pbegin = other.pbegin;
       element_size = other.element_size;
@@ -882,60 +882,60 @@ namespace tphn
     /// Obtains a poly_span that is a view over the first COUNT elements of this poly_span.
     //*************************************************************************
     template <size_t COUNT>
-    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tphn::poly_span<element_type, COUNT> first() const TYPHOON_NOEXCEPT
+    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tpn::poly_span<element_type, COUNT> first() const TYPHOON_NOEXCEPT
     {
-      return tphn::poly_span<element_type, COUNT>(pbegin, 0U, COUNT, element_size);
+      return tpn::poly_span<element_type, COUNT>(pbegin, 0U, COUNT, element_size);
     }
 
     //*************************************************************************
     /// Obtains a poly_span that is a view over the first count elements of this poly_span.
     //*************************************************************************
-    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tphn::poly_span<element_type, tphn::dynamic_extent> first(size_t count) const TYPHOON_NOEXCEPT
+    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tpn::poly_span<element_type, tpn::dynamic_extent> first(size_t count) const TYPHOON_NOEXCEPT
     {
-      return tphn::poly_span<element_type, tphn::dynamic_extent>(pbegin, 0U, count, element_size);
+      return tpn::poly_span<element_type, tpn::dynamic_extent>(pbegin, 0U, count, element_size);
     }
 
     //*************************************************************************
     /// Obtains a poly_span that is a view over the last COUNT elements of this poly_span.
     //*************************************************************************
     template <size_t COUNT>
-    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tphn::poly_span<element_type, COUNT> last() const TYPHOON_NOEXCEPT
+    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tpn::poly_span<element_type, COUNT> last() const TYPHOON_NOEXCEPT
     {
-      return tphn::poly_span<element_type, COUNT>(pbegin, span_extent - COUNT, COUNT, element_size);
+      return tpn::poly_span<element_type, COUNT>(pbegin, span_extent - COUNT, COUNT, element_size);
     }
 
     //*************************************************************************
     /// Obtains a poly_span that is a view over the last count elements of this poly_span.
     //*************************************************************************
-    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tphn::poly_span<element_type, tphn::dynamic_extent> last(size_t count) const TYPHOON_NOEXCEPT
+    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tpn::poly_span<element_type, tpn::dynamic_extent> last(size_t count) const TYPHOON_NOEXCEPT
     {
-      return tphn::poly_span<element_type, tphn::dynamic_extent>(pbegin, span_extent - count, count, element_size);
+      return tpn::poly_span<element_type, tpn::dynamic_extent>(pbegin, span_extent - count, count, element_size);
     }
 
 #if TYPHOON_USING_CPP11
     //*************************************************************************
     /// Obtains a poly_span that is a view from OFFSET over the next COUNT elements of this poly_span.
     //*************************************************************************
-    template <const size_t OFFSET, size_t COUNT = tphn::dynamic_extent>
-    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tphn::poly_span<element_type, COUNT != tphn::dynamic_extent ? COUNT : tphn::dynamic_extent> subspan() const TYPHOON_NOEXCEPT
+    template <const size_t OFFSET, size_t COUNT = tpn::dynamic_extent>
+    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tpn::poly_span<element_type, COUNT != tpn::dynamic_extent ? COUNT : tpn::dynamic_extent> subspan() const TYPHOON_NOEXCEPT
     {
-      return (COUNT == tphn::dynamic_extent) ? tphn::poly_span<element_type, COUNT != tphn::dynamic_extent ? COUNT : tphn::dynamic_extent>(pbegin, OFFSET, span_extent, element_size)
-                                            : tphn::poly_span<element_type, COUNT != tphn::dynamic_extent ? COUNT : tphn::dynamic_extent>(pbegin, OFFSET, COUNT, element_size);
+      return (COUNT == tpn::dynamic_extent) ? tpn::poly_span<element_type, COUNT != tpn::dynamic_extent ? COUNT : tpn::dynamic_extent>(pbegin, OFFSET, span_extent, element_size)
+                                            : tpn::poly_span<element_type, COUNT != tpn::dynamic_extent ? COUNT : tpn::dynamic_extent>(pbegin, OFFSET, COUNT, element_size);
     }
 #else
     //*************************************************************************
     /// Obtains a poly_span that is a view from OFFSET over the next COUNT elements of this poly_span.
     //*************************************************************************
     template <const size_t OFFSET, size_t COUNT>
-    tphn::poly_span<element_type, COUNT != tphn::dynamic_extent ? COUNT : tphn::dynamic_extent> subspan() const
+    tpn::poly_span<element_type, COUNT != tpn::dynamic_extent ? COUNT : tpn::dynamic_extent> subspan() const
     {
-      if (COUNT == tphn::dynamic_extent)
+      if (COUNT == tpn::dynamic_extent)
       {
-        return tphn::poly_span<element_type, COUNT != tphn::dynamic_extent ? COUNT : tphn::dynamic_extent>(pbegin, OFFSET, span_extent, element_size);
+        return tpn::poly_span<element_type, COUNT != tpn::dynamic_extent ? COUNT : tpn::dynamic_extent>(pbegin, OFFSET, span_extent, element_size);
       }
       else
       {
-        return tphn::poly_span<element_type, COUNT != tphn::dynamic_extent ? COUNT : tphn::dynamic_extent>(pbegin, OFFSET, span_extent, element_size);
+        return tpn::poly_span<element_type, COUNT != tpn::dynamic_extent ? COUNT : tpn::dynamic_extent>(pbegin, OFFSET, span_extent, element_size);
       }
     }
 #endif
@@ -943,10 +943,10 @@ namespace tphn
     //*************************************************************************
     /// Obtains a poly_span that is a view from 'offset' over the next 'count' elements of this poly_span.
     //*************************************************************************
-    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tphn::poly_span<element_type, tphn::dynamic_extent> subspan(size_t offset, size_t count = tphn::dynamic_extent) const TYPHOON_NOEXCEPT
+    TYPHOON_NODISCARD TYPHOON_CONSTEXPR tpn::poly_span<element_type, tpn::dynamic_extent> subspan(size_t offset, size_t count = tpn::dynamic_extent) const TYPHOON_NOEXCEPT
     {
-      return (count == tphn::dynamic_extent) ? tphn::poly_span<element_type, tphn::dynamic_extent>(pbegin, offset, span_extent - offset, element_size)
-                                            : tphn::poly_span<element_type, tphn::dynamic_extent>(pbegin, offset, count, element_size);
+      return (count == tpn::dynamic_extent) ? tpn::poly_span<element_type, tpn::dynamic_extent>(pbegin, offset, span_extent - offset, element_size)
+                                            : tpn::poly_span<element_type, tpn::dynamic_extent>(pbegin, offset, count, element_size);
     }
 
 protected:
@@ -967,7 +967,7 @@ protected:
     template <typename TFrom>
     struct char_ptr_type
     {
-      typedef typename tphn::conditional<tphn::is_const<TFrom>::value, const char*, char*>::type type;
+      typedef typename tpn::conditional<tpn::is_const<TFrom>::value, const char*, char*>::type type;
     };
 
     typedef typename char_ptr_type<TBase>::type char_ptr_t;
@@ -990,22 +990,22 @@ protected:
 #if TYPHOON_USING_CPP17
   template <typename TIterator>
   poly_span(const TIterator begin_, const TIterator end_)
-    ->poly_span<tphn::remove_pointer_t<TIterator>, tphn::dynamic_extent>;
+    ->poly_span<tpn::remove_pointer_t<TIterator>, tpn::dynamic_extent>;
 
   template <typename TIterator, typename TSize>
   poly_span(const TIterator begin_, const TSize size_)
-    ->poly_span<tphn::remove_pointer_t<TIterator>, tphn::dynamic_extent>;
+    ->poly_span<tpn::remove_pointer_t<TIterator>, tpn::dynamic_extent>;
 
   template <typename T, size_t N>
   poly_span(T(&)[N])
     ->poly_span<T, N>;
 
   template <typename T, size_t N>
-  poly_span(tphn::array<T, N>&)
+  poly_span(tpn::array<T, N>&)
     ->poly_span<T, N>;
 
   template <typename T, size_t N>
-  poly_span(const tphn::array<T, N>&)
+  poly_span(const tpn::array<T, N>&)
     ->poly_span<const T, N>;
 
 #if TYPHOON_USING_STL
@@ -1024,11 +1024,11 @@ protected:
   //*************************************************************************
 #if TYPHOON_USING_8BIT_TYPES
   template <typename TBase, size_t Extent>
-  struct hash<tphn::poly_span<TBase, Extent> >
+  struct hash<tpn::poly_span<TBase, Extent> >
   {
-    size_t operator()(const tphn::poly_span<TBase, Extent>& view) const
+    size_t operator()(const tpn::poly_span<TBase, Extent>& view) const
     {
-      return tphn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&view[0]),
+      return tpn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&view[0]),
                                                      reinterpret_cast<const uint8_t*>(&view[view.size()]));
     }
   };

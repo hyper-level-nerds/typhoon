@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -45,14 +45,14 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //*************************************************************************
   /// A templated abstract pool implementation that uses a fixed size pool.
   ///\ingroup pool
   //*************************************************************************
   template <const size_t VTypeSize, const size_t VAlignment, const size_t VSize>
-  class generic_pool : public tphn::ipool
+  class generic_pool : public tpn::ipool
   {
   public:
 
@@ -64,20 +64,20 @@ namespace tphn
     /// Constructor
     //*************************************************************************
     generic_pool()
-      : tphn::ipool(reinterpret_cast<char*>(&buffer[0]), Element_Size, VSize)
+      : tpn::ipool(reinterpret_cast<char*>(&buffer[0]), Element_Size, VSize)
     {
     }
 
     //*************************************************************************
     /// Allocate an object from the pool.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     /// Static asserts if the specified type is too large for the pool.
     //*************************************************************************
     template <typename U>
     U* allocate()
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
       return ipool::allocate<U>();
     }
@@ -86,12 +86,12 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with default.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename U>
     U* create()
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
       return ipool::create<U>();
     }
@@ -99,12 +99,12 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 1 parameter.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename U, typename T1>
     U* create(const T1& value1)
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
       return ipool::create<U>(value1);
     }
@@ -112,12 +112,12 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 2 parameters.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename U, typename T1, typename T2>
     U* create(const T1& value1, const T2& value2)
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
       return ipool::create<U>(value1, value2);
     }
@@ -125,12 +125,12 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 3 parameters.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename U, typename T1, typename T2, typename T3>
     U* create(const T1& value1, const T2& value2, const T3& value3)
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
       return ipool::create<U>(value1, value2, value3);
     }
@@ -138,12 +138,12 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 4 parameters.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename U, typename T1, typename T2, typename T3, typename T4>
     U* create(const T1& value1, const T2& value2, const T3& value3, const T4& value4)
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
       return ipool::create<U>(value1, value2, value3, value4);
     }
@@ -154,9 +154,9 @@ namespace tphn
     template <typename U, typename... Args>
     U* create(Args&&... args)
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
-      return ipool::create<U>(tphn::forward<Args>(args)...);
+      return ipool::create<U>(tpn::forward<Args>(args)...);
     }
 #endif
 
@@ -168,7 +168,7 @@ namespace tphn
     template <typename U>
     void destroy(const U* const p_object)
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
       p_object->~U();
       ipool::release(p_object);
@@ -181,11 +181,11 @@ namespace tphn
     {
       char* next;              ///< Pointer to the next free element.
       char      value[VTypeSize]; ///< Storage for value type.
-      typename  tphn::type_with_alignment<VAlignment>::type dummy; ///< Dummy item to get correct alignment.
+      typename  tpn::type_with_alignment<VAlignment>::type dummy; ///< Dummy item to get correct alignment.
     };
 
     ///< The memory for the pool of objects.
-    typename tphn::aligned_storage<sizeof(Element), tphn::alignment_of<Element>::value>::type buffer[VSize];
+    typename tpn::aligned_storage<sizeof(Element), tpn::alignment_of<Element>::value>::type buffer[VSize];
 
     static TYPHOON_CONSTANT uint32_t Element_Size = sizeof(Element);
 
@@ -200,7 +200,7 @@ namespace tphn
   ///\ingroup pool
   //*************************************************************************
   template <const size_t VTypeSize, const size_t VAlignment>
-  class generic_pool_ext : public tphn::ipool 
+  class generic_pool_ext : public tpn::ipool 
   {
   private:
     // The pool element.
@@ -208,7 +208,7 @@ namespace tphn
     {
       char* next;                                                 ///< Pointer to the next free element.
       char value[VTypeSize];                                      ///< Storage for value type.
-      typename tphn::type_with_alignment<VAlignment>::type dummy;  ///< Dummy item to get correct alignment.
+      typename tpn::type_with_alignment<VAlignment>::type dummy;  ///< Dummy item to get correct alignment.
     };
 
     static const size_t ELEMENT_INTERNAL_SIZE = sizeof(element_internal);
@@ -217,26 +217,26 @@ namespace tphn
     static TYPHOON_CONSTANT size_t ALIGNMENT = VAlignment;
     static TYPHOON_CONSTANT size_t TYPE_SIZE = VTypeSize;
 
-    typedef typename tphn::aligned_storage<sizeof(element_internal), tphn::alignment_of<element_internal>::value>::type element;
+    typedef typename tpn::aligned_storage<sizeof(element_internal), tpn::alignment_of<element_internal>::value>::type element;
 
     //*************************************************************************
     /// Constructor
     //*************************************************************************
     generic_pool_ext(element* buffer, size_t size) 
-      : tphn::ipool(reinterpret_cast<char*>(&buffer[0]), ELEMENT_INTERNAL_SIZE, size) 
+      : tpn::ipool(reinterpret_cast<char*>(&buffer[0]), ELEMENT_INTERNAL_SIZE, size) 
     {
     }
 
     //*************************************************************************
     /// Allocate an object from the pool.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     /// Static asserts if the specified type is too large for the pool.
     //*************************************************************************
     template <typename U>
     U* allocate()
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
       return ipool::allocate<U>();
     }
@@ -245,12 +245,12 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with default.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename U>
     U* create()
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
       return ipool::create<U>();
     }
@@ -258,12 +258,12 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 1 parameter.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename U, typename T1>
     U* create(const T1& value1)
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
       return ipool::create<U>(value1);
     }
@@ -271,12 +271,12 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 2 parameters.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename U, typename T1, typename T2>
     U* create(const T1& value1, const T2& value2)
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
       return ipool::create<U>(value1, value2);
     }
@@ -284,12 +284,12 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 3 parameters.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename U, typename T1, typename T2, typename T3>
     U* create(const T1& value1, const T2& value2, const T3& value3)
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
       return ipool::create<U>(value1, value2, value3);
     }
@@ -297,12 +297,12 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 4 parameters.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename U, typename T1, typename T2, typename T3, typename T4>
     U* create(const T1& value1, const T2& value2, const T3& value3, const T4& value4)
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
       return ipool::create<U>(value1, value2, value3, value4);
     }
@@ -313,9 +313,9 @@ namespace tphn
     template <typename U, typename... Args>
     U* create(Args&&... args)
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
-      return ipool::create<U>(tphn::forward<Args>(args)...);
+      return ipool::create<U>(tpn::forward<Args>(args)...);
     }
 #endif
 
@@ -327,7 +327,7 @@ namespace tphn
     template <typename U>
     void destroy(const U* const p_object)
     {
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<U>::value <= VAlignment, "Type has incompatible alignment");
       TYPHOON_STATIC_ASSERT(sizeof(U) <= VTypeSize, "Type too large for pool");
       p_object->~U();
       ipool::release(p_object);

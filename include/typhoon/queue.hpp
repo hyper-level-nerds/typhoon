@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove, Mark Kitson
 
@@ -55,7 +55,7 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The base class for queue exceptions.
@@ -103,13 +103,13 @@ namespace tphn
   /// The base class for all queues.
   ///\ingroup queue
   //***************************************************************************
-  template <const size_t MEMORY_MODEL = tphn::memory_model::MEMORY_MODEL_LARGE>
+  template <const size_t MEMORY_MODEL = tpn::memory_model::MEMORY_MODEL_LARGE>
   class queue_base
   {
   public:
 
     /// The type used for determining the size of queue.
-    typedef typename tphn::size_type_lookup<MEMORY_MODEL>::type size_type;
+    typedef typename tpn::size_type_lookup<MEMORY_MODEL>::type size_type;
 
     //*************************************************************************
     /// Returns the current number of items in the queue.
@@ -233,18 +233,18 @@ namespace tphn
   ///\brief This is the base for all queues that contain a particular type.
   ///\details Normally a reference to this type will be taken from a derived queue.
   ///\code
-  /// tphn::queue<int, 10> myQueue;
-  /// tphn::iqueue<int>& iQueue = myQueue;
+  /// tpn::queue<int, 10> myQueue;
+  /// tpn::iqueue<int>& iQueue = myQueue;
   ///\endcode
   /// \warning This queue cannot be used for concurrent access from multiple threads.
   /// \tparam T The type of value that the queue holds.
   //***************************************************************************
-  template <typename T, const size_t MEMORY_MODEL = tphn::memory_model::MEMORY_MODEL_LARGE>
-  class iqueue : public tphn::queue_base<MEMORY_MODEL>
+  template <typename T, const size_t MEMORY_MODEL = tpn::memory_model::MEMORY_MODEL_LARGE>
+  class iqueue : public tpn::queue_base<MEMORY_MODEL>
   {
   private:
 
-    typedef typename tphn::queue_base<MEMORY_MODEL> base_t;
+    typedef typename tpn::queue_base<MEMORY_MODEL> base_t;
 
   public:
 
@@ -305,7 +305,7 @@ namespace tphn
 
     //*************************************************************************
     /// Adds a value to the queue.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     ///\param value The value to push to the queue.
     //*************************************************************************
     void push(const_reference value)
@@ -320,7 +320,7 @@ namespace tphn
 #if TYPHOON_USING_CPP11
     //*************************************************************************
     /// Adds a value to the queue.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     ///\param value The value to push to the queue.
     //*************************************************************************
     void push(rvalue_reference value)
@@ -328,7 +328,7 @@ namespace tphn
 #if defined(TYPHOON_CHECK_PUSH_POP)
       TYPHOON_ASSERT(!full(), TYPHOON_ERROR(queue_full));
 #endif
-      ::new (&p_buffer[in]) T(tphn::move(value));
+      ::new (&p_buffer[in]) T(tpn::move(value));
       add_in();
     }
 #endif
@@ -336,7 +336,7 @@ namespace tphn
 #if TYPHOON_USING_CPP11 && TYPHOON_NOT_USING_STLPORT && !defined(TYPHOON_QUEUE_FORCE_CPP03_IMPLEMENTATION)
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     ///\param value The value to use to construct the item to push to the queue.
     //*************************************************************************
     template <typename ... Args>
@@ -345,13 +345,13 @@ namespace tphn
 #if defined(TYPHOON_CHECK_PUSH_POP)
       TYPHOON_ASSERT(!full(), TYPHOON_ERROR(queue_full));
 #endif
-      ::new (&p_buffer[in]) T(tphn::forward<Args>(args)...);
+      ::new (&p_buffer[in]) T(tpn::forward<Args>(args)...);
       add_in();
     }
 #else
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     ///\param value The value to use to construct the item to push to the queue.
     //*************************************************************************
     template <typename T1>
@@ -366,7 +366,7 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     ///\param value The value to use to construct the item to push to the queue.
     //*************************************************************************
     template <typename T1, typename T2>
@@ -381,7 +381,7 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     ///\param value The value to use to construct the item to push to the queue.
     //*************************************************************************
     template <typename T1, typename T2, typename T3>
@@ -396,7 +396,7 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the queue 'in place'.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_full if the queue if already full.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_full if the queue if already full.
     ///\param value The value to use to construct the item to push to the queue.
     //*************************************************************************
     template <typename T1, typename T2, typename T3, typename T4>
@@ -415,7 +415,7 @@ namespace tphn
     //*************************************************************************
     void clear()
     {
-      if TYPHOON_IF_CONSTEXPR(tphn::is_trivially_destructible<T>::value)
+      if TYPHOON_IF_CONSTEXPR(tpn::is_trivially_destructible<T>::value)
       {
         base_t::index_clear();
       }
@@ -435,7 +435,7 @@ namespace tphn
     //*************************************************************************
     /// Removes the oldest value from the back of the queue.
     /// Does nothing if the queue is already empty.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_empty if the queue is empty.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_empty if the queue is empty.
     //*************************************************************************
     void pop()
     {
@@ -448,7 +448,7 @@ namespace tphn
 
     //*************************************************************************
     /// Gets the oldest value and removes it from the front of the queue.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_empty if the queue is empty.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_empty if the queue is empty.
     //*************************************************************************
     void pop_into(reference destination)
     {
@@ -459,7 +459,7 @@ namespace tphn
     //*************************************************************************
     /// Gets the oldest value and removes it from the front of the queue and
     /// pushes it to the destination container.
-    /// If asserts or exceptions are enabled, throws an tphn::queue_empty if the queue is empty.
+    /// If asserts or exceptions are enabled, throws an tpn::queue_empty if the queue is empty.
     /// NOTE: The destination must support a push(T) member function.
     //*************************************************************************
     template <typename TContainer>
@@ -529,7 +529,7 @@ namespace tphn
 
       for (size_type i = 0; i < other.size(); ++i)
       {
-        push(tphn::move(other.p_buffer[index]));
+        push(tpn::move(other.p_buffer[index]));
         index = (index == (CAPACITY - 1)) ? 0 : index + 1;
       }
     }
@@ -575,19 +575,19 @@ namespace tphn
   /// \tparam SIZE         The maximum capacity of the queue.
   /// \tparam MEMORY_MODEL The memory model for the queue. Determines the type of the internal counter variables.
   //***************************************************************************
-  template <typename T, const size_t SIZE, const size_t MEMORY_MODEL = tphn::memory_model::MEMORY_MODEL_LARGE>
-  class queue : public tphn::iqueue<T, MEMORY_MODEL>
+  template <typename T, const size_t SIZE, const size_t MEMORY_MODEL = tpn::memory_model::MEMORY_MODEL_LARGE>
+  class queue : public tpn::iqueue<T, MEMORY_MODEL>
   {
   private:
 
-    typedef tphn::iqueue<T, MEMORY_MODEL> base_t;
+    typedef tpn::iqueue<T, MEMORY_MODEL> base_t;
 
   public:
 
     typedef typename base_t::size_type                                                  size_type;
-    typedef typename tphn::aligned_storage<sizeof(T), tphn::alignment_of<T>::value>::type container_type;
+    typedef typename tpn::aligned_storage<sizeof(T), tpn::alignment_of<T>::value>::type container_type;
 
-    TYPHOON_STATIC_ASSERT((SIZE <= tphn::integral_limits<size_type>::max), "Size too large for memory model");
+    TYPHOON_STATIC_ASSERT((SIZE <= tpn::integral_limits<size_type>::max), "Size too large for memory model");
 
     static TYPHOON_CONSTANT size_type MAX_SIZE = size_type(SIZE);
 
@@ -615,7 +615,7 @@ namespace tphn
     queue(queue&& rhs)
       : base_t(reinterpret_cast<T*>(&buffer[0]), SIZE)
     {
-      base_t::move_clone(tphn::move(rhs));
+      base_t::move_clone(tpn::move(rhs));
     }
 #endif
 

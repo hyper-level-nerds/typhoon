@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -39,65 +39,65 @@ SOFTWARE.
 #include "u32format_spec.hpp"
 #include "private/to_string_helper.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Default format spec.
-  /// !tphn::iu32string && !tphn::u32string_view
+  /// !tpn::iu32string && !tpn::u32string_view
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<!tphn::is_same<T, tphn::iu32string>::value && !tphn::is_same<T, tphn::u32string_view>::value, const tphn::iu32string&>::type
-    to_string(const T value, tphn::iu32string& str, bool append = false)
+  typename tpn::enable_if<!tpn::is_same<T, tpn::iu32string>::value && !tpn::is_same<T, tpn::u32string_view>::value, const tpn::iu32string&>::type
+    to_string(const T value, tpn::iu32string& str, bool append = false)
   {
-    tphn::u32format_spec format;
+    tpn::u32format_spec format;
 
     return private_to_string::to_string(value, str, format, append);
   }
 
   //***************************************************************************
   /// Supplied format spec.
-  /// !tphn::iu32string && !tphn::u32string_view
+  /// !tpn::iu32string && !tpn::u32string_view
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<!tphn::is_same<T, tphn::iu32string>::value && !tphn::is_same<T, tphn::u32string_view>::value, const tphn::iu32string&>::type
-    to_string(const T value, tphn::iu32string& str, const tphn::u32format_spec& format, bool append = false)
+  typename tpn::enable_if<!tpn::is_same<T, tpn::iu32string>::value && !tpn::is_same<T, tpn::u32string_view>::value, const tpn::iu32string&>::type
+    to_string(const T value, tpn::iu32string& str, const tpn::u32format_spec& format, bool append = false)
   {
     return private_to_string::to_string(value, str, format, append);
   }
 
   //***************************************************************************
   /// Default format spec.
-  /// !tphn::iu32string && !tphn::u16string_view
+  /// !tpn::iu32string && !tpn::u16string_view
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<!tphn::is_same<T, tphn::iu32string>::value && !tphn::is_same<T, tphn::u16string_view>::value, const tphn::iu32string&>::type
-    to_string(const T value, uint32_t denominator_exponent, tphn::iu32string& str, bool append = false)
+  typename tpn::enable_if<!tpn::is_same<T, tpn::iu32string>::value && !tpn::is_same<T, tpn::u16string_view>::value, const tpn::iu32string&>::type
+    to_string(const T value, uint32_t denominator_exponent, tpn::iu32string& str, bool append = false)
   {
-    tphn::u32format_spec format;
+    tpn::u32format_spec format;
 
     return private_to_string::to_string(value, denominator_exponent, str, format, append);
   }
 
   //***************************************************************************
   /// Supplied format spec.
-  /// !tphn::u16string_view && !tphn::u16string_view
+  /// !tpn::u16string_view && !tpn::u16string_view
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<!tphn::is_same<T, tphn::iu32string>::value && !tphn::is_same<T, tphn::u16string_view>::value, const tphn::iu32string&>::type
-    to_string(const T value, uint32_t denominator_exponent, tphn::iu32string& str, const tphn::u32format_spec& format, bool append = false)
+  typename tpn::enable_if<!tpn::is_same<T, tpn::iu32string>::value && !tpn::is_same<T, tpn::u16string_view>::value, const tpn::iu32string&>::type
+    to_string(const T value, uint32_t denominator_exponent, tpn::iu32string& str, const tpn::u32format_spec& format, bool append = false)
   {
     return private_to_string::to_string(value, denominator_exponent, str, format, append);
   }
 
   //***************************************************************************
   /// Default format spec.
-  /// tphn::iu32string
+  /// tpn::iu32string
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<tphn::is_same<T, tphn::iu32string>::value, const tphn::iu32string&>::type
-    to_string(const T& value, tphn::iu32string& str, bool append = false)
+  typename tpn::enable_if<tpn::is_same<T, tpn::iu32string>::value, const tpn::iu32string&>::type
+    to_string(const T& value, tpn::iu32string& str, bool append = false)
   {
-    tphn::u32format_spec format;
+    tpn::u32format_spec format;
 
     private_to_string::add_string(value, str, format, append);
 
@@ -106,11 +106,11 @@ namespace tphn
 
   //***************************************************************************
   /// Supplied format spec.
-  /// tphn::iu32string
+  /// tpn::iu32string
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<tphn::is_same<T, tphn::iu32string>::value, const tphn::iu32string&>::type
-    to_string(const tphn::iu32string& value, T& str, const tphn::u32format_spec& format, bool append = false)
+  typename tpn::enable_if<tpn::is_same<T, tpn::iu32string>::value, const tpn::iu32string&>::type
+    to_string(const tpn::iu32string& value, T& str, const tpn::u32format_spec& format, bool append = false)
   {
     private_to_string::add_string(value, str, format, append);
 
@@ -119,13 +119,13 @@ namespace tphn
 
   //***************************************************************************
   /// Default format spec.
-  /// tphn::u32string_view
+  /// tpn::u32string_view
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<tphn::is_same<T, tphn::u32string_view>::value, const tphn::iu32string&>::type
-    to_string(T value, tphn::iu32string& str, bool append = false)
+  typename tpn::enable_if<tpn::is_same<T, tpn::u32string_view>::value, const tpn::iu32string&>::type
+    to_string(T value, tpn::iu32string& str, bool append = false)
   {
-    tphn::u32format_spec format;
+    tpn::u32format_spec format;
 
     private_to_string::add_string_view(value, str, format, append);
 
@@ -134,11 +134,11 @@ namespace tphn
 
   //***************************************************************************
   /// Supplied format spec.
-  /// tphn::u32string_view
+  /// tpn::u32string_view
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<tphn::is_same<T, tphn::u32string_view>::value, const tphn::iu32string&>::type
-    to_string(T value, tphn::iu32string& str, const tphn::u32format_spec& format, bool append = false)
+  typename tpn::enable_if<tpn::is_same<T, tpn::u32string_view>::value, const tpn::iu32string&>::type
+    to_string(T value, tpn::iu32string& str, const tpn::u32format_spec& format, bool append = false)
   {
     private_to_string::add_string_view(value, str, format, append);
 

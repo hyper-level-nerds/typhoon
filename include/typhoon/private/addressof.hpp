@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2022 John Wellbelove
 
@@ -38,9 +38,9 @@ SOFTWARE.
 #endif
 
 ///\defgroup memory memory
-///\ingroup tphn
+///\ingroup tpn
 
-namespace tphn
+namespace tpn
 {
   //*****************************************************************************
   /// Gets the address of an object.

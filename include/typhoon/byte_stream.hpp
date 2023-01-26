@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -49,12 +49,12 @@ SOFTWARE.
 #include <stdint.h>
 #include <limits.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Exception base for byte streams
   //***************************************************************************
-  class byte_stream_exception : public tphn::exception
+  class byte_stream_exception : public tpn::exception
   {
   public:
 
@@ -68,7 +68,7 @@ namespace tphn
   ///\ingroup string
   /// String empty exception.
   //***************************************************************************
-  class byte_stream_overflow : public tphn::byte_stream_exception
+  class byte_stream_overflow : public tpn::byte_stream_exception
   {
   public:
 
@@ -87,13 +87,13 @@ namespace tphn
 
     typedef char* iterator;
     typedef const char* const_iterator;
-    typedef tphn::span<char> callback_parameter_type;
-    typedef tphn::delegate<void(callback_parameter_type)> callback_type;
+    typedef tpn::span<char> callback_parameter_type;
+    typedef tpn::delegate<void(callback_parameter_type)> callback_type;
 
     //***************************************************************************
     /// Construct from span.
     //***************************************************************************
-    byte_stream_writer(tphn::span<char> span_, tphn::endian stream_endianness_, callback_type callback_ = callback_type())
+    byte_stream_writer(tpn::span<char> span_, tpn::endian stream_endianness_, callback_type callback_ = callback_type())
       : pdata(span_.begin())
       , pcurrent(span_.begin())
       , length(span_.size_bytes())
@@ -105,7 +105,7 @@ namespace tphn
     //***************************************************************************
     /// Construct from span.
     //***************************************************************************
-    byte_stream_writer(tphn::span<unsigned char> span_, tphn::endian stream_endianness_, callback_type callback_ = callback_type())
+    byte_stream_writer(tpn::span<unsigned char> span_, tpn::endian stream_endianness_, callback_type callback_ = callback_type())
       : pdata(reinterpret_cast<char*>(span_.begin()))
       , pcurrent(reinterpret_cast<char*>(span_.begin()))
       , length(span_.size_bytes())
@@ -117,10 +117,10 @@ namespace tphn
     //***************************************************************************
     /// Construct from range.
     //***************************************************************************
-    byte_stream_writer(void* begin_, void* end_, tphn::endian stream_endianness_, callback_type callback_ = callback_type())
+    byte_stream_writer(void* begin_, void* end_, tpn::endian stream_endianness_, callback_type callback_ = callback_type())
       : pdata(reinterpret_cast<char*>(begin_))
       , pcurrent(reinterpret_cast<char*>(begin_))
-      , length(tphn::distance(reinterpret_cast<char*>(begin_), reinterpret_cast<char*>(end_)))
+      , length(tpn::distance(reinterpret_cast<char*>(begin_), reinterpret_cast<char*>(end_)))
       , stream_endianness(stream_endianness_)
       , callback(callback_)
     {
@@ -129,7 +129,7 @@ namespace tphn
     //***************************************************************************
     /// Construct from begin and length.
     //***************************************************************************
-    byte_stream_writer(void* begin_, size_t length_, tphn::endian stream_endianness_, callback_type callback_ = callback_type())
+    byte_stream_writer(void* begin_, size_t length_, tpn::endian stream_endianness_, callback_type callback_ = callback_type())
       : pdata(reinterpret_cast<char*>(begin_))
       , pcurrent(reinterpret_cast<char*>(begin_))
       , length(length_)
@@ -142,7 +142,7 @@ namespace tphn
     /// Construct from array.
     //***************************************************************************
     template <typename T, size_t Size>
-    byte_stream_writer(T(&begin_)[Size], tphn::endian stream_endianness_, callback_type callback_ = callback_type())
+    byte_stream_writer(T(&begin_)[Size], tpn::endian stream_endianness_, callback_type callback_ = callback_type())
       : pdata(begin_)
       , pcurrent(begin_)
       , length(begin_ + (Size * sizeof(T)))
@@ -172,7 +172,7 @@ namespace tphn
       }
       else
       {
-        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tphn::byte_stream_overflow));
+        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tpn::byte_stream_overflow));
       }
  
       return success;
@@ -182,7 +182,7 @@ namespace tphn
     /// Write a value to the stream.
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value || tphn::is_floating_point<T>::value, void>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value || tpn::is_floating_point<T>::value, void>::type
       write_unchecked(T value)
     {
       to_bytes<T>(value);
@@ -192,7 +192,7 @@ namespace tphn
     /// Write a value to the stream.
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value || tphn::is_floating_point<T>::value, bool>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value || tpn::is_floating_point<T>::value, bool>::type
       write(T value)
     {
       bool success = (available<T>() > 0U);
@@ -203,7 +203,7 @@ namespace tphn
       }
       else
       {
-        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tphn::byte_stream_overflow));
+        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tpn::byte_stream_overflow));
       }
 
       return success;
@@ -213,10 +213,10 @@ namespace tphn
     /// Write a range of T to the stream.
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value || tphn::is_floating_point<T>::value, void>::type
-      write_unchecked(const tphn::span<T>& range)
+    typename tpn::enable_if<tpn::is_integral<T>::value || tpn::is_floating_point<T>::value, void>::type
+      write_unchecked(const tpn::span<T>& range)
     {
-      typename tphn::span<T>::iterator itr = range.begin();
+      typename tpn::span<T>::iterator itr = range.begin();
 
       while (itr != range.end())
       {
@@ -229,8 +229,8 @@ namespace tphn
     /// Write a range of T to the stream.
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value || tphn::is_floating_point<T>::value, bool>::type
-      write(const tphn::span<T>& range)
+    typename tpn::enable_if<tpn::is_integral<T>::value || tpn::is_floating_point<T>::value, bool>::type
+      write(const tpn::span<T>& range)
     {
       bool success = (available<T>() >= range.size());
 
@@ -240,7 +240,7 @@ namespace tphn
       }
       else
       {
-        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tphn::byte_stream_overflow));
+        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tpn::byte_stream_overflow));
       }
 
       return success;
@@ -250,7 +250,7 @@ namespace tphn
     /// Write a range of T to the stream.
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value || tphn::is_floating_point<T>::value, void>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value || tpn::is_floating_point<T>::value, void>::type
       write_unchecked(const T* start, size_t length)
     {
       while (length-- != 0U)
@@ -264,7 +264,7 @@ namespace tphn
     /// Write a range of T to the stream.
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value || tphn::is_floating_point<T>::value, bool>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value || tpn::is_floating_point<T>::value, bool>::type
       write(const T* start, size_t length)
     {
       bool success = (available<T>() >= length);
@@ -275,7 +275,7 @@ namespace tphn
       }
       else
       {
-        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tphn::byte_stream_overflow));
+        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tpn::byte_stream_overflow));
       }
 
       return success;
@@ -297,7 +297,7 @@ namespace tphn
       }
       else
       {
-        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tphn::byte_stream_overflow));
+        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tpn::byte_stream_overflow));
       }
 
       return success;
@@ -362,49 +362,49 @@ namespace tphn
     //***************************************************************************
     /// Returns a span of the used portion of the stream.
     //***************************************************************************
-    tphn::span<char> used_data()
+    tpn::span<char> used_data()
     {
-      return tphn::span<char>(pdata, pcurrent);
+      return tpn::span<char>(pdata, pcurrent);
     }
 
     //***************************************************************************
     /// Returns a span of the used portion of the stream.
     //***************************************************************************
-    tphn::span<const char> used_data() const
+    tpn::span<const char> used_data() const
     {
-      return tphn::span<const char>(pdata, pcurrent);
+      return tpn::span<const char>(pdata, pcurrent);
     }
 
     //***************************************************************************
     /// Returns a span of the free portion of the stream.
     //***************************************************************************
-    tphn::span<char> free_data()
+    tpn::span<char> free_data()
     {
-      return tphn::span<char>(pcurrent, pdata + length);
+      return tpn::span<char>(pcurrent, pdata + length);
     }
 
     //***************************************************************************
     /// Returns a span of the free portion of the stream.
     //***************************************************************************
-    tphn::span<const char> free_data() const
+    tpn::span<const char> free_data() const
     {
-      return tphn::span<const char>(pcurrent, pdata + length);
+      return tpn::span<const char>(pcurrent, pdata + length);
     }
 
     //***************************************************************************
     /// Returns a span of whole the stream.
     //***************************************************************************
-    tphn::span<char> data()
+    tpn::span<char> data()
     {
-      return tphn::span<char>(pdata, pdata + length);
+      return tpn::span<char>(pdata, pdata + length);
     }
 
     //***************************************************************************
     /// Returns a span of whole the stream.
     //***************************************************************************
-    tphn::span<const char> data() const
+    tpn::span<const char> data() const
     {
-      return tphn::span<const char>(pdata, pdata + length);
+      return tpn::span<const char>(pdata, pdata + length);
     }
 
     //***************************************************************************
@@ -428,7 +428,7 @@ namespace tphn
     //***************************************************************************
     size_t size_bytes() const
     {
-      return tphn::distance(pdata, pcurrent);
+      return tpn::distance(pdata, pcurrent);
     }
 
     //***************************************************************************
@@ -475,7 +475,7 @@ namespace tphn
     //***************************************************************************
     /// Gets the endianness of the stream.
     //***************************************************************************
-    tphn::endian get_endianness() const
+    tpn::endian get_endianness() const
     {
       return stream_endianness;
     }
@@ -486,7 +486,7 @@ namespace tphn
     /// to_bytes
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<sizeof(T) == 1U, void>::type
+    typename tpn::enable_if<sizeof(T) == 1U, void>::type
       to_bytes(const T value)
     {
       *pcurrent = static_cast<char>(value);
@@ -495,7 +495,7 @@ namespace tphn
 
     //*********************************
     template <typename T>
-    typename tphn::enable_if<sizeof(T) != 1U, void>::type
+    typename tpn::enable_if<sizeof(T) != 1U, void>::type
       to_bytes(const T value)
     {
       const char* pv = reinterpret_cast<const char*>(&value);
@@ -506,7 +506,7 @@ namespace tphn
     //*********************************
     void step(size_t n)
     {
-      callback.call_if(tphn::span<char>(pcurrent, pcurrent + n));
+      callback.call_if(tpn::span<char>(pcurrent, pcurrent + n));
 
       pcurrent += n;
     }
@@ -514,22 +514,22 @@ namespace tphn
     //*********************************
     void copy_value(const char* source, char* destination, size_t length) const
     {
-      const tphn::endian platform_endianness = tphn::endianness::value();
+      const tpn::endian platform_endianness = tpn::endianness::value();
 
       if (stream_endianness == platform_endianness)
       {
-        tphn::copy(source, source + length, destination);
+        tpn::copy(source, source + length, destination);
       }
       else
       {
-        tphn::reverse_copy(source, source + length, destination);
+        tpn::reverse_copy(source, source + length, destination);
       }
     }
 
     char* const       pdata;             ///< The start of the byte stream buffer.
     char*             pcurrent;          ///< The current position in the byte stream buffer.
     const size_t      length;            ///< The length of the byte stream buffer.
-    const tphn::endian stream_endianness; ///< The endianness of the stream data.
+    const tpn::endian stream_endianness; ///< The endianness of the stream data.
     callback_type     callback;          ///< An optional callback on every step on the write buffer.
   };
 
@@ -547,7 +547,7 @@ namespace tphn
     //***************************************************************************
     /// Construct from span.
     //***************************************************************************
-    byte_stream_reader(tphn::span<char> span_, tphn::endian stream_endianness_)
+    byte_stream_reader(tpn::span<char> span_, tpn::endian stream_endianness_)
       : pdata(span_.begin())
       , pcurrent(span_.begin())
       , length(span_.size_bytes())
@@ -558,7 +558,7 @@ namespace tphn
     //***************************************************************************
     /// Construct from span.
     //***************************************************************************
-    byte_stream_reader(tphn::span<const char> span_, tphn::endian stream_endianness_)
+    byte_stream_reader(tpn::span<const char> span_, tpn::endian stream_endianness_)
       : pdata(span_.begin())
       , pcurrent(span_.begin())
       , length(span_.size_bytes())
@@ -569,10 +569,10 @@ namespace tphn
     //***************************************************************************
     /// Construct from range.
     //***************************************************************************
-    byte_stream_reader(const void* begin_, const void* end_, tphn::endian stream_endianness_)
+    byte_stream_reader(const void* begin_, const void* end_, tpn::endian stream_endianness_)
       : pdata(reinterpret_cast<const char*>(begin_))
       , pcurrent(reinterpret_cast<const char*>(begin_))
-      , length(tphn::distance(reinterpret_cast<const char*>(begin_), reinterpret_cast<const char*>(end_)))
+      , length(tpn::distance(reinterpret_cast<const char*>(begin_), reinterpret_cast<const char*>(end_)))
       , stream_endianness(stream_endianness_)
     {
     }
@@ -580,7 +580,7 @@ namespace tphn
     //***************************************************************************
     /// Construct from begin and length.
     //***************************************************************************
-    byte_stream_reader(const void* begin_, size_t length_, tphn::endian stream_endianness_)
+    byte_stream_reader(const void* begin_, size_t length_, tpn::endian stream_endianness_)
       : pdata(reinterpret_cast<const char*>(begin_))
       , pcurrent(reinterpret_cast<const char*>(begin_))
       , length(length_)
@@ -592,7 +592,7 @@ namespace tphn
     /// Construct from array.
     //***************************************************************************
     template <typename T, size_t Size>
-    byte_stream_reader(T(&begin_)[Size], tphn::endian stream_endianness_)
+    byte_stream_reader(T(&begin_)[Size], tpn::endian stream_endianness_)
       : pdata(begin_)
       , pcurrent(begin_)
       , length(begin_ + (Size * sizeof(T)))
@@ -604,7 +604,7 @@ namespace tphn
     /// Construct from const array.
     //***************************************************************************
     template <typename T, size_t Size>
-    byte_stream_reader(const T(&begin_)[Size], tphn::endian stream_endianness_)
+    byte_stream_reader(const T(&begin_)[Size], tpn::endian stream_endianness_)
       : pdata(begin_)
       , pcurrent(begin_)
       , length(begin_ + (Size * sizeof(T)))
@@ -616,7 +616,7 @@ namespace tphn
     /// Read a value from the stream.
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value || tphn::is_floating_point<T>::value, T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value || tpn::is_floating_point<T>::value, T>::type
       read_unchecked()
     {
       return from_bytes<T>();
@@ -626,10 +626,10 @@ namespace tphn
     /// Read a value from the stream.
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value || tphn::is_floating_point<T>::value, tphn::optional<T> >::type
+    typename tpn::enable_if<tpn::is_integral<T>::value || tpn::is_floating_point<T>::value, tpn::optional<T> >::type
       read()
     {
-      tphn::optional<T> result;
+      tpn::optional<T> result;
 
       // Do we have enough room?
       if (available<T>() > 0U)
@@ -644,14 +644,14 @@ namespace tphn
     /// Read a byte range from the stream.
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<sizeof(T) == 1U, tphn::span<const T> >::type
+    typename tpn::enable_if<sizeof(T) == 1U, tpn::span<const T> >::type
       read_unchecked(size_t n)
     {
-      tphn::span<const T> result;
+      tpn::span<const T> result;
 
       const char* pend = pcurrent + (n * sizeof(T));
 
-      result = tphn::span<const T>(reinterpret_cast<const T*>(pcurrent), reinterpret_cast<const T*>(pend));
+      result = tpn::span<const T>(reinterpret_cast<const T*>(pcurrent), reinterpret_cast<const T*>(pend));
       pcurrent = pend;
 
       return result;
@@ -661,10 +661,10 @@ namespace tphn
     /// Read a byte range from the stream.
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<sizeof(T) == 1U, tphn::optional<tphn::span<const T> > >::type
+    typename tpn::enable_if<sizeof(T) == 1U, tpn::optional<tpn::span<const T> > >::type
       read(size_t n)
     {
-      tphn::optional<tphn::span<const T> > result;
+      tpn::optional<tpn::span<const T> > result;
 
       // Do we have enough room?
       if (available<T>() >= n)
@@ -679,40 +679,40 @@ namespace tphn
     /// Read a range of T from the stream.
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value || tphn::is_floating_point<T>::value, tphn::span<const T> >::type
-      read_unchecked(tphn::span<T> range)
+    typename tpn::enable_if<tpn::is_integral<T>::value || tpn::is_floating_point<T>::value, tpn::span<const T> >::type
+      read_unchecked(tpn::span<T> range)
     {
-      typename tphn::span<T>::iterator destination = range.begin();
+      typename tpn::span<T>::iterator destination = range.begin();
 
       while (destination != range.end())
       {
         *destination++ = from_bytes<T>();
       }
 
-      return tphn::span<const T>(range.begin(), range.end());
+      return tpn::span<const T>(range.begin(), range.end());
     }
 
     //***************************************************************************
     /// Read a range of T from the stream.
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value || tphn::is_floating_point<T>::value, tphn::optional<tphn::span<const T> > >::type
-      read(tphn::span<T> range)
+    typename tpn::enable_if<tpn::is_integral<T>::value || tpn::is_floating_point<T>::value, tpn::optional<tpn::span<const T> > >::type
+      read(tpn::span<T> range)
     {
       // Do we have enough room?
       if (available<T>() >= range.size())
       {
-        return tphn::optional<tphn::span<const T> >(read_unchecked<T>(range));
+        return tpn::optional<tpn::span<const T> >(read_unchecked<T>(range));
       }
 
-      return tphn::optional<tphn::span<const T> >();
+      return tpn::optional<tpn::span<const T> >();
     }
 
     //***************************************************************************
     /// Read a range of T from the stream.
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value || tphn::is_floating_point<T>::value, tphn::span<const T> >::type
+    typename tpn::enable_if<tpn::is_integral<T>::value || tpn::is_floating_point<T>::value, tpn::span<const T> >::type
       read_unchecked(T* start,  size_t length)
     {
       T* destination = start;
@@ -722,23 +722,23 @@ namespace tphn
         *destination++ = from_bytes<T>();
       }
 
-      return tphn::span<const T>(start, length);
+      return tpn::span<const T>(start, length);
     }
 
     //***************************************************************************
     /// Read a range of T from the stream.
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<tphn::is_integral<T>::value || tphn::is_floating_point<T>::value, tphn::optional<tphn::span<const T> > >::type
+    typename tpn::enable_if<tpn::is_integral<T>::value || tpn::is_floating_point<T>::value, tpn::optional<tpn::span<const T> > >::type
       read(T* start, size_t length)
     {
       // Do we have enough room?
       if (available<T>() >= length)
       {
-        return tphn::optional<tphn::span<const T> >(read_unchecked<T>(start, length));
+        return tpn::optional<tpn::span<const T> >(read_unchecked<T>(start, length));
       }
 
-      return tphn::optional<tphn::span<const T> >();
+      return tpn::optional<tpn::span<const T> >();
     }
 
     //***************************************************************************
@@ -756,7 +756,7 @@ namespace tphn
       }
       else
       {
-        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tphn::byte_stream_overflow));
+        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tpn::byte_stream_overflow));
         return false;
       }
     }
@@ -804,25 +804,25 @@ namespace tphn
     //***************************************************************************
     /// Returns a span of the used portion of the stream.
     //***************************************************************************
-    tphn::span<const char> used_data() const
+    tpn::span<const char> used_data() const
     {
-      return tphn::span<const char>(pdata, pcurrent);
+      return tpn::span<const char>(pdata, pcurrent);
     }
 
     //***************************************************************************
     /// Returns a span of the free portion of the stream.
     //***************************************************************************
-    tphn::span<const char> free_data() const
+    tpn::span<const char> free_data() const
     {
-      return tphn::span<const char>(pcurrent, pdata + length);
+      return tpn::span<const char>(pcurrent, pdata + length);
     }
 
     //***************************************************************************
     /// Returns a span of whole the stream.
     //***************************************************************************
-    tphn::span<const char> data() const
+    tpn::span<const char> data() const
     {
-      return tphn::span<const char>(pdata, pdata + length);
+      return tpn::span<const char>(pdata, pdata + length);
     }
 
     //***************************************************************************
@@ -847,7 +847,7 @@ namespace tphn
     template <typename T>
     size_t available() const
     {
-      size_t used = tphn::distance(pdata, pcurrent);
+      size_t used = tpn::distance(pdata, pcurrent);
 
       return (length - used) / sizeof(T);
     }
@@ -866,7 +866,7 @@ namespace tphn
     /// from_bytes
     //***************************************************************************
     template <typename T>
-    typename tphn::enable_if<sizeof(T) == 1U, T>::type
+    typename tpn::enable_if<sizeof(T) == 1U, T>::type
       from_bytes()
     {
       return static_cast<T>(*pcurrent++);
@@ -874,7 +874,7 @@ namespace tphn
 
     //*********************************
     template <typename T>
-    typename tphn::enable_if<sizeof(T) != 1U, T>::type
+    typename tpn::enable_if<sizeof(T) != 1U, T>::type
       from_bytes()
     {
       T value;
@@ -889,22 +889,22 @@ namespace tphn
     //*********************************
     void copy_value(const char* source, char* destination, size_t length) const
     {
-      const tphn::endian platform_endianness = tphn::endianness::value();
+      const tpn::endian platform_endianness = tpn::endianness::value();
 
       if (stream_endianness == platform_endianness)
       {
-        tphn::copy(source, source + length, destination);
+        tpn::copy(source, source + length, destination);
       }
       else
       {
-        tphn::reverse_copy(source, source + length, destination);
+        tpn::reverse_copy(source, source + length, destination);
       }
     }
 
     const char* const pdata;             ///< The start of the byte stream buffer.
     const char*       pcurrent;          ///< The current position in the byte stream buffer.
     const size_t      length;            ///< The length of the byte stream buffer.
-    const tphn::endian stream_endianness; ///< The endianness of the stream data.
+    const tpn::endian stream_endianness; ///< The endianness of the stream data.
   };
 
   //***************************************************************************
@@ -913,7 +913,7 @@ namespace tphn
   /// Overload this to support custom types.
   //***************************************************************************
   template <typename T>
-  void write_unchecked(tphn::byte_stream_writer& stream, const T& value)
+  void write_unchecked(tpn::byte_stream_writer& stream, const T& value)
   {
     stream.write_unchecked(value);
   }
@@ -922,7 +922,7 @@ namespace tphn
   /// Implementation of the write function.
   //***************************************************************************
   template <typename T>
-  bool write(tphn::byte_stream_writer& stream, const T& value)
+  bool write(tpn::byte_stream_writer& stream, const T& value)
   {
     return stream.write(value);
   }
@@ -933,7 +933,7 @@ namespace tphn
   /// Overload this to support custom types.
   //***************************************************************************
   template <typename T>
-  T  read_unchecked(tphn::byte_stream_reader& stream)
+  T  read_unchecked(tpn::byte_stream_reader& stream)
   {
     return stream.read_unchecked<T>();
   }
@@ -942,7 +942,7 @@ namespace tphn
   /// Implementation of the read function.
   //***************************************************************************
   template <typename T>
-  tphn::optional<T> read(tphn::byte_stream_reader& stream)
+  tpn::optional<T> read(tpn::byte_stream_reader& stream)
   {
     return stream.read<T>();
   }

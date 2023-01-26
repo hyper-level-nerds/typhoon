@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -61,7 +61,7 @@ SOFTWARE.
 #include "smallest.hpp"
 #include "static_assert.hpp"
 
-namespace tphn
+namespace tpn
 {
 #if TYPHOON_USING_CPP11 && !defined(TYPHOON_LARGEST_TYPE_FORCE_CPP03_IMPLEMENTATION)
   //***************************************************************************
@@ -82,7 +82,7 @@ namespace tphn
 
     // Set 'type' to be the largest of the first parameter and any of the others.
     // This is recursive.
-    using type = typename tphn::conditional<(tphn::size_of<T1>::value > tphn::size_of<largest_other>::value),  // Boolean
+    using type = typename tpn::conditional<(tpn::size_of<T1>::value > tpn::size_of<largest_other>::value),  // Boolean
                                             T1,                                                             // TrueType
                                             largest_other>                                                  // FalseType
                                             ::type;                                                         // The largest type of the two.
@@ -90,7 +90,7 @@ namespace tphn
     // The size of the largest type.
     enum
     {
-      size = tphn::size_of<type>::value
+      size = tpn::size_of<type>::value
     };
   };
 
@@ -106,7 +106,7 @@ namespace tphn
 
     enum
     {
-      size = tphn::size_of<type>::value
+      size = tpn::size_of<type>::value
     };
   };
 
@@ -139,7 +139,7 @@ namespace tphn
 
     // Set 'type' to be the largest of the first parameter and any of the others.
     // This is recursive.
-    typedef typename tphn::conditional<(sizeof(T1) > sizeof(largest_other)), // Boolean
+    typedef typename tpn::conditional<(sizeof(T1) > sizeof(largest_other)), // Boolean
                                        T1,                                  // TrueType
                                        largest_other>                       // FalseType
                                        ::type type;                         // The largest type of the two.
@@ -181,7 +181,7 @@ namespace tphn
 
     // Set 'type' to be the largest of the first parameter and any of the others.
     // This is recursive.
-    using type = typename tphn::conditional<(tphn::alignment_of<T1>::value > tphn::alignment_of<largest_other>::value), // Boolean
+    using type = typename tpn::conditional<(tpn::alignment_of<T1>::value > tpn::alignment_of<largest_other>::value), // Boolean
                                             T1,                                                                      // TrueType
                                             largest_other>                                                           // FalseType
                                             ::type;                                                                  // The largest type of the two.
@@ -189,7 +189,7 @@ namespace tphn
     // The largest alignment.
     enum
     {
-      value = tphn::alignment_of<type>::value
+      value = tpn::alignment_of<type>::value
     };
   };
 
@@ -203,7 +203,7 @@ namespace tphn
 
     enum
     {
-      value = tphn::alignment_of<type>::value
+      value = tpn::alignment_of<type>::value
     };
   };
 
@@ -230,7 +230,7 @@ namespace tphn
 
     // Set 'type' to be the largest of the first parameter and any of the others.
     // This is recursive.
-    typedef typename tphn::conditional<(tphn::alignment_of<T1>::value > tphn::alignment_of<largest_other>::value), // Boolean
+    typedef typename tpn::conditional<(tpn::alignment_of<T1>::value > tpn::alignment_of<largest_other>::value), // Boolean
                                        T1,                                                                      // TrueType
                                        largest_other>                                                           // FalseType
                                        ::type type;                                                             // The largest type of the two.
@@ -238,7 +238,7 @@ namespace tphn
     // The largest alignment.
     enum
     {
-      value = tphn::alignment_of<type>::value
+      value = tpn::alignment_of<type>::value
     };
   };
 
@@ -253,7 +253,7 @@ namespace tphn
 
     enum
     {
-      value = tphn::alignment_of<type>::value
+      value = tpn::alignment_of<type>::value
     };
   };
 #endif
@@ -266,9 +266,9 @@ namespace tphn
   template <typename T>
   struct larger_int_type
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Must be an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Must be an integral type");
 
-    typedef typename tphn::smallest_int_for_bits<tphn::integral_limits<typename tphn::make_signed<T>::type>::bits + 1>::type type;
+    typedef typename tpn::smallest_int_for_bits<tpn::integral_limits<typename tpn::make_signed<T>::type>::bits + 1>::type type;
   };
 
 #if TYPHOON_USING_CPP11
@@ -284,9 +284,9 @@ namespace tphn
   template <typename T>
   struct larger_uint_type
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Must be an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Must be an integral type");
 
-    typedef typename tphn::smallest_uint_for_bits<tphn::integral_limits<typename tphn::make_unsigned<T>::type>::bits + 1>::type type;
+    typedef typename tpn::smallest_uint_for_bits<tpn::integral_limits<typename tpn::make_unsigned<T>::type>::bits + 1>::type type;
   };
 
 #if TYPHOON_USING_CPP11
@@ -300,23 +300,23 @@ namespace tphn
   /// The returned type will be of the same sign.
   ///\ingroup largest
   //***************************************************************************
-  template <typename T, bool IS_SIGNED = tphn::is_signed<T>::value>
+  template <typename T, bool IS_SIGNED = tpn::is_signed<T>::value>
   struct larger_type;
 
   template <typename T>
   struct larger_type<T, false>
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Must be an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Must be an integral type");
 
-    typedef typename tphn::smallest_uint_for_bits<tphn::integral_limits<T>::bits + 1>::type type;
+    typedef typename tpn::smallest_uint_for_bits<tpn::integral_limits<T>::bits + 1>::type type;
   };
 
   template <typename T>
   struct larger_type<T, true>
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Must be an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Must be an integral type");
 
-    typedef typename tphn::smallest_int_for_bits<tphn::integral_limits<T>::bits + 1>::type type;
+    typedef typename tpn::smallest_int_for_bits<tpn::integral_limits<T>::bits + 1>::type type;
   };
 
 #if TYPHOON_USING_CPP11
@@ -333,12 +333,12 @@ namespace tphn
   template <typename... T>
     struct largest
   {
-    using type = typename tphn::largest_type<T...>::type;
+    using type = typename tpn::largest_type<T...>::type;
 
     enum
     {
-      size      = tphn::largest_type<T...>::size,
-      alignment = tphn::largest_alignment<T...>::value
+      size      = tpn::largest_type<T...>::size,
+      alignment = tpn::largest_alignment<T...>::value
     };
   };
 
@@ -365,12 +365,12 @@ namespace tphn
             typename T13 = void, typename T14 = void, typename T15 = void, typename T16 = void>
   struct largest
   {
-    typedef typename tphn::largest_type<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::type type;
+    typedef typename tpn::largest_type<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::type type;
 
     enum
     {
-      size      = tphn::largest_type<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::size,
-      alignment = tphn::largest_alignment<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value
+      size      = tpn::largest_type<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::size,
+      alignment = tpn::largest_alignment<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::value
     };
   };
 #endif

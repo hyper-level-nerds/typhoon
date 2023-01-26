@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2018 John Wellbelove
 
@@ -35,12 +35,12 @@ SOFTWARE.
 #include "type_traits.hpp"
 #include "absolute.hpp"
 
-namespace tphn
+namespace tpn
 {
   template <typename T>
   struct scaled_rounding_t
   {
-    typedef typename tphn::conditional<tphn::is_signed<T>::value, int32_t, uint32_t>::type type;
+    typedef typename tpn::conditional<tpn::is_signed<T>::value, int32_t, uint32_t>::type type;
   };
 
   //*****************************************************************************
@@ -52,7 +52,7 @@ namespace tphn
   /// scaling factor of '100'. To round the result of scaled int calculations
   /// using 'Banker's Rounding' we would define this.
   /// \code
-  /// typedef tphn::scaled_rounding<int, 100> Rounding;
+  /// typedef tpn::scaled_rounding<int, 100> Rounding;
   /// int final_result = Rounding::round_half_even_unscaled(accumulated_result);
   /// \endcode
   /// \link http://www.clivemaxfield.com/diycalculator/sp-round.shtml
@@ -66,7 +66,7 @@ namespace tphn
   template <uint32_t SCALING, typename T>
   T round_ceiling_unscaled(T value)
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Type must be an integral");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Type must be an integral");
     typedef typename scaled_rounding_t<T>::type scale_t;
 
     if (value >= 0)
@@ -100,7 +100,7 @@ namespace tphn
   template <uint32_t SCALING, typename T>
   T round_floor_unscaled(T value)
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Type must be an integral");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Type must be an integral");
     typedef typename scaled_rounding_t<T>::type scale_t;
 
     if (value >= 0)
@@ -135,7 +135,7 @@ namespace tphn
   template <uint32_t SCALING, typename T>
   T round_half_up_unscaled(T value)
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Type must be an integral");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Type must be an integral");
     TYPHOON_STATIC_ASSERT((((SCALING / 2U) * 2U) == SCALING), "Scaling must be divisible by 2");
     typedef typename scaled_rounding_t<T>::type scale_t;
 
@@ -172,7 +172,7 @@ namespace tphn
   template <uint32_t SCALING, typename T>
   T round_half_down_unscaled(T value)
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Type must be an integral");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Type must be an integral");
     TYPHOON_STATIC_ASSERT((((SCALING / 2U) * 2U) == SCALING), "Scaling must be divisible by 2");
     typedef typename scaled_rounding_t<T>::type scale_t;
 
@@ -208,7 +208,7 @@ namespace tphn
   template <uint32_t SCALING, typename T>
   T round_zero_unscaled(T value)
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Type must be an integral");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Type must be an integral");
     typedef typename scaled_rounding_t<T>::type scale_t;
 
     return T(value / scale_t(SCALING));
@@ -235,7 +235,7 @@ namespace tphn
   template <uint32_t SCALING, typename T>
   T round_infinity_unscaled(T value)
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Type must be an integral");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Type must be an integral");
     typedef typename scaled_rounding_t<T>::type scale_t;
 
     if (value >= 0)
@@ -270,11 +270,11 @@ namespace tphn
   template <uint32_t SCALING, typename T>
   T round_half_even_unscaled(T value)
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Type must be an integral");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Type must be an integral");
     typedef typename scaled_rounding_t<T>::type scale_t;
 
     // Half?
-    if ((tphn::absolute(value) % scale_t(SCALING)) == scale_t(SCALING / 2U))
+    if ((tpn::absolute(value) % scale_t(SCALING)) == scale_t(SCALING / 2U))
     {
       // Odd?
       if ((value / scale_t(SCALING)) & 1U)
@@ -315,11 +315,11 @@ namespace tphn
   template <uint32_t SCALING, typename T>
   T round_half_odd_unscaled(T value)
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Type must be an integral");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Type must be an integral");
     typedef typename scaled_rounding_t<T>::type scale_t;
 
     // Half?
-    if ((tphn::absolute(value) % scale_t(SCALING)) == scale_t(SCALING / 2U))
+    if ((tpn::absolute(value) % scale_t(SCALING)) == scale_t(SCALING / 2U))
     {
       // Odd?
       if ((value / scale_t(SCALING)) & 1U)

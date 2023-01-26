@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -36,7 +36,7 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
 #if defined(TYPHOON_POLYMORPHIC_RANDOM)
   //***************************************************************************
@@ -496,7 +496,7 @@ namespace tphn
 
       value = (x * multiplier) + increment;
       x ^= x >> 18U;
-      return tphn::rotate_right((uint32_t)(x >> 27U), count);
+      return tpn::rotate_right((uint32_t)(x >> 27U), count);
     }
 
     //***************************************************************************

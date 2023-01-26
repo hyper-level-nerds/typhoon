@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -35,17 +35,17 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Base exception class for task.
   //***************************************************************************
-  class task_exception : public tphn::exception
+  class task_exception : public tpn::exception
   {
   public:
 
     task_exception(string_type reason_, string_type file_name_, numeric_type line_number_)
-      : tphn::exception(reason_, file_name_, line_number_)
+      : tpn::exception(reason_, file_name_, line_number_)
     {
     }
   };
@@ -114,7 +114,7 @@ namespace tphn
     /// Get the priority of the task.
     /// Higher value = higher priority.
     //*******************************************
-    tphn::task_priority_t get_task_priority() const
+    tpn::task_priority_t get_task_priority() const
     {
       return task_priority;
     }
@@ -122,7 +122,7 @@ namespace tphn
   private:
 
     bool task_running;
-    tphn::task_priority_t task_priority;
+    tpn::task_priority_t task_priority;
   };
 }
 

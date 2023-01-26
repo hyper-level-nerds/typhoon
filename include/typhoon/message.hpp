@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -38,10 +38,10 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
-  class message_exception : public tphn::exception
+  class message_exception : public tpn::exception
   {
   public:
 
@@ -52,7 +52,7 @@ namespace tphn
   };
 
   //***************************************************************************
-  class unhandled_message_exception : public tphn::message_exception
+  class unhandled_message_exception : public tpn::message_exception
   {
   public:
 
@@ -73,16 +73,16 @@ namespace tphn
     {
     }
 
-    TYPHOON_NODISCARD virtual tphn::message_id_t get_message_id() const TYPHOON_NOEXCEPT = 0;
+    TYPHOON_NODISCARD virtual tpn::message_id_t get_message_id() const TYPHOON_NOEXCEPT = 0;
   };
 
   //***************************************************************************
   // Message type.
   //***************************************************************************
-  template <tphn::message_id_t ID_, typename TParent = tphn::imessage>
+  template <tpn::message_id_t ID_, typename TParent = tpn::imessage>
   class message : public TParent
   {
-    TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TParent>::value), "TParent is not derived from tphn::imessage");
+    TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TParent>::value), "TParent is not derived from tpn::imessage");
 
   public:
 
@@ -91,7 +91,7 @@ namespace tphn
       ID = ID_
     };
 
-    TYPHOON_NODISCARD tphn::message_id_t get_message_id() const TYPHOON_NOEXCEPT TYPHOON_OVERRIDE
+    TYPHOON_NODISCARD tpn::message_id_t get_message_id() const TYPHOON_NOEXCEPT TYPHOON_OVERRIDE
     {
       return ID;
     }

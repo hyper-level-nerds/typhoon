@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2016 John Wellbelove
 
@@ -60,18 +60,18 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Exception for the unordered_map.
   ///\ingroup unordered_map
   //***************************************************************************
-  class unordered_map_exception : public tphn::exception
+  class unordered_map_exception : public tpn::exception
   {
   public:
 
     unordered_map_exception(string_type reason_, string_type file_name_, numeric_type line_number_)
-      : tphn::exception(reason_, file_name_, line_number_)
+      : tpn::exception(reason_, file_name_, line_number_)
     {
     }
   };
@@ -80,12 +80,12 @@ namespace tphn
   /// Full exception for the unordered_map.
   ///\ingroup unordered_map
   //***************************************************************************
-  class unordered_map_full : public tphn::unordered_map_exception
+  class unordered_map_full : public tpn::unordered_map_exception
   {
   public:
 
     unordered_map_full(string_type file_name_, numeric_type line_number_)
-      : tphn::unordered_map_exception(TYPHOON_ERROR_TEXT("unordered_map:full", TYPHOON_UNORDERED_MAP_FILE_ID"A"), file_name_, line_number_)
+      : tpn::unordered_map_exception(TYPHOON_ERROR_TEXT("unordered_map:full", TYPHOON_UNORDERED_MAP_FILE_ID"A"), file_name_, line_number_)
     {
     }
   };
@@ -94,12 +94,12 @@ namespace tphn
   /// Out of range exception for the unordered_map.
   ///\ingroup unordered_map
   //***************************************************************************
-  class unordered_map_out_of_range : public tphn::unordered_map_exception
+  class unordered_map_out_of_range : public tpn::unordered_map_exception
   {
   public:
 
     unordered_map_out_of_range(string_type file_name_, numeric_type line_number_)
-      : tphn::unordered_map_exception(TYPHOON_ERROR_TEXT("unordered_map:range", TYPHOON_UNORDERED_MAP_FILE_ID"B"), file_name_, line_number_)
+      : tpn::unordered_map_exception(TYPHOON_ERROR_TEXT("unordered_map:range", TYPHOON_UNORDERED_MAP_FILE_ID"B"), file_name_, line_number_)
     {}
   };
 
@@ -107,12 +107,12 @@ namespace tphn
   /// Iterator exception for the unordered_map.
   ///\ingroup unordered_map
   //***************************************************************************
-  class unordered_map_iterator : public tphn::unordered_map_exception
+  class unordered_map_iterator : public tpn::unordered_map_exception
   {
   public:
 
     unordered_map_iterator(string_type file_name_, numeric_type line_number_)
-      : tphn::unordered_map_exception(TYPHOON_ERROR_TEXT("unordered_map:iterator", TYPHOON_UNORDERED_MAP_FILE_ID"C"), file_name_, line_number_)
+      : tpn::unordered_map_exception(TYPHOON_ERROR_TEXT("unordered_map:iterator", TYPHOON_UNORDERED_MAP_FILE_ID"C"), file_name_, line_number_)
     {
     }
   };
@@ -122,7 +122,7 @@ namespace tphn
   /// Can be used as a reference type for all unordered_map containing a specific type.
   ///\ingroup unordered_map
   //***************************************************************************
-  template <typename TKey, typename T, typename THash = tphn::hash<TKey>, typename TKeyEqual = tphn::equal_to<TKey> >
+  template <typename TKey, typename T, typename THash = tpn::hash<TKey>, typename TKeyEqual = tpn::equal_to<TKey> >
   class iunordered_map
   {
   public:
@@ -144,7 +144,7 @@ namespace tphn
 
     typedef const TKey& key_parameter_t;
 
-    typedef tphn::forward_link<0> link_t; // Default link.
+    typedef tpn::forward_link<0> link_t; // Default link.
 
     // The nodes that store the elements.
     // The nodes that store the elements.
@@ -171,8 +171,8 @@ namespace tphn
 
   protected:
 
-    typedef tphn::intrusive_forward_list<node_t, link_t> bucket_t;
-    typedef tphn::ipool pool_t;
+    typedef tpn::intrusive_forward_list<node_t, link_t> bucket_t;
+    typedef tpn::ipool pool_t;
 
   public:
 
@@ -181,11 +181,11 @@ namespace tphn
     typedef typename bucket_t::const_iterator const_local_iterator;
 
     //*********************************************************************
-    class iterator : public tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, T>
+    class iterator : public tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, T>
     {
     public:
 
-      typedef typename tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, T>::value_type value_type;
+      typedef typename tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, T>::value_type value_type;
       typedef typename iunordered_map::key_type        key_type;
       typedef typename iunordered_map::mapped_type     mapped_type;
       typedef typename iunordered_map::hasher          hasher;
@@ -324,11 +324,11 @@ namespace tphn
     };
 
     //*********************************************************************
-    class const_iterator : public tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, const T>
+    class const_iterator : public tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, const T>
     {
     public:
 
-      typedef typename tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, const T>::value_type value_type;
+      typedef typename tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, const T>::value_type value_type;
       typedef typename iunordered_map::key_type        key_type;
       typedef typename iunordered_map::mapped_type     mapped_type;
       typedef typename iunordered_map::hasher          hasher;
@@ -474,7 +474,7 @@ namespace tphn
       local_iterator inode;
     };
 
-    typedef typename tphn::iterator_traits<iterator>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<iterator>::difference_type difference_type;
 
     //*********************************************************************
     /// Returns an iterator to the beginning of the unordered_map.
@@ -601,7 +601,7 @@ namespace tphn
     {
       size_t index = bucket(key);
 
-      return tphn::distance(pbuckets[index].begin(), pbuckets[index].end());
+      return tpn::distance(pbuckets[index].begin(), pbuckets[index].end());
     }
 
     //*********************************************************************
@@ -665,7 +665,7 @@ namespace tphn
 
     //*********************************************************************
     /// Returns a reference to the value at index 'key'
-    /// If asserts or exceptions are enabled, emits an tphn::unordered_map_out_of_range if the key is not in the range.
+    /// If asserts or exceptions are enabled, emits an tpn::unordered_map_out_of_range if the key is not in the range.
     ///\param key The key.
     ///\return A reference to the value at index 'key'
     //*********************************************************************
@@ -700,7 +700,7 @@ namespace tphn
 
     //*********************************************************************
     /// Returns a const reference to the value at index 'key'
-    /// If asserts or exceptions are enabled, emits an tphn::unordered_map_out_of_range if the key is not in the range.
+    /// If asserts or exceptions are enabled, emits an tpn::unordered_map_out_of_range if the key is not in the range.
     ///\param key The key.
     ///\return A const reference to the value at index 'key'
     //*********************************************************************
@@ -744,7 +744,7 @@ namespace tphn
     void assign(TIterator first_, TIterator last_)
     {
 #if TYPHOON_IS_DEBUG_BUILD
-      difference_type d = tphn::distance(first_, last_);
+      difference_type d = tpn::distance(first_, last_);
       TYPHOON_ASSERT(d >= 0, TYPHOON_ERROR(unordered_map_iterator));
       TYPHOON_ASSERT(size_t(d) <= max_size(), TYPHOON_ERROR(unordered_map_full));
 #endif
@@ -859,7 +859,7 @@ namespace tphn
       {
         // Get a new node.
         node_t& node = create_data_node();
-        ::new (&node.key_value_pair) value_type(tphn::move(key_value_pair));
+        ::new (&node.key_value_pair) value_type(tpn::move(key_value_pair));
         TYPHOON_INCREMENT_DEBUG_COUNT
 
         // Just add the pointer to the bucket;
@@ -893,7 +893,7 @@ namespace tphn
         {
           // Get a new node.
           node_t& node = create_data_node();
-          ::new (&node.key_value_pair) value_type(tphn::move(key_value_pair));
+          ::new (&node.key_value_pair) value_type(tpn::move(key_value_pair));
           TYPHOON_INCREMENT_DEBUG_COUNT
 
           // Add the node to the end of the bucket;
@@ -930,7 +930,7 @@ namespace tphn
     //*********************************************************************
     iterator insert(const_iterator, rvalue_reference key_value_pair)
     {
-      return insert(tphn::move(key_value_pair)).first;
+      return insert(tpn::move(key_value_pair)).first;
     }
 #endif
 
@@ -1002,7 +1002,7 @@ namespace tphn
       local_iterator icurrent = ielement.get_local_iterator();
 
       // Find the node previous to the one we're interested in.
-      while (iprevious->tphn_next != &*icurrent)
+      while (iprevious->tpn_next != &*icurrent)
       {
         ++iprevious;
       }
@@ -1040,7 +1040,7 @@ namespace tphn
       local_iterator iend        = last_.get_local_iterator(); // Note: May not be in the same bucket as icurrent.
 
       // Find the node previous to the first one.
-      while (iprevious->tphn_next != &*icurrent)
+      while (iprevious->tpn_next != &*icurrent)
       {
         ++iprevious;
       }
@@ -1380,7 +1380,7 @@ namespace tphn
       {
         iterator temp = first;
         ++temp;
-        insert(tphn::move(*first));
+        insert(tpn::move(*first));
         first = temp;
       }
     }
@@ -1393,7 +1393,7 @@ namespace tphn
     //*************************************************************************
     node_t& create_data_node()
     {
-      node_t* (tphn::ipool::*func)() = &tphn::ipool::allocate<node_t>;
+      node_t* (tpn::ipool::*func)() = &tpn::ipool::allocate<node_t>;
       return *(pnodepool->*func)();
     }
 
@@ -1510,7 +1510,7 @@ namespace tphn
   ///\ingroup unordered_map
   //***************************************************************************
   template <typename TKey, typename T, typename TKeyCompare>
-  bool operator ==(const tphn::iunordered_map<TKey, T, TKeyCompare>& lhs, const tphn::iunordered_map<TKey, T, TKeyCompare>& rhs)
+  bool operator ==(const tpn::iunordered_map<TKey, T, TKeyCompare>& lhs, const tpn::iunordered_map<TKey, T, TKeyCompare>& rhs)
   {
     const bool sizes_match = (lhs.size() == rhs.size());
     bool elements_match = true;
@@ -1519,7 +1519,7 @@ namespace tphn
     {
       for (size_t i = 0; (i < lhs.bucket_count()) && elements_match; ++i)
       {
-        if (!tphn::is_permutation(lhs.begin(i), lhs.end(i), rhs.begin(i)))
+        if (!tpn::is_permutation(lhs.begin(i), lhs.end(i), rhs.begin(i)))
         {
           elements_match = false;
         }
@@ -1537,7 +1537,7 @@ namespace tphn
   ///\ingroup unordered_map
   //***************************************************************************
   template <typename TKey, typename T, typename TKeyCompare>
-  bool operator !=(const tphn::iunordered_map<TKey, T, TKeyCompare>& lhs, const tphn::iunordered_map<TKey, T, TKeyCompare>& rhs)
+  bool operator !=(const tpn::iunordered_map<TKey, T, TKeyCompare>& lhs, const tpn::iunordered_map<TKey, T, TKeyCompare>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -1545,8 +1545,8 @@ namespace tphn
   //*************************************************************************
   /// A templated unordered_map implementation that uses a fixed size buffer.
   //*************************************************************************
-  template <typename TKey, typename TValue, const size_t MAX_SIZE_, const size_t MAX_BUCKETS_ = MAX_SIZE_, typename THash = tphn::hash<TKey>, typename TKeyEqual = tphn::equal_to<TKey> >
-  class unordered_map : public tphn::iunordered_map<TKey, TValue, THash, TKeyEqual>
+  template <typename TKey, typename TValue, const size_t MAX_SIZE_, const size_t MAX_BUCKETS_ = MAX_SIZE_, typename THash = tpn::hash<TKey>, typename TKeyEqual = tpn::equal_to<TKey> >
+  class unordered_map : public tpn::iunordered_map<TKey, TValue, THash, TKeyEqual>
   {
   private:
 
@@ -1635,7 +1635,7 @@ namespace tphn
     //*************************************************************************
     unordered_map& operator = (unordered_map&& rhs)
     {
-      base::operator=(tphn::move(rhs));
+      base::operator=(tpn::move(rhs));
       return *this;
     }
 #endif
@@ -1643,7 +1643,7 @@ namespace tphn
   private:
 
     /// The pool of nodes used for the unordered_map.
-    tphn::pool<typename base::node_t, MAX_SIZE> node_pool;
+    tpn::pool<typename base::node_t, MAX_SIZE> node_pool;
 
     /// The buckets of node lists.
     typename base::bucket_t buckets[MAX_BUCKETS_];
@@ -1654,8 +1654,8 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_CPP17 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename... TPairs>
-  unordered_map(TPairs...) -> unordered_map<typename tphn::nth_type_t<0, TPairs...>::first_type,
-                                            typename tphn::nth_type_t<0, TPairs...>::second_type,
+  unordered_map(TPairs...) -> unordered_map<typename tpn::nth_type_t<0, TPairs...>::first_type,
+                                            typename tpn::nth_type_t<0, TPairs...>::second_type,
                                             sizeof...(TPairs)>;
 #endif
 
@@ -1663,10 +1663,10 @@ namespace tphn
   /// Make
   //*************************************************************************
 #if TYPHOON_USING_CPP11 && TYPHOON_HAS_INITIALIZER_LIST
-  template <typename TKey, typename T, typename THash = tphn::hash<TKey>, typename TKeyEqual = tphn::equal_to<TKey>, typename... TPairs>
-  constexpr auto make_unordered_map(TPairs&&... pairs) -> tphn::unordered_map<TKey, T, sizeof...(TPairs), sizeof...(TPairs), THash, TKeyEqual>
+  template <typename TKey, typename T, typename THash = tpn::hash<TKey>, typename TKeyEqual = tpn::equal_to<TKey>, typename... TPairs>
+  constexpr auto make_unordered_map(TPairs&&... pairs) -> tpn::unordered_map<TKey, T, sizeof...(TPairs), sizeof...(TPairs), THash, TKeyEqual>
   {
-    return { {tphn::forward<TPairs>(pairs)...} };
+    return { {tpn::forward<TPairs>(pairs)...} };
   }
 #endif
 }

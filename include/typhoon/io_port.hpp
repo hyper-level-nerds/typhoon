@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -41,13 +41,13 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Read write port.
   //***************************************************************************
   template <typename T, uintptr_t ADDRESS = 0>
-  class io_port_rw : public tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, T>
+  class io_port_rw : public tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, T>
   {
   public:
 
@@ -127,7 +127,7 @@ namespace tphn
   /// Read only port.
   //***************************************************************************
   template <typename T, uintptr_t ADDRESS = 0>
-  class io_port_ro : public tphn::iterator<TYPHOON_OR_STD::input_iterator_tag, T>
+  class io_port_ro : public tpn::iterator<TYPHOON_OR_STD::input_iterator_tag, T>
   {
   public:
 
@@ -191,7 +191,7 @@ namespace tphn
   /// Write only port.
   //***************************************************************************
   template <typename T, uintptr_t ADDRESS = 0>
-  class io_port_wo : public tphn::iterator<TYPHOON_OR_STD::output_iterator_tag, T>
+  class io_port_wo : public tpn::iterator<TYPHOON_OR_STD::output_iterator_tag, T>
   {
   public:
 
@@ -255,7 +255,7 @@ namespace tphn
   /// Write only port with shadow register.
   //***************************************************************************
   template <typename T, uintptr_t ADDRESS = 0>
-  class io_port_wos : public tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, T>
+  class io_port_wos : public tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, T>
   {
   public:
 
@@ -340,7 +340,7 @@ namespace tphn
   /// Specialisation for dynamic addresses.
   //***************************************************************************
   template <typename T>
-  class io_port_rw<T, 0> : public tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, T>
+  class io_port_rw<T, 0> : public tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, T>
   {
   public:
 
@@ -451,7 +451,7 @@ namespace tphn
   /// Specialisation for dynamic addresses.
   //***************************************************************************
   template <typename T>
-  class io_port_ro<T, 0> : public tphn::iterator<TYPHOON_OR_STD::input_iterator_tag, T>
+  class io_port_ro<T, 0> : public tpn::iterator<TYPHOON_OR_STD::input_iterator_tag, T>
   {
   public:
 
@@ -540,7 +540,7 @@ namespace tphn
   /// Specialisation for dynamic addresses.
   //***************************************************************************
   template <typename T>
-  class io_port_wo<T, 0> : public tphn::iterator<TYPHOON_OR_STD::output_iterator_tag, T>
+  class io_port_wo<T, 0> : public tpn::iterator<TYPHOON_OR_STD::output_iterator_tag, T>
   {
   public:
 
@@ -635,7 +635,7 @@ namespace tphn
   /// Specialisation for dynamic addresses.
   //***************************************************************************
   template <typename T>
-  class io_port_wos<T, 0> : public tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, T>
+  class io_port_wos<T, 0> : public tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, T>
   {
   public:
 
@@ -644,7 +644,7 @@ namespace tphn
     typedef volatile T&       reference;
     typedef volatile const T& const_reference;
 
-    class iterator : public tphn::iterator<TYPHOON_OR_STD::bidirectional_iterator_tag, T>
+    class iterator : public tpn::iterator<TYPHOON_OR_STD::bidirectional_iterator_tag, T>
     {
       typedef io_port_wos<T, 0> iop_t;
 

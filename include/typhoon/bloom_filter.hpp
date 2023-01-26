@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -43,7 +43,7 @@ SOFTWARE.
 /// A Bloom filter
 ///\ingroup containers
 
-namespace tphn
+namespace tpn
 {
   namespace private_bloom_filter
   {
@@ -77,7 +77,7 @@ namespace tphn
   {
   private:
 
-    typedef typename tphn::parameter_type<typename THash1::argument_type>::type parameter_t;
+    typedef typename tpn::parameter_type<typename THash1::argument_type>::type parameter_t;
     typedef private_bloom_filter::null_hash null_hash;
 
   public:
@@ -85,7 +85,7 @@ namespace tphn
     enum
     {
       // Make the most efficient use of the bitset.
-      WIDTH = tphn::bitset<DESIRED_WIDTH>::ALLOCATED_BITS
+      WIDTH = tpn::bitset<DESIRED_WIDTH>::ALLOCATED_BITS
     };
 
     //***************************************************************************
@@ -104,12 +104,12 @@ namespace tphn
     {
       flags.set(get_hash<THash1>(key));
 
-      if (!tphn::is_same<THash2, null_hash>::value)
+      if (!tpn::is_same<THash2, null_hash>::value)
       {
         flags.set(get_hash<THash2>(key));
       }
 
-      if (!tphn::is_same<THash3, null_hash>::value)
+      if (!tpn::is_same<THash3, null_hash>::value)
       {
         flags.set(get_hash<THash3>(key));
       }
@@ -127,13 +127,13 @@ namespace tphn
       bool exists3 = true;
 
       // Do we have a second hash?
-      if (!tphn::is_same<THash2, null_hash>::value)
+      if (!tpn::is_same<THash2, null_hash>::value)
       {
         exists2 = flags[get_hash<THash2>(key)];
       }
 
       // Do we have a third hash?
-      if (!tphn::is_same<THash3, null_hash>::value)
+      if (!tpn::is_same<THash3, null_hash>::value)
       {
         exists3 = flags[get_hash<THash3>(key)];
       }
@@ -178,11 +178,11 @@ namespace tphn
       size_t hash = THash()(key);
 
       // Fold the hash down to fit the width.
-      return fold_bits<size_t, tphn::log2<WIDTH>::value>(hash);
+      return fold_bits<size_t, tpn::log2<WIDTH>::value>(hash);
     }
 
     /// The Bloom filter flags.
-    tphn::bitset<WIDTH> flags;
+    tpn::bitset<WIDTH> flags;
   };
 }
 

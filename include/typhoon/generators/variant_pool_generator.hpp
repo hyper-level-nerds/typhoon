@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -71,7 +71,7 @@ cog.outl("//********************************************************************
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /*[[[cog
@@ -82,12 +82,12 @@ namespace tphn
       cog.outl("          typename T%s = void," % n)
   cog.outl("          typename T%s = void>" % int(NTypes))
   cog.outl("class variant_pool")
-  cog.out("  : public tphn::generic_pool<")
-  cog.out("tphn::largest<")
+  cog.out("  : public tpn::generic_pool<")
+  cog.out("tpn::largest<")
   for n in range(1, int(NTypes)):
       cog.out("T%s, " % n)
   cog.outl("T%s>::size," % int(NTypes))
-  cog.out("                             tphn::largest<")
+  cog.out("                             tpn::largest<")
   for n in range(1, int(NTypes)):
       cog.out("T%s, " % n)
   cog.outl("T%s>::alignment," % int(NTypes))
@@ -99,12 +99,12 @@ namespace tphn
 
     /*[[[cog
     import cog
-    cog.out("typedef tphn::generic_pool<")
-    cog.out("tphn::largest<")
+    cog.out("typedef tpn::generic_pool<")
+    cog.out("tpn::largest<")
     for n in range(1, int(NTypes)):
         cog.out("T%s, " % n)
     cog.outl("T%s>::size," % int(NTypes))
-    cog.out("                          tphn::largest<")
+    cog.out("                          tpn::largest<")
     for n in range(1, int(NTypes)):
         cog.out("T%s, " % n)
     cog.outl("T%s>::alignment," % int(NTypes))
@@ -130,7 +130,7 @@ namespace tphn
     {
       /*[[[cog
       import cog
-      cog.out("TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, ")
+      cog.out("TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, ")
       for n in range(1, int(NTypes)):
           cog.out("T%s, " % n)
           if n % 16 == 0:
@@ -151,7 +151,7 @@ namespace tphn
     {
       /*[[[cog
       import cog
-      cog.out("TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, ")
+      cog.out("TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, ")
       for n in range(1, int(NTypes)):
           cog.out("T%s, " % n)
           if n % 16 == 0:
@@ -172,7 +172,7 @@ namespace tphn
     {
       /*[[[cog
       import cog
-      cog.out("TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, ")
+      cog.out("TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, ")
       for n in range(1, int(NTypes)):
           cog.out("T%s, " % n)
           if n % 16 == 0:
@@ -193,7 +193,7 @@ namespace tphn
     {
       /*[[[cog
       import cog
-      cog.out("TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, ")
+      cog.out("TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, ")
       for n in range(1, int(NTypes)):
           cog.out("T%s, " % n)
           if n % 16 == 0:
@@ -214,7 +214,7 @@ namespace tphn
     {
       /*[[[cog
       import cog
-      cog.out("TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, ")
+      cog.out("TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, ")
       for n in range(1, int(NTypes)):
           cog.out("T%s, " % n)
           if n % 16 == 0:
@@ -235,7 +235,7 @@ namespace tphn
     {
       /*[[[cog
       import cog
-      cog.out("TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, ")
+      cog.out("TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, ")
       for n in range(1, int(NTypes)):
           cog.out("T%s, " % n)
           if n % 16 == 0:
@@ -257,7 +257,7 @@ namespace tphn
     {
       /*[[[cog
       import cog
-      cog.out("TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, ")
+      cog.out("TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, ")
       for n in range(1, int(NTypes)):
           cog.out("T%s, " % n)
           if n % 16 == 0:
@@ -266,8 +266,8 @@ namespace tphn
       cog.outl("T%s>::value ||" % int(NTypes))
 
       for n in range(1, int(NTypes)):
-          cog.outl("                   tphn::is_base_of<T, T%s>::value ||" % n)
-      cog.outl("                   tphn::is_base_of<T, T%s>::value), \"Invalid type\");" % int(NTypes))
+          cog.outl("                   tpn::is_base_of<T, T%s>::value ||" % n)
+      cog.outl("                   tpn::is_base_of<T, T%s>::value), \"Invalid type\");" % int(NTypes))
 
       ]]]*/
       /*[[[end]]]*/
@@ -297,12 +297,12 @@ namespace tphn
       cog.outl("          typename T%s = void," % n)
   cog.outl("          typename T%s = void>" % int(NTypes))
   cog.outl("class variant_pool_ext")
-  cog.out("  : public tphn::generic_pool_ext<")
-  cog.out("tphn::largest<")
+  cog.out("  : public tpn::generic_pool_ext<")
+  cog.out("tpn::largest<")
   for n in range(1, int(NTypes)):
       cog.out("T%s, " % n)
   cog.outl("T%s>::size," % int(NTypes))
-  cog.out("                                 tphn::largest<")
+  cog.out("                                 tpn::largest<")
   for n in range(1, int(NTypes)):
       cog.out("T%s, " % n)
   cog.outl("T%s>::alignment>" % int(NTypes))
@@ -313,12 +313,12 @@ namespace tphn
 
     /*[[[cog
     import cog
-    cog.out("typedef tphn::generic_pool_ext<")
-    cog.out("tphn::largest<")
+    cog.out("typedef tpn::generic_pool_ext<")
+    cog.out("tpn::largest<")
     for n in range(1, int(NTypes)):
         cog.out("T%s, " % n)
     cog.outl("T%s>::size," % int(NTypes))
-    cog.out("                              tphn::largest<")
+    cog.out("                              tpn::largest<")
     for n in range(1, int(NTypes)):
         cog.out("T%s, " % n)
     cog.outl("T%s>::alignment> base_t;" % int(NTypes))
@@ -342,7 +342,7 @@ namespace tphn
     {
       /*[[[cog
       import cog
-      cog.out("TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, ")
+      cog.out("TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, ")
       for n in range(1, int(NTypes)):
           cog.out("T%s, " % n)
           if n % 16 == 0:
@@ -363,7 +363,7 @@ namespace tphn
     {
       /*[[[cog
       import cog
-      cog.out("TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, ")
+      cog.out("TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, ")
       for n in range(1, int(NTypes)):
           cog.out("T%s, " % n)
           if n % 16 == 0:
@@ -384,7 +384,7 @@ namespace tphn
     {
       /*[[[cog
       import cog
-      cog.out("TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, ")
+      cog.out("TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, ")
       for n in range(1, int(NTypes)):
           cog.out("T%s, " % n)
           if n % 16 == 0:
@@ -405,7 +405,7 @@ namespace tphn
     {
       /*[[[cog
       import cog
-      cog.out("TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, ")
+      cog.out("TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, ")
       for n in range(1, int(NTypes)):
           cog.out("T%s, " % n)
           if n % 16 == 0:
@@ -426,7 +426,7 @@ namespace tphn
     {
       /*[[[cog
       import cog
-      cog.out("TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, ")
+      cog.out("TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, ")
       for n in range(1, int(NTypes)):
           cog.out("T%s, " % n)
           if n % 16 == 0:
@@ -447,7 +447,7 @@ namespace tphn
     {
       /*[[[cog
       import cog
-      cog.out("TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, ")
+      cog.out("TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, ")
       for n in range(1, int(NTypes)):
           cog.out("T%s, " % n)
           if n % 16 == 0:
@@ -469,7 +469,7 @@ namespace tphn
     {
       /*[[[cog
       import cog
-      cog.out("TYPHOON_STATIC_ASSERT((tphn::is_one_of<T, ")
+      cog.out("TYPHOON_STATIC_ASSERT((tpn::is_one_of<T, ")
       for n in range(1, int(NTypes)):
           cog.out("T%s, " % n)
           if n % 16 == 0:
@@ -478,8 +478,8 @@ namespace tphn
       cog.outl("T%s>::value ||" % int(NTypes))
 
       for n in range(1, int(NTypes)):
-          cog.outl("                   tphn::is_base_of<T, T%s>::value ||" % n)
-      cog.outl("                   tphn::is_base_of<T, T%s>::value), \"Invalid type\");" % int(NTypes))
+          cog.outl("                   tpn::is_base_of<T, T%s>::value ||" % n)
+      cog.outl("                   tpn::is_base_of<T, T%s>::value), \"Invalid type\");" % int(NTypes))
 
       ]]]*/
       /*[[[end]]]*/

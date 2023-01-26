@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -46,7 +46,7 @@ SOFTWARE.
 ///\defgroup hash Standard hash calculations
 ///\ingroup maths
 
-namespace tphn
+namespace tpn
 {
   namespace private_hash
   {
@@ -109,14 +109,14 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
   //***************************************************************************
-  /// Generic declaration for tphn::hash, including default for enums
+  /// Generic declaration for tpn::hash, including default for enums
   ///\ingroup hash
   //***************************************************************************
   template <typename T>
-  struct hash : private_hash::hash_base<T, tphn::is_enum<T>::value>{};
+  struct hash : private_hash::hash_base<T, tpn::is_enum<T>::value>{};
 #else
   //***************************************************************************
-  /// Generic declaration for tphn::hash
+  /// Generic declaration for tpn::hash
   ///\ingroup hash
   //***************************************************************************
   template <typename T> struct hash;
@@ -493,7 +493,7 @@ namespace tphn
         }
         else
         {
-          return ::tphn::hash<unsigned long long>()(static_cast<unsigned long long>(v));
+          return ::tpn::hash<unsigned long long>()(static_cast<unsigned long long>(v));
         }
       }
     };

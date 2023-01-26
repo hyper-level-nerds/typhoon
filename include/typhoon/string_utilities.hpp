@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2020 John Wellbelove, John Lagerquist
 
@@ -43,7 +43,7 @@ SOFTWARE.
 
 #include "private/minmax_push.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// string_pad_direction
@@ -148,7 +148,7 @@ namespace tphn
       pbegin = view.data() + first;
     }
 
-    return TStringView(pbegin, tphn::distance(pbegin, view.data() + view.size()));
+    return TStringView(pbegin, tpn::distance(pbegin, view.data() + view.size()));
   }
 
   //***************************************************************************
@@ -238,7 +238,7 @@ namespace tphn
       pend += last;
     }
 
-    return TStringView(view.data(), tphn::distance(view.data(), pend));
+    return TStringView(view.data(), tpn::distance(view.data(), pend));
   }
 
   //***************************************************************************
@@ -287,7 +287,7 @@ namespace tphn
     if (last != TStringView::npos)
     {
       pend += last;
-      return TStringView(view.data(), tphn::distance(view.data(), pend));
+      return TStringView(view.data(), tpn::distance(view.data(), pend));
     }
     else
     {
@@ -339,7 +339,7 @@ namespace tphn
       pend += last;
     }
 
-    return TStringView(pbegin, tphn::distance(pbegin, pend));
+    return TStringView(pbegin, tpn::distance(pbegin, pend));
   }
 
   //***************************************************************************
@@ -386,7 +386,7 @@ namespace tphn
       pend += last;
     }
 
-    return TStringView(pbegin, tphn::distance(pbegin, pend));
+    return TStringView(pbegin, tpn::distance(pbegin, pend));
   }
 
   //***************************************************************************
@@ -408,7 +408,7 @@ namespace tphn
   {
     n = (n > view.size()) ? view.size() : n;
 
-    return TStringView(tphn::addressof(*view.begin()), n);
+    return TStringView(tpn::addressof(*view.begin()), n);
   }
 
   //***************************************************************************
@@ -440,7 +440,7 @@ namespace tphn
   template <typename TIString>
   void reverse(TIString& s)
   {
-    tphn::reverse(s.begin(), s.end());
+    tpn::reverse(s.begin(), s.end());
   }
 
   //***************************************************************************
@@ -453,7 +453,7 @@ namespace tphn
   {
     while (pairsbegin != pairsend)
     {
-      tphn::replace(s.begin(), s.end(), pairsbegin->first, pairsbegin->second);
+      tpn::replace(s.begin(), s.end(), pairsbegin->first, pairsbegin->second);
       ++pairsbegin;
     }
   }
@@ -478,8 +478,8 @@ namespace tphn
         position = s.find(p_old, position);
         if (position != TIString::npos)
         {
-          s.replace(position, typename TIString::size_type(tphn::strlen(p_old)), p_new, typename TIString::size_type(tphn::strlen(p_new)));
-          position += typename TIString::size_type(tphn::strlen(p_new));
+          s.replace(position, typename TIString::size_type(tpn::strlen(p_old)), p_new, typename TIString::size_type(tpn::strlen(p_new)));
+          position += typename TIString::size_type(tpn::strlen(p_new));
         }
       } while (position != TIString::npos);
 
@@ -703,7 +703,7 @@ namespace tphn
   /// get_token
   //***************************************************************************
   template <typename TInput, typename TStringView>
-  tphn::optional<TStringView> get_token(const TInput& input, typename TInput::const_pointer delimiters, const tphn::optional<TStringView>& last_view, bool ignore_empty_tokens)
+  tpn::optional<TStringView> get_token(const TInput& input, typename TInput::const_pointer delimiters, const tpn::optional<TStringView>& last_view, bool ignore_empty_tokens)
   {
     typedef typename TInput::const_pointer const_pointer;
 
@@ -714,7 +714,7 @@ namespace tphn
 
     if (begin_ptr == TYPHOON_NULLPTR)
     {
-      return tphn::optional<TStringView>();
+      return tpn::optional<TStringView>();
     }
 
     const_pointer end_ptr   = begin_ptr + input.size();
@@ -724,12 +724,12 @@ namespace tphn
       // Does the last view have valid data?
       if (view.data() != TYPHOON_NULLPTR)
       {
-        position = tphn::distance(begin_ptr, view.data() + view.size() + 1U);
+        position = tpn::distance(begin_ptr, view.data() + view.size() + 1U);
 
         // Have we reached the end of the string?
         if (position > input.size())
         {
-          return tphn::optional<TStringView>();
+          return tpn::optional<TStringView>();
         }
       }
 
@@ -737,12 +737,12 @@ namespace tphn
       const_pointer first_ptr = begin_ptr + position;
       const_pointer last_ptr  = find_first_of(first_ptr, end_ptr, delimiters);
 
-      view = TStringView(first_ptr, tphn::distance(first_ptr, last_ptr));
+      view = TStringView(first_ptr, tpn::distance(first_ptr, last_ptr));
 
       token_found = ((view.size() != 0U) || !ignore_empty_tokens);
     }
 
-    return tphn::optional<TStringView>(view);
+    return tpn::optional<TStringView>(view);
   }
 
   //***************************************************************************
@@ -751,7 +751,7 @@ namespace tphn
   template <typename TIString>
   void pad_left(TIString& s, typename TIString::size_type required_size, typename TIString::value_type pad_char)
   {
-    required_size = tphn::min(required_size, s.max_size());
+    required_size = tpn::min(required_size, s.max_size());
 
     if (required_size > s.size())
     {
@@ -766,7 +766,7 @@ namespace tphn
   template <typename TIString>
   void pad_right(TIString& s, typename TIString::size_type required_size, typename TIString::value_type pad_char)
   {
-    required_size = tphn::min(required_size, s.max_size());
+    required_size = tpn::min(required_size, s.max_size());
 
     if (required_size > s.size())
     {
@@ -808,7 +808,7 @@ namespace tphn
   template <typename TString>
   void to_upper_case(TString& s)
   {
-    tphn::transform(s.begin(), s.end(), s.begin(), ::toupper);
+    tpn::transform(s.begin(), s.end(), s.begin(), ::toupper);
   }
 
   //***************************************************************************
@@ -817,7 +817,7 @@ namespace tphn
   template <typename TString>
   void to_lower_case(TString& s)
   {
-    tphn::transform(s.begin(), s.end(), s.begin(), ::tolower);
+    tpn::transform(s.begin(), s.end(), s.begin(), ::tolower);
   }
 
   //***************************************************************************
@@ -831,7 +831,7 @@ namespace tphn
     *itr = typename TString::value_type(::toupper(*itr));
     ++itr;
 
-    tphn::transform(itr, s.end(), itr, ::tolower);
+    tpn::transform(itr, s.end(), itr, ::tolower);
   }
 }
 

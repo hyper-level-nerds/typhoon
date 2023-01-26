@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -37,9 +37,9 @@ SOFTWARE.
 #include "basic_format_spec.hpp"
 #include "u16string.hpp"
 
-namespace tphn
+namespace tpn
 {
-  typedef tphn::basic_format_spec<tphn::iu16string> u16format_spec;
+  typedef tpn::basic_format_spec<tpn::iu16string> u16format_spec;
 }
 
 #endif

@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2020 John Wellbelove
 
@@ -42,25 +42,25 @@ SOFTWARE.
 #include <stddef.h>
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //*************************************************************************
   /// flags
   /// Flags based around an integral value.
   //*************************************************************************
-  template <typename T, T MASK = tphn::integral_limits<T>::max>
+  template <typename T, T MASK = tpn::integral_limits<T>::max>
   class flags
   {
   public:
 
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value && tphn::is_unsigned<T>::value, "Unsigned integral values only");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value && tpn::is_unsigned<T>::value, "Unsigned integral values only");
 
     typedef T value_type;
 
-    static TYPHOON_CONSTANT value_type ALL_SET   = tphn::integral_limits<value_type>::max & MASK;
+    static TYPHOON_CONSTANT value_type ALL_SET   = tpn::integral_limits<value_type>::max & MASK;
     static TYPHOON_CONSTANT value_type ALL_CLEAR = 0;
 
-    static TYPHOON_CONSTANT size_t NBITS = tphn::integral_limits<value_type>::bits;
+    static TYPHOON_CONSTANT size_t NBITS = tpn::integral_limits<value_type>::bits;
 
     //*************************************************************************
     /// Constructor
@@ -371,7 +371,7 @@ namespace tphn
   /// swap
   //*************************************************************************
   template <typename T, T MASK>
-  void swap(tphn::flags<T, MASK>& lhs, tphn::flags<T, MASK>& rhs) TYPHOON_NOEXCEPT
+  void swap(tpn::flags<T, MASK>& lhs, tpn::flags<T, MASK>& rhs) TYPHOON_NOEXCEPT
   {
     lhs.swap(rhs);
   }

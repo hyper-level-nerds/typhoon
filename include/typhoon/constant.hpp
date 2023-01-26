@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -38,7 +38,7 @@ SOFTWARE.
 ///\ingroup utilities
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   template <typename T, const T VALUE>
   class constant

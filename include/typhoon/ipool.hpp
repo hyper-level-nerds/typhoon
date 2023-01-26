@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -41,7 +41,7 @@ SOFTWARE.
 
 #define TYPHOON_POOL_CPP03_CODE 0
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The base class for pool exceptions.
@@ -107,14 +107,14 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename T>
     T* allocate()
     {
       if (sizeof(T) > Item_Size)
       {
-        TYPHOON_ASSERT(false, TYPHOON_ERROR(tphn::pool_element_size));
+        TYPHOON_ASSERT(false, TYPHOON_ERROR(tpn::pool_element_size));
       }
 
       return reinterpret_cast<T*>(allocate_item());
@@ -124,7 +124,7 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create default.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename T>
     T* create()
@@ -142,7 +142,7 @@ namespace tphn
     //*************************************************************************
     /// Allocate storage for an object from the pool and create with 1 parameter.
     /// If asserts or exceptions are enabled and there are no more free items an
-    /// tphn::pool_no_allocation if thrown, otherwise a null pointer is returned.
+    /// tpn::pool_no_allocation if thrown, otherwise a null pointer is returned.
     //*************************************************************************
     template <typename T, typename T1>
     T* create(const T1& value1)
@@ -206,7 +206,7 @@ namespace tphn
 
       if (p)
       {
-        ::new (p) T(tphn::forward<Args>(args)...);
+        ::new (p) T(tpn::forward<Args>(args)...);
       }
 
       return p;
@@ -223,7 +223,7 @@ namespace tphn
     {
       if (sizeof(T) > Item_Size)
       {
-        TYPHOON_ASSERT(false, TYPHOON_ERROR(tphn::pool_element_size));
+        TYPHOON_ASSERT(false, TYPHOON_ERROR(tpn::pool_element_size));
       }
 
       p_object->~T();
@@ -233,7 +233,7 @@ namespace tphn
     //*************************************************************************
     /// Release an object in the pool.
     /// If asserts or exceptions are enabled and the object does not belong to this
-    /// pool then an tphn::pool_object_not_in_pool is thrown.
+    /// pool then an tpn::pool_object_not_in_pool is thrown.
     /// \param p_object A pointer to the object to be released.
     //*************************************************************************
     void release(const void* const p_object)

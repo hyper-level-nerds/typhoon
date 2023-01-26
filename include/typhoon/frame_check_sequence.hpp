@@ -4,8 +4,8 @@
 /******************************************************************************
 The MIT License(MIT)
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 Copyright(c) 2014 John Wellbelove
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files(the "Software"), to deal
@@ -40,7 +40,7 @@ TYPHOON_STATIC_ASSERT(TYPHOON_USING_8BIT_TYPES, "This file does not currently su
 ///\defgroup frame_check_sequence Frame check sequence calculation
 ///\ingroup maths
 
-namespace tphn
+namespace tpn
 {
   namespace private_frame_check_sequence
   {
@@ -49,7 +49,7 @@ namespace tphn
     /// An output iterator used to add new values.
     //***************************************************
     template <typename TFCS>
-    class add_insert_iterator : public tphn::iterator<TYPHOON_OR_STD::output_iterator_tag, void, void, void, void>
+    class add_insert_iterator : public tpn::iterator<TYPHOON_OR_STD::output_iterator_tag, void, void, void, void>
     {
     public:
 
@@ -104,7 +104,7 @@ namespace tphn
     typedef typename policy_type::value_type value_type;
     typedef private_frame_check_sequence::add_insert_iterator<frame_check_sequence<TPolicy> > add_insert_iterator;
 
-    TYPHOON_STATIC_ASSERT(tphn::is_unsigned<value_type>::value, "Signed frame check type not supported");
+    TYPHOON_STATIC_ASSERT(tpn::is_unsigned<value_type>::value, "Signed frame check type not supported");
 
     //*************************************************************************
     /// Default constructor.
@@ -122,7 +122,7 @@ namespace tphn
     template<typename TIterator>
     frame_check_sequence(TIterator begin, const TIterator end)
     {
-      TYPHOON_STATIC_ASSERT(sizeof(typename tphn::iterator_traits<TIterator>::value_type) == 1, "Type not supported");
+      TYPHOON_STATIC_ASSERT(sizeof(typename tpn::iterator_traits<TIterator>::value_type) == 1, "Type not supported");
 
       reset();
       add(begin, end);
@@ -144,7 +144,7 @@ namespace tphn
     template<typename TIterator>
     void add(TIterator begin, const TIterator end)
     {
-      TYPHOON_STATIC_ASSERT(sizeof(typename tphn::iterator_traits<TIterator>::value_type) == 1, "Type not supported");
+      TYPHOON_STATIC_ASSERT(sizeof(typename tpn::iterator_traits<TIterator>::value_type) == 1, "Type not supported");
 
       while (begin != end)
       {

@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2016 John Wellbelove
 
@@ -33,9 +33,9 @@ SOFTWARE.
 
 #include "platform.hpp"
 
-namespace tphn
+namespace tpn
 {
-    #define TYPHOON_TYPEDEF(T, name) class name##_tag; typedef tphn::type_def<name##_tag, T> name
+    #define TYPHOON_TYPEDEF(T, name) class name##_tag; typedef tpn::type_def<name##_tag, T> name
 
     //*************************************************************************
     /// A template type to define strong typedefs.
@@ -46,7 +46,7 @@ namespace tphn
     ///
     /// // Long form.
     /// class mytype_t_tag;
-    /// typedef tphn::type_def<mytype_t_tag, int> mytype_t_tag;
+    /// typedef tpn::type_def<mytype_t_tag, int> mytype_t_tag;
     ///\endcode
     //*************************************************************************
     template <typename TIdType, typename TValue>

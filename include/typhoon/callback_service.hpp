@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -37,7 +37,7 @@ SOFTWARE.
 #include "function.hpp"
 #include "array.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// An indexed callback service.
@@ -68,7 +68,7 @@ namespace tphn
     /// \param callback Reference to the callback.
     //*************************************************************************
     template <const size_t ID>
-    void register_callback(tphn::ifunction<size_t>& callback)
+    void register_callback(tpn::ifunction<size_t>& callback)
     {
       TYPHOON_STATIC_ASSERT(ID < (OFFSET + RANGE), "Callback Id out of range");
       TYPHOON_STATIC_ASSERT(ID >= OFFSET,          "Callback Id out of range");
@@ -82,7 +82,7 @@ namespace tphn
     /// \param id       Id of the callback.
     /// \param callback Reference to the callback.
     //*************************************************************************
-    void register_callback(const size_t id, tphn::ifunction<size_t>& callback)
+    void register_callback(const size_t id, tpn::ifunction<size_t>& callback)
     {
       if ((id >= OFFSET) && (id < (OFFSET + RANGE)))
       {
@@ -94,7 +94,7 @@ namespace tphn
     /// Registers an alternative callback for unhandled ids.
     /// \param callback A reference to the user supplied 'unhandled' callback.
     //*************************************************************************
-    void register_unhandled_callback(tphn::ifunction<size_t>& callback)
+    void register_unhandled_callback(tpn::ifunction<size_t>& callback)
     {
       p_unhandled = &callback;
     }
@@ -144,15 +144,15 @@ namespace tphn
     }
 
     /// The default callback for unhandled ids.
-    tphn::function_mp<callback_service<RANGE, OFFSET>,
+    tpn::function_mp<callback_service<RANGE, OFFSET>,
                      size_t,
                      &callback_service<RANGE, OFFSET>::unhandled> unhandled_callback;
 
     /// Pointer to the user defined 'unhandled' callback.
-    tphn::ifunction<size_t>* p_unhandled;
+    tpn::ifunction<size_t>* p_unhandled;
 
     /// Lookup table of callbacks.
-    tphn::array<tphn::ifunction<size_t>*, RANGE> lookup;
+    tpn::array<tpn::ifunction<size_t>*, RANGE> lookup;
   };
 }
 

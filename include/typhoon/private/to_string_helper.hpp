@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -50,7 +50,7 @@ SOFTWARE.
   #include <iterator> // For std::begin, std::end and std::size
 #endif
 
-namespace tphn
+namespace tpn
 {
   namespace private_to_string
   {
@@ -66,9 +66,9 @@ namespace tphn
     /// Helper function for left/right alignment.
     //***************************************************************************
     template <typename TIString>
-    void add_alignment(TIString& str, typename TIString::iterator position, const tphn::basic_format_spec<TIString>& format)
+    void add_alignment(TIString& str, typename TIString::iterator position, const tpn::basic_format_spec<TIString>& format)
     {
-      uint32_t length = static_cast<uint32_t>(tphn::distance(position, str.end()));
+      uint32_t length = static_cast<uint32_t>(tpn::distance(position, str.end()));
 
       if (length < format.get_width())
       {
@@ -93,7 +93,7 @@ namespace tphn
     template <typename TIString>
     void add_boolean(const bool value,
                      TIString& str,
-                     const tphn::basic_format_spec<TIString>& format,
+                     const tpn::basic_format_spec<TIString>& format,
                      const bool append)
     {
       typedef typename TIString::value_type type;
@@ -132,7 +132,7 @@ namespace tphn
         }
       }
 
-      tphn::private_to_string::add_alignment(str, start, format);
+      tpn::private_to_string::add_alignment(str, start, format);
     }
 
     //***************************************************************************
@@ -141,7 +141,7 @@ namespace tphn
     template <typename T, typename TIString>
     void add_integral(T value,
                       TIString& str,
-                      const tphn::basic_format_spec<TIString>& format,
+                      const tpn::basic_format_spec<TIString>& format,
                       bool append,
                       const bool negative)
     {
@@ -170,7 +170,7 @@ namespace tphn
         // Extract the digits, in reverse order.
         while (value != 0)
         {
-          T remainder = tphn::absolute(value % T(format.get_base()));
+          T remainder = tpn::absolute(value % T(format.get_base()));
           str.push_back((remainder > 9) ? (format.is_upper_case() ? type('A' + (remainder - 10)) : type('a' + (remainder - 10))) : type('0' + remainder));
           value = value / T(format.get_base());
         }
@@ -213,10 +213,10 @@ namespace tphn
         }
 
         // Reverse the string we appended.
-        tphn::reverse(start, str.end());
+        tpn::reverse(start, str.end());
       }
 
-      tphn::private_to_string::add_alignment(str, start, format);
+      tpn::private_to_string::add_alignment(str, start, format);
     }
 
     //***************************************************************************
@@ -249,18 +249,18 @@ namespace tphn
     void add_integral_and_fractional(const uint32_t integral,
                                      const uint32_t fractional,
                                      TIString& str,
-                                     const tphn::basic_format_spec<TIString>& integral_format,
-                                     const tphn::basic_format_spec<TIString>& fractional_format,
+                                     const tpn::basic_format_spec<TIString>& integral_format,
+                                     const tpn::basic_format_spec<TIString>& fractional_format,
                                      const bool negative)
     {
       typedef typename TIString::value_type type;
 
-      tphn::private_to_string::add_integral(integral, str, integral_format, true, negative);
+      tpn::private_to_string::add_integral(integral, str, integral_format, true, negative);
 
       if (fractional_format.get_precision() > 0)
       {
         str.push_back(type('.'));
-        tphn::private_to_string::add_integral(fractional, str, fractional_format, true, false);
+        tpn::private_to_string::add_integral(fractional, str, fractional_format, true, false);
       }
     }
 
@@ -272,18 +272,18 @@ namespace tphn
     void add_integral_and_fractional(const uint64_t integral,
                                      const uint64_t fractional,
                                      TIString& str,
-                                     const tphn::basic_format_spec<TIString>& integral_format,
-                                     const tphn::basic_format_spec<TIString>& fractional_format,
+                                     const tpn::basic_format_spec<TIString>& integral_format,
+                                     const tpn::basic_format_spec<TIString>& fractional_format,
                                      const bool negative)
     {
       typedef typename TIString::value_type type;
 
-      tphn::private_to_string::add_integral(integral, str, integral_format, true, negative);
+      tpn::private_to_string::add_integral(integral, str, integral_format, true, negative);
 
       if (fractional_format.get_precision() > 0)
       {
         str.push_back(type('.'));
-        tphn::private_to_string::add_integral(fractional, str, fractional_format, true, false);
+        tpn::private_to_string::add_integral(fractional, str, fractional_format, true, false);
       }
     }
 #endif
@@ -294,7 +294,7 @@ namespace tphn
     template <typename T, typename TIString>
     void add_floating_point(const T value,
                             TIString& str,
-                            const tphn::basic_format_spec<TIString>& format,
+                            const tpn::basic_format_spec<TIString>& format,
                             const bool append)
     {
       typedef typename TIString::iterator   iterator;
@@ -309,12 +309,12 @@ namespace tphn
 
       if (isnan(value) || isinf(value))
       {
-        tphn::private_to_string::add_nan_inf(isnan(value), isinf(value), str);
+        tpn::private_to_string::add_nan_inf(isnan(value), isinf(value), str);
       }
       else
       {
         // Make sure we format the two halves correctly.
-        uint32_t max_precision = tphn::numeric_limits<T>::digits10;
+        uint32_t max_precision = tpn::numeric_limits<T>::digits10;
 
 #if TYPHOON_NOT_USING_64BIT_TYPES
         if (max_precision > 9)
@@ -323,10 +323,10 @@ namespace tphn
         }
 #endif
 
-        tphn::basic_format_spec<TIString> integral_format = format;
+        tpn::basic_format_spec<TIString> integral_format = format;
         integral_format.decimal().width(0).precision(format.get_precision() > max_precision ? max_precision : format.get_precision());
 
-        tphn::basic_format_spec<TIString> fractional_format = integral_format;
+        tpn::basic_format_spec<TIString> fractional_format = integral_format;
         fractional_format.width(integral_format.get_precision()).fill(type('0')).right();
 
         uworkspace_t multiplier = 1U;
@@ -337,11 +337,11 @@ namespace tphn
         }
 
         // Find the integral part of the floating point
-        T f_integral = floor(tphn::absolute(value));
+        T f_integral = floor(tpn::absolute(value));
         uworkspace_t integral = static_cast<uworkspace_t>(f_integral);
 
         // Find the fractional part of the floating point.
-        uworkspace_t fractional = static_cast<uworkspace_t>(round((tphn::absolute(value) - f_integral) * multiplier));
+        uworkspace_t fractional = static_cast<uworkspace_t>(round((tpn::absolute(value) - f_integral) * multiplier));
 
         // Check for a rounding carry to the integral.
         if (fractional == multiplier)
@@ -350,10 +350,10 @@ namespace tphn
           fractional = 0U;
         }
 
-        tphn::private_to_string::add_integral_and_fractional(integral, fractional, str, integral_format, fractional_format, tphn::is_negative(value));
+        tpn::private_to_string::add_integral_and_fractional(integral, fractional, str, integral_format, fractional_format, tpn::is_negative(value));
       }
 
-      tphn::private_to_string::add_alignment(str, start, format);
+      tpn::private_to_string::add_alignment(str, start, format);
     }
 
     //***************************************************************************
@@ -363,12 +363,12 @@ namespace tphn
     void add_integral_denominated(const T value,
                                   const uint32_t denominator_exponent,
                                   TIString& str,
-                                  const tphn::basic_format_spec<TIString>& format,
+                                  const tpn::basic_format_spec<TIString>& format,
                                   const bool append = false)
     {
       typedef typename TIString::iterator          iterator;
       typedef typename TIString::value_type        type;
-      typedef typename tphn::make_unsigned<T>::type working_t;
+      typedef typename tpn::make_unsigned<T>::type working_t;
 
       if (!append)
       {
@@ -386,7 +386,7 @@ namespace tphn
       }
 
       // Get the absolute value, taking care of minimum negative values.
-      working_t abs_value = tphn::absolute_unsigned(value);
+      working_t abs_value = tpn::absolute_unsigned(value);
 
       // Figure out how many decimal digits we have in the value.
       const uint32_t& original_decimal_digits = denominator_exponent;
@@ -395,11 +395,11 @@ namespace tphn
       const uint32_t displayed_decimal_digits = (format.get_precision() > original_decimal_digits) ? original_decimal_digits : format.get_precision();
 
       // Format for the integral part.
-      tphn::basic_format_spec<TIString> integral_format = format;
+      tpn::basic_format_spec<TIString> integral_format = format;
       integral_format.decimal().width(0U);
 
       // Format for the fractional part.      
-      tphn::basic_format_spec<TIString> fractional_format = integral_format;
+      tpn::basic_format_spec<TIString> fractional_format = integral_format;
       fractional_format.precision(displayed_decimal_digits).width(displayed_decimal_digits).fill(type('0')).right();
 
       // Do we need to check for rounding?
@@ -431,8 +431,8 @@ namespace tphn
       }    
 
       // Create the string.
-      tphn::private_to_string::add_integral_and_fractional(integral, fractional, str, integral_format, fractional_format, tphn::is_negative(value));
-      tphn::private_to_string::add_alignment(str, start, format);
+      tpn::private_to_string::add_integral_and_fractional(integral, fractional, str, integral_format, fractional_format, tpn::is_negative(value));
+      tpn::private_to_string::add_alignment(str, start, format);
     }
 
     //***************************************************************************
@@ -441,12 +441,12 @@ namespace tphn
     template <typename TIString>
     void add_pointer(const volatile void* value,
                      TIString& str,
-                     const tphn::basic_format_spec<TIString>& format,
+                     const tpn::basic_format_spec<TIString>& format,
                      const bool append)
     {
       uintptr_t p = reinterpret_cast<uintptr_t>(value);
 
-      return tphn::private_to_string::add_integral(p, str, format, append, false);
+      return tpn::private_to_string::add_integral(p, str, format, append, false);
     }
 
     //***************************************************************************
@@ -455,7 +455,7 @@ namespace tphn
     template <typename TIString>
     void add_string(const TIString& value,
                     TIString& str,
-                    const tphn::basic_format_spec<TIString>& format,
+                    const tpn::basic_format_spec<TIString>& format,
                     const bool append)
     {
       if (!append)
@@ -467,7 +467,7 @@ namespace tphn
 
       str.insert(str.end(), value.begin(), value.end());
 
-      tphn::private_to_string::add_alignment(str, start, format);
+      tpn::private_to_string::add_alignment(str, start, format);
     }
 
     //***************************************************************************
@@ -476,7 +476,7 @@ namespace tphn
     template <typename TSringView, typename TIString>
     void add_string_view(const TSringView& value,
                          TIString& str,
-                         const tphn::basic_format_spec<TIString>& format,
+                         const tpn::basic_format_spec<TIString>& format,
                          const bool append)
     {
       if (!append)
@@ -488,7 +488,7 @@ namespace tphn
 
       str.insert(str.end(), value.begin(), value.end());
 
-      tphn::private_to_string::add_alignment(str, start, format);
+      tpn::private_to_string::add_alignment(str, start, format);
     }
 
     //*********************************************************************************************************
@@ -499,10 +499,10 @@ namespace tphn
     template <typename TIString>
     const TIString& to_string(const bool value,
                               TIString& str,
-                              const tphn::basic_format_spec<TIString>& format,
+                              const tpn::basic_format_spec<TIString>& format,
                               const bool append = false)
     {
-      tphn::private_to_string::add_boolean(value, str, format, append);
+      tpn::private_to_string::add_boolean(value, str, format, append);
 
       return str;
     }
@@ -513,10 +513,10 @@ namespace tphn
     template <typename TIString>
     const TIString& to_string(const volatile void* value,
                               TIString& str,
-                              const tphn::basic_format_spec<TIString>& format,
+                              const tpn::basic_format_spec<TIString>& format,
                               const bool append = false)
     {
-      tphn::private_to_string::add_pointer(value, str, format, append);
+      tpn::private_to_string::add_pointer(value, str, format, append);
 
       return str;
     }
@@ -526,14 +526,14 @@ namespace tphn
     /// For integrals less than 64 bits.
     //***************************************************************************
     template <typename T, typename TIString>
-    typename tphn::enable_if<tphn::is_integral<T>::value &&
-                            !tphn::is_same<T, bool>::value &&
-                            !tphn::is_one_of<T, int64_t, uint64_t>::value, const TIString&>::type
-      to_string(const T value, TIString& str, const tphn::basic_format_spec<TIString>& format, const bool append = false)
+    typename tpn::enable_if<tpn::is_integral<T>::value &&
+                            !tpn::is_same<T, bool>::value &&
+                            !tpn::is_one_of<T, int64_t, uint64_t>::value, const TIString&>::type
+      to_string(const T value, TIString& str, const tpn::basic_format_spec<TIString>& format, const bool append = false)
     {
-      typedef typename tphn::conditional<tphn::is_signed<T>::value, int32_t, uint32_t>::type type;
+      typedef typename tpn::conditional<tpn::is_signed<T>::value, int32_t, uint32_t>::type type;
 
-      tphn::private_to_string::add_integral(type(value), str, format, append, tphn::is_negative(value));
+      tpn::private_to_string::add_integral(type(value), str, format, append, tpn::is_negative(value));
 
       return str;
     }
@@ -542,12 +542,12 @@ namespace tphn
     /// For 64 bit integrals.
     //***************************************************************************
     template <typename T, typename TIString>
-    typename tphn::enable_if<tphn::is_integral<T>::value &&
-                            !tphn::is_same<T, bool>::value &&
-                            tphn::is_one_of<T, int64_t, uint64_t>::value, const TIString&>::type
-      to_string(const T value, TIString& str, const tphn::basic_format_spec<TIString>& format, const bool append = false)
+    typename tpn::enable_if<tpn::is_integral<T>::value &&
+                            !tpn::is_same<T, bool>::value &&
+                            tpn::is_one_of<T, int64_t, uint64_t>::value, const TIString&>::type
+      to_string(const T value, TIString& str, const tpn::basic_format_spec<TIString>& format, const bool append = false)
     {
-      tphn::private_to_string::add_integral(value, str, format, append, tphn::is_negative(value));
+      tpn::private_to_string::add_integral(value, str, format, append, tpn::is_negative(value));
 
       return str;
     }
@@ -556,14 +556,14 @@ namespace tphn
     /// For denominated integrals less than 64 bits.
     //***************************************************************************
     template <typename T, typename TIString>
-    typename tphn::enable_if<tphn::is_integral<T>::value &&
-                            !tphn::is_same<T, bool>::value &&
-                            !tphn::is_one_of<T, int64_t, uint64_t>::value, const TIString&>::type
-      to_string(const T value, uint32_t denominator_exponent, TIString& str, const tphn::basic_format_spec<TIString>& format, const bool append = false)
+    typename tpn::enable_if<tpn::is_integral<T>::value &&
+                            !tpn::is_same<T, bool>::value &&
+                            !tpn::is_one_of<T, int64_t, uint64_t>::value, const TIString&>::type
+      to_string(const T value, uint32_t denominator_exponent, TIString& str, const tpn::basic_format_spec<TIString>& format, const bool append = false)
     {
-      typedef typename tphn::conditional<tphn::is_signed<T>::value, int32_t, uint32_t>::type type;
+      typedef typename tpn::conditional<tpn::is_signed<T>::value, int32_t, uint32_t>::type type;
 
-      tphn::private_to_string::add_integral_denominated(type(value), denominator_exponent, str, format, append);
+      tpn::private_to_string::add_integral_denominated(type(value), denominator_exponent, str, format, append);
 
       return str;
     }
@@ -572,12 +572,12 @@ namespace tphn
     /// For denominated 64 bit integrals.
     //***************************************************************************
     template <typename T, typename TIString>
-    typename tphn::enable_if<tphn::is_integral<T>::value&&
-                            !tphn::is_same<T, bool>::value&&
-                            tphn::is_one_of<T, int64_t, uint64_t>::value, const TIString&>::type
-      to_string(const T value, uint32_t denominator_exponent, TIString& str, const tphn::basic_format_spec<TIString>& format, const bool append = false)
+    typename tpn::enable_if<tpn::is_integral<T>::value&&
+                            !tpn::is_same<T, bool>::value&&
+                            tpn::is_one_of<T, int64_t, uint64_t>::value, const TIString&>::type
+      to_string(const T value, uint32_t denominator_exponent, TIString& str, const tpn::basic_format_spec<TIString>& format, const bool append = false)
     {
-      tphn::private_to_string::add_integral_denominated(value, denominator_exponent, str, format, append);
+      tpn::private_to_string::add_integral_denominated(value, denominator_exponent, str, format, append);
 
       return str;
     }
@@ -586,13 +586,13 @@ namespace tphn
     /// For integrals less than 64 bits.
     //***************************************************************************
     template <typename T, typename TIString>
-    typename tphn::enable_if<tphn::is_integral<T>::value &&
-      !tphn::is_same<T, bool>::value>::value, const TIString& > ::type
-      to_string(const T value, TIString& str, const tphn::basic_format_spec<TIString>& format, const bool append = false)
+    typename tpn::enable_if<tpn::is_integral<T>::value &&
+      !tpn::is_same<T, bool>::value>::value, const TIString& > ::type
+      to_string(const T value, TIString& str, const tpn::basic_format_spec<TIString>& format, const bool append = false)
     {
-      typedef typename tphn::conditional<tphn::is_signed<T>::value, int32_t, uint32_t>::type type;
+      typedef typename tpn::conditional<tpn::is_signed<T>::value, int32_t, uint32_t>::type type;
 
-      tphn::private_to_string::add_integral(type(value), str, format, append, false);
+      tpn::private_to_string::add_integral(type(value), str, format, append, false);
 
       return str;
     }
@@ -601,11 +601,11 @@ namespace tphn
     /// For denominated integrals less than 64 bits.
     //***************************************************************************
     template <typename T, typename TIString>
-    typename tphn::enable_if<tphn::is_integral<T>::value &&
-      !tphn::is_same<T, bool>::value>::value, const TIString& > ::type
-      to_string(const T value, uint32_t denominator_exponent, TIString& str, const tphn::basic_format_spec<TIString>& format, const bool append = false)
+    typename tpn::enable_if<tpn::is_integral<T>::value &&
+      !tpn::is_same<T, bool>::value>::value, const TIString& > ::type
+      to_string(const T value, uint32_t denominator_exponent, TIString& str, const tpn::basic_format_spec<TIString>& format, const bool append = false)
     {
-      tphn::private_to_string::add_integral_denominated(type(value), denominator_exponent, str, format, append, false);
+      tpn::private_to_string::add_integral_denominated(type(value), denominator_exponent, str, format, append, false);
 
       return str;
     }
@@ -615,10 +615,10 @@ namespace tphn
     /// For floating point.
     //***************************************************************************
     template <typename T, typename TIString>
-    typename tphn::enable_if<tphn::is_floating_point<T>::value, const TIString&>::type
-      to_string(const T value, TIString& str, const tphn::basic_format_spec<TIString>& format, const bool append = false)
+    typename tpn::enable_if<tpn::is_floating_point<T>::value, const TIString&>::type
+      to_string(const T value, TIString& str, const tpn::basic_format_spec<TIString>& format, const bool append = false)
     {
-      tphn::private_to_string::add_floating_point(value, str, format, append);
+      tpn::private_to_string::add_floating_point(value, str, format, append);
 
       return str;
     }

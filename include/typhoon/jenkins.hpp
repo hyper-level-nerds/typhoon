@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -48,7 +48,7 @@ SOFTWARE.
 ///\defgroup jenkins Jenkins 32 hash calculation
 ///\ingroup maths
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Jenkins policy.
@@ -92,7 +92,7 @@ namespace tphn
   //*************************************************************************
   /// jenkins
   //*************************************************************************
-  class jenkins : public tphn::frame_check_sequence<tphn::jenkins_policy>
+  class jenkins : public tpn::frame_check_sequence<tpn::jenkins_policy>
   {
   public:
 

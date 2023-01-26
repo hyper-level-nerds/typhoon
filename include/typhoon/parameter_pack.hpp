@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -39,7 +39,7 @@ SOFTWARE.
     #error NOT SUPPORTED FOR C++03 OR BELOW
   #endif
 #else
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// parameter_pack
@@ -63,7 +63,7 @@ namespace tphn
       template <typename Type, typename T1, typename... TRest>
       struct index_of_type_helper
       {
-        static constexpr size_t value = tphn::is_same<Type, T1>::value ? 1 : 1 + index_of_type_helper<Type, TRest...>::value;
+        static constexpr size_t value = tpn::is_same<Type, T1>::value ? 1 : 1 + index_of_type_helper<Type, TRest...>::value;
       };
 
       //***********************************
@@ -75,7 +75,7 @@ namespace tphn
 
     public:
 
-      static_assert(tphn::is_one_of<T, TTypes...>::value, "T is not in parameter pack");
+      static_assert(tpn::is_one_of<T, TTypes...>::value, "T is not in parameter pack");
 
       /// The index value.
       static constexpr size_t value = index_of_type_helper<T, TTypes...>::value - 1;
@@ -98,7 +98,7 @@ namespace tphn
       template <size_t II, size_t N, typename T1, typename... TRest>
       struct type_from_index_helper
       {
-        using type = typename tphn::conditional<II == N, T1, typename type_from_index_helper<II, N + 1, TRest...>::type>::type;
+        using type = typename tpn::conditional<II == N, T1, typename type_from_index_helper<II, N + 1, TRest...>::type>::type;
       };
 
       //***********************************
@@ -122,11 +122,11 @@ namespace tphn
   };
 
   template <size_t Index, typename... TTypes>
-  using parameter_pack_t = typename tphn::parameter_pack<TTypes...>::template type_from_index_t<Index>;
+  using parameter_pack_t = typename tpn::parameter_pack<TTypes...>::template type_from_index_t<Index>;
 
 #if TYPHOON_USING_CPP17
   template <typename T, typename... TTypes>
-  inline constexpr size_t parameter_pack_v = tphn::parameter_pack<TTypes...>::template index_of_type<T>::value;
+  inline constexpr size_t parameter_pack_v = tpn::parameter_pack<TTypes...>::template index_of_type<T>::value;
 #endif
 }
 #endif

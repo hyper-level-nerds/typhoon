@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2018 John Wellbelove
 
@@ -34,13 +34,13 @@ SOFTWARE.
 #include "type_traits.hpp"
 #include "integral_limits.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   // For signed types.
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR typename tphn::enable_if<tphn::is_signed<T>::value, T>::type
+  TYPHOON_CONSTEXPR typename tpn::enable_if<tpn::is_signed<T>::value, T>::type
     absolute(T value)
   {
     return (value < T(0)) ? -value : value;
@@ -50,7 +50,7 @@ namespace tphn
   // For unsigned types.
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR typename tphn::enable_if<tphn::is_unsigned<T>::value, T>::type
+  TYPHOON_CONSTEXPR typename tpn::enable_if<tpn::is_unsigned<T>::value, T>::type
     absolute(T value)
   {
     return value;
@@ -61,14 +61,14 @@ namespace tphn
   // Returns the result as the unsigned type.
   //***************************************************************************
 #if TYPHOON_USING_CPP11
-  template <typename T, typename TReturn = typename tphn::make_unsigned<T>::type>
+  template <typename T, typename TReturn = typename tpn::make_unsigned<T>::type>
 #else
   template <typename T, typename TReturn>
   #endif
-  TYPHOON_CONSTEXPR typename tphn::enable_if<tphn::is_signed<T>::value, TReturn>::type
+  TYPHOON_CONSTEXPR typename tpn::enable_if<tpn::is_signed<T>::value, TReturn>::type
     absolute_unsigned(T value)
   {
-    return (value == tphn::integral_limits<T>::min) ? (tphn::integral_limits<TReturn>::max / 2U) + 1U
+    return (value == tpn::integral_limits<T>::min) ? (tpn::integral_limits<TReturn>::max / 2U) + 1U
                                                    : (value < T(0)) ? TReturn(-value) : TReturn(value);
   }
 
@@ -77,10 +77,10 @@ namespace tphn
   // Returns the result as the unsigned type.
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR typename tphn::enable_if<tphn::is_unsigned<T>::value, T>::type
+  TYPHOON_CONSTEXPR typename tpn::enable_if<tpn::is_unsigned<T>::value, T>::type
     absolute_unsigned(T value)
   {
-    return tphn::absolute(value);
+    return tpn::absolute(value);
   }
 }
 

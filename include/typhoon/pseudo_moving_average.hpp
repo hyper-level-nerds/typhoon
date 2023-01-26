@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2018 John Wellbelove
 
@@ -34,7 +34,7 @@ SOFTWARE.
 #include "type_traits.hpp"
 #include "iterator.hpp"
 
-namespace tphn
+namespace tpn
 {
   namespace private_pseudo_moving_average
   {
@@ -43,7 +43,7 @@ namespace tphn
     /// An output iterator used to add new values.
     //***************************************************
     template <typename TCMA>
-    class add_insert_iterator : public tphn::iterator<TYPHOON_OR_STD::output_iterator_tag, void, void, void, void>
+    class add_insert_iterator : public tpn::iterator<TYPHOON_OR_STD::output_iterator_tag, void, void, void, void>
     {
     public:
 
@@ -93,8 +93,8 @@ namespace tphn
   template <typename T,
             const size_t SAMPLE_SIZE,
             const size_t SCALING  = 1U,
-            const bool IsIntegral = tphn::is_integral<T>::value,
-            const bool IsFloat    = tphn::is_floating_point<T>::value>
+            const bool IsIntegral = tpn::is_integral<T>::value,
+            const bool IsFloat    = tpn::is_floating_point<T>::value>
   class pseudo_moving_average;
 
   //***************************************************************************
@@ -111,8 +111,8 @@ namespace tphn
 
     typedef pseudo_moving_average<T, SAMPLE_SIZE_, SCALING_, true, false> this_t;
 
-    typedef typename tphn::conditional<tphn::is_signed<T>::value, int32_t, uint32_t>::type scale_t;
-    typedef typename tphn::conditional<tphn::is_signed<T>::value, int32_t, uint32_t>::type sample_t;
+    typedef typename tpn::conditional<tpn::is_signed<T>::value, int32_t, uint32_t>::type scale_t;
+    typedef typename tpn::conditional<tpn::is_signed<T>::value, int32_t, uint32_t>::type sample_t;
 
     static TYPHOON_CONSTANT sample_t SAMPLES = static_cast<sample_t>(SAMPLE_SIZE_);
     static TYPHOON_CONSTANT scale_t  SCALE   = static_cast<scale_t>(SCALING_);
@@ -188,8 +188,8 @@ namespace tphn
   {
     typedef pseudo_moving_average<T, 0, SCALING_, true, false> this_t;
 
-    typedef typename tphn::conditional<tphn::is_signed<T>::value, int32_t, uint32_t>::type scale_t;
-    typedef typename tphn::conditional<tphn::is_signed<T>::value, int32_t, uint32_t>::type sample_t;
+    typedef typename tpn::conditional<tpn::is_signed<T>::value, int32_t, uint32_t>::type scale_t;
+    typedef typename tpn::conditional<tpn::is_signed<T>::value, int32_t, uint32_t>::type sample_t;
 
     static TYPHOON_CONSTANT scale_t SCALE = static_cast<scale_t>(SCALING_);
 

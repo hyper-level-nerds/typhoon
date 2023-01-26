@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -43,7 +43,7 @@ SOFTWARE.
   #endif
 #else
 
-namespace tphn
+namespace tpn
 {
   //*****************************************************************************
   /// Result type.
@@ -70,7 +70,7 @@ namespace tphn
     /// Move constructor
     //*******************************************
     result(result&& other)
-      : data(tphn::move(other.data))
+      : data(tpn::move(other.data))
     {
     }
 
@@ -86,7 +86,7 @@ namespace tphn
     // Move construct from a value
     //*******************************************
     result(TValue&& value)
-      : data(tphn::move(value))
+      : data(tpn::move(value))
     {
     }
 
@@ -102,7 +102,7 @@ namespace tphn
     /// Move construct from error
     //*******************************************
     result(TError&& error)
-      : data(tphn::move(error))
+      : data(tpn::move(error))
     {
     }
 
@@ -120,7 +120,7 @@ namespace tphn
     //*******************************************
     result& operator =(result&& other)
     {
-      data = tphn::move(other.data);
+      data = tpn::move(other.data);
       return *this;
     }
 
@@ -138,7 +138,7 @@ namespace tphn
     //*******************************************
     result& operator =(TValue&& value)
     {
-      data = tphn::move(value);
+      data = tpn::move(value);
       return *this;
     }
 
@@ -156,7 +156,7 @@ namespace tphn
     //*******************************************
     result& operator =(TError&& error)
     {
-      data = tphn::move(error);
+      data = tpn::move(error);
       return *this;
     }
 
@@ -190,7 +190,7 @@ namespace tphn
     //*******************************************
     const TValue& value() const
     {
-      return tphn::get<TValue>(data);
+      return tpn::get<TValue>(data);
     }
 
     //*******************************************
@@ -199,7 +199,7 @@ namespace tphn
     //*******************************************
     TValue&& value()
     {
-      return tphn::move(tphn::get<TValue>(tphn::move(data)));
+      return tpn::move(tpn::get<TValue>(tpn::move(data)));
     }
 
     //*******************************************
@@ -208,7 +208,7 @@ namespace tphn
     //*******************************************
     const TError& error() const
     {
-      return tphn::get<TError>(data);
+      return tpn::get<TError>(data);
     }
 
     //*******************************************
@@ -217,12 +217,12 @@ namespace tphn
     //*******************************************
     TError&& error()
     {
-      return tphn::move(tphn::get<TError>(tphn::move(data)));
+      return tpn::move(tpn::get<TError>(tpn::move(data)));
     }
 
   private:
 
-    tphn::variant<TValue, TError> data;
+    tpn::variant<TValue, TError> data;
   };
 
   //*****************************************************************************
@@ -254,7 +254,7 @@ namespace tphn
     /// Move constructor
     //*******************************************
     result(result&& other)
-      : err(tphn::move(other.err))
+      : err(tpn::move(other.err))
     {
     }
 
@@ -270,7 +270,7 @@ namespace tphn
     /// Move construct from error
     //*******************************************
     result(TError&& err_)
-      : err(tphn::move(err_))
+      : err(tpn::move(err_))
     {
     }
 
@@ -288,7 +288,7 @@ namespace tphn
     //*******************************************
     result& operator =(TError&& err_)
     {
-      err = tphn::move(err_);
+      err = tpn::move(err_);
       return *this;
     }
 
@@ -323,7 +323,7 @@ namespace tphn
     //*******************************************
     TError&& error()
     {
-      return tphn::move(err);
+      return tpn::move(err);
     }
 
   private:

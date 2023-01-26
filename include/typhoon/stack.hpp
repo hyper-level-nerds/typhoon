@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove, Mark Kitson
 
@@ -53,7 +53,7 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   ///\ingroup stack
@@ -210,14 +210,14 @@ namespace tphn
   ///\brief This is the base for all stacks that contain a particular type.
   ///\details Normally a reference to this type will be taken from a derived stack.
   ///\code
-  /// tphn::stack<int, 10> myStack;
-  /// tphn::istack<int>& iStack = myStack;
+  /// tpn::stack<int, 10> myStack;
+  /// tpn::istack<int>& iStack = myStack;
   ///\endcode
   /// \warning This stack cannot be used for concurrent access from multiple threads.
   /// \tparam T The type of value that the stack holds.
   //***************************************************************************
   template <typename T>
-  class istack : public tphn::stack_base
+  class istack : public tpn::stack_base
   {
   public:
 
@@ -233,7 +233,7 @@ namespace tphn
 
   private:
 
-    typedef typename tphn::stack_base              base_t;
+    typedef typename tpn::stack_base              base_t;
 
   public:
 
@@ -248,7 +248,7 @@ namespace tphn
 
     //*************************************************************************
     /// Adds a value to the stack.
-    /// If asserts or exceptions are enabled, throws an tphn::stack_full if the stack is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::stack_full if the stack is already full.
     ///\param value The value to push to the stack.
     //*************************************************************************
     void push(const_reference value)
@@ -263,7 +263,7 @@ namespace tphn
 #if TYPHOON_USING_CPP11
     //*************************************************************************
     /// Adds a value to the stack.
-    /// If asserts or exceptions are enabled, throws an tphn::stack_full if the stack is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::stack_full if the stack is already full.
     ///\param value The value to push to the stack.
     //*************************************************************************
     void push(rvalue_reference value)
@@ -272,14 +272,14 @@ namespace tphn
       TYPHOON_ASSERT(!full(), TYPHOON_ERROR(stack_full));
 #endif
       base_t::add_in();
-      ::new (&p_buffer[top_index]) T(tphn::move(value));
+      ::new (&p_buffer[top_index]) T(tpn::move(value));
     }
 #endif
 
 #if TYPHOON_USING_CPP11 && TYPHOON_NOT_USING_STLPORT
     //*************************************************************************
     /// Constructs a value in the stack place'.
-    /// If asserts or exceptions are enabled, throws an tphn::stack_full if the stack is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::stack_full if the stack is already full.
     ///\param value The value to push to the stack.
     //*************************************************************************
     template <typename ... Args>
@@ -289,12 +289,12 @@ namespace tphn
       TYPHOON_ASSERT(!full(), TYPHOON_ERROR(stack_full));
 #endif
       base_t::add_in();
-      ::new (&p_buffer[top_index]) T(tphn::forward<Args>(args)...);
+      ::new (&p_buffer[top_index]) T(tpn::forward<Args>(args)...);
     }
 #else
     //*************************************************************************
     /// Constructs a value in the stack place'.
-    /// If asserts or exceptions are enabled, throws an tphn::stack_full if the stack is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::stack_full if the stack is already full.
     ///\param value The value to push to the stack.
     //*************************************************************************
     template <typename T1>
@@ -309,7 +309,7 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the stack place'.
-    /// If asserts or exceptions are enabled, throws an tphn::stack_full if the stack is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::stack_full if the stack is already full.
     ///\param value The value to push to the stack.
     //*************************************************************************
     template <typename T1, typename T2>
@@ -324,7 +324,7 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the stack place'.
-    /// If asserts or exceptions are enabled, throws an tphn::stack_full if the stack is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::stack_full if the stack is already full.
     ///\param value The value to push to the stack.
     //*************************************************************************
     template <typename T1, typename T2, typename T3>
@@ -339,7 +339,7 @@ namespace tphn
 
     //*************************************************************************
     /// Constructs a value in the stack place'.
-    /// If asserts or exceptions are enabled, throws an tphn::stack_full if the stack is already full.
+    /// If asserts or exceptions are enabled, throws an tpn::stack_full if the stack is already full.
     ///\param value The value to push to the stack.
     //*************************************************************************
     template <typename T1, typename T2, typename T3, typename T4>
@@ -367,7 +367,7 @@ namespace tphn
     //*************************************************************************
     void clear()
     {
-      if TYPHOON_IF_CONSTEXPR(tphn::is_trivially_destructible<T>::value)
+      if TYPHOON_IF_CONSTEXPR(tpn::is_trivially_destructible<T>::value)
       {
         base_t::index_clear();
       }
@@ -419,7 +419,7 @@ namespace tphn
     //*************************************************************************
     void reverse()
     {
-      tphn::reverse(p_buffer, p_buffer + current_size);
+      tpn::reverse(p_buffer, p_buffer + current_size);
     }
 
     //*************************************************************************
@@ -444,7 +444,7 @@ namespace tphn
     {
       if (&rhs != this)
       {
-        clone(tphn::move(rhs));
+        clone(tpn::move(rhs));
       }
 
       return *this;
@@ -480,7 +480,7 @@ namespace tphn
 
       for (size_t i = 0UL; i < other.size(); ++i)
       {
-        push(tphn::move(other.p_buffer[index++]));
+        push(tpn::move(other.p_buffer[index++]));
       }
     }
 #endif
@@ -525,10 +525,10 @@ namespace tphn
   /// \tparam MAX_SIZE The maximum capacity of the stack.
   //***************************************************************************
   template <typename T, const size_t SIZE>
-  class stack : public tphn::istack<T>
+  class stack : public tpn::istack<T>
   {
   public:
-    typedef typename tphn::aligned_storage<sizeof(T), tphn::alignment_of<T>::value>::type container_type;
+    typedef typename tpn::aligned_storage<sizeof(T), tpn::alignment_of<T>::value>::type container_type;
 
     static TYPHOON_CONSTANT size_t MAX_SIZE = SIZE;
 
@@ -536,7 +536,7 @@ namespace tphn
     /// Default constructor.
     //*************************************************************************
     stack()
-      : tphn::istack<T>(reinterpret_cast<T*>(&buffer[0]), SIZE)
+      : tpn::istack<T>(reinterpret_cast<T*>(&buffer[0]), SIZE)
     {
     }
 
@@ -544,9 +544,9 @@ namespace tphn
     /// Copy constructor
     //*************************************************************************
     stack(const stack& rhs)
-      : tphn::istack<T>(reinterpret_cast<T*>(&buffer[0]), SIZE)
+      : tpn::istack<T>(reinterpret_cast<T*>(&buffer[0]), SIZE)
     {
-      tphn::istack<T>::clone(rhs);
+      tpn::istack<T>::clone(rhs);
     }
 
 #if TYPHOON_USING_CPP11
@@ -554,9 +554,9 @@ namespace tphn
     /// Copy constructor
     //*************************************************************************
     stack(stack&& rhs)
-      : tphn::istack<T>(reinterpret_cast<T*>(&buffer[0]), SIZE)
+      : tpn::istack<T>(reinterpret_cast<T*>(&buffer[0]), SIZE)
     {
-      tphn::istack<T>::clone(tphn::move(rhs));
+      tpn::istack<T>::clone(tpn::move(rhs));
     }
 #endif
 
@@ -565,7 +565,7 @@ namespace tphn
     //*************************************************************************
     ~stack()
     {
-      tphn::istack<T>::clear();
+      tpn::istack<T>::clear();
     }
 
     //*************************************************************************
@@ -575,7 +575,7 @@ namespace tphn
     {
       if (&rhs != this)
       {
-        tphn::istack<T>::clone(rhs);
+        tpn::istack<T>::clone(rhs);
       }
 
       return *this;
@@ -589,7 +589,7 @@ namespace tphn
     {
       if (&rhs != this)
       {
-        tphn::istack<T>::clone(tphn::move(rhs));
+        tpn::istack<T>::clone(tpn::move(rhs));
       }
 
       return *this;

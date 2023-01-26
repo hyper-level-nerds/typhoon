@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 jwellbelove
 
@@ -51,10 +51,10 @@ SOFTWARE.
 #undef TYPHOON_FILE
 #define TYPHOON_FILE "40"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
-  class factory_exception : public tphn::exception
+  class factory_exception : public tpn::exception
   {
   public:
 
@@ -65,7 +65,7 @@ namespace tphn
   };
 
   //***************************************************************************
-  class factory_cannot_create : public tphn::factory_exception
+  class factory_cannot_create : public tpn::factory_exception
   {
   public:
 
@@ -76,7 +76,7 @@ namespace tphn
   };
 
   //***************************************************************************
-  class factory_did_not_create : public tphn::factory_exception
+  class factory_did_not_create : public tpn::factory_exception
   {
   public:
 
@@ -89,21 +89,21 @@ namespace tphn
   //***************************************************************************
   template <const size_t MAX_SIZE_,
             typename T1,
-            typename T2  = tphn::type_id_pair<tphn::null_type, -2>,
-            typename T3  = tphn::type_id_pair<tphn::null_type, -3>,
-            typename T4  = tphn::type_id_pair<tphn::null_type, -4>,
-            typename T5  = tphn::type_id_pair<tphn::null_type, -5>,
-            typename T6  = tphn::type_id_pair<tphn::null_type, -6>,
-            typename T7  = tphn::type_id_pair<tphn::null_type, -7>,
-            typename T8  = tphn::type_id_pair<tphn::null_type, -8>,
-            typename T9  = tphn::type_id_pair<tphn::null_type, -9>,
-            typename T10 = tphn::type_id_pair<tphn::null_type, -10>,
-            typename T11 = tphn::type_id_pair<tphn::null_type, -11>,
-            typename T12 = tphn::type_id_pair<tphn::null_type, -12>,
-            typename T13 = tphn::type_id_pair<tphn::null_type, -13>,
-            typename T14 = tphn::type_id_pair<tphn::null_type, -14>,
-            typename T15 = tphn::type_id_pair<tphn::null_type, -15>,
-            typename T16 = tphn::type_id_pair<tphn::null_type, -16> >
+            typename T2  = tpn::type_id_pair<tpn::null_type, -2>,
+            typename T3  = tpn::type_id_pair<tpn::null_type, -3>,
+            typename T4  = tpn::type_id_pair<tpn::null_type, -4>,
+            typename T5  = tpn::type_id_pair<tpn::null_type, -5>,
+            typename T6  = tpn::type_id_pair<tpn::null_type, -6>,
+            typename T7  = tpn::type_id_pair<tpn::null_type, -7>,
+            typename T8  = tpn::type_id_pair<tpn::null_type, -8>,
+            typename T9  = tpn::type_id_pair<tpn::null_type, -9>,
+            typename T10 = tpn::type_id_pair<tpn::null_type, -10>,
+            typename T11 = tpn::type_id_pair<tpn::null_type, -11>,
+            typename T12 = tpn::type_id_pair<tpn::null_type, -12>,
+            typename T13 = tpn::type_id_pair<tpn::null_type, -13>,
+            typename T14 = tpn::type_id_pair<tpn::null_type, -14>,
+            typename T15 = tpn::type_id_pair<tpn::null_type, -15>,
+            typename T16 = tpn::type_id_pair<tpn::null_type, -16> >
   class factory
   {
   private:
@@ -125,7 +125,7 @@ namespace tphn
     typedef typename T15::type TT15;
     typedef typename T16::type TT16;
 
-    typedef tphn::type_id_lookup<T1, T2,  T3,  T4,  T5,  T6,  T7,  T8,
+    typedef tpn::type_id_lookup<T1, T2,  T3,  T4,  T5,  T6,  T7,  T8,
                                 T9, T10, T11, T12, T13, T14, T15, T16> lookup_t;
 
   public:
@@ -146,13 +146,13 @@ namespace tphn
     template <typename T>
     T* create_from_type()
     {
-      STATIC_ASSERT((tphn::is_one_of<T, TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::value), "Unsupported type");
+      STATIC_ASSERT((tpn::is_one_of<T, TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::value), "Unsupported type");
 
       T* p = nullptr;
 
       if (pool.full())
       {
-        TYPHOON_ASSERT(false, TYPHOON_ERROR(tphn::factory_cannot_create));
+        TYPHOON_ASSERT(false, TYPHOON_ERROR(tpn::factory_cannot_create));
       }
       else
       {
@@ -173,13 +173,13 @@ namespace tphn
     template <typename T, typename TP1>
     T* create_from_type(const TP1& p1)
     {
-      STATIC_ASSERT((tphn::is_one_of<T, TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::value), "Unsupported type");
+      STATIC_ASSERT((tpn::is_one_of<T, TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::value), "Unsupported type");
 
       T* p = nullptr;
 
       if (pool.full())
       {
-        TYPHOON_ASSERT(false, TYPHOON_ERROR(tphn::factory_cannot_create));
+        TYPHOON_ASSERT(false, TYPHOON_ERROR(tpn::factory_cannot_create));
       }
       else
       {
@@ -200,13 +200,13 @@ namespace tphn
     template <typename T, typename TP1, typename TP2>
     T* create_from_type(const TP1& p1, const TP2& p2)
     {
-      STATIC_ASSERT((tphn::is_one_of<T, TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::value), "Unsupported type");
+      STATIC_ASSERT((tpn::is_one_of<T, TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::value), "Unsupported type");
 
       T* p = nullptr;
 
       if (pool.full())
       {
-        TYPHOON_ASSERT(false, TYPHOON_ERROR(tphn::factory_cannot_create));
+        TYPHOON_ASSERT(false, TYPHOON_ERROR(tpn::factory_cannot_create));
       }
       else
       {
@@ -227,13 +227,13 @@ namespace tphn
     template <typename T, typename TP1, typename TP2, typename TP3>
     T* create_from_type(const TP1& p1, const TP2& p2, const TP3& p3)
     {
-      STATIC_ASSERT((tphn::is_one_of<T, TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::value), "Unsupported type");
+      STATIC_ASSERT((tpn::is_one_of<T, TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::value), "Unsupported type");
 
       T* p = nullptr;
 
       if (pool.full())
       {
-        TYPHOON_ASSERT(false, TYPHOON_ERROR(tphn::factory_cannot_create));
+        TYPHOON_ASSERT(false, TYPHOON_ERROR(tpn::factory_cannot_create));
       }
       else
       {
@@ -254,13 +254,13 @@ namespace tphn
     template <typename T, typename TP1, typename TP2, typename TP3, typename TP4>
     T* create_from_type(const TP1& p1, const TP2& p2, const TP3& p3, const TP4& p4)
     {
-      STATIC_ASSERT((tphn::is_one_of<T, TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::value), "Unsupported type");
+      STATIC_ASSERT((tpn::is_one_of<T, TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::value), "Unsupported type");
 
       T* p = nullptr;
 
       if (pool.full())
       {
-        TYPHOON_ASSERT(false, TYPHOON_ERROR(tphn::factory_cannot_create));
+        TYPHOON_ASSERT(false, TYPHOON_ERROR(tpn::factory_cannot_create));
       }
       else
       {
@@ -282,7 +282,7 @@ namespace tphn
     typename lookup_t::template type_from_id<ID>::type* create_from_id()
     {
       typedef typename lookup_t::template type_from_id<ID>::type type;
-      STATIC_ASSERT((!tphn::is_same<void, type>::value), "Invalid index");
+      STATIC_ASSERT((!tpn::is_same<void, type>::value), "Invalid index");
       return create_from_type<type>();
     }
 
@@ -293,7 +293,7 @@ namespace tphn
     typename lookup_t::template type_from_id<ID>::type* create_from_id(const TP1& p1)
     {
       typedef typename lookup_t::template type_from_id<ID>::type type;
-      STATIC_ASSERT((!tphn::is_same<void, type>::value), "Invalid index");
+      STATIC_ASSERT((!tpn::is_same<void, type>::value), "Invalid index");
       return create_from_type<type>(p1);
     }
 
@@ -304,7 +304,7 @@ namespace tphn
     typename lookup_t::template type_from_id<ID>::type* create_from_id(const TP1& p1, const TP2& p2)
     {
       typedef typename lookup_t::template type_from_id<ID>::type type;
-      STATIC_ASSERT((!tphn::is_same<void, type>::value), "Invalid index");
+      STATIC_ASSERT((!tpn::is_same<void, type>::value), "Invalid index");
       return create_from_type<type>(p1, p2);
     }
 
@@ -315,7 +315,7 @@ namespace tphn
     typename lookup_t::template type_from_id<ID>::type* create_from_id(const TP1& p1, const TP2& p2, const TP3& p3)
     {
       typedef typename lookup_t::template type_from_id<ID>::type type;
-      STATIC_ASSERT((!tphn::is_same<void, type>::value), "Invalid index");
+      STATIC_ASSERT((!tpn::is_same<void, type>::value), "Invalid index");
       return create_from_type<type>(p1, p2, p3);
     }
 
@@ -326,7 +326,7 @@ namespace tphn
     typename lookup_t::template type_from_id<ID>::type* create_from_id(const TP1& p1, const TP2& p2, const TP3& p3, const TP4& p4)
     {
       typedef typename lookup_t::template type_from_id<ID>::type type;
-      STATIC_ASSERT((!tphn::is_same<void, type>::value), "Invalid index");
+      STATIC_ASSERT((!tpn::is_same<void, type>::value), "Invalid index");
       return create_from_type<type>(p1, p2, p3, p4);
     }
 #else
@@ -336,13 +336,13 @@ namespace tphn
     template <typename T, typename... Args>
     T* create_from_type(Args&&... args)
     {
-      STATIC_ASSERT((tphn::is_one_of<T, TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::value), "Unsupported type");
+      STATIC_ASSERT((tpn::is_one_of<T, TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::value), "Unsupported type");
 
       T* p = nullptr;
 
       if (pool.full())
       {
-        TYPHOON_ASSERT(false, TYPHOON_ERROR(tphn::factory_cannot_create));
+        TYPHOON_ASSERT(false, TYPHOON_ERROR(tpn::factory_cannot_create));
       }
       else
       {
@@ -364,7 +364,7 @@ namespace tphn
     typename lookup_t::template type_from_id<ID>::type* create_from_id(Args&&... args)
     {
       typedef typename lookup_t::template type_from_id<ID>::type type;
-      STATIC_ASSERT((!tphn::is_same<void, type>::value), "Invalid index");
+      STATIC_ASSERT((!tpn::is_same<void, type>::value), "Invalid index");
       return create_from_type<type>(std::forward<Args>(args)...);
     }
 #endif
@@ -375,23 +375,23 @@ namespace tphn
     template <typename T>
     bool destroy(const T* const p)
     {
-      STATIC_ASSERT((tphn::is_one_of<T, TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::value ||
-                     tphn::is_base_of<T, TT1>::value  ||
-                     tphn::is_base_of<T, TT2>::value  ||
-                     tphn::is_base_of<T, TT3>::value  ||
-                     tphn::is_base_of<T, TT4>::value  ||
-                     tphn::is_base_of<T, TT5>::value  ||
-                     tphn::is_base_of<T, TT6>::value  ||
-                     tphn::is_base_of<T, TT7>::value  ||
-                     tphn::is_base_of<T, TT8>::value  ||
-                     tphn::is_base_of<T, TT9>::value  ||
-                     tphn::is_base_of<T, TT10>::value ||
-                     tphn::is_base_of<T, TT11>::value ||
-                     tphn::is_base_of<T, TT12>::value ||
-                     tphn::is_base_of<T, TT13>::value ||
-                     tphn::is_base_of<T, TT14>::value ||
-                     tphn::is_base_of<T, TT15>::value ||
-                     tphn::is_base_of<T, TT16>::value), "Invalid type");
+      STATIC_ASSERT((tpn::is_one_of<T, TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::value ||
+                     tpn::is_base_of<T, TT1>::value  ||
+                     tpn::is_base_of<T, TT2>::value  ||
+                     tpn::is_base_of<T, TT3>::value  ||
+                     tpn::is_base_of<T, TT4>::value  ||
+                     tpn::is_base_of<T, TT5>::value  ||
+                     tpn::is_base_of<T, TT6>::value  ||
+                     tpn::is_base_of<T, TT7>::value  ||
+                     tpn::is_base_of<T, TT8>::value  ||
+                     tpn::is_base_of<T, TT9>::value  ||
+                     tpn::is_base_of<T, TT10>::value ||
+                     tpn::is_base_of<T, TT11>::value ||
+                     tpn::is_base_of<T, TT12>::value ||
+                     tpn::is_base_of<T, TT13>::value ||
+                     tpn::is_base_of<T, TT14>::value ||
+                     tpn::is_base_of<T, TT15>::value ||
+                     tpn::is_base_of<T, TT16>::value), "Invalid type");
 
       p->~T();
 
@@ -457,8 +457,8 @@ namespace tphn
     factory& operator =(const factory&);
 
     // The pool.
-    tphn::generic_pool<tphn::largest<TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::size,
-                      tphn::largest<TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::alignment,
+    tpn::generic_pool<tpn::largest<TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::size,
+                      tpn::largest<TT1, TT2, TT3, TT4, TT5, TT6, TT7, TT8, TT9, TT10, TT11, TT12, TT13, TT14, TT15, TT16>::alignment,
                       MAX_SIZE> pool;
   };
 }

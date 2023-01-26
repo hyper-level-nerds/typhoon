@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -37,12 +37,12 @@ SOFTWARE.
 #include "error_handler.hpp"
 #include "file_error_numbers.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Exception for the successor.
   //***************************************************************************
-  class successor_exception : public tphn::exception
+  class successor_exception : public tpn::exception
   {
   public:
 
@@ -55,12 +55,12 @@ namespace tphn
   //***************************************************************************
   /// Invalid exception for successor.
   //***************************************************************************
-  class successor_invalid : public tphn::successor_exception
+  class successor_invalid : public tpn::successor_exception
   {
   public:
 
     successor_invalid(string_type file_name_, numeric_type line_number_)
-      : tphn::successor_exception(TYPHOON_ERROR_TEXT("successor:invalid", TYPHOON_SUCCESSOR_FILE_ID"A"), file_name_, line_number_)
+      : tpn::successor_exception(TYPHOON_ERROR_TEXT("successor:invalid", TYPHOON_SUCCESSOR_FILE_ID"A"), file_name_, line_number_)
     {
     }
   };
@@ -169,7 +169,7 @@ namespace tphn
 
     //*************************************************************************
     /// Get the successor.
-    /// Emits an tphn::successor_invalid if a successor has not been set.
+    /// Emits an tpn::successor_invalid if a successor has not been set.
     //*************************************************************************
     successor_type& get_successor() const
     {

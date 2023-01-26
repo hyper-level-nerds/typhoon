@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2016 John Wellbelove
 
@@ -45,7 +45,7 @@ SOFTWARE.
 
 #include "private/minmax_push.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Exception for the intrusive_forward_list.
@@ -145,7 +145,7 @@ namespace tphn
     void assign(TIterator first, TIterator last)
     {
 #if TYPHOON_IS_DEBUG_BUILD
-      intmax_t d = tphn::distance(first, last);
+      intmax_t d = tpn::distance(first, last);
       TYPHOON_ASSERT(d >= 0, TYPHOON_ERROR(intrusive_forward_list_iterator_exception));
 #endif
 
@@ -157,7 +157,7 @@ namespace tphn
       while (first != last)
       {
         link_type& link = *first++;
-        tphn::link_splice<link_type>(p_last_link, link);
+        tpn::link_splice<link_type>(p_last_link, link);
         p_last_link = &link;
         ++current_size;
       }
@@ -193,18 +193,18 @@ namespace tphn
       }
 
       link_type* first = TYPHOON_NULLPTR;             // To keep first link
-      link_type* second = start_link.tphn_next; // To keep second link
-      link_type* track = start_link.tphn_next; // Track the list
+      link_type* second = start_link.tpn_next; // To keep second link
+      link_type* track = start_link.tpn_next; // Track the list
 
       while (track != NULL)
       {
-        track = track->tphn_next;  // Track point to next link;
-        second->tphn_next = first; // Second link point to first
+        track = track->tpn_next;  // Track point to next link;
+        second->tpn_next = first; // Second link point to first
         first = second;          // Move first link to next
         second = track;           // Move second link to next
       }
 
-      tphn::link<link_type>(start_link, first);
+      tpn::link<link_type>(start_link, first);
     }
 
     //*************************************************************************
@@ -212,7 +212,7 @@ namespace tphn
     //*************************************************************************
     bool empty() const
     {
-      return start_link.tphn_next == TYPHOON_NULLPTR;
+      return start_link.tpn_next == TYPHOON_NULLPTR;
     }
 
     //*************************************************************************
@@ -241,7 +241,7 @@ namespace tphn
     //*************************************************************************
     bool is_trivial_list() const
     {
-      return (start_link.link_type::tphn_next == TYPHOON_NULLPTR) || (start_link.link_type::tphn_next->tphn_next == TYPHOON_NULLPTR);
+      return (start_link.link_type::tpn_next == TYPHOON_NULLPTR) || (start_link.link_type::tpn_next->tpn_next == TYPHOON_NULLPTR);
     }
 
     //*************************************************************************
@@ -250,7 +250,7 @@ namespace tphn
     void insert_link_after(link_type& position, link_type& link)
     {
       // Connect to the intrusive_forward_list.
-      tphn::link_splice<link_type>(position, link);
+      tpn::link_splice<link_type>(position, link);
       ++current_size;
     }
 
@@ -259,11 +259,11 @@ namespace tphn
     //*************************************************************************
     void remove_link_after(link_type& link)
     {
-      link_type* p_next = link.tphn_next;
+      link_type* p_next = link.tpn_next;
 
       if (p_next != TYPHOON_NULLPTR)
       {
-        tphn::unlink_after<link_type>(link);
+        tpn::unlink_after<link_type>(link);
         --current_size;
       }
     }
@@ -273,7 +273,7 @@ namespace tphn
     //*************************************************************************
     link_type* get_head()
     {
-      return start_link.tphn_next;
+      return start_link.tpn_next;
     }
 
     //*************************************************************************
@@ -281,7 +281,7 @@ namespace tphn
     //*************************************************************************
     const link_type* get_head() const
     {
-      return start_link.tphn_next;
+      return start_link.tpn_next;
     }
 
     //*************************************************************************
@@ -289,7 +289,7 @@ namespace tphn
     //*************************************************************************
     void initialise()
     {
-      start_link.tphn_next = TYPHOON_NULLPTR;
+      start_link.tpn_next = TYPHOON_NULLPTR;
       current_size = 0;
     }
   };
@@ -299,13 +299,13 @@ namespace tphn
   ///\ingroup intrusive_forward_list
   ///\note TLink must be a base of TValue.
   //***************************************************************************
-  template <typename TValue, typename TLink = tphn::forward_link<0> >
-  class intrusive_forward_list : public tphn::intrusive_forward_list_base<TLink>
+  template <typename TValue, typename TLink = tpn::forward_link<0> >
+  class intrusive_forward_list : public tpn::intrusive_forward_list_base<TLink>
   {
   public:
 
     // Node typedef.
-    typedef typename tphn::intrusive_forward_list_base<TLink>::link_type link_type;
+    typedef typename tpn::intrusive_forward_list_base<TLink>::link_type link_type;
 
     // STL style typedefs.
     typedef TValue            value_type;
@@ -320,7 +320,7 @@ namespace tphn
     //*************************************************************************
     /// iterator.
     //*************************************************************************
-    class iterator : public tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, value_type>
+    class iterator : public tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, value_type>
     {
     public:
 
@@ -344,16 +344,16 @@ namespace tphn
 
       iterator& operator ++()
       {
-        // Read the appropriate 'tphn_next'.
-        p_value = static_cast<value_type*>(p_value->link_type::tphn_next);
+        // Read the appropriate 'tpn_next'.
+        p_value = static_cast<value_type*>(p_value->link_type::tpn_next);
         return *this;
       }
 
       iterator operator ++(int)
       {
         iterator temp(*this);
-        // Read the appropriate 'tphn_next'.
-        p_value = static_cast<value_type*>(p_value->link_type::tphn_next);
+        // Read the appropriate 'tpn_next'.
+        p_value = static_cast<value_type*>(p_value->link_type::tpn_next);
         return temp;
       }
 
@@ -396,7 +396,7 @@ namespace tphn
     //*************************************************************************
     /// const_iterator
     //*************************************************************************
-    class const_iterator : public tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, const value_type>
+    class const_iterator : public tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, const value_type>
     {
     public:
 
@@ -424,16 +424,16 @@ namespace tphn
 
       const_iterator& operator ++()
       {
-        // Read the appropriate 'tphn_next'.
-        p_value = static_cast<value_type*>(p_value->link_type::tphn_next);
+        // Read the appropriate 'tpn_next'.
+        p_value = static_cast<value_type*>(p_value->link_type::tpn_next);
         return *this;
       }
 
       const_iterator operator ++(int)
       {
         const_iterator temp(*this);
-        // Read the appropriate 'tphn_next'.
-        p_value = static_cast<value_type*>(p_value->link_type::tphn_next);
+        // Read the appropriate 'tpn_next'.
+        p_value = static_cast<value_type*>(p_value->link_type::tpn_next);
         return temp;
       }
 
@@ -473,7 +473,7 @@ namespace tphn
       const value_type* p_value;
     };
 
-    typedef typename tphn::iterator_traits<iterator>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<iterator>::difference_type difference_type;
 
     //*************************************************************************
     /// Constructor.
@@ -495,7 +495,7 @@ namespace tphn
     /// Constructor from range
     //*************************************************************************
     template <typename TIterator>
-    intrusive_forward_list(TIterator first, TIterator last, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
+    intrusive_forward_list(TIterator first, TIterator last, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
     {
       this->assign(first, last);
     }
@@ -630,14 +630,14 @@ namespace tphn
     {
       if (first != end() && (first != last))
       {
-        this->current_size -= tphn::distance(first, last) - 1;
+        this->current_size -= tpn::distance(first, last) - 1;
 
         link_type* p_first = first.p_value;
         link_type* p_last = last.p_value;
-        link_type* p_next = p_first->tphn_next;
+        link_type* p_next = p_first->tpn_next;
 
         // Join the ends.
-        tphn::link<link_type>(p_first, p_last);
+        tpn::link<link_type>(p_first, p_last);
 
         if (p_next == TYPHOON_NULLPTR)
         {
@@ -667,7 +667,7 @@ namespace tphn
       }
 
       link_type* last    = this->get_head();
-      link_type* current = last->tphn_next;
+      link_type* current = last->tpn_next;
 
       while (current != TYPHOON_NULLPTR)
       {
@@ -682,7 +682,7 @@ namespace tphn
           last = current;
         }
 
-        current = last->tphn_next;
+        current = last->tpn_next;
       }
     }
 
@@ -691,7 +691,7 @@ namespace tphn
     //*************************************************************************
     void sort()
     {
-      sort(tphn::less<value_type>());
+      sort(tpn::less<value_type>());
     }
 
     //*************************************************************************
@@ -803,17 +803,17 @@ namespace tphn
             // Add the next link to the merged head.
             if (i_head == before_begin())
             {
-              tphn::link<link_type>(i_head.p_value, i_link.p_value);
+              tpn::link<link_type>(i_head.p_value, i_link.p_value);
               i_head = i_link;
               i_tail = i_link;
             }
             else
             {
-              tphn::link<link_type>(i_tail.p_value, i_link.p_value);
+              tpn::link<link_type>(i_tail.p_value, i_link.p_value);
               i_tail = i_link;
             }
 
-            i_tail.p_value->link_type::tphn_next = TYPHOON_NULLPTR;
+            i_tail.p_value->link_type::tpn_next = TYPHOON_NULLPTR;
           }
 
           // Now left has stepped `list_size' places along, and right has too.
@@ -879,7 +879,7 @@ namespace tphn
     //*************************************************************************
     /// Splice another list into this one.
     //*************************************************************************
-    void splice_after(iterator position, tphn::intrusive_forward_list<TValue, TLink>& other)
+    void splice_after(iterator position, tpn::intrusive_forward_list<TValue, TLink>& other)
     {
       // No point splicing to ourself!
       if (&other != this)
@@ -894,17 +894,17 @@ namespace tphn
           }
 
           link_type& before = *position.p_value;
-          link_type& after  = *position.p_value->link_type::tphn_next;
+          link_type& after  = *position.p_value->link_type::tpn_next;
 
-          tphn::link<link_type>(before, first);
+          tpn::link<link_type>(before, first);
 
           link_type* last = &before;
-          while (last->link_type::tphn_next != TYPHOON_NULLPTR)
+          while (last->link_type::tpn_next != TYPHOON_NULLPTR)
           {
-            last = last->link_type::tphn_next;
+            last = last->link_type::tpn_next;
           }
 
-          tphn::link<link_type>(last, after);
+          tpn::link<link_type>(last, after);
 
           other.initialise();
         }
@@ -914,12 +914,12 @@ namespace tphn
     //*************************************************************************
     /// Splice an element from another list into this one.
     //*************************************************************************
-    void splice_after(iterator position, tphn::intrusive_forward_list<TValue, TLink>& other, iterator isource)
+    void splice_after(iterator position, tpn::intrusive_forward_list<TValue, TLink>& other, iterator isource)
     {
       link_type& before = *position.p_value;
 
-      tphn::unlink<link_type>(*isource.p_value);
-      tphn::link_splice<link_type>(before, *isource.p_value);
+      tpn::unlink<link_type>(*isource.p_value);
+      tpn::link_splice<link_type>(before, *isource.p_value);
 
       if (&other != this)
       {
@@ -931,13 +931,13 @@ namespace tphn
     //*************************************************************************
     /// Splice a range of elements from another list into this one.
     //*************************************************************************
-    void splice_after(iterator position, tphn::intrusive_forward_list<TValue, TLink>& other, iterator begin_, iterator end_)
+    void splice_after(iterator position, tpn::intrusive_forward_list<TValue, TLink>& other, iterator begin_, iterator end_)
     {
       if (!other.empty())
       {
         if (&other != this)
         {
-          size_t n = tphn::distance(begin_, end_) - 1;
+          size_t n = tpn::distance(begin_, end_) - 1;
           this->current_size += n;
           other.current_size -= n;
         }
@@ -945,19 +945,19 @@ namespace tphn
         link_type* first = begin_.p_value;
         link_type* last  = first;
 
-        while (last->link_type::tphn_next != end_.p_value)
+        while (last->link_type::tpn_next != end_.p_value)
         {
-          last = last->link_type::tphn_next;
+          last = last->link_type::tpn_next;
         }
 
         // Unlink from the source list.
-        link_type* first_next = first->link_type::tphn_next;
-        tphn::unlink_after(*first, *last);
+        link_type* first_next = first->link_type::tpn_next;
+        tpn::unlink_after(*first, *last);
 
         // Fix our links.
         link_type* before = position.p_value;
 
-        tphn::link_splice<link_type>(*before, *first_next, *last);
+        tpn::link_splice<link_type>(*before, *first_next, *last);
       }
     }
 
@@ -966,7 +966,7 @@ namespace tphn
     //*************************************************************************
     void merge(list_type& other)
     {
-      merge(other, tphn::less<value_type>());
+      merge(other, tpn::less<value_type>());
     }
 
     //*************************************************************************
@@ -978,8 +978,8 @@ namespace tphn
       if ((this != &other) && !other.empty())
       {
 #if TYPHOON_IS_DEBUG_BUILD
-        TYPHOON_ASSERT(tphn::is_sorted(other.begin(), other.end(), compare), TYPHOON_ERROR(intrusive_forward_list_unsorted));
-        TYPHOON_ASSERT(tphn::is_sorted(begin(), end(), compare), TYPHOON_ERROR(intrusive_forward_list_unsorted));
+        TYPHOON_ASSERT(tpn::is_sorted(other.begin(), other.end(), compare), TYPHOON_ERROR(intrusive_forward_list_unsorted));
+        TYPHOON_ASSERT(tpn::is_sorted(begin(), end(), compare), TYPHOON_ERROR(intrusive_forward_list_unsorted));
 #endif
 
         value_type* other_begin    = static_cast<value_type*>(other.get_head());
@@ -989,7 +989,7 @@ namespace tphn
         value_type* before_next = get_next(before);
         value_type* terminal    = TYPHOON_NULLPTR;
 
-        while ((before->link_type::tphn_next != terminal) && (other_begin != other_terminal))
+        while ((before->link_type::tpn_next != terminal) && (other_begin != other_terminal))
         {
           // Find the place to insert.
           while ((before_next != terminal) && !(compare(*other_begin, *before_next)))
@@ -1005,7 +1005,7 @@ namespace tphn
             {
               value_type* value = other_begin;
               other_begin = get_next(other_begin);
-              tphn::link_splice<link_type>(*before, *value);
+              tpn::link_splice<link_type>(*before, *value);
               before = get_next(before);
             }
           }
@@ -1018,7 +1018,7 @@ namespace tphn
           {
             value_type* value = other_begin;
             other_begin = get_next(other_begin);
-            tphn::link_splice<link_type>(*before, *value);
+            tpn::link_splice<link_type>(*before, *value);
             before = get_next(before);
           }
         }
@@ -1036,7 +1036,7 @@ namespace tphn
     //*************************************************************************
     value_type* get_next(link_type* link) const
     {
-      return static_cast<value_type*>(link->tphn_next);
+      return static_cast<value_type*>(link->tpn_next);
     }
 
     // Disabled.

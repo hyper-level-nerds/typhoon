@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2015 John Wellbelove
 
@@ -49,21 +49,21 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The base class for specifically sized flat_multisets.
   /// Can be used as a reference type for all flat_multisets containing a specific type.
   ///\ingroup flat_multiset
   //***************************************************************************
-  template <typename T, typename TKeyCompare = tphn::less<T> >
-  class iflat_multiset : private tphn::ireference_flat_multiset<T, TKeyCompare>
+  template <typename T, typename TKeyCompare = tpn::less<T> >
+  class iflat_multiset : private tpn::ireference_flat_multiset<T, TKeyCompare>
   {
   private:
 
-    typedef tphn::ireference_flat_multiset<T, TKeyCompare> refset_t;
+    typedef tpn::ireference_flat_multiset<T, TKeyCompare> refset_t;
     typedef typename refset_t::lookup_t lookup_t;
-    typedef tphn::ipool storage_t;
+    typedef tpn::ipool storage_t;
 
     typedef const T& key_parameter_t;
 
@@ -86,7 +86,7 @@ namespace tphn
 
     typedef TYPHOON_OR_STD::reverse_iterator<iterator>       reverse_iterator;
     typedef TYPHOON_OR_STD::reverse_iterator<const_iterator> const_reverse_iterator;
-    typedef typename tphn::iterator_traits<iterator>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<iterator>::difference_type difference_type;
 
   public:
 
@@ -209,7 +209,7 @@ namespace tphn
     void assign(TIterator first, TIterator last)
     {
 #if TYPHOON_IS_DEBUG_BUILD
-      difference_type d = tphn::distance(first, last);
+      difference_type d = tpn::distance(first, last);
       TYPHOON_ASSERT(d <= difference_type(capacity()), TYPHOON_ERROR(flat_multiset_full));
 #endif
 
@@ -233,7 +233,7 @@ namespace tphn
 
       TYPHOON_ASSERT(!full(), TYPHOON_ERROR(flat_multiset_full));
 
-      iterator i_element = tphn::upper_bound(begin(), end(), value, compare);
+      iterator i_element = tpn::upper_bound(begin(), end(), value, compare);
 
       value_type* pvalue = storage.allocate<value_type>();
       ::new (pvalue) value_type(value);
@@ -255,10 +255,10 @@ namespace tphn
 
       TYPHOON_ASSERT(!full(), TYPHOON_ERROR(flat_multiset_full));
 
-      iterator i_element = tphn::upper_bound(begin(), end(), value, compare);
+      iterator i_element = tpn::upper_bound(begin(), end(), value, compare);
 
       value_type* pvalue = storage.allocate<value_type>();
-      ::new (pvalue) value_type(tphn::move(value));
+      ::new (pvalue) value_type(tpn::move(value));
       TYPHOON_INCREMENT_DEBUG_COUNT
         result = refset_t::insert_at(i_element, *pvalue);
 
@@ -286,7 +286,7 @@ namespace tphn
     //*********************************************************************
     iterator insert(const_iterator /*position*/, rvalue_reference value)
     {
-      return insert(tphn::move(value)).first;
+      return insert(tpn::move(value)).first;
     }
 #endif
 
@@ -327,7 +327,7 @@ namespace tphn
 
       // Create it.
       value_type* pvalue = storage.allocate<value_type>();
-      ::new (pvalue) value_type(tphn::forward<Args>(args)...);
+      ::new (pvalue) value_type(tpn::forward<Args>(args)...);
 
       iterator i_element = upper_bound(*pvalue);
 
@@ -423,7 +423,7 @@ namespace tphn
       }
       else
       {
-        size_t d = tphn::distance(range.first, range.second);
+        size_t d = tpn::distance(range.first, range.second);
         erase(range.first, range.second);
         return d;
       }
@@ -431,10 +431,10 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     size_t erase(K&& key)
     {
-      TYPHOON_OR_STD::pair<iterator, iterator> range = equal_range(tphn::forward<K>(key));
+      TYPHOON_OR_STD::pair<iterator, iterator> range = equal_range(tpn::forward<K>(key));
 
       if (range.first == end())
       {
@@ -442,7 +442,7 @@ namespace tphn
       }
       else
       {
-        size_t d = tphn::distance(range.first, range.second);
+        size_t d = tpn::distance(range.first, range.second);
         erase(range.first, range.second);
         return d;
       }
@@ -455,8 +455,8 @@ namespace tphn
     //*********************************************************************
     iterator erase(iterator i_element)
     {
-      tphn::destroy_at(tphn::addressof(*i_element));
-      storage.release(tphn::addressof(*i_element));
+      tpn::destroy_at(tpn::addressof(*i_element));
+      storage.release(tpn::addressof(*i_element));
       TYPHOON_DECREMENT_DEBUG_COUNT
       return refset_t::erase(i_element);
     }
@@ -467,8 +467,8 @@ namespace tphn
     //*********************************************************************
     iterator erase(const_iterator i_element)
     {
-      tphn::destroy_at(tphn::addressof(*i_element));
-      storage.release(tphn::addressof(*i_element));
+      tpn::destroy_at(tpn::addressof(*i_element));
+      storage.release(tpn::addressof(*i_element));
       TYPHOON_DECREMENT_DEBUG_COUNT
       return refset_t::erase(i_element);
     }
@@ -486,8 +486,8 @@ namespace tphn
 
       while (itr != last)
       {
-        tphn::destroy_at(tphn::addressof(*itr));
-        storage.release(tphn::addressof(*itr));
+        tpn::destroy_at(tpn::addressof(*itr));
+        storage.release(tpn::addressof(*itr));
         ++itr;
         TYPHOON_DECREMENT_DEBUG_COUNT
       }
@@ -500,7 +500,7 @@ namespace tphn
     //*************************************************************************
     void clear()
     {
-      if TYPHOON_IF_CONSTEXPR(tphn::is_trivially_destructible<value_type>::value)
+      if TYPHOON_IF_CONSTEXPR(tpn::is_trivially_destructible<value_type>::value)
       {
         storage.release_all();
       }
@@ -510,8 +510,8 @@ namespace tphn
 
         while (itr != end())
         {
-          tphn::destroy_at(tphn::addressof(*itr));
-          storage.release(tphn::addressof(*itr));
+          tpn::destroy_at(tpn::addressof(*itr));
+          storage.release(tpn::addressof(*itr));
           ++itr;
         }
       }
@@ -532,7 +532,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     iterator find(const K& key)
     {
       return refset_t::find(key);
@@ -551,7 +551,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     const_iterator find(const K& key) const
     {
       return refset_t::find(key);
@@ -570,7 +570,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     size_t count(const K& key) const
     {
       return refset_t::count(key);
@@ -589,7 +589,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     iterator lower_bound(const K& key)
     {
       return refset_t::lower_bound(key);
@@ -608,7 +608,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     const_iterator lower_bound(const K& key) const
     {
       return refset_t::lower_bound(key);
@@ -627,7 +627,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     iterator upper_bound(const K& key)
     {
       return refset_t::upper_bound(key);
@@ -646,7 +646,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     const_iterator upper_bound(const K& key) const
     {
       return refset_t::upper_bound(key);
@@ -665,7 +665,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     TYPHOON_OR_STD::pair<iterator, iterator> equal_range(const K& key)
     {
       return refset_t::equal_range(key);
@@ -684,7 +684,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*********************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     TYPHOON_OR_STD::pair<const_iterator, const_iterator> equal_range(const K& key) const
     {
       return refset_t::equal_range(key);
@@ -701,7 +701,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*************************************************************************
-    template <typename K, typename KC = TKeyCompare, tphn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
+    template <typename K, typename KC = TKeyCompare, tpn::enable_if_t<comparator_is_transparent<KC>::value, int> = 0>
     bool contains(const K& k) const
     {
       return find(k) != end();
@@ -727,7 +727,7 @@ namespace tphn
     //*************************************************************************
     iflat_multiset& operator = (iflat_multiset&& rhs)
     {
-      move_container(tphn::move(rhs));
+      move_container(tpn::move(rhs));
 
       return *this;
     }
@@ -809,16 +809,16 @@ namespace tphn
       {
         this->clear();
 
-        tphn::iflat_multiset<T, TKeyCompare>::iterator first = rhs.begin();
-        tphn::iflat_multiset<T, TKeyCompare>::iterator last = rhs.end();
+        tpn::iflat_multiset<T, TKeyCompare>::iterator first = rhs.begin();
+        tpn::iflat_multiset<T, TKeyCompare>::iterator last = rhs.end();
 
         // Move all of the elements.
         while (first != last)
         {
-          typename tphn::iflat_multiset<T, TKeyCompare>::iterator temp = first;
+          typename tpn::iflat_multiset<T, TKeyCompare>::iterator temp = first;
           ++temp;
 
-          this->insert(tphn::move(*first));
+          this->insert(tpn::move(*first));
           first = temp;
         }
       }
@@ -861,9 +861,9 @@ namespace tphn
   ///\ingroup flat_multiset
   //***************************************************************************
   template <typename T, typename TKeyCompare>
-  bool operator ==(const tphn::iflat_multiset<T, TKeyCompare>& lhs, const tphn::iflat_multiset<T, TKeyCompare>& rhs)
+  bool operator ==(const tpn::iflat_multiset<T, TKeyCompare>& lhs, const tpn::iflat_multiset<T, TKeyCompare>& rhs)
   {
-    return (lhs.size() == rhs.size()) && tphn::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return (lhs.size() == rhs.size()) && tpn::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
   //***************************************************************************
@@ -874,7 +874,7 @@ namespace tphn
   ///\ingroup flat_multiset
   //***************************************************************************
   template <typename T, typename TKeyCompare>
-  bool operator !=(const tphn::iflat_multiset<T, TKeyCompare>& lhs, const tphn::iflat_multiset<T, TKeyCompare>& rhs)
+  bool operator !=(const tpn::iflat_multiset<T, TKeyCompare>& lhs, const tpn::iflat_multiset<T, TKeyCompare>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -882,12 +882,12 @@ namespace tphn
   //***************************************************************************
   /// A flat_multiset implementation that uses a fixed size buffer.
   ///\tparam T        The value type.
-  ///\tparam TCompare The type to compare keys. Default = tphn::less<T>
+  ///\tparam TCompare The type to compare keys. Default = tpn::less<T>
   ///\tparam MAX_SIZE_ The maximum number of elements that can be stored.
   ///\ingroup flat_multiset
   //***************************************************************************
-  template <typename T, const size_t MAX_SIZE_, typename TCompare = tphn::less<T> >
-  class flat_multiset : public tphn::iflat_multiset<T, TCompare>
+  template <typename T, const size_t MAX_SIZE_, typename TCompare = tpn::less<T> >
+  class flat_multiset : public tpn::iflat_multiset<T, TCompare>
   {
   public:
 
@@ -897,7 +897,7 @@ namespace tphn
     /// Constructor.
     //*************************************************************************
     flat_multiset()
-      : tphn::iflat_multiset<T, TCompare>(lookup, storage)
+      : tpn::iflat_multiset<T, TCompare>(lookup, storage)
     {
     }
 
@@ -915,11 +915,11 @@ namespace tphn
     /// Move constructor.
     //*************************************************************************
     flat_multiset(flat_multiset&& other)
-      : tphn::iflat_multiset<T, TCompare>(lookup, storage)
+      : tpn::iflat_multiset<T, TCompare>(lookup, storage)
     {
       if (&other != this)
       {
-        this->move_container(tphn::move(other));
+        this->move_container(tpn::move(other));
       }
     }
 #endif
@@ -977,7 +977,7 @@ namespace tphn
     {
       if (&rhs != this)
       {
-        this->move_container(tphn::move(rhs));
+        this->move_container(tpn::move(rhs));
       }
 
       return *this;
@@ -986,13 +986,13 @@ namespace tphn
 
   private:
 
-    typedef typename tphn::iflat_multiset<T, TCompare>::value_type node_t;
+    typedef typename tpn::iflat_multiset<T, TCompare>::value_type node_t;
 
     // The pool of nodes.
-    tphn::pool<node_t, MAX_SIZE> storage;
+    tpn::pool<node_t, MAX_SIZE> storage;
 
     // The vector that stores pointers to the nodes.
-    tphn::vector<node_t*, MAX_SIZE> lookup;
+    tpn::vector<node_t*, MAX_SIZE> lookup;
   };
 
   //*************************************************************************
@@ -1000,17 +1000,17 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_CPP17 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename... T>
-  flat_multiset(T...) -> flat_multiset<tphn::nth_type_t<0, T...>, sizeof...(T)>;
+  flat_multiset(T...) -> flat_multiset<tpn::nth_type_t<0, T...>, sizeof...(T)>;
 #endif
 
   //*************************************************************************
   /// Make
   //*************************************************************************
 #if TYPHOON_USING_CPP11 && TYPHOON_HAS_INITIALIZER_LIST
-  template <typename TKey, typename TKeyCompare = tphn::less<TKey>, typename... T>
-  constexpr auto make_flat_multiset(T&&... keys) -> tphn::flat_multiset<TKey, sizeof...(T), TKeyCompare>
+  template <typename TKey, typename TKeyCompare = tpn::less<TKey>, typename... T>
+  constexpr auto make_flat_multiset(T&&... keys) -> tpn::flat_multiset<TKey, sizeof...(T), TKeyCompare>
   {
-    return { {tphn::forward<T>(keys)...} };
+    return { {tpn::forward<T>(keys)...} };
   }
 #endif
 }

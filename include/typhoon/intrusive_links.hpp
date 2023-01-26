@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2016 John Wellbelove
 
@@ -52,12 +52,12 @@ SOFTWARE.
 // and also is intuitive.
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Link exception.
   //***************************************************************************
-  class link_exception : public tphn::exception
+  class link_exception : public tpn::exception
   {
   public:
 
@@ -70,7 +70,7 @@ namespace tphn
   //***************************************************************************
   /// not unlinked exception.
   //***************************************************************************
-  class not_unlinked_exception : public tphn::link_exception
+  class not_unlinked_exception : public tpn::link_exception
   {
   public:
 
@@ -93,148 +93,148 @@ namespace tphn
 
     void clear()
     {
-      tphn_next = TYPHOON_NULLPTR;
+      tpn_next = TYPHOON_NULLPTR;
     }
 
     bool is_linked() const
     {
-      return tphn_next != TYPHOON_NULLPTR;
+      return tpn_next != TYPHOON_NULLPTR;
     }
 
-    forward_link* tphn_next;
+    forward_link* tpn_next;
   };
 
   // Reference, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::forward_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::forward_link<TLink::ID> >::value, void>::type
   link(TLink& lhs, TLink& rhs)
   {
-    lhs.tphn_next = &rhs;
+    lhs.tpn_next = &rhs;
   }
 
   // Reference, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::forward_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::forward_link<TLink::ID> >::value, void>::type
   link_splice(TLink& lhs, TLink& rhs)
   {
-    rhs.tphn_next = lhs.tphn_next;
-    lhs.tphn_next = &rhs;
+    rhs.tpn_next = lhs.tpn_next;
+    lhs.tpn_next = &rhs;
   }
 
   // Pointer, Pointer
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::forward_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::forward_link<TLink::ID> >::value, void>::type
   link(TLink* lhs, TLink* rhs)
   {
     if (lhs != TYPHOON_NULLPTR)
     {
-      lhs->tphn_next = rhs;
+      lhs->tpn_next = rhs;
     }
   }
 
   // Pointer, Pointer
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::forward_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::forward_link<TLink::ID> >::value, void>::type
   link_splice(TLink* lhs, TLink* rhs)
   {
     if (lhs != TYPHOON_NULLPTR)
     {
       if (rhs != TYPHOON_NULLPTR)
       {
-          rhs->tphn_next = lhs->tphn_next;
+          rhs->tpn_next = lhs->tpn_next;
       }
 
-      lhs->tphn_next = rhs;
+      lhs->tpn_next = rhs;
     }
   }
 
   // Reference, Pointer
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::forward_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::forward_link<TLink::ID> >::value, void>::type
   link(TLink& lhs, TLink* rhs)
   {
-    lhs.tphn_next = rhs;
+    lhs.tpn_next = rhs;
   }
 
   // Reference, Pointer
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::forward_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::forward_link<TLink::ID> >::value, void>::type
   link_splice(TLink& lhs, TLink* rhs)
   {
     if (rhs != TYPHOON_NULLPTR)
     {
-      rhs->tphn_next = lhs.tphn_next;
+      rhs->tpn_next = lhs.tpn_next;
     }
 
-    lhs.tphn_next = rhs;
+    lhs.tpn_next = rhs;
   }
 
   // Pointer, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::forward_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::forward_link<TLink::ID> >::value, void>::type
   link(TLink* lhs, TLink& rhs)
   {
     if (lhs != TYPHOON_NULLPTR)
     {
-      lhs->tphn_next = &rhs;
+      lhs->tpn_next = &rhs;
     }
   }
 
   // Pointer, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::forward_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::forward_link<TLink::ID> >::value, void>::type
   link_splice(TLink* lhs, TLink& rhs)
   {
     if (lhs != TYPHOON_NULLPTR)
     {
-      rhs.tphn_next  = lhs->tphn_next;
-      lhs->tphn_next = &rhs;
+      rhs.tpn_next  = lhs->tpn_next;
+      lhs->tpn_next = &rhs;
     }
   }
 
   // Reference, Reference, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::forward_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::forward_link<TLink::ID> >::value, void>::type
   link_splice(TLink& lhs, TLink& first, TLink& last)
   {
-    last.tphn_next = lhs.tphn_next;
-    lhs.tphn_next  = &first;
+    last.tpn_next = lhs.tpn_next;
+    lhs.tpn_next  = &first;
   }
 
   // Pointer, Reference, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::forward_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::forward_link<TLink::ID> >::value, void>::type
   link_splice(TLink* lhs, TLink& first, TLink& last)
   {
     if (lhs != TYPHOON_NULLPTR)
     {
-      last.tphn_next = lhs->tphn_next;
-      lhs->tphn_next  = &first;
+      last.tpn_next = lhs->tpn_next;
+      lhs->tpn_next  = &first;
     }
     else
     {
-      last.tphn_next = TYPHOON_NULLPTR;
+      last.tpn_next = TYPHOON_NULLPTR;
     }
   }
 
   // Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::forward_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::forward_link<TLink::ID> >::value, void>::type
   unlink_after(TLink& node)
   {
-    if (node.tphn_next != TYPHOON_NULLPTR)
+    if (node.tpn_next != TYPHOON_NULLPTR)
     {
-      TLink* unlinked_node = node.tphn_next;
-      node.tphn_next = unlinked_node->tphn_next;
+      TLink* unlinked_node = node.tpn_next;
+      node.tpn_next = unlinked_node->tpn_next;
     }
   }
 
   // Reference, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::forward_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::forward_link<TLink::ID> >::value, void>::type
   unlink_after(TLink& before, TLink& last)
   {
-    before.tphn_next = last.tphn_next;
+    before.tpn_next = last.tpn_next;
   }
 
   //***************************************************************************
@@ -250,222 +250,222 @@ namespace tphn
 
     void clear()
     {
-      tphn_previous = TYPHOON_NULLPTR;
-      tphn_next     = TYPHOON_NULLPTR;
+      tpn_previous = TYPHOON_NULLPTR;
+      tpn_next     = TYPHOON_NULLPTR;
     }
 
     bool is_linked() const
     {
-      return (tphn_previous != TYPHOON_NULLPTR) || (tphn_next != TYPHOON_NULLPTR);
+      return (tpn_previous != TYPHOON_NULLPTR) || (tpn_next != TYPHOON_NULLPTR);
     }
 
     void reverse()
     {
       using TYPHOON_OR_STD::swap; // Allow ADL
 
-      swap(tphn_previous, tphn_next);
+      swap(tpn_previous, tpn_next);
     }
 
-    bidirectional_link* tphn_previous;
-    bidirectional_link* tphn_next;
+    bidirectional_link* tpn_previous;
+    bidirectional_link* tpn_next;
 
     void unlink()
     {
         // Connect the previous link with the next.
-        if (tphn_previous != TYPHOON_NULLPTR)
+        if (tpn_previous != TYPHOON_NULLPTR)
         {
-          tphn_previous->tphn_next = tphn_next;
+          tpn_previous->tpn_next = tpn_next;
         }
 
         // Connect the next link with the previous.
-        if (tphn_next != TYPHOON_NULLPTR)
+        if (tpn_next != TYPHOON_NULLPTR)
         {
-          tphn_next->tphn_previous = tphn_previous;
+          tpn_next->tpn_previous = tpn_previous;
         }
     }
   };
 
   // Reference, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::bidirectional_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::bidirectional_link<TLink::ID> >::value, void>::type
   link(TLink& lhs, TLink& rhs)
   {
-    lhs.tphn_next     = &rhs;
-    rhs.tphn_previous = &lhs;
+    lhs.tpn_next     = &rhs;
+    rhs.tpn_previous = &lhs;
   }
 
   // Reference, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::bidirectional_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::bidirectional_link<TLink::ID> >::value, void>::type
   link_splice(TLink& lhs, TLink& rhs)
   {
-    rhs.tphn_next     = lhs.tphn_next;
-    rhs.tphn_previous = &lhs;
+    rhs.tpn_next     = lhs.tpn_next;
+    rhs.tpn_previous = &lhs;
 
-    if (lhs.tphn_next != TYPHOON_NULLPTR)
+    if (lhs.tpn_next != TYPHOON_NULLPTR)
     {
-      lhs.tphn_next->tphn_previous = &rhs;
+      lhs.tpn_next->tpn_previous = &rhs;
     }
 
-    lhs.tphn_next = &rhs;
+    lhs.tpn_next = &rhs;
   }
 
   // Pointer, Pointer
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::bidirectional_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::bidirectional_link<TLink::ID> >::value, void>::type
   link(TLink* lhs, TLink* rhs)
   {
     if (lhs != TYPHOON_NULLPTR)
     {
-      lhs->tphn_next = rhs;
+      lhs->tpn_next = rhs;
     }
 
     if (rhs != TYPHOON_NULLPTR)
     {
-      rhs->tphn_previous = lhs;
+      rhs->tpn_previous = lhs;
     }
   }
 
   // Pointer, Pointer
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::bidirectional_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::bidirectional_link<TLink::ID> >::value, void>::type
   link_splice(TLink* lhs, TLink* rhs)
   {
     if (rhs != TYPHOON_NULLPTR)
     {
       if (lhs != TYPHOON_NULLPTR)
       {
-        rhs->tphn_next = lhs->tphn_next;
+        rhs->tpn_next = lhs->tpn_next;
       }
 
-      rhs->tphn_previous = lhs;
+      rhs->tpn_previous = lhs;
     }
 
     if (lhs != TYPHOON_NULLPTR)
     {
-      if (lhs->tphn_next != TYPHOON_NULLPTR)
+      if (lhs->tpn_next != TYPHOON_NULLPTR)
       {
-        lhs->tphn_next->tphn_previous = rhs;
+        lhs->tpn_next->tpn_previous = rhs;
       }
 
-      lhs->tphn_next = rhs;
+      lhs->tpn_next = rhs;
     }
   }
 
   // Reference, Pointer
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::bidirectional_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::bidirectional_link<TLink::ID> >::value, void>::type
   link(TLink& lhs, TLink* rhs)
   {
-    lhs.tphn_next = rhs;
+    lhs.tpn_next = rhs;
 
     if (rhs != TYPHOON_NULLPTR)
     {
-      rhs->tphn_previous = &lhs;
+      rhs->tpn_previous = &lhs;
     }
   }
 
   // Reference, Pointer
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::bidirectional_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::bidirectional_link<TLink::ID> >::value, void>::type
   link_splice(TLink& lhs, TLink* rhs)
   {
     if (rhs != TYPHOON_NULLPTR)
     {
-      rhs->tphn_next     = lhs.tphn_next;
-      rhs->tphn_previous = &lhs;
+      rhs->tpn_next     = lhs.tpn_next;
+      rhs->tpn_previous = &lhs;
     }
 
-    if (lhs.tphn_next != TYPHOON_NULLPTR)
+    if (lhs.tpn_next != TYPHOON_NULLPTR)
     {
-      lhs.tphn_next->tphn_previous = rhs;
+      lhs.tpn_next->tpn_previous = rhs;
     }
 
-    lhs.tphn_next = rhs;
+    lhs.tpn_next = rhs;
   }
 
   // Pointer, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::bidirectional_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::bidirectional_link<TLink::ID> >::value, void>::type
   link(TLink* lhs, TLink& rhs)
   {
     if (lhs != TYPHOON_NULLPTR)
     {
-      lhs->tphn_next = &rhs;
+      lhs->tpn_next = &rhs;
     }
 
-    rhs.tphn_previous = lhs;
+    rhs.tpn_previous = lhs;
   }
 
   // Pointer, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::bidirectional_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::bidirectional_link<TLink::ID> >::value, void>::type
   link_splice(TLink* lhs, TLink& rhs)
   {
     if (lhs != TYPHOON_NULLPTR)
     {
-      rhs.tphn_next = lhs->tphn_next;
+      rhs.tpn_next = lhs->tpn_next;
     }
 
-    rhs.tphn_previous = lhs;
+    rhs.tpn_previous = lhs;
 
     if (lhs != TYPHOON_NULLPTR)
     {
-      if (lhs->tphn_next != TYPHOON_NULLPTR)
+      if (lhs->tpn_next != TYPHOON_NULLPTR)
       {
-        lhs->tphn_next->tphn_previous = &rhs;
+        lhs->tpn_next->tpn_previous = &rhs;
       }
 
-      lhs->tphn_next = &rhs;
+      lhs->tpn_next = &rhs;
     }
   }
 
   // Reference, Reference, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::bidirectional_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::bidirectional_link<TLink::ID> >::value, void>::type
   link_splice(TLink& lhs, TLink& first, TLink& last)
   {
-    last.tphn_next = lhs.tphn_next;
-    first.tphn_previous = &lhs;
+    last.tpn_next = lhs.tpn_next;
+    first.tpn_previous = &lhs;
 
-    if (last.tphn_next != TYPHOON_NULLPTR)
+    if (last.tpn_next != TYPHOON_NULLPTR)
     {
-      last.tphn_next->tphn_previous = &last;
+      last.tpn_next->tpn_previous = &last;
     }
 
-    lhs.tphn_next = &first;
+    lhs.tpn_next = &first;
   }
 
   // Pointer, Reference, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::bidirectional_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::bidirectional_link<TLink::ID> >::value, void>::type
   link_splice(TLink* lhs, TLink& first, TLink& last)
   {
     if (lhs != TYPHOON_NULLPTR)
     {
-      last.tphn_next = lhs->tphn_next;
+      last.tpn_next = lhs->tpn_next;
     }
     else
     {
-      last.tphn_next = TYPHOON_NULLPTR;
+      last.tpn_next = TYPHOON_NULLPTR;
     }
 
-    first.tphn_previous = lhs;
+    first.tpn_previous = lhs;
 
-    if (last.tphn_next != TYPHOON_NULLPTR)
+    if (last.tpn_next != TYPHOON_NULLPTR)
     {
-      last.tphn_next->tphn_previous = &last;
+      last.tpn_next->tpn_previous = &last;
     }
 
     if (lhs != TYPHOON_NULLPTR)
     {
-      lhs->tphn_next = &first;
+      lhs->tpn_next = &first;
     }
   }
 
   // Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::bidirectional_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::bidirectional_link<TLink::ID> >::value, void>::type
   unlink(TLink& node)
   {
     node.unlink();
@@ -473,7 +473,7 @@ namespace tphn
 
   // Reference Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::bidirectional_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::bidirectional_link<TLink::ID> >::value, void>::type
   unlink(TLink& first, TLink& last)
   {
     if (&first == &last)
@@ -482,14 +482,14 @@ namespace tphn
     }
     else
     {
-      if (last.tphn_next != TYPHOON_NULLPTR)
+      if (last.tpn_next != TYPHOON_NULLPTR)
       {
-        last.tphn_next->tphn_previous = first.tphn_previous;
+        last.tpn_next->tpn_previous = first.tpn_previous;
       }
 
-      if (first.tphn_previous != TYPHOON_NULLPTR)
+      if (first.tpn_previous != TYPHOON_NULLPTR)
       {
-        first.tphn_previous->tphn_next = last.tphn_next;
+        first.tpn_previous->tpn_next = last.tpn_next;
       }
     }
   }
@@ -507,155 +507,155 @@ namespace tphn
 
       void clear()
       {
-        tphn_parent = TYPHOON_NULLPTR;
-        tphn_left   = TYPHOON_NULLPTR;
-        tphn_right  = TYPHOON_NULLPTR;
+        tpn_parent = TYPHOON_NULLPTR;
+        tpn_left   = TYPHOON_NULLPTR;
+        tpn_right  = TYPHOON_NULLPTR;
       }
 
       bool is_linked() const
       {
-        return (tphn_parent != TYPHOON_NULLPTR) || (tphn_left != TYPHOON_NULLPTR) || (tphn_right != TYPHOON_NULLPTR);
+        return (tpn_parent != TYPHOON_NULLPTR) || (tpn_left != TYPHOON_NULLPTR) || (tpn_right != TYPHOON_NULLPTR);
       }
 
-      tree_link* tphn_parent;
-      tree_link* tphn_left;
-      tree_link* tphn_right;
+      tree_link* tpn_parent;
+      tree_link* tpn_left;
+      tree_link* tpn_right;
   };
 
   // Reference, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_left(TLink& parent, TLink& leaf)
   {
-    parent.tphn_left = &leaf;
-    leaf.tphn_parent = &parent;
+    parent.tpn_left = &leaf;
+    leaf.tpn_parent = &parent;
   }
 
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_right(TLink& parent, TLink& leaf)
   {
-    parent.tphn_right = &leaf;
-    leaf.tphn_parent  = &parent;
+    parent.tpn_right = &leaf;
+    leaf.tpn_parent  = &parent;
   }
 
   // Pointer, Pointer
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_left(TLink* parent, TLink* leaf)
   {
     if (parent != TYPHOON_NULLPTR)
     {
-      parent->tphn_left = leaf;
+      parent->tpn_left = leaf;
     }
 
     if (leaf != TYPHOON_NULLPTR)
     {
-      leaf->tphn_parent = parent;
+      leaf->tpn_parent = parent;
     }
   }
 
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_right(TLink* parent, TLink* leaf)
   {
     if (parent != TYPHOON_NULLPTR)
     {
-      parent->tphn_right = leaf;
+      parent->tpn_right = leaf;
     }
 
     if (leaf != TYPHOON_NULLPTR)
     {
-      leaf->tphn_parent = parent;
+      leaf->tpn_parent = parent;
     }
   }
 
   // Reference, Pointer
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_left(TLink& parent, TLink* leaf)
   {
-    parent.tphn_left = leaf;
+    parent.tpn_left = leaf;
 
     if (leaf != TYPHOON_NULLPTR)
     {
-      leaf->tphn_parent = &parent;
+      leaf->tpn_parent = &parent;
     }
   }
 
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_right(TLink& parent, TLink* leaf)
   {
-    parent.tphn_right = leaf;
+    parent.tpn_right = leaf;
 
     if (leaf != TYPHOON_NULLPTR)
     {
-      leaf->tphn_parent = &parent;
+      leaf->tpn_parent = &parent;
     }
   }
 
   // Pointer, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_left(TLink* parent, TLink& leaf)
   {
     if (parent != TYPHOON_NULLPTR)
     {
-      parent->tphn_left = &leaf;
+      parent->tpn_left = &leaf;
     }
 
-    leaf.tphn_parent = parent;
+    leaf.tpn_parent = parent;
   }
 
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_right(TLink* parent, TLink& leaf)
   {
     if (parent != TYPHOON_NULLPTR)
     {
-      parent->tphn_right = &leaf;
+      parent->tpn_right = &leaf;
     }
 
-    leaf.tphn_parent = parent;
+    leaf.tpn_parent = parent;
   }
 
   // Reference, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_rotate_left(TLink& parent, TLink& leaf)
   {
-     parent.tphn_right = leaf.tphn_left;
+     parent.tpn_right = leaf.tpn_left;
 
-     if (parent.tphn_right != TYPHOON_NULLPTR)
+     if (parent.tpn_right != TYPHOON_NULLPTR)
      {
-       parent.tphn_right->tphn_parent = &parent;
+       parent.tpn_right->tpn_parent = &parent;
      }
 
-     leaf.tphn_parent   = parent.tphn_parent;
-     parent.tphn_parent = &leaf;
-     leaf.tphn_left     = &parent;
+     leaf.tpn_parent   = parent.tpn_parent;
+     parent.tpn_parent = &leaf;
+     leaf.tpn_left     = &parent;
   }
 
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_rotate_right(TLink& parent, TLink& leaf)
   {
-     parent.tphn_left = leaf.tphn_right;
+     parent.tpn_left = leaf.tpn_right;
 
-     if (parent.tphn_left != TYPHOON_NULLPTR)
+     if (parent.tpn_left != TYPHOON_NULLPTR)
      {
-       parent.tphn_left->tphn_parent = &parent;
+       parent.tpn_left->tpn_parent = &parent;
      }
 
-     leaf.tphn_parent   = parent.tphn_parent;
-     parent.tphn_parent = &leaf;
-     leaf.tphn_right    = &parent;
+     leaf.tpn_parent   = parent.tpn_parent;
+     parent.tpn_parent = &leaf;
+     leaf.tpn_right    = &parent;
   }
 
   // Pointer, Pointer
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_rotate_left(TLink* parent, TLink* leaf)
   {
     if ((parent != TYPHOON_NULLPTR) && (leaf != TYPHOON_NULLPTR))
@@ -665,7 +665,7 @@ namespace tphn
   }
 
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_rotate_right(TLink* parent, TLink* leaf)
   {
     if ((parent != TYPHOON_NULLPTR) && (leaf != TYPHOON_NULLPTR))
@@ -676,7 +676,7 @@ namespace tphn
 
   // Reference, Pointer
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_rotate_left(TLink& parent, TLink* leaf)
   {
     if (leaf != TYPHOON_NULLPTR)
@@ -686,7 +686,7 @@ namespace tphn
   }
 
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_rotate_right(TLink& parent, TLink* leaf)
   {
     if (leaf != TYPHOON_NULLPTR)
@@ -697,7 +697,7 @@ namespace tphn
 
   // Pointer, Reference
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_rotate_left(TLink* parent, TLink& leaf)
   {
     if (parent != TYPHOON_NULLPTR)
@@ -707,7 +707,7 @@ namespace tphn
   }
 
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_rotate_right(TLink* parent, TLink& leaf)
   {
     if (parent != TYPHOON_NULLPTR)
@@ -719,34 +719,34 @@ namespace tphn
   // Reference, Reference
   /// Automatically detects whether a left or right rotate is expected.
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_rotate(TLink& parent, TLink& leaf)
   {
-    if (parent.tphn_left == &leaf)
+    if (parent.tpn_left == &leaf)
     {
-      tphn::link_rotate_right(parent, leaf);
+      tpn::link_rotate_right(parent, leaf);
     }
     else
     {
-      tphn::link_rotate_left(parent, leaf);
+      tpn::link_rotate_left(parent, leaf);
     }
   }
 
   // Pointer, Pointer
   /// Automatically detects whether a left or right rotate is expected.
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_rotate(TLink* parent, TLink* leaf)
   {
     if ((parent != TYPHOON_NULLPTR) && (leaf != TYPHOON_NULLPTR))
     {
-      if (parent->tphn_left == leaf)
+      if (parent->tpn_left == leaf)
       {
-        tphn::link_rotate_right(*parent, *leaf);
+        tpn::link_rotate_right(*parent, *leaf);
       }
       else
       {
-        tphn::link_rotate_left(*parent, *leaf);
+        tpn::link_rotate_left(*parent, *leaf);
       }
     }
   }
@@ -754,18 +754,18 @@ namespace tphn
   // Reference, Pointer
   /// Automatically detects whether a left or right rotate is expected.
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_rotate(TLink& parent, TLink* leaf)
   {
     if (leaf != TYPHOON_NULLPTR)
     {
-      if (parent.tphn_left == leaf)
+      if (parent.tpn_left == leaf)
       {
-        tphn::link_rotate_right(parent, *leaf);
+        tpn::link_rotate_right(parent, *leaf);
       }
       else
       {
-        tphn::link_rotate_left(parent, *leaf);
+        tpn::link_rotate_left(parent, *leaf);
       }
     }
   }
@@ -773,18 +773,18 @@ namespace tphn
   // Pointer, Reference
   /// Automatically detects whether a left or right rotate is expected.
   template <typename TLink>
-  typename tphn::enable_if<tphn::is_same<TLink, tphn::tree_link<TLink::ID> >::value, void>::type
+  typename tpn::enable_if<tpn::is_same<TLink, tpn::tree_link<TLink::ID> >::value, void>::type
   link_rotate(TLink* parent, TLink& leaf)
   {
     if (parent != TYPHOON_NULLPTR)
     {
-      if (parent->tphn_left == &leaf)
+      if (parent->tpn_left == &leaf)
       {
-        tphn::link_rotate_right(*parent, leaf);
+        tpn::link_rotate_right(*parent, leaf);
       }
       else
       {
-        tphn::link_rotate_left(*parent, leaf);
+        tpn::link_rotate_left(*parent, leaf);
       }
     }
   }

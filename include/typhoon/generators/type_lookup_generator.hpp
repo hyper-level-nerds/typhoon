@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -57,7 +57,7 @@ cog.outl("//********************************************************************
 ]]]*/
 /*[[[end]]]*/
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The type/id pair type to use for type/id lookup template parameters.
@@ -99,7 +99,7 @@ namespace tphn
     template <size_t ID, typename T1, typename... TRest>
     struct type_from_id_helper
     {
-      using type = typename tphn::conditional<ID == T1::ID,
+      using type = typename tpn::conditional<ID == T1::ID,
                                              typename T1::type,
                                              typename type_from_id_helper<ID, TRest...>::type>::type;
     };
@@ -108,7 +108,7 @@ namespace tphn
     template <size_t ID, typename T1>
     struct type_from_id_helper<ID, T1>
     {
-      using type = typename tphn::conditional<ID == T1::ID,
+      using type = typename tpn::conditional<ID == T1::ID,
                                              typename T1::type,
                                              nulltype>::type;
     };
@@ -123,7 +123,7 @@ namespace tphn
     {
       using type = typename type_from_id_helper<ID, TTypes...>::type;
 
-      static_assert(!(tphn::is_same<nulltype, type>::value), "Invalid id");
+      static_assert(!(tpn::is_same<nulltype, type>::value), "Invalid id");
     };
 
     template <int ID>
@@ -131,20 +131,20 @@ namespace tphn
 
   private:
 
-    static constexpr size_t UNKNOWN = tphn::integral_limits<size_t>::max;
+    static constexpr size_t UNKNOWN = tpn::integral_limits<size_t>::max;
 
     // For N type pairs.
     template <typename T, typename T1, typename... TRest>
     struct id_from_type_helper
     {
-      static constexpr size_t value = tphn::is_same<T, typename T1::type>::value ? T1::ID : id_from_type_helper<T, TRest...>::value;
+      static constexpr size_t value = tpn::is_same<T, typename T1::type>::value ? T1::ID : id_from_type_helper<T, TRest...>::value;
     };
 
     // Specialisation for 1 type pair.
     template <typename T, typename T1>
     struct id_from_type_helper<T, T1>
     {
-      static constexpr size_t value = tphn::is_same<T, typename T1::type>::value ? T1::ID : UNKNOWN;
+      static constexpr size_t value = tpn::is_same<T, typename T1::type>::value ? T1::ID : UNKNOWN;
     };
 
   public:
@@ -194,7 +194,7 @@ namespace tphn
     template <typename T, typename T1, typename... TRest>
     struct type_from_type_helper
     {
-      using type = typename tphn::conditional<tphn::is_same<T, typename T1::type1>::value,
+      using type = typename tpn::conditional<tpn::is_same<T, typename T1::type1>::value,
                                              typename T1::type2,
                                              typename type_from_type_helper<T, TRest...>::type>::type;
     };
@@ -202,7 +202,7 @@ namespace tphn
     template <typename T, typename T1>
     struct type_from_type_helper<T, T1>
     {
-      using type = typename tphn::conditional<tphn::is_same<T, typename T1::type1>::value,
+      using type = typename tpn::conditional<tpn::is_same<T, typename T1::type1>::value,
                                              typename T1::type2,
                                              nulltype>::type;
     };
@@ -217,7 +217,7 @@ namespace tphn
       // The matched type or nulltype
       using type = typename type_from_type_helper<T, TTypes...>::type;
 
-      static_assert(!tphn::is_same<type, nulltype>::value, "Type match not found");
+      static_assert(!tpn::is_same<type, nulltype>::value, "Type match not found");
     };
 
     // Template alias.
@@ -234,8 +234,8 @@ namespace tphn
   cog.outl("//***************************************************************************")
   cog.outl("template <typename T1,")
   for n in range(2, int(NTypes)):
-      cog.outl("          typename T%s = tphn::type_id_pair<tphn::null_type<0>, -%s>," %(n, n))
-  cog.outl("          typename T%s = tphn::type_id_pair<tphn::null_type<0>, -%s> >" %(NTypes, NTypes))
+      cog.outl("          typename T%s = tpn::type_id_pair<tpn::null_type<0>, -%s>," %(n, n))
+  cog.outl("          typename T%s = tpn::type_id_pair<tpn::null_type<0>, -%s> >" %(NTypes, NTypes))
   cog.outl("struct type_id_lookup")
   cog.outl("{")
   cog.outl("public:")
@@ -246,8 +246,8 @@ namespace tphn
   cog.outl("  {")
   cog.outl("    typedef ")
   for n in range(1, int(NTypes) + 1):
-      cog.outl("          typename tphn::conditional<ID == T%s::ID, typename T%s::type," %(n, n))
-  cog.out("          tphn::null_type<0> >")
+      cog.outl("          typename tpn::conditional<ID == T%s::ID, typename T%s::type," %(n, n))
+  cog.out("          tpn::null_type<0> >")
   for n in range(1, int(NTypes) + 1):
       if n == int(NTypes):
           cog.outl("::type type;")
@@ -258,7 +258,7 @@ namespace tphn
               cog.outl("")
               cog.out("                            ")
   cog.outl("")
-  cog.outl("    TYPHOON_STATIC_ASSERT(!(tphn::is_same<tphn::null_type<0>, type>::value), \"Invalid id\");")
+  cog.outl("    TYPHOON_STATIC_ASSERT(!(tpn::is_same<tpn::null_type<0>, type>::value), \"Invalid id\");")
   cog.outl("  };")
   cog.outl("")
   cog.outl("  //************************************")
@@ -274,7 +274,7 @@ namespace tphn
   cog.outl("    {")
   cog.outl("      value =")
   for n in range(1, int(NTypes) + 1) :
-      cog.outl("        (unsigned int) tphn::is_same<T, typename T%s::type>::value ? (unsigned int)T%s::ID :" % (n, n))
+      cog.outl("        (unsigned int) tpn::is_same<T, typename T%s::type>::value ? (unsigned int)T%s::ID :" % (n, n))
   cog.outl("        (unsigned int) UNKNOWN")
   cog.outl("    };")
   cog.outl("")
@@ -301,8 +301,8 @@ namespace tphn
   cog.outl("//***************************************************************************")
   cog.outl("template <typename T1,")
   for n in range(2, int(NTypes)):
-      cog.outl("          typename T%s = tphn::type_type_pair<tphn::null_type<0>, tphn::null_type<0> >," %n)
-  cog.outl("          typename T%s = tphn::type_type_pair<tphn::null_type<0>, tphn::null_type<0> > >" %NTypes)
+      cog.outl("          typename T%s = tpn::type_type_pair<tpn::null_type<0>, tpn::null_type<0> >," %n)
+  cog.outl("          typename T%s = tpn::type_type_pair<tpn::null_type<0>, tpn::null_type<0> > >" %NTypes)
   cog.outl("struct type_type_lookup")
   cog.outl("{")
   cog.outl("public:")
@@ -313,8 +313,8 @@ namespace tphn
   cog.outl("  {")
   cog.outl("    typedef ")
   for n in range(1, int(NTypes) + 1):
-      cog.outl("          typename tphn::conditional<tphn::is_same<T, typename T%s::type1>::value, typename T%s::type2," %(n, n))
-  cog.out("          tphn::null_type<0> >")
+      cog.outl("          typename tpn::conditional<tpn::is_same<T, typename T%s::type1>::value, typename T%s::type2," %(n, n))
+  cog.out("          tpn::null_type<0> >")
   for n in range(1, int(NTypes) + 1):
       if n == int(NTypes):
           cog.outl("::type type;")
@@ -325,7 +325,7 @@ namespace tphn
               cog.outl("")
               cog.out("                            ")
   cog.outl("")
-  cog.outl("    TYPHOON_STATIC_ASSERT(!(tphn::is_same<tphn::null_type<0>, type>::value), \"Invalid type\");")
+  cog.outl("    TYPHOON_STATIC_ASSERT(!(tpn::is_same<tpn::null_type<0>, type>::value), \"Invalid type\");")
   cog.outl("  };")
   cog.outl("};")
   ]]]*/

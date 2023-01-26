@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -39,13 +39,13 @@ SOFTWARE.
 #include <math.h>
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Rescale function.
   //***************************************************************************
   template<typename TInput, typename TOutput>
-  class rescale : public tphn::unary_function<TOutput, TInput>
+  class rescale : public tpn::unary_function<TOutput, TInput>
   {
   public:
 

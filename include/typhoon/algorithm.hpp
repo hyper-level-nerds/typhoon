@@ -4,10 +4,10 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
-Documentation: https://www.tphncpp.com/algorithm.html
+Documentation: https://www.tpncpp.com/algorithm.html
 
 Copyright(c) 2014 John Wellbelove
 
@@ -57,7 +57,7 @@ SOFTWARE.
   #include <numeric>
 #endif
 
-namespace tphn
+namespace tpn
 {
   // Declare prototypes of the TYPHOON's sort functions
   template <typename TIterator>
@@ -86,7 +86,7 @@ namespace tphn
 //*****************************************************************************
 // Algorithms defined by the TYPHOON
 //*****************************************************************************
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   // iter_swap
@@ -236,7 +236,7 @@ namespace tphn
   {
     while (sb != se)
     {
-      *db = tphn::move(*sb);
+      *db = tpn::move(*sb);
       ++db;
       ++sb;
     }
@@ -261,7 +261,7 @@ namespace tphn
   {
     while (sb != se)
     {
-      *(--de) = tphn::move(*(--se));
+      *(--de) = tpn::move(*(--se));
     }
 
     return de;
@@ -273,14 +273,14 @@ namespace tphn
   //***************************************************************************
   // Pointers
   template <typename TIterator>
-  typename tphn::enable_if<tphn::is_pointer<TIterator>::value, void>::type
+  typename tpn::enable_if<tpn::is_pointer<TIterator>::value, void>::type
     reverse(TIterator b, TIterator e)
   {
     if (b != e)
     {
       while (b < --e)
       {
-        tphn::iter_swap(b, e);
+        tpn::iter_swap(b, e);
         ++b;
       }
     }
@@ -288,12 +288,12 @@ namespace tphn
 
   // Non-pointers
   template <typename TIterator>
-  typename tphn::enable_if<!tphn::is_pointer<TIterator>::value, void>::type
+  typename tpn::enable_if<!tpn::is_pointer<TIterator>::value, void>::type
     reverse(TIterator b, TIterator e)
   {
     while ((b != e) && (b != --e))
     {
-      tphn::iter_swap(b++, e);
+      tpn::iter_swap(b++, e);
     }
   }
 
@@ -305,16 +305,16 @@ namespace tphn
   TYPHOON_CONSTEXPR14
   TIterator lower_bound(TIterator first, TIterator last, const TValue& value, TCompare compare)
   {
-    typedef typename tphn::iterator_traits<TIterator>::difference_type difference_t;
+    typedef typename tpn::iterator_traits<TIterator>::difference_type difference_t;
 
-    difference_t count = tphn::distance(first, last);
+    difference_t count = tpn::distance(first, last);
 
     while (count > 0)
     {
       TIterator    itr = first;
       difference_t step = count / 2;
 
-      tphn::advance(itr, step);
+      tpn::advance(itr, step);
 
       if (compare(*itr, value))
       {
@@ -335,9 +335,9 @@ namespace tphn
   TYPHOON_CONSTEXPR14
   TIterator lower_bound(TIterator first, TIterator last, const TValue& value)
   {
-    typedef tphn::less<typename tphn::iterator_traits<TIterator>::value_type> compare;
+    typedef tpn::less<typename tpn::iterator_traits<TIterator>::value_type> compare;
 
-    return tphn::lower_bound(first, last, value, compare());
+    return tpn::lower_bound(first, last, value, compare());
   }
 
   //***************************************************************************
@@ -348,16 +348,16 @@ namespace tphn
   TYPHOON_CONSTEXPR14
   TIterator upper_bound(TIterator first, TIterator last, const TValue& value, TCompare compare)
   {
-    typedef typename tphn::iterator_traits<TIterator>::difference_type difference_t;
+    typedef typename tpn::iterator_traits<TIterator>::difference_type difference_t;
 
-    difference_t count = tphn::distance(first, last);
+    difference_t count = tpn::distance(first, last);
 
     while (count > 0)
     {
       TIterator    itr = first;
       difference_t step = count / 2;
 
-      tphn::advance(itr, step);
+      tpn::advance(itr, step);
 
       if (!compare(value, *itr))
       {
@@ -378,9 +378,9 @@ namespace tphn
   TYPHOON_CONSTEXPR14
   TIterator upper_bound(TIterator first, TIterator last, const TValue& value)
   {
-    typedef tphn::less<typename tphn::iterator_traits<TIterator>::value_type> compare;
+    typedef tpn::less<typename tpn::iterator_traits<TIterator>::value_type> compare;
 
-    return tphn::upper_bound(first, last, value, compare());
+    return tpn::upper_bound(first, last, value, compare());
   }
 
   //***************************************************************************
@@ -391,18 +391,18 @@ namespace tphn
   TYPHOON_CONSTEXPR14
   TYPHOON_OR_STD::pair<TIterator, TIterator> equal_range(TIterator first, TIterator last, const TValue& value, TCompare compare)
   {
-    return TYPHOON_OR_STD::make_pair(tphn::lower_bound(first, last, value, compare),
-                                 tphn::upper_bound(first, last, value, compare));
+    return TYPHOON_OR_STD::make_pair(tpn::lower_bound(first, last, value, compare),
+                                 tpn::upper_bound(first, last, value, compare));
   }
 
   template<typename TIterator, typename TValue>
   TYPHOON_NODISCARD
   TYPHOON_OR_STD::pair<TIterator, TIterator> equal_range(TIterator first, TIterator last, const TValue& value)
   {
-    typedef tphn::less<typename tphn::iterator_traits<TIterator>::value_type> compare;
+    typedef tpn::less<typename tpn::iterator_traits<TIterator>::value_type> compare;
 
-    return TYPHOON_OR_STD::make_pair(tphn::lower_bound(first, last, value, compare()),
-                                 tphn::upper_bound(first, last, value, compare()));
+    return TYPHOON_OR_STD::make_pair(tpn::lower_bound(first, last, value, compare()),
+                                 tpn::upper_bound(first, last, value, compare()));
   }
 
   //***************************************************************************
@@ -412,7 +412,7 @@ namespace tphn
   TYPHOON_NODISCARD
   bool binary_search(TIterator first, TIterator last, const T& value, Compare compare)
   {
-    first = tphn::lower_bound(first, last, value, compare);
+    first = tpn::lower_bound(first, last, value, compare);
 
     return (!(first == last) && !(compare(value, *first)));
   }
@@ -421,7 +421,7 @@ namespace tphn
   TYPHOON_NODISCARD
   bool binary_search(TIterator first, TIterator last, const T& value)
   {
-    typedef tphn::less<typename tphn::iterator_traits<TIterator>::value_type> compare;
+    typedef tpn::less<typename tpn::iterator_traits<TIterator>::value_type> compare;
 
     return binary_search(first, last, value, compare());
   }
@@ -516,7 +516,7 @@ namespace tphn
   template <typename TIterator, typename T>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14
-  typename tphn::iterator_traits<TIterator>::difference_type count(TIterator first, TIterator last, const T& value)
+  typename tpn::iterator_traits<TIterator>::difference_type count(TIterator first, TIterator last, const T& value)
   {
     typename iterator_traits<TIterator>::difference_type n = 0;
 
@@ -539,7 +539,7 @@ namespace tphn
   template <typename TIterator, typename TUnaryPredicate>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14
-  typename tphn::iterator_traits<TIterator>::difference_type 
+  typename tpn::iterator_traits<TIterator>::difference_type 
     count_if(TIterator first, TIterator last, TUnaryPredicate predicate)
   {
     typename iterator_traits<TIterator>::difference_type n = 0;
@@ -693,9 +693,9 @@ namespace tphn
   bool lexicographical_compare(TIterator1 first1, TIterator1 last1,
                                TIterator2 first2, TIterator2 last2)
   {
-    typedef tphn::less<typename tphn::iterator_traits<TIterator1>::value_type> compare;
+    typedef tpn::less<typename tpn::iterator_traits<TIterator1>::value_type> compare;
 
-    return tphn::lexicographical_compare(first1, last1, first2, last2, compare());
+    return tpn::lexicographical_compare(first1, last1, first2, last2, compare());
   }
 
   //***************************************************************************
@@ -714,9 +714,9 @@ namespace tphn
   TYPHOON_CONSTEXPR 
   const T& min(const T& a, const T& b)
   {
-    typedef tphn::less<T> compare;
+    typedef tpn::less<T> compare;
 
-    return tphn::min(a, b, compare());
+    return tpn::min(a, b, compare());
   }
 
   //***************************************************************************
@@ -735,9 +735,9 @@ namespace tphn
   TYPHOON_CONSTEXPR 
   const T& max(const T& a, const T& b)
   {
-    typedef tphn::less<T> compare;
+    typedef tpn::less<T> compare;
 
-    return tphn::max(a, b, compare());
+    return tpn::max(a, b, compare());
   }
 
   //***************************************************************************
@@ -837,12 +837,12 @@ namespace tphn
 
       while ((value_index > top_index) && compare(first[parent], value))
       {
-        first[value_index] = tphn::move(first[parent]);
+        first[value_index] = tpn::move(first[parent]);
         value_index = parent;
         parent = (value_index - 1) / 2;
       }
 
-      first[value_index] = tphn::move(value);
+      first[value_index] = tpn::move(value);
     }
 
     // Adjust Heap Helper
@@ -859,18 +859,18 @@ namespace tphn
           --child2nd;
         }
 
-        first[value_index] = tphn::move(first[child2nd]);
+        first[value_index] = tpn::move(first[child2nd]);
         value_index = child2nd;
         child2nd = 2 * (child2nd + 1);
       }
 
       if (child2nd == length)
       {
-        first[value_index] = tphn::move(first[child2nd - 1]);
+        first[value_index] = tpn::move(first[child2nd - 1]);
         value_index = child2nd - 1;
       }
 
-      push_heap(first, value_index, top_index, tphn::move(value), compare);
+      push_heap(first, value_index, top_index, tpn::move(value), compare);
     }
 
     // Is Heap Helper
@@ -900,48 +900,48 @@ namespace tphn
   template <typename TIterator, typename TCompare>
   void pop_heap(TIterator first, TIterator last, TCompare compare)
   {
-    typedef typename tphn::iterator_traits<TIterator>::value_type value_t;
-    typedef typename tphn::iterator_traits<TIterator>::difference_type distance_t;
+    typedef typename tpn::iterator_traits<TIterator>::value_type value_t;
+    typedef typename tpn::iterator_traits<TIterator>::difference_type distance_t;
 
-    value_t value = tphn::move(last[-1]);
-    last[-1] = tphn::move(first[0]);
+    value_t value = tpn::move(last[-1]);
+    last[-1] = tpn::move(first[0]);
 
-    private_heap::adjust_heap(first, distance_t(0), distance_t(last - first - 1), tphn::move(value), compare);
+    private_heap::adjust_heap(first, distance_t(0), distance_t(last - first - 1), tpn::move(value), compare);
   }
 
   // Pop Heap
   template <typename TIterator>
   void pop_heap(TIterator first, TIterator last)
   {
-    typedef tphn::less<typename tphn::iterator_traits<TIterator>::value_type> compare;
+    typedef tpn::less<typename tpn::iterator_traits<TIterator>::value_type> compare;
 
-    tphn::pop_heap(first, last, compare());
+    tpn::pop_heap(first, last, compare());
   }
 
   // Push Heap
   template <typename TIterator, typename TCompare>
   void push_heap(TIterator first, TIterator last, TCompare compare)
   {
-    typedef typename tphn::iterator_traits<TIterator>::difference_type difference_t;
-    typedef typename tphn::iterator_traits<TIterator>::value_type      value_t;
+    typedef typename tpn::iterator_traits<TIterator>::difference_type difference_t;
+    typedef typename tpn::iterator_traits<TIterator>::value_type      value_t;
 
-    private_heap::push_heap(first, difference_t(last - first - 1), difference_t(0), value_t(tphn::move(*(last - 1))), compare);
+    private_heap::push_heap(first, difference_t(last - first - 1), difference_t(0), value_t(tpn::move(*(last - 1))), compare);
   }
 
   // Push Heap
   template <typename TIterator>
   void push_heap(TIterator first, TIterator last)
   {
-    typedef tphn::less<typename tphn::iterator_traits<TIterator>::value_type> compare;
+    typedef tpn::less<typename tpn::iterator_traits<TIterator>::value_type> compare;
 
-    tphn::push_heap(first, last, compare());
+    tpn::push_heap(first, last, compare());
   }
 
   // Make Heap
   template <typename TIterator, typename TCompare>
   void make_heap(TIterator first, TIterator last, TCompare compare)
   {
-    typedef typename tphn::iterator_traits<TIterator>::difference_type difference_t;
+    typedef typename tpn::iterator_traits<TIterator>::difference_type difference_t;
 
     if ((last - first) < 2)
     {
@@ -953,7 +953,7 @@ namespace tphn
 
     while (true)
     {
-      private_heap::adjust_heap(first, parent, length, tphn::move(*(first + parent)), compare);
+      private_heap::adjust_heap(first, parent, length, tpn::move(*(first + parent)), compare);
 
       if (parent == 0)
       {
@@ -968,9 +968,9 @@ namespace tphn
   template <typename TIterator>
   void make_heap(TIterator first, TIterator last)
   {
-    typedef tphn::less<typename tphn::iterator_traits<TIterator>::value_type> compare;
+    typedef tpn::less<typename tpn::iterator_traits<TIterator>::value_type> compare;
 
-    tphn::make_heap(first, last, compare());
+    tpn::make_heap(first, last, compare());
   }
 
   // Is Heap
@@ -978,7 +978,7 @@ namespace tphn
   TYPHOON_NODISCARD
     bool is_heap(TIterator first, TIterator last)
   {
-    typedef tphn::less<typename tphn::iterator_traits<TIterator>::value_type> compare;
+    typedef tpn::less<typename tpn::iterator_traits<TIterator>::value_type> compare;
 
     return private_heap::is_heap(first, last - first, compare());
   }
@@ -997,7 +997,7 @@ namespace tphn
   {
     while (first != last)
     {
-      tphn::pop_heap(first, last);
+      tpn::pop_heap(first, last);
       --last;
     }
   }
@@ -1008,7 +1008,7 @@ namespace tphn
   {
     while (first != last)
     {
-      tphn::pop_heap(first, last, compare);
+      tpn::pop_heap(first, last, compare);
       --last;
     }
   }
@@ -1057,9 +1057,9 @@ namespace tphn
   TYPHOON_CONSTEXPR14
   TIterator1 search(TIterator1 first, TIterator1 last, TIterator2 search_first, TIterator2 search_last)
   {
-    typedef tphn::equal_to<typename tphn::iterator_traits<TIterator1>::value_type> compare;
+    typedef tpn::equal_to<typename tpn::iterator_traits<TIterator1>::value_type> compare;
 
-    return tphn::search(first, last, search_first, search_last, compare());
+    return tpn::search(first, last, search_first, search_last, compare());
   }
 
   //***************************************************************************
@@ -1101,16 +1101,16 @@ namespace tphn
     TYPHOON_CONSTEXPR14
     TIterator rotate_left_by_one(TIterator first, TIterator last)
     {
-      typedef typename tphn::iterator_traits<TIterator>::value_type value_type;
+      typedef typename tpn::iterator_traits<TIterator>::value_type value_type;
 
       // Save the first item.
-      value_type temp(tphn::move(*first));
+      value_type temp(tpn::move(*first));
 
       // Move the rest.
-      TIterator result = tphn::move(tphn::next(first), last, first);
+      TIterator result = tpn::move(tpn::next(first), last, first);
 
       // Restore the first item in its rotated position.
-      *result = tphn::move(temp);
+      *result = tpn::move(temp);
 
       // The new position of the first item.
       return result;
@@ -1121,17 +1121,17 @@ namespace tphn
     TYPHOON_CONSTEXPR14
     TIterator rotate_right_by_one(TIterator first, TIterator last)
     {
-      typedef typename tphn::iterator_traits<TIterator>::value_type value_type;
+      typedef typename tpn::iterator_traits<TIterator>::value_type value_type;
 
       // Save the last item.
-      TIterator previous = tphn::prev(last);
-      value_type temp(tphn::move(*previous));
+      TIterator previous = tpn::prev(last);
+      value_type temp(tpn::move(*previous));
 
       // Move the rest.
-      TIterator result = tphn::move_backward(first, previous, last);
+      TIterator result = tpn::move_backward(first, previous, last);
 
       // Restore the last item in its rotated position.
-      *first = tphn::move(temp);
+      *first = tpn::move(temp);
 
       // The new position of the first item.
       return result;
@@ -1143,12 +1143,12 @@ namespace tphn
   TYPHOON_CONSTEXPR14
   TIterator rotate(TIterator first, TIterator middle, TIterator last)
   {
-    if (tphn::next(first) == middle)
+    if (tpn::next(first) == middle)
     {
       return private_algorithm::rotate_left_by_one(first, last);
     }
 
-    if (tphn::next(middle) == last)
+    if (tpn::next(middle) == last)
     {
       return private_algorithm::rotate_right_by_one(first, last);
     }
@@ -1176,7 +1176,7 @@ namespace tphn
 
     while (true)
     {
-      TIterator1 new_result = tphn::search(b, e, sb, se, predicate);
+      TIterator1 new_result = tpn::search(b, e, sb, se, predicate);
 
       if (new_result == e)
       {
@@ -1199,7 +1199,7 @@ namespace tphn
   TIterator1 find_end(TIterator1 b, TIterator1 e,
                       TIterator2 sb, TIterator2 se)
   {
-    typedef tphn::equal_to<typename tphn::iterator_traits<TIterator1>::value_type> predicate;
+    typedef tpn::equal_to<typename tpn::iterator_traits<TIterator1>::value_type> predicate;
 
     return find_end(b, e, sb, se, predicate());
   }
@@ -1243,9 +1243,9 @@ namespace tphn
   TIterator min_element(TIterator begin,
                         TIterator end)
   {
-    typedef typename tphn::iterator_traits<TIterator>::value_type value_t;
+    typedef typename tpn::iterator_traits<TIterator>::value_type value_t;
 
-    return tphn::min_element(begin, end, tphn::less<value_t>());
+    return tpn::min_element(begin, end, tpn::less<value_t>());
   }
 
   //***************************************************************************
@@ -1287,9 +1287,9 @@ namespace tphn
   TIterator max_element(TIterator begin,
                         TIterator end)
   {
-    typedef typename tphn::iterator_traits<TIterator>::value_type value_t;
+    typedef typename tpn::iterator_traits<TIterator>::value_type value_t;
 
-    return tphn::max_element(begin, end, tphn::less<value_t>());
+    return tpn::max_element(begin, end, tpn::less<value_t>());
   }
 
   //***************************************************************************
@@ -1337,9 +1337,9 @@ namespace tphn
   TYPHOON_OR_STD::pair<TIterator, TIterator> minmax_element(TIterator begin,
                                                         TIterator end)
   {
-    typedef typename tphn::iterator_traits<TIterator>::value_type value_t;
+    typedef typename tpn::iterator_traits<TIterator>::value_type value_t;
 
-    return tphn::minmax_element(begin, end, tphn::less<value_t>());
+    return tpn::minmax_element(begin, end, tpn::less<value_t>());
   }
 
   //***************************************************************************
@@ -1441,7 +1441,7 @@ namespace tphn
   bool is_sorted(TIterator begin,
                  TIterator end)
   {
-    return tphn::is_sorted_until(begin, end) == end;
+    return tpn::is_sorted_until(begin, end) == end;
   }
 
   //***************************************************************************
@@ -1456,7 +1456,7 @@ namespace tphn
                  TIterator end,
                  TCompare  compare)
   {
-    return tphn::is_sorted_until(begin, end, compare) == end;
+    return tpn::is_sorted_until(begin, end, compare) == end;
   }
 
   //***************************************************************************
@@ -1500,15 +1500,15 @@ namespace tphn
     {
       TIterator2 end2 = begin2;
 
-      tphn::advance(end2, tphn::distance(begin1, end1));
+      tpn::advance(end2, tpn::distance(begin1, end1));
 
       for (TIterator1 i = begin1; i != end1; ++i)
       {
-        if (i == tphn::find(begin1, i, *i))
+        if (i == tpn::find(begin1, i, *i))
         {
-          size_t n = tphn::count(begin2, end2, *i);
+          size_t n = tpn::count(begin2, end2, *i);
 
-          if (n == 0 || size_t(tphn::count(i, end1, *i)) != n)
+          if (n == 0 || size_t(tpn::count(i, end1, *i)) != n)
           {
             return false;
           }
@@ -1536,15 +1536,15 @@ namespace tphn
     {
       TIterator2 end2 = begin2;
 
-      tphn::advance(end2, tphn::distance(begin1, end1));
+      tpn::advance(end2, tpn::distance(begin1, end1));
 
       for (TIterator1 i = begin1; i != end1; ++i)
       {
-        if (i == tphn::find_if(begin1, i, tphn::bind1st(predicate, *i)))
+        if (i == tpn::find_if(begin1, i, tpn::bind1st(predicate, *i)))
         {
-          size_t n = tphn::count(begin2, end2, *i);
+          size_t n = tpn::count(begin2, end2, *i);
 
-          if (n == 0 || size_t(tphn::count(i, end1, *i)) != n)
+          if (n == 0 || size_t(tpn::count(i, end1, *i)) != n)
           {
             return false;
           }
@@ -1572,11 +1572,11 @@ namespace tphn
     {
       for (TIterator1 i = begin1; i != end1; ++i)
       {
-        if (i == tphn::find(begin1, i, *i))
+        if (i == tpn::find(begin1, i, *i))
         {
-          size_t n = tphn::count(begin2, end2, *i);
+          size_t n = tpn::count(begin2, end2, *i);
 
-          if (n == 0 || size_t(tphn::count(i, end1, *i)) != n)
+          if (n == 0 || size_t(tpn::count(i, end1, *i)) != n)
           {
             return false;
           }
@@ -1604,11 +1604,11 @@ namespace tphn
     {
       for (TIterator1 i = begin1; i != end1; ++i)
       {
-        if (i == tphn::find_if(begin1, i, tphn::bind1st(predicate, *i)))
+        if (i == tpn::find_if(begin1, i, tpn::bind1st(predicate, *i)))
         {
-          size_t n = tphn::count(begin2, end2, *i);
+          size_t n = tpn::count(begin2, end2, *i);
 
-          if (n == 0 || size_t(tphn::count(i, end1, *i)) != n)
+          if (n == 0 || size_t(tpn::count(i, end1, *i)) != n)
           {
             return false;
           }
@@ -1750,7 +1750,7 @@ namespace tphn
               TIterator       end,
               TUnaryPredicate predicate)
   {
-    return tphn::find_if_not(begin, end, predicate) == end;
+    return tpn::find_if_not(begin, end, predicate) == end;
   }
 
   //***************************************************************************
@@ -1765,7 +1765,7 @@ namespace tphn
               TIterator       end,
               TUnaryPredicate predicate)
   {
-    return tphn::find_if(begin, end, predicate) != end;
+    return tpn::find_if(begin, end, predicate) != end;
   }
 
   //***************************************************************************
@@ -1780,7 +1780,7 @@ namespace tphn
                TIterator       end,
                TUnaryPredicate predicate)
   {
-    return tphn::find_if(begin, end, predicate) == end;
+    return tpn::find_if(begin, end, predicate) == end;
   }
 
 #if TYPHOON_NOT_USING_STL
@@ -1792,7 +1792,7 @@ namespace tphn
   template <typename TIterator, typename TCompare>
   void sort(TIterator first, TIterator last, TCompare compare)
   {
-    tphn::shell_sort(first, last, compare);
+    tpn::shell_sort(first, last, compare);
   }
 
   //***************************************************************************
@@ -1802,7 +1802,7 @@ namespace tphn
   template <typename TIterator>
   void sort(TIterator first, TIterator last)
   {
-    tphn::shell_sort(first, last, tphn::less<typename tphn::iterator_traits<TIterator>::value_type>());
+    tpn::shell_sort(first, last, tpn::less<typename tpn::iterator_traits<TIterator>::value_type>());
   }
 
   //***************************************************************************
@@ -1814,7 +1814,7 @@ namespace tphn
   template <typename TIterator, typename TCompare>
   void stable_sort(TIterator first, TIterator last, TCompare compare)
   {
-    tphn::insertion_sort(first, last, compare);
+    tpn::insertion_sort(first, last, compare);
   }
 
   //***************************************************************************
@@ -1825,7 +1825,7 @@ namespace tphn
   template <typename TIterator>
   void stable_sort(TIterator first, TIterator last)
   {
-    tphn::insertion_sort(first, last, tphn::less<typename tphn::iterator_traits<TIterator>::value_type>());
+    tpn::insertion_sort(first, last, tpn::less<typename tpn::iterator_traits<TIterator>::value_type>());
   }
 #else
   //***************************************************************************
@@ -1883,7 +1883,7 @@ namespace tphn
   {
     while (first != last)
     {
-      sum = tphn::move(sum) + *first;
+      sum = tpn::move(sum) + *first;
       ++first;
     }
       
@@ -1900,7 +1900,7 @@ namespace tphn
   {
     while (first != last)
     {
-      sum = operation(tphn::move(sum), *first);
+      sum = operation(tpn::move(sum), *first);
       ++first;
     }
 
@@ -1922,7 +1922,7 @@ namespace tphn
   TYPHOON_CONSTEXPR 
   const T& clamp(const T& value, const T& low, const T& high )
   {
-    return clamp(value, low, high, tphn::less<T>());
+    return clamp(value, low, high, tpn::less<T>());
   }
 
   //***************************************************************************
@@ -1933,7 +1933,7 @@ namespace tphn
   TYPHOON_CONSTEXPR14
   TIterator remove(TIterator first, TIterator last, const T& value)
   {
-    first = tphn::find(first, last, value);
+    first = tpn::find(first, last, value);
       
     if (first != last)
     {
@@ -1943,7 +1943,7 @@ namespace tphn
       {
         if (!(*itr == value))
         {
-          *first = tphn::move(*itr);
+          *first = tpn::move(*itr);
           ++first;
         }
 
@@ -1962,7 +1962,7 @@ namespace tphn
   TYPHOON_CONSTEXPR14
   TIterator remove_if(TIterator first, TIterator last, TUnaryPredicate predicate)
   {
-    first = tphn::find_if(first, last, predicate);
+    first = tpn::find_if(first, last, predicate);
 
     if (first != last)
     {
@@ -1972,7 +1972,7 @@ namespace tphn
       {
         if (!predicate(*itr))
         {
-          *first = tphn::move(*itr);
+          *first = tpn::move(*itr);
           ++first;
         }
 
@@ -1987,7 +1987,7 @@ namespace tphn
 //*****************************************************************************
 // TYPHOON extensions to the STL algorithms.
 //*****************************************************************************
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// copy_s
@@ -2003,18 +2003,18 @@ namespace tphn
   template <typename TInputIterator,
             typename TOutputIterator>
   TYPHOON_CONSTEXPR14
-  typename tphn::enable_if<tphn::is_random_iterator<TInputIterator>::value &&
-                          tphn::is_random_iterator<TOutputIterator>::value, TOutputIterator>::type
+  typename tpn::enable_if<tpn::is_random_iterator<TInputIterator>::value &&
+                          tpn::is_random_iterator<TOutputIterator>::value, TOutputIterator>::type
    copy_s(TInputIterator  i_begin,
           TInputIterator  i_end,
           TOutputIterator o_begin,
           TOutputIterator o_end)
   {
-      size_t s_size = tphn::distance(i_begin, i_end);
-      size_t d_size = tphn::distance(o_begin, o_end);
+      size_t s_size = tpn::distance(i_begin, i_end);
+      size_t d_size = tpn::distance(o_begin, o_end);
       size_t size   = (s_size < d_size) ? s_size : d_size;
 
-      return tphn::copy(i_begin, i_begin + size, o_begin);
+      return tpn::copy(i_begin, i_begin + size, o_begin);
   }
 
   //***************************************************************************
@@ -2031,8 +2031,8 @@ namespace tphn
   template <typename TInputIterator,
             typename TOutputIterator>
   TYPHOON_CONSTEXPR14
-  typename tphn::enable_if<!tphn::is_random_iterator<TInputIterator>::value ||
-                          !tphn::is_random_iterator<TOutputIterator>::value, TOutputIterator>::type
+  typename tpn::enable_if<!tpn::is_random_iterator<TInputIterator>::value ||
+                          !tpn::is_random_iterator<TOutputIterator>::value, TOutputIterator>::type
    copy_s(TInputIterator  i_begin,
           TInputIterator  i_end,
           TOutputIterator o_begin,
@@ -2170,18 +2170,18 @@ namespace tphn
   //***************************************************************************
   template <typename TInputIterator, typename TOutputIterator>
   TYPHOON_CONSTEXPR14
-  typename tphn::enable_if<tphn::is_random_iterator<TInputIterator>::value &&
-                          tphn::is_random_iterator<TOutputIterator>::value, TOutputIterator>::type
+  typename tpn::enable_if<tpn::is_random_iterator<TInputIterator>::value &&
+                          tpn::is_random_iterator<TOutputIterator>::value, TOutputIterator>::type
   move_s(TInputIterator  i_begin,
          TInputIterator  i_end,
          TOutputIterator o_begin,
          TOutputIterator o_end)
   {
-    size_t s_size = tphn::distance(i_begin, i_end);
-    size_t d_size = tphn::distance(o_begin, o_end);
+    size_t s_size = tpn::distance(i_begin, i_end);
+    size_t d_size = tpn::distance(o_begin, o_end);
     size_t size = (s_size < d_size) ? s_size : d_size;
 
-    return tphn::move(i_begin, i_begin + size, o_begin);
+    return tpn::move(i_begin, i_begin + size, o_begin);
   }
 
   //***************************************************************************
@@ -2197,8 +2197,8 @@ namespace tphn
   //***************************************************************************
   template <typename TInputIterator, typename TOutputIterator>
   TYPHOON_CONSTEXPR14
-  typename tphn::enable_if<!tphn::is_random_iterator<TInputIterator>::value ||
-                          !tphn::is_random_iterator<TOutputIterator>::value, TOutputIterator>::type
+  typename tpn::enable_if<!tpn::is_random_iterator<TInputIterator>::value ||
+                          !tpn::is_random_iterator<TOutputIterator>::value, TOutputIterator>::type
   move_s(TInputIterator  i_begin,
          TInputIterator  i_end,
          TOutputIterator o_begin,
@@ -2206,7 +2206,7 @@ namespace tphn
   {
     while ((i_begin != i_end) && (o_begin != o_end))
     {
-      *o_begin = tphn::move(*i_begin);
+      *o_begin = tpn::move(*i_begin);
       ++i_begin;
       ++o_begin;
     }
@@ -2233,7 +2233,7 @@ namespace tphn
                          TOutputIterator o_end)
   {
     // Move not supported. Defer to copy.
-    return tphn::copy_s(i_begin, i_end, o_begin, o_end);
+    return tpn::copy_s(i_begin, i_end, o_begin, o_end);
   }
 #endif
 
@@ -2249,7 +2249,7 @@ namespace tphn
                         TIterator     end,
                         const TValue& value)
   {
-    TIterator it = tphn::lower_bound(begin, end, value);
+    TIterator it = tpn::lower_bound(begin, end, value);
 
     if ((it == end) || (*it != value))
     {
@@ -2276,7 +2276,7 @@ namespace tphn
                         TBinaryPredicate predicate,
                         TBinaryEquality  equality)
   {
-    TIterator it = tphn::lower_bound(begin, end, value, predicate);
+    TIterator it = tpn::lower_bound(begin, end, value, predicate);
 
     if ((it == end) || !equality(*it, value))
     {
@@ -2401,9 +2401,9 @@ namespace tphn
                    TUnaryFunction  function)
   {
     TInputIterator i_end(i_begin);
-    tphn::advance(i_end, n);
+    tpn::advance(i_end, n);
 
-    tphn::transform(i_begin, i_end, o_begin, function);
+    tpn::transform(i_begin, i_end, o_begin, function);
   }
 
   //***************************************************************************
@@ -2425,9 +2425,9 @@ namespace tphn
                    TBinaryFunction function)
   {
     TInputIterator1 i_end1(i_begin1);
-    tphn::advance(i_end1, n);
+    tpn::advance(i_end1, n);
 
-    tphn::transform(i_begin1, i_end1, i_begin2, o_begin, function);
+    tpn::transform(i_begin1, i_end1, i_begin2, o_begin, function);
   }
 
   //***************************************************************************
@@ -2460,7 +2460,7 @@ namespace tphn
   }
 
   //***************************************************************************
-  /// Like tphn::transform_if but inputs from two ranges.
+  /// Like tpn::transform_if but inputs from two ranges.
   ///\ingroup algorithm
   //***************************************************************************
   template <typename TInputIterator1,
@@ -2522,7 +2522,7 @@ namespace tphn
   }
 
   //***************************************************************************
-  /// Like tphn::transform_if but inputs from two ranges for 'n' items.
+  /// Like tpn::transform_if but inputs from two ranges for 'n' items.
   ///\ingroup algorithm
   //***************************************************************************
   template <typename TInputIterator1,
@@ -2649,9 +2649,9 @@ namespace tphn
       return;
     }
 
-    typedef typename tphn::iterator_traits<TIterator>::difference_type difference_t;
+    typedef typename tpn::iterator_traits<TIterator>::difference_type difference_t;
 
-    difference_t n = tphn::distance(first, last);
+    difference_t n = tpn::distance(first, last);
 
     for (difference_t i = n / 2; i > 0; i /= 2)
     {
@@ -2662,12 +2662,12 @@ namespace tphn
           TIterator itr1 = first;
           TIterator itr2 = first;
 
-          tphn::advance(itr1, k);
-          tphn::advance(itr2, k + i);
+          tpn::advance(itr1, k);
+          tpn::advance(itr2, k + i);
 
           if (compare(*itr2, *itr1))
           {
-            tphn::iter_swap(itr1, itr2);
+            tpn::iter_swap(itr1, itr2);
           }
         }
       }
@@ -2686,7 +2686,7 @@ namespace tphn
 #endif
   void shell_sort(TIterator first, TIterator last)
   {
-    tphn::shell_sort(first, last, tphn::less<typename tphn::iterator_traits<TIterator>::value_type>());
+    tpn::shell_sort(first, last, tpn::less<typename tpn::iterator_traits<TIterator>::value_type>());
   }
 
   //***************************************************************************
@@ -2700,7 +2700,7 @@ namespace tphn
   {
     for (TIterator itr = first; itr != last; ++itr)
     {
-      tphn::rotate(tphn::upper_bound(first, itr, *itr, compare), itr, tphn::next(itr));
+      tpn::rotate(tpn::upper_bound(first, itr, *itr, compare), itr, tpn::next(itr));
     }
   }
 
@@ -2712,7 +2712,7 @@ namespace tphn
   TYPHOON_CONSTEXPR14
   void insertion_sort(TIterator first, TIterator last)
   {
-    tphn::insertion_sort(first, last, tphn::less<typename tphn::iterator_traits<TIterator>::value_type>());
+    tpn::insertion_sort(first, last, tpn::less<typename tpn::iterator_traits<TIterator>::value_type>());
   }
 
   //***************************************************************************
@@ -2720,7 +2720,7 @@ namespace tphn
   {
     template <typename TIterator>
     TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_forward_iterator<TIterator>::value, TIterator>::type
+    typename tpn::enable_if<tpn::is_forward_iterator<TIterator>::value, TIterator>::type
       get_before_last(TIterator first_, TIterator last_)
     {
       TIterator last      = first_;
@@ -2738,7 +2738,7 @@ namespace tphn
 
     template <typename TIterator>
     TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_bidirectional_iterator<TIterator>::value, TIterator>::type
+    typename tpn::enable_if<tpn::is_bidirectional_iterator<TIterator>::value, TIterator>::type
       get_before_last(TIterator /*first_*/, TIterator last_)
     {
       TIterator last = last_;
@@ -2749,7 +2749,7 @@ namespace tphn
 
     template <typename TIterator>
     TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_random_access_iterator<TIterator>::value, TIterator>::type
+    typename tpn::enable_if<tpn::is_random_access_iterator<TIterator>::value, TIterator>::type
       get_before_last(TIterator /*first_*/, TIterator last_)
     {
       return last_ - 1;
@@ -2797,7 +2797,7 @@ namespace tphn
   TYPHOON_CONSTEXPR20
   void selection_sort(TIterator first, TIterator last)
   {
-    selection_sort(first, last, tphn::less<typename tphn::iterator_traits<TIterator>::value_type>());
+    selection_sort(first, last, tpn::less<typename tpn::iterator_traits<TIterator>::value_type>());
   }
 
   //***************************************************************************
@@ -2809,12 +2809,12 @@ namespace tphn
   TYPHOON_CONSTEXPR14
   void heap_sort(TIterator first, TIterator last, TCompare compare)
   {
-    if (!tphn::is_heap(first, last, compare))
+    if (!tpn::is_heap(first, last, compare))
     {
-      tphn::make_heap(first, last, compare);
+      tpn::make_heap(first, last, compare);
     }
 
-    tphn::sort_heap(first, last, compare);
+    tpn::sort_heap(first, last, compare);
   }
 
   //***************************************************************************
@@ -2825,12 +2825,12 @@ namespace tphn
   TYPHOON_CONSTEXPR14
   void heap_sort(TIterator first, TIterator last)
   {
-    if (!tphn::is_heap(first, last))
+    if (!tpn::is_heap(first, last))
     {
-      tphn::make_heap(first, last);
+      tpn::make_heap(first, last);
     }
 
-    tphn::sort_heap(first, last);
+    tpn::sort_heap(first, last);
   }
 
   //***************************************************************************

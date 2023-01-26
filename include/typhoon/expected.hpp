@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2022 John Wellbelove
 
@@ -35,11 +35,11 @@ SOFTWARE.
 #include "type_traits.hpp"
 #include "utility.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Unexpected type.
-  /// tphn::unexpected represents an unexpected value stored in tphn::expected.
+  /// tpn::unexpected represents an unexpected value stored in tpn::expected.
   //***************************************************************************
   template <typename TError>
   class unexpected
@@ -59,7 +59,7 @@ namespace tphn
     /// Move constructor.
     //*******************************************
     TYPHOON_CONSTEXPR unexpected(unexpected&& other)
-      : error_value(tphn::move(other.error_value))
+      : error_value(tpn::move(other.error_value))
     {
     }
 #endif
@@ -68,10 +68,10 @@ namespace tphn
     //*******************************************
     /// Construct from argument.
     //*******************************************
-    template <typename TErr = TError, typename = typename tphn::enable_if<!tphn::is_same<typename tphn::remove_cvref<TErr>::type, tphn::unexpected<TErr>>::value &&
-                                                                         !tphn::is_same<typename tphn::remove_cvref<TErr>::type, tphn::in_place_t>::value, int>::type>
+    template <typename TErr = TError, typename = typename tpn::enable_if<!tpn::is_same<typename tpn::remove_cvref<TErr>::type, tpn::unexpected<TErr>>::value &&
+                                                                         !tpn::is_same<typename tpn::remove_cvref<TErr>::type, tpn::in_place_t>::value, int>::type>
     constexpr explicit unexpected(TErr&& e)
-      : error_value(tphn::forward<TErr>(e))
+      : error_value(tpn::forward<TErr>(e))
     {
     }
 #else
@@ -79,8 +79,8 @@ namespace tphn
     /// Construct from argument.
     //*******************************************
     template <typename TErr>
-    explicit unexpected(const TErr& e, typename tphn::enable_if<!tphn::is_same<typename tphn::remove_cvref<TErr>::type, tphn::unexpected<TErr> >::value &&
-                                                               !tphn::is_same<typename tphn::remove_cvref<TErr>::type, tphn::in_place_t>::value, int>::type = 0)
+    explicit unexpected(const TErr& e, typename tpn::enable_if<!tpn::is_same<typename tpn::remove_cvref<TErr>::type, tpn::unexpected<TErr> >::value &&
+                                                               !tpn::is_same<typename tpn::remove_cvref<TErr>::type, tpn::in_place_t>::value, int>::type = 0)
       : error_value(e)
     {
     }
@@ -91,8 +91,8 @@ namespace tphn
     /// Construct from arguments.
     //*******************************************
     template <typename... Args >
-    constexpr explicit unexpected(tphn::in_place_t, Args&&... args)
-      : error_value(tphn::forward<Args>(args)...)
+    constexpr explicit unexpected(tpn::in_place_t, Args&&... args)
+      : error_value(tpn::forward<Args>(args)...)
     {
     }
 #endif
@@ -102,17 +102,17 @@ namespace tphn
     /// Construct from initializer_list and arguments.
     //*******************************************
     template <typename U, typename... Args>
-    constexpr explicit unexpected(tphn::in_place_t, std::initializer_list<U> init, Args&&... args)
-      : error_value(init, tphn::forward<Args>(args)...)
+    constexpr explicit unexpected(tpn::in_place_t, std::initializer_list<U> init, Args&&... args)
+      : error_value(init, tpn::forward<Args>(args)...)
     {
     }
 #endif
 
     //*******************************************
-    /// Assign from tphn::unexpected.
+    /// Assign from tpn::unexpected.
     //*******************************************
     TYPHOON_CONSTEXPR14
-    tphn::unexpected<TError>& operator =(const tphn::unexpected<TError>& rhs)
+    tpn::unexpected<TError>& operator =(const tpn::unexpected<TError>& rhs)
     {
       error_value = rhs.error_value;
 
@@ -121,12 +121,12 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*******************************************
-    /// Move assign from tphn::unexpected.
+    /// Move assign from tpn::unexpected.
     //*******************************************
     TYPHOON_CONSTEXPR14
-    tphn::unexpected<TError>& operator =(tphn::unexpected<TError>&& rhs)
+    tpn::unexpected<TError>& operator =(tpn::unexpected<TError>&& rhs)
     {
-      error_value = tphn::move(rhs.error_value);
+      error_value = tpn::move(rhs.error_value);
 
       return *this;
     }
@@ -146,7 +146,7 @@ namespace tphn
     //*******************************************
     constexpr const TError&& error() const&& noexcept
     {
-      return tphn::move(error_value);
+      return tpn::move(error_value);
     }
 
 #if TYPHOON_USING_CPP14
@@ -163,7 +163,7 @@ namespace tphn
     //*******************************************    
     constexpr TError&& error() && noexcept
     {
-      return tphn::move(error_value);
+      return tpn::move(error_value);
     }
 #else
     //*******************************************
@@ -179,7 +179,7 @@ namespace tphn
     //*******************************************    
     TError&& error() && noexcept
     {
-      return tphn::move(error_value);
+      return tpn::move(error_value);
     }
 #endif
 
@@ -194,9 +194,9 @@ namespace tphn
 #endif
 
     //*******************************************
-    /// Swap with another tphn::unexpected.
+    /// Swap with another tpn::unexpected.
     //*******************************************
-    void swap(tphn::unexpected<TError>& other)
+    void swap(tpn::unexpected<TError>& other)
     {
       using TYPHOON_OR_STD::swap;
 
@@ -219,17 +219,17 @@ namespace tphn
 //*******************************************
 template <typename TError>
 TYPHOON_CONSTEXPR14
-bool operator ==(const tphn::unexpected<TError>& lhs, const tphn::unexpected<TError>& rhs)
+bool operator ==(const tpn::unexpected<TError>& lhs, const tpn::unexpected<TError>& rhs)
 {
   return lhs.error_value == rhs.error_value;
 }
 
 //*******************************************
-/// Swap tphn::unexpected.
+/// Swap tpn::unexpected.
 //*******************************************
 template <typename TError>
 TYPHOON_CONSTEXPR14
-void swap(tphn::unexpected<TError>& lhs, tphn::unexpected<TError>& rhs)
+void swap(tpn::unexpected<TError>& lhs, tpn::unexpected<TError>& rhs)
 {
   lhs.swap(rhs);
 }

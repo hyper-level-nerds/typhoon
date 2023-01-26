@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2020 John Wellbelove
 
@@ -43,7 +43,7 @@ SOFTWARE.
 /// A wrapper for reference counted messages.
 /// Contains pointers to a pool owner and a message defined with a ref count type.
 //*****************************************************************************
-namespace tphn
+namespace tpn
 {
   class shared_message
   {
@@ -55,8 +55,8 @@ namespace tphn
     template <typename TPool, typename TMessage>
     shared_message(TPool& owner, const TMessage& message)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::ireference_counted_message_pool, TPool>::value), "TPool not derived from tphn::ireference_counted_message_pool");
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<tphn::imessage, TMessage>::value), "TMessage not derived from tphn::imessage");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::ireference_counted_message_pool, TPool>::value), "TPool not derived from tpn::ireference_counted_message_pool");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<tpn::imessage, TMessage>::value), "TMessage not derived from tpn::imessage");
 
       p_rcmessage = owner.allocate(message);
       
@@ -69,7 +69,7 @@ namespace tphn
     //*************************************************************************
     /// Constructor
     //*************************************************************************
-    shared_message(tphn::ireference_counted_message& rcm)
+    shared_message(tpn::ireference_counted_message& rcm)
     {
       p_rcmessage = &rcm;
 
@@ -79,7 +79,7 @@ namespace tphn
     //*************************************************************************
     /// Copy constructor
     //*************************************************************************
-    shared_message(const tphn::shared_message& other)
+    shared_message(const tpn::shared_message& other)
       : p_rcmessage(other.p_rcmessage)
     {
       p_rcmessage->get_reference_counter().increment_reference_count();
@@ -89,8 +89,8 @@ namespace tphn
     //*************************************************************************
     /// Move constructor
     //*************************************************************************
-    shared_message(tphn::shared_message&& other)
-      : p_rcmessage(tphn::move(other.p_rcmessage))
+    shared_message(tpn::shared_message&& other)
+      : p_rcmessage(tpn::move(other.p_rcmessage))
     {
       other.p_rcmessage = TYPHOON_NULLPTR;
     }
@@ -99,7 +99,7 @@ namespace tphn
     //*************************************************************************
     /// Copy assignment operator
     //*************************************************************************
-    shared_message& operator =(const tphn::shared_message& other)
+    shared_message& operator =(const tpn::shared_message& other)
     {
       if (&other != this)
       {
@@ -121,7 +121,7 @@ namespace tphn
     //*************************************************************************
     /// Move assignment operator
     //*************************************************************************
-    shared_message& operator =(tphn::shared_message&& other)
+    shared_message& operator =(tpn::shared_message&& other)
     {
       if (&other != this)
       {
@@ -132,7 +132,7 @@ namespace tphn
         }
 
         // Move over the new one.
-        p_rcmessage = tphn::move(other.p_rcmessage);
+        p_rcmessage = tpn::move(other.p_rcmessage);
         other.p_rcmessage = TYPHOON_NULLPTR;
       }
 
@@ -156,7 +156,7 @@ namespace tphn
     //*************************************************************************
     /// Get a reference to the contained message.
     //***********************************************************************
-    TYPHOON_NODISCARD tphn::imessage& get_message()
+    TYPHOON_NODISCARD tpn::imessage& get_message()
     {
       return p_rcmessage->get_message();
     }
@@ -164,7 +164,7 @@ namespace tphn
     //*************************************************************************
     /// Get a const reference to the contained message.
     //*************************************************************************
-    TYPHOON_NODISCARD const tphn::imessage& get_message() const
+    TYPHOON_NODISCARD const tpn::imessage& get_message() const
     {
       return p_rcmessage->get_message();
     }
@@ -189,7 +189,7 @@ namespace tphn
 
     shared_message() TYPHOON_DELETE;
 
-    tphn::ireference_counted_message* p_rcmessage; ///< A pointer to the reference  counted message.
+    tpn::ireference_counted_message* p_rcmessage; ///< A pointer to the reference  counted message.
   };
 }
 

@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -39,7 +39,7 @@ SOFTWARE.
 ///\defgroup reference_wrapper reference_wrapper
 ///\ingroup functional
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// A definition of reference_wrapper for those that don't have C++ 0x11 support.
@@ -125,7 +125,7 @@ namespace tphn
 
   //***************************************************************************
   template <typename T = void>
-  struct less : public tphn::binary_function<T, T, bool>
+  struct less : public tpn::binary_function<T, T, bool>
   {
     typedef T value_type;
 
@@ -137,7 +137,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
   template <>
-  struct less<void> : public tphn::binary_function<void, void, bool>
+  struct less<void> : public tpn::binary_function<void, void, bool>
   {
     typedef int is_transparent;
 
@@ -151,7 +151,7 @@ namespace tphn
 
   //***************************************************************************
   template <typename T = void>
-  struct less_equal : public tphn::binary_function<T, T, bool>
+  struct less_equal : public tpn::binary_function<T, T, bool>
   {
     typedef T value_type;
 
@@ -163,7 +163,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
   template <>
-  struct less_equal<void> : public tphn::binary_function<void, void, bool>
+  struct less_equal<void> : public tpn::binary_function<void, void, bool>
   {
     typedef int is_transparent;
 
@@ -177,7 +177,7 @@ namespace tphn
 
   //***************************************************************************
   template <typename T = void>
-  struct greater : public tphn::binary_function<T, T, bool>
+  struct greater : public tpn::binary_function<T, T, bool>
   {
     typedef T value_type;
 
@@ -189,7 +189,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
   template <>
-  struct greater<void> : public tphn::binary_function<void, void, bool>
+  struct greater<void> : public tpn::binary_function<void, void, bool>
   {
     typedef int is_transparent;
 
@@ -203,7 +203,7 @@ namespace tphn
 
   //***************************************************************************
   template <typename T = void>
-  struct greater_equal : public tphn::binary_function<T, T, bool>
+  struct greater_equal : public tpn::binary_function<T, T, bool>
   {
     typedef T value_type;
 
@@ -215,7 +215,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
   template <>
-  struct greater_equal<void> : public tphn::binary_function<void, void, bool>
+  struct greater_equal<void> : public tpn::binary_function<void, void, bool>
   {
     typedef int is_transparent;
 
@@ -229,7 +229,7 @@ namespace tphn
 
   //***************************************************************************
   template <typename T = void>
-  struct equal_to : public tphn::binary_function<T, T, bool>
+  struct equal_to : public tpn::binary_function<T, T, bool>
   {
     typedef T value_type;
 
@@ -241,7 +241,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
   template <>
-  struct equal_to<void> : public tphn::binary_function<void, void, bool>
+  struct equal_to<void> : public tpn::binary_function<void, void, bool>
   {
     typedef void value_type;
     typedef int is_transparent;
@@ -256,7 +256,7 @@ namespace tphn
 
   //***************************************************************************
   template <typename T = void>
-  struct not_equal_to : public tphn::binary_function<T, T, bool>
+  struct not_equal_to : public tpn::binary_function<T, T, bool>
   {
     typedef T value_type;
 
@@ -268,7 +268,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
   template <>
-  struct not_equal_to<void> : public tphn::binary_function<void, void, bool>
+  struct not_equal_to<void> : public tpn::binary_function<void, void, bool>
   {
     typedef int is_transparent;
 
@@ -282,7 +282,7 @@ namespace tphn
 
   //***************************************************************************
   template <typename TFunction>
-  class binder1st : public tphn::unary_function<typename TFunction::second_argument_type, typename TFunction::result_type>
+  class binder1st : public tpn::unary_function<typename TFunction::second_argument_type, typename TFunction::result_type>
   {
   protected:
 
@@ -315,7 +315,7 @@ namespace tphn
 
   //***************************************************************************
   template <typename TFunction >
-  class binder2nd : public tphn::unary_function<typename TFunction::first_argument_type, typename TFunction::result_type>
+  class binder2nd : public tpn::unary_function<typename TFunction::first_argument_type, typename TFunction::result_type>
   {
   protected:
     TFunction operation;

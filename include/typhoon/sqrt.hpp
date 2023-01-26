@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -37,7 +37,7 @@ SOFTWARE.
 
 #include <stddef.h>
 
-namespace tphn 
+namespace tpn 
 {
   //***************************************************************************
   /// Calculates the smallest value that, when squared, will be not greater than VALUE.
@@ -45,9 +45,9 @@ namespace tphn
   template <size_t VALUE, size_t I = 1>
   struct sqrt
   {
-    typedef typename tphn::conditional<((I * I) > VALUE), 
-                                      tphn::constant<intmax_t, I - 1>,
-                                      tphn::sqrt<VALUE, I + 1> >::type type;
+    typedef typename tpn::conditional<((I * I) > VALUE), 
+                                      tpn::constant<intmax_t, I - 1>,
+                                      tpn::sqrt<VALUE, I + 1> >::type type;
 
 #if TYPHOON_USING_CPP11
     static constexpr size_t value = type::value;

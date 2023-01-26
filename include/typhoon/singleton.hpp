@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -33,7 +33,7 @@ SOFTWARE.
 
 ///\defgroup singleton singleton
 /// Templated version of the singleton pattern.
-///\ingroup tphn
+///\ingroup tpn
 
 #include "platform.hpp"
 #include "utility.hpp"
@@ -41,12 +41,12 @@ SOFTWARE.
 #include "file_error_numbers.hpp"
 #include "memory.hpp"
 
-namespace tphn
+namespace tpn
 {
   //*************************************************************************
   /// Base singleton error exception.
   //*************************************************************************
-  class singleton_exception : public tphn::exception
+  class singleton_exception : public tpn::exception
   {
   public:
 
@@ -59,7 +59,7 @@ namespace tphn
   //*************************************************************************
   /// Singleton not created error exception.
   //*************************************************************************
-  class singleton_not_created : public tphn::singleton_exception
+  class singleton_not_created : public tpn::singleton_exception
   {
   public:
 
@@ -92,7 +92,7 @@ namespace tphn
       if (!data.valid)
       {
         T* p = data.storage.begin();
-        ::new (p) T(tphn::forward<TArgs>(args)...);
+        ::new (p) T(tpn::forward<TArgs>(args)...);
         data.valid = true;
       }
     }
@@ -114,14 +114,14 @@ namespace tphn
 
     //*************************************************************************
     /// Returns a reference to the instance.
-    /// Asserts an tphn::singleton_not_created if create has not been called.
+    /// Asserts an tpn::singleton_not_created if create has not been called.
     ///\return A reference to the instance.
     //*************************************************************************
     static T& instance()
     {
       Data& data = get_data();
 
-      TYPHOON_ASSERT(data.valid, TYPHOON_ERROR(tphn::singleton_not_created));
+      TYPHOON_ASSERT(data.valid, TYPHOON_ERROR(tpn::singleton_not_created));
 
       return *data.storage.begin();
     }
@@ -148,7 +148,7 @@ namespace tphn
       {
       }
 
-      tphn::uninitialized_buffer_of<T, 1U> storage;
+      tpn::uninitialized_buffer_of<T, 1U> storage;
       bool valid;
     };
 
@@ -279,14 +279,14 @@ namespace tphn
 
     //*************************************************************************
     /// Returns a reference to the instance.
-    /// Asserts an tphn::singleton_not_created if create has not been called.
+    /// Asserts an tpn::singleton_not_created if create has not been called.
     ///\return A reference to the instance.
     //*************************************************************************
     static T& instance()
     {
       Data& data = get_data();
 
-      TYPHOON_ASSERT(data.valid, TYPHOON_ERROR(tphn::singleton_not_created));
+      TYPHOON_ASSERT(data.valid, TYPHOON_ERROR(tpn::singleton_not_created));
 
       return *data.storage.begin();
     }
@@ -313,7 +313,7 @@ namespace tphn
       {
       }
 
-      tphn::uninitialized_buffer_of<T, 1U> storage;
+      tpn::uninitialized_buffer_of<T, 1U> storage;
       bool valid;
     };
 

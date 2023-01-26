@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2022 John Wellbelove
 
@@ -37,7 +37,7 @@ SOFTWARE.
 
 ///\defgroup iterator Iterator types
 
-namespace tphn
+namespace tpn
 {
   namespace private_circular_iterator
   {
@@ -46,15 +46,15 @@ namespace tphn
     //***************************************************************************
     template <typename TIterator>
     class circular_iterator_common
-      : public tphn::iterator<typename tphn::iterator_traits<TIterator>::iterator_category, typename tphn::iterator_traits<TIterator>::value_type>
+      : public tpn::iterator<typename tpn::iterator_traits<TIterator>::iterator_category, typename tpn::iterator_traits<TIterator>::value_type>
     {
     public:
 
-      typedef typename tphn::iterator_traits<TIterator>::value_type        value_type;
-      typedef typename tphn::iterator_traits<TIterator>::difference_type   difference_type;
-      typedef typename tphn::iterator_traits<TIterator>::pointer           pointer;
-      typedef typename tphn::iterator_traits<TIterator>::reference         reference;
-      typedef typename tphn::iterator_traits<TIterator>::iterator_category iterator_category;
+      typedef typename tpn::iterator_traits<TIterator>::value_type        value_type;
+      typedef typename tpn::iterator_traits<TIterator>::difference_type   difference_type;
+      typedef typename tpn::iterator_traits<TIterator>::pointer           pointer;
+      typedef typename tpn::iterator_traits<TIterator>::reference         reference;
+      typedef typename tpn::iterator_traits<TIterator>::iterator_category iterator_category;
 
       //***************************************************************************
       /// Default constructor.
@@ -119,7 +119,7 @@ namespace tphn
       //***************************************************************************
       TYPHOON_CONSTEXPR14 size_t size() const
       {
-        return tphn::distance(itr_begin, itr_end);
+        return tpn::distance(itr_begin, itr_end);
       }
 
       //***************************************************************************
@@ -190,11 +190,11 @@ namespace tphn
     /// This iterator can be given a pair of iterator values, which will loop if the start or end of the range is reached.
     ///\ingroup iterator
     //***************************************************************************
-    template <typename TIterator, typename TTag = typename tphn::iterator_traits<TIterator>::iterator_category>
+    template <typename TIterator, typename TTag = typename tpn::iterator_traits<TIterator>::iterator_category>
     class circular_iterator_impl
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_same<TTag, TYPHOON_OR_STD::input_iterator_tag>::value_type), "input_iterator_catagory is not supported by circular_iterator");
-      TYPHOON_STATIC_ASSERT((tphn::is_same<TTag, TYPHOON_OR_STD::output_iterator_tag>::value_type), "output_iterator_catagory is not supported by circular_iterator");
+      TYPHOON_STATIC_ASSERT((tpn::is_same<TTag, TYPHOON_OR_STD::input_iterator_tag>::value_type), "input_iterator_catagory is not supported by circular_iterator");
+      TYPHOON_STATIC_ASSERT((tpn::is_same<TTag, TYPHOON_OR_STD::output_iterator_tag>::value_type), "output_iterator_catagory is not supported by circular_iterator");
     };
 
     //***************************************************************************
@@ -385,7 +385,7 @@ namespace tphn
       {
         if (this->itr == this->itr_begin)
         {
-          typename tphn::reverse_iterator<TIterator> ritr(this->itr_end);
+          typename tpn::reverse_iterator<TIterator> ritr(this->itr_end);
           ++ritr;
           this->itr = ritr.base();
         }
@@ -417,11 +417,11 @@ namespace tphn
     //***************************************************************************
     template <typename TIterator>
     class circular_iterator_impl<TIterator, TYPHOON_OR_STD::random_access_iterator_tag>
-      : public tphn::private_circular_iterator::circular_iterator_common<TIterator>
+      : public tpn::private_circular_iterator::circular_iterator_common<TIterator>
     {
     private:
 
-      typedef tphn::private_circular_iterator::circular_iterator_common<TIterator> common_t;
+      typedef tpn::private_circular_iterator::circular_iterator_common<TIterator> common_t;
 
     public:
 
@@ -507,7 +507,7 @@ namespace tphn
       {
         if (this->itr == this->itr_begin)
         {
-          typename tphn::reverse_iterator<TIterator> ritr(this->itr_end);
+          typename tpn::reverse_iterator<TIterator> ritr(this->itr_end);
           ++ritr;
           this->itr = ritr.base();
         }
@@ -541,8 +541,8 @@ namespace tphn
 
         if (offset != 0)
         {
-          const difference_type distance_from_begin = tphn::distance(this->itr_begin, this->itr);
-          const difference_type distance_to_end = tphn::distance(this->itr, this->itr_end);
+          const difference_type distance_from_begin = tpn::distance(this->itr_begin, this->itr);
+          const difference_type distance_to_end = tpn::distance(this->itr, this->itr_end);
 
           if (offset > 0)
           {
@@ -579,7 +579,7 @@ namespace tphn
       //***************************************************************************
       /// -= operator.
       //***************************************************************************
-      TYPHOON_CONSTEXPR14 circular_iterator_impl& operator -=(typename tphn::iterator_traits<TIterator>::difference_type offset)
+      TYPHOON_CONSTEXPR14 circular_iterator_impl& operator -=(typename tpn::iterator_traits<TIterator>::difference_type offset)
       {
         return operator +=(-offset);
       }
@@ -593,11 +593,11 @@ namespace tphn
   //**************************************************************************
   template <typename TIterator>
   class circular_iterator TYPHOON_FINAL
-    : public tphn::private_circular_iterator::circular_iterator_impl<TIterator, typename tphn::iterator_traits<TIterator>::iterator_category>
+    : public tpn::private_circular_iterator::circular_iterator_impl<TIterator, typename tpn::iterator_traits<TIterator>::iterator_category>
   {
   private:
 
-    typedef typename tphn::private_circular_iterator::circular_iterator_impl<TIterator, typename tphn::iterator_traits<TIterator>::iterator_category> impl_t;
+    typedef typename tpn::private_circular_iterator::circular_iterator_impl<TIterator, typename tpn::iterator_traits<TIterator>::iterator_category> impl_t;
 
   public:
 
@@ -656,10 +656,10 @@ namespace tphn
   /// + addition operator.
   //*****************************************************************************
   template <typename TIterator>
-  TYPHOON_CONSTEXPR14 tphn::circular_iterator<TIterator> operator +(tphn::circular_iterator<TIterator>& lhs,
-                                                               typename tphn::iterator_traits<TIterator>::difference_type offset)
+  TYPHOON_CONSTEXPR14 tpn::circular_iterator<TIterator> operator +(tpn::circular_iterator<TIterator>& lhs,
+                                                               typename tpn::iterator_traits<TIterator>::difference_type offset)
   {
-    tphn::circular_iterator<TIterator> result(lhs);
+    tpn::circular_iterator<TIterator> result(lhs);
     result += offset;
     
     return result;
@@ -669,10 +669,10 @@ namespace tphn
   /// - offset operator.
   //*****************************************************************************
   template <typename TIterator>
-  TYPHOON_CONSTEXPR14 tphn::circular_iterator<TIterator> operator -(tphn::circular_iterator<TIterator>& lhs,
-                                                               typename tphn::iterator_traits<TIterator>::difference_type offset)
+  TYPHOON_CONSTEXPR14 tpn::circular_iterator<TIterator> operator -(tpn::circular_iterator<TIterator>& lhs,
+                                                               typename tpn::iterator_traits<TIterator>::difference_type offset)
   {
-    tphn::circular_iterator<TIterator> result(lhs);
+    tpn::circular_iterator<TIterator> result(lhs);
     result -= offset;
 
     return result;
@@ -682,8 +682,8 @@ namespace tphn
   /// - circular_iterator difference operator.
   //*****************************************************************************
   template <typename TIterator>
-  TYPHOON_CONSTEXPR14 typename tphn::iterator_traits<TIterator>::difference_type operator -(tphn::circular_iterator<TIterator>& lhs,
-                                                                                       tphn::circular_iterator<TIterator>& rhs)
+  TYPHOON_CONSTEXPR14 typename tpn::iterator_traits<TIterator>::difference_type operator -(tpn::circular_iterator<TIterator>& lhs,
+                                                                                       tpn::circular_iterator<TIterator>& rhs)
   {
     return TIterator(lhs) - TIterator(rhs);
   }
@@ -692,8 +692,8 @@ namespace tphn
   /// Equality operator. circular_iterator == circular_iterator.
   //*****************************************************************************
   template <typename TIterator>
-  TYPHOON_CONSTEXPR14 bool operator ==(const tphn::circular_iterator<TIterator>& lhs,
-                                   const tphn::circular_iterator<TIterator>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator ==(const tpn::circular_iterator<TIterator>& lhs,
+                                   const tpn::circular_iterator<TIterator>& rhs)
   {
     return TIterator(lhs) == TIterator(rhs);
   }
@@ -702,7 +702,7 @@ namespace tphn
   /// Equality operator. circular_iterator == iterator.
   //*****************************************************************************
   template <typename TIterator>
-  TYPHOON_CONSTEXPR14 bool operator ==(const tphn::circular_iterator<TIterator>& lhs,
+  TYPHOON_CONSTEXPR14 bool operator ==(const tpn::circular_iterator<TIterator>& lhs,
                                    TIterator rhs)
   {
     return TIterator(lhs) == rhs;
@@ -713,7 +713,7 @@ namespace tphn
   //*****************************************************************************
   template <typename TIterator>
   TYPHOON_CONSTEXPR14 bool operator ==(TIterator lhs,
-                                   const tphn::circular_iterator<TIterator>& rhs)
+                                   const tpn::circular_iterator<TIterator>& rhs)
   {
     return lhs == TIterator(rhs);
   }
@@ -723,8 +723,8 @@ namespace tphn
   /// Inequality operator. circular_iterator == circular_iterator.
   //*****************************************************************************
   template <typename TIterator>
-  TYPHOON_CONSTEXPR14 bool operator !=(const tphn::circular_iterator<TIterator>& lhs,
-                                   const tphn::circular_iterator<TIterator>& rhs)
+  TYPHOON_CONSTEXPR14 bool operator !=(const tpn::circular_iterator<TIterator>& lhs,
+                                   const tpn::circular_iterator<TIterator>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -733,7 +733,7 @@ namespace tphn
   /// Inequality operator. circular_iterator == iterator.
   //*****************************************************************************
   template <typename TIterator>
-  TYPHOON_CONSTEXPR14 bool operator !=(const tphn::circular_iterator<TIterator>& lhs,
+  TYPHOON_CONSTEXPR14 bool operator !=(const tpn::circular_iterator<TIterator>& lhs,
                                    TIterator rhs)
   {
     return !(lhs == rhs);
@@ -744,7 +744,7 @@ namespace tphn
   //*****************************************************************************
   template <typename TIterator>
   TYPHOON_CONSTEXPR14 bool operator !=(TIterator& lhs,
-                                   const tphn::circular_iterator<TIterator>& rhs)
+                                   const tpn::circular_iterator<TIterator>& rhs)
   {
     return !(lhs == rhs);
   }

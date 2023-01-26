@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -43,7 +43,7 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// A template class that can store any types derived from TBase that conform
@@ -64,13 +64,13 @@ namespace tphn
     template <typename T>
     explicit packet(T&& value)
     {
-      typedef typename tphn::types<T>::type type;
+      typedef typename tpn::types<T>::type type;
 
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, type>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, type>::value), "Unsupported type");
       TYPHOON_STATIC_ASSERT(sizeof(type) <= SIZE, "Unsupported size");
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<type>::value <= ALIGNMENT, "Unsupported alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<type>::value <= ALIGNMENT, "Unsupported alignment");
 
-      ::new (static_cast<type*>(data)) type(tphn::forward<T>(value));
+      ::new (static_cast<type*>(data)) type(tpn::forward<T>(value));
     }
 #else
     //***************************************************************************
@@ -79,9 +79,9 @@ namespace tphn
     template <typename T>
     explicit packet(const T& value)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, T>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, T>::value), "Unsupported type");
       TYPHOON_STATIC_ASSERT(sizeof(T) <= SIZE, "Unsupported size");
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<T>::value <= ALIGNMENT, "Unsupported alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<T>::value <= ALIGNMENT, "Unsupported alignment");
 
       ::new (static_cast<T*>(data)) T(value);
     }
@@ -103,14 +103,14 @@ namespace tphn
     template <typename T>
     packet& operator =(T&& value)
     {
-      typedef typename tphn::types<T>::type type;
+      typedef typename tpn::types<T>::type type;
 
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, type>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, type>::value), "Unsupported type");
       TYPHOON_STATIC_ASSERT(sizeof(type) <= SIZE, "Unsupported size");
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<type>::value <= ALIGNMENT, "Unsupported alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<type>::value <= ALIGNMENT, "Unsupported alignment");
 
       static_cast<TBase*>(data)->~TBase();
-      ::new (static_cast<type*>(data)) type(tphn::forward<T>(value));
+      ::new (static_cast<type*>(data)) type(tpn::forward<T>(value));
 
       return *this;
     }
@@ -122,9 +122,9 @@ namespace tphn
     template <typename T>
     packet& operator =(const T& value)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_base_of<TBase, T>::value), "Unsupported type");
+      TYPHOON_STATIC_ASSERT((tpn::is_base_of<TBase, T>::value), "Unsupported type");
       TYPHOON_STATIC_ASSERT(sizeof(T) <= SIZE, "Unsupported size");
-      TYPHOON_STATIC_ASSERT(tphn::alignment_of<T>::value <= ALIGNMENT, "Unsupported alignment");
+      TYPHOON_STATIC_ASSERT(tpn::alignment_of<T>::value <= ALIGNMENT, "Unsupported alignment");
 
       static_cast<TBase*>(data)->~TBase();
       ::new (static_cast<T*>(data)) T(value);
@@ -158,7 +158,7 @@ namespace tphn
     /// The internal storage.
     /// Aligned on a suitable boundary, which should be good for all types.
     //***************************************************************************
-    typename tphn::aligned_storage<SIZE, ALIGNMENT>::type data;
+    typename tpn::aligned_storage<SIZE, ALIGNMENT>::type data;
   };
 }
 

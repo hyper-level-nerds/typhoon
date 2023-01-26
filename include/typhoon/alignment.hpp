@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -41,7 +41,7 @@ SOFTWARE.
 /// Creates a variable of the specified type at the specified alignment.
 /// \ingroup utilities
 
-namespace tphn
+namespace tpn
 {
   namespace private_alignment
   {
@@ -66,7 +66,7 @@ namespace tphn
     {
     public:
 
-      typedef typename type_with_alignment_matcher<ALIGNMENT <= tphn::alignment_of<T2>::value, ALIGNMENT, T2, T3, T4, T5, T6, T7, T8, void>::type type;
+      typedef typename type_with_alignment_matcher<ALIGNMENT <= tpn::alignment_of<T2>::value, ALIGNMENT, T2, T3, T4, T5, T6, T7, T8, void>::type type;
     };
 
     // Non-matching alignment, none left.
@@ -86,7 +86,7 @@ namespace tphn
     {
     public:
 
-      typedef typename type_with_alignment_matcher<ALIGNMENT <= tphn::alignment_of<T1>::value, ALIGNMENT, T1, T2, T3, T4, T5, T6, T7, T8>::type type;
+      typedef typename type_with_alignment_matcher<ALIGNMENT <= tpn::alignment_of<T1>::value, ALIGNMENT, T1, T2, T3, T4, T5, T6, T7, T8>::type type;
     };
   }
 
@@ -120,7 +120,7 @@ namespace tphn
       template <typename T>
       operator T& ()
       {
-        TYPHOON_STATIC_ASSERT((tphn::is_same<T*, void*>:: value || ((ALIGNMENT % tphn::alignment_of<T>::value) == 0)), "Incompatible alignment");
+        TYPHOON_STATIC_ASSERT((tpn::is_same<T*, void*>:: value || ((ALIGNMENT % tpn::alignment_of<T>::value) == 0)), "Incompatible alignment");
         T* t = *this;
         return *t;
       }
@@ -129,7 +129,7 @@ namespace tphn
       template <typename T>
       operator const T& () const
       {
-        TYPHOON_STATIC_ASSERT((tphn::is_same<T*, void*>:: value || ((ALIGNMENT % tphn::alignment_of<T>::value) == 0)), "Incompatible alignment");
+        TYPHOON_STATIC_ASSERT((tpn::is_same<T*, void*>:: value || ((ALIGNMENT % tpn::alignment_of<T>::value) == 0)), "Incompatible alignment");
         const T* t = *this;
         return *t;
       }
@@ -138,7 +138,7 @@ namespace tphn
       template <typename T>
       operator T* ()
       {
-        TYPHOON_STATIC_ASSERT((tphn::is_same<T*, void*>:: value || ((ALIGNMENT % tphn::alignment_of<T>::value) == 0)), "Incompatible alignment");
+        TYPHOON_STATIC_ASSERT((tpn::is_same<T*, void*>:: value || ((ALIGNMENT % tpn::alignment_of<T>::value) == 0)), "Incompatible alignment");
         return reinterpret_cast<T*>(data);
       }
 
@@ -146,7 +146,7 @@ namespace tphn
       template <typename T>
       operator const T* () const
       {
-        TYPHOON_STATIC_ASSERT((tphn::is_same<T*, void*>:: value || ((ALIGNMENT % tphn::alignment_of<T>::value) == 0)), "Incompatible alignment");
+        TYPHOON_STATIC_ASSERT((tpn::is_same<T*, void*>:: value || ((ALIGNMENT % tpn::alignment_of<T>::value) == 0)), "Incompatible alignment");
         return reinterpret_cast<const T*>(data);
       }
 
@@ -154,7 +154,7 @@ namespace tphn
       template <typename T>
       T& get_reference()
       {
-        TYPHOON_STATIC_ASSERT((tphn::is_same<T*, void*>:: value || ((ALIGNMENT % tphn::alignment_of<T>::value) == 0)), "Incompatible alignment");
+        TYPHOON_STATIC_ASSERT((tpn::is_same<T*, void*>:: value || ((ALIGNMENT % tpn::alignment_of<T>::value) == 0)), "Incompatible alignment");
         T* t = *this;
         return *t;
       }
@@ -163,7 +163,7 @@ namespace tphn
       template <typename T>
       const T& get_reference() const
       {
-        TYPHOON_STATIC_ASSERT((tphn::is_same<T*, void*>:: value || ((ALIGNMENT % tphn::alignment_of<T>::value) == 0)), "Incompatible alignment");
+        TYPHOON_STATIC_ASSERT((tpn::is_same<T*, void*>:: value || ((ALIGNMENT % tpn::alignment_of<T>::value) == 0)), "Incompatible alignment");
         const T* t = *this;
         return *t;
       }
@@ -172,7 +172,7 @@ namespace tphn
       template <typename T>
       T* get_address()
       {
-        TYPHOON_STATIC_ASSERT((tphn::is_same<T*, void*>:: value || ((ALIGNMENT % tphn::alignment_of<T>::value) == 0)), "Incompatible alignment");
+        TYPHOON_STATIC_ASSERT((tpn::is_same<T*, void*>:: value || ((ALIGNMENT % tpn::alignment_of<T>::value) == 0)), "Incompatible alignment");
         return reinterpret_cast<T*>(data);
       }
 
@@ -180,7 +180,7 @@ namespace tphn
       template <typename T>
       const T* get_address() const
       {
-        TYPHOON_STATIC_ASSERT((tphn::is_same<T*, void*>:: value || ((ALIGNMENT % tphn::alignment_of<T>::value) == 0)), "Incompatible alignment");
+        TYPHOON_STATIC_ASSERT((tpn::is_same<T*, void*>:: value || ((ALIGNMENT % tpn::alignment_of<T>::value) == 0)), "Incompatible alignment");
         return reinterpret_cast<const T*>(data);
       }
 
@@ -190,7 +190,7 @@ namespace tphn
       union
       {
         char data[LENGTH];
-        typename tphn::type_with_alignment<ALIGNMENT>::type tphn_alignment_type; // A POD type that has the same alignment as ALIGNMENT.
+        typename tpn::type_with_alignment<ALIGNMENT>::type tpn_alignment_type; // A POD type that has the same alignment as ALIGNMENT.
       };
 #endif
     };
@@ -206,7 +206,7 @@ namespace tphn
   ///\ingroup alignment
   //***************************************************************************
   template <size_t LENGTH, typename T>
-  struct aligned_storage_as : public tphn::aligned_storage<LENGTH, tphn::alignment_of<T>::value>
+  struct aligned_storage_as : public tpn::aligned_storage<LENGTH, tpn::alignment_of<T>::value>
   {
   };
 

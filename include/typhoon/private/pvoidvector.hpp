@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2016 John Wellbelove
 
@@ -45,7 +45,7 @@ SOFTWARE.
 
 #include "minmax_push.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The base class for void* vectors.
@@ -65,7 +65,7 @@ namespace tphn
     typedef TYPHOON_OR_STD::reverse_iterator<iterator>       reverse_iterator;
     typedef TYPHOON_OR_STD::reverse_iterator<const_iterator> const_reverse_iterator;
     typedef size_t                                size_type;
-    typedef tphn::iterator_traits<iterator>::difference_type difference_type;
+    typedef tpn::iterator_traits<iterator>::difference_type difference_type;
 
   public:
 
@@ -206,7 +206,7 @@ namespace tphn
       // Size up if necessary.
       if (p_end < p_new_end)
       {
-        tphn::fill(p_end, p_new_end, value);       
+        tpn::fill(p_end, p_new_end, value);       
       }
 
       p_end = p_new_end;
@@ -245,7 +245,7 @@ namespace tphn
 
     //*********************************************************************
     /// Returns a reference to the value at index 'i'
-    /// If asserts or exceptions are enabled, emits an tphn::vector_out_of_bounds if the index is out of range.
+    /// If asserts or exceptions are enabled, emits an tpn::vector_out_of_bounds if the index is out of range.
     ///\param i The index.
     ///\return A reference to the value at index 'i'
     //*********************************************************************
@@ -257,7 +257,7 @@ namespace tphn
 
     //*********************************************************************
     /// Returns a const reference to the value at index 'i'
-    /// If asserts or exceptions are enabled, emits an tphn::vector_out_of_bounds if the index is out of range.
+    /// If asserts or exceptions are enabled, emits an tpn::vector_out_of_bounds if the index is out of range.
     ///\param i The index.
     ///\return A const reference to the value at index 'i'
     //*********************************************************************
@@ -329,11 +329,11 @@ namespace tphn
     ///\param last  The iterator to the last element + 1.
     //*********************************************************************
     template <typename TIterator>
-    typename tphn::enable_if<!tphn::is_pointer<TIterator>::value, void>::type
+    typename tpn::enable_if<!tpn::is_pointer<TIterator>::value, void>::type
       assign(TIterator first, TIterator last)
     {
 #if TYPHOON_IS_DEBUG_BUILD
-      difference_type d = tphn::distance(first, last);
+      difference_type d = tpn::distance(first, last);
       TYPHOON_ASSERT(static_cast<size_t>(d) <= CAPACITY, TYPHOON_ERROR(vector_full));
 #endif
 
@@ -354,11 +354,11 @@ namespace tphn
     ///\param last  The iterator to the last element + 1.
     //*********************************************************************
     template <typename TIterator>
-    typename tphn::enable_if<tphn::is_pointer<TIterator>::value, void>::type
+    typename tpn::enable_if<tpn::is_pointer<TIterator>::value, void>::type
       assign(TIterator first, TIterator last)
     {
 #if TYPHOON_IS_DEBUG_BUILD     
-      difference_type d = tphn::distance(first, last);
+      difference_type d = tpn::distance(first, last);
       TYPHOON_ASSERT(static_cast<size_t>(d) <= CAPACITY, TYPHOON_ERROR(vector_full));
 #endif
 
@@ -367,7 +367,7 @@ namespace tphn
       void** p_first = (void**)(first);
       void** p_last  = (void**)(last);
 
-      p_end = tphn::copy(p_first, p_last, p_buffer);
+      p_end = tpn::copy(p_first, p_last, p_buffer);
     }
 
     //*********************************************************************
@@ -382,7 +382,7 @@ namespace tphn
 
       initialise();
 
-      p_end = tphn::fill_n(p_buffer, n, value);
+      p_end = tpn::fill_n(p_buffer, n, value);
     }
 
     //*************************************************************************
@@ -446,7 +446,7 @@ namespace tphn
       if (position_ != end())
       {
         ++p_end;
-        tphn::copy_backward(position_, end() - 1, end());
+        tpn::copy_backward(position_, end() - 1, end());
         *position_ = value;
       }
       else
@@ -471,7 +471,7 @@ namespace tphn
       if (position_ != end())
       {
         ++p_end;
-        tphn::copy_backward(position_, end() - 1, end());
+        tpn::copy_backward(position_, end() - 1, end());
         *position_ = value;
       }
       else
@@ -495,8 +495,8 @@ namespace tphn
 
       iterator position_ = to_iterator(position);
 
-      tphn::copy_backward(position_, p_end, p_end + n);
-      tphn::fill_n(position_, n, value);
+      tpn::copy_backward(position_, p_end, p_end + n);
+      tpn::fill_n(position_, n, value);
 
       p_end += n;
     }
@@ -512,14 +512,14 @@ namespace tphn
     template <typename TIterator>
     void insert(const_iterator position, TIterator first, TIterator last)
     {
-      size_t count = tphn::distance(first, last);
+      size_t count = tpn::distance(first, last);
 
       iterator position_ = to_iterator(position);
 
       TYPHOON_ASSERT((size() + count) <= CAPACITY, TYPHOON_ERROR(vector_full));
 
-      tphn::copy_backward(position_, p_end, p_end + count);
-      tphn::copy(first, last, position_);
+      tpn::copy_backward(position_, p_end, p_end + count);
+      tpn::copy(first, last, position_);
       p_end += count;
     }
 
@@ -530,7 +530,7 @@ namespace tphn
     //*********************************************************************
     iterator erase(iterator i_element)
     {
-      tphn::copy(i_element + 1, end(), i_element);
+      tpn::copy(i_element + 1, end(), i_element);
       --p_end;
 
       return i_element;
@@ -545,7 +545,7 @@ namespace tphn
     {
       iterator i_element_ = to_iterator(i_element);
 
-      tphn::copy(i_element_ + 1, end(), i_element_);
+      tpn::copy(i_element_ + 1, end(), i_element_);
       --p_end;
 
       return i_element_;
@@ -564,8 +564,8 @@ namespace tphn
       iterator first_ = to_iterator(first);
       iterator last_  = to_iterator(last);
 
-      tphn::copy(last_, end(), first_);
-      size_t n_delete = tphn::distance(first, last);
+      tpn::copy(last_, end(), first_);
+      size_t n_delete = tpn::distance(first, last);
 
       // Just adjust the count.
       p_end -= n_delete;
@@ -576,13 +576,13 @@ namespace tphn
     //*************************************************************************
     /// Assignment operator.
     //*************************************************************************
-    tphn::pvoidvector& operator = (const tphn::pvoidvector& rhs)
+    tpn::pvoidvector& operator = (const tpn::pvoidvector& rhs)
     {
       if (&rhs != this)
       {
         this->initialise();
         this->resize(rhs.size());
-        tphn::copy_n(rhs.data(), rhs.size(), this->data());
+        tpn::copy_n(rhs.data(), rhs.size(), this->data());
       }
 
       return *this;
@@ -592,13 +592,13 @@ namespace tphn
     //*************************************************************************
     /// Move assignment operator.
     //*************************************************************************
-    tphn::pvoidvector& operator = (tphn::pvoidvector&& rhs)
+    tpn::pvoidvector& operator = (tpn::pvoidvector&& rhs)
     {
       if (&rhs != this)
       {
         this->initialise();
         this->resize(rhs.size());
-        tphn::copy_n(rhs.data(), rhs.size(), this->data());
+        tpn::copy_n(rhs.data(), rhs.size(), this->data());
         rhs.initialise();
       }
 
@@ -697,9 +697,9 @@ namespace tphn
   ///\return <b>true</b> if the arrays are equal, otherwise <b>false</b>
   ///\ingroup vector
   //***************************************************************************
-  inline bool operator ==(const tphn::pvoidvector& lhs, const tphn::pvoidvector& rhs)
+  inline bool operator ==(const tpn::pvoidvector& lhs, const tpn::pvoidvector& rhs)
   {
-    return (lhs.size() == rhs.size()) && tphn::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return (lhs.size() == rhs.size()) && tpn::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
   //***************************************************************************
@@ -709,7 +709,7 @@ namespace tphn
   ///\return <b>true</b> if the arrays are not equal, otherwise <b>false</b>
   ///\ingroup vector
   //***************************************************************************
-  inline bool operator !=(const tphn::pvoidvector& lhs, const tphn::pvoidvector& rhs)
+  inline bool operator !=(const tpn::pvoidvector& lhs, const tpn::pvoidvector& rhs)
   {
     return !(lhs == rhs);
   }
@@ -721,9 +721,9 @@ namespace tphn
   ///\return <b>true</b> if the first vector is lexicographically less than the second, otherwise <b>false</b>
   ///\ingroup vector
   //***************************************************************************
-  inline bool operator <(const tphn::pvoidvector& lhs, const tphn::pvoidvector& rhs)
+  inline bool operator <(const tpn::pvoidvector& lhs, const tpn::pvoidvector& rhs)
   {
-    return tphn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    return tpn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
   }
 
   //***************************************************************************
@@ -733,7 +733,7 @@ namespace tphn
   ///\return <b>true</b> if the first vector is lexicographically greater than the second, otherwise <b>false</b>
   ///\ingroup vector
   //***************************************************************************
-  inline bool operator >(const tphn::pvoidvector& lhs, const tphn::pvoidvector& rhs)
+  inline bool operator >(const tpn::pvoidvector& lhs, const tpn::pvoidvector& rhs)
   {
     return (rhs < lhs);
   }
@@ -745,7 +745,7 @@ namespace tphn
   ///\return <b>true</b> if the first vector is lexicographically less than or equal to the second, otherwise <b>false</b>
   ///\ingroup vector
   //***************************************************************************
-  inline bool operator <=(const tphn::pvoidvector& lhs, const tphn::pvoidvector& rhs)
+  inline bool operator <=(const tpn::pvoidvector& lhs, const tpn::pvoidvector& rhs)
   {
     return !(lhs > rhs);
   }
@@ -757,7 +757,7 @@ namespace tphn
   ///\return <b>true</b> if the first vector is lexicographically greater than or equal to the second, otherwise <b>false</b>
   ///\ingroup vector
   //***************************************************************************
-  inline bool operator >=(const tphn::pvoidvector& lhs, const tphn::pvoidvector& rhs)
+  inline bool operator >=(const tpn::pvoidvector& lhs, const tpn::pvoidvector& rhs)
   {
     return !(lhs < rhs);
   }

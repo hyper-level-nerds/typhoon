@@ -2,8 +2,8 @@
 //The MIT License(MIT)
 //
 //Embedded Template Library.
-//https://github.com/TYPHOONCPP/tphn
-//https://www.tphncpp.com
+//https://github.com/TYPHOONCPP/tpn
+//https://www.tpncpp.com
 //
 //Copyright(c) 2021 John Wellbelove
 //
@@ -35,14 +35,14 @@
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
 
   //***************************************************************************
   /// Exceptions for reference counting
   ///\ingroup reference_counting
   //***************************************************************************
-  class reference_counting_exception : public tphn::exception
+  class reference_counting_exception : public tpn::exception
   {
   public:
     reference_counting_exception(string_type reason_, string_type file_name_, numeric_type line_number_)
@@ -55,11 +55,11 @@ namespace tphn
   /// Reference counter overrun exception
   ///\ingroup reference_counting
   //***************************************************************************
-  class reference_count_overrun : public tphn::reference_counting_exception
+  class reference_count_overrun : public tpn::reference_counting_exception
   {
   public:
     reference_count_overrun(string_type file_name_, numeric_type line_number_)
-      : tphn::reference_counting_exception(TYPHOON_ERROR_TEXT("reference_counting:overrun", TYPHOON_REFERENCE_COUNTED_OBJECT_FILE_ID"A"), file_name_, line_number_)
+      : tpn::reference_counting_exception(TYPHOON_ERROR_TEXT("reference_counting:overrun", TYPHOON_REFERENCE_COUNTED_OBJECT_FILE_ID"A"), file_name_, line_number_)
     {
     }
   };
@@ -200,7 +200,7 @@ namespace tphn
   /// \tparam TCounter The type to use as the counter.
   //***************************************************************************
   template <typename TObject, typename TCounter>
-  class reference_counted_object : public tphn::ireference_counted_object
+  class reference_counted_object : public tpn::ireference_counted_object
   {
   public:
 
@@ -262,7 +262,7 @@ namespace tphn
     reference_counted_object& operator =(const reference_counted_object&) TYPHOON_DELETE;
         
     TObject object;                                     ///< The object being reference counted.
-    tphn::reference_counter<TCounter> reference_counter; ///< The reference counter.
+    tpn::reference_counter<TCounter> reference_counter; ///< The reference counter.
   };
 
 #if TYPHOON_USING_CPP11 && TYPHOON_HAS_ATOMIC
@@ -271,7 +271,7 @@ namespace tphn
   /// \tparam TObject  The type to be reference counted.
   //***************************************************************************
   template <typename TObject>
-  using atomic_counted_object = tphn::reference_counted_object<TObject, tphn::atomic_int32_t>;
+  using atomic_counted_object = tpn::reference_counted_object<TObject, tpn::atomic_int32_t>;
 #endif
 }
 

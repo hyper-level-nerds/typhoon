@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2020 John Wellbelove
 
@@ -37,12 +37,12 @@ SOFTWARE.
 #include "exception.hpp"
 #include "error_handler.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Exception for the multi_range.
   //***************************************************************************
-  class multi_range_exception : public tphn::exception
+  class multi_range_exception : public tpn::exception
   {
   public:
 
@@ -55,12 +55,12 @@ namespace tphn
   //***************************************************************************
   /// Circular reference exception.
   //***************************************************************************
-  class multi_range_circular_reference : public tphn::multi_range_exception
+  class multi_range_circular_reference : public tpn::multi_range_exception
   {
   public:
 
     multi_range_circular_reference(string_type file_name_, numeric_type line_number_)
-      : tphn::multi_range_exception(TYPHOON_ERROR_TEXT("multi_range:circular reference", TYPHOON_MULTI_LOOP_FILE_ID"A"), file_name_, line_number_)
+      : tpn::multi_range_exception(TYPHOON_ERROR_TEXT("multi_range:circular reference", TYPHOON_MULTI_LOOP_FILE_ID"A"), file_name_, line_number_)
     {
     }
   };
@@ -336,7 +336,7 @@ namespace tphn
 
       virtual bool operator()(const value_type& current, const value_type& last) const TYPHOON_OVERRIDE
       {
-        return tphn::not_equal_to<value_type>()(current, last);
+        return tpn::not_equal_to<value_type>()(current, last);
       }
     };
 
@@ -349,7 +349,7 @@ namespace tphn
 
       virtual bool operator()(const value_type& current, const value_type& last) const TYPHOON_OVERRIDE
       {
-        return tphn::less<value_type>()(current, last);
+        return tpn::less<value_type>()(current, last);
       }
     };
 
@@ -362,7 +362,7 @@ namespace tphn
 
       virtual bool operator()(const value_type& current, const value_type& last) const TYPHOON_OVERRIDE
       {
-        return tphn::greater<value_type>()(current, last);
+        return tpn::greater<value_type>()(current, last);
       }
     };
 

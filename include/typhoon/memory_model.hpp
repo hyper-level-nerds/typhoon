@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2018 John Wellbelove
 
@@ -37,7 +37,7 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   TYPHOON_DECLARE_USER_TYPE(memory_model, int)
   TYPHOON_USER_TYPE(MEMORY_MODEL_SMALL,  0)
@@ -50,25 +50,25 @@ namespace tphn
   struct size_type_lookup;
 
   template <>
-  struct size_type_lookup<tphn::memory_model::MEMORY_MODEL_SMALL>
+  struct size_type_lookup<tpn::memory_model::MEMORY_MODEL_SMALL>
   {
     typedef uint_least8_t type;
   };
 
   template <>
-  struct size_type_lookup<tphn::memory_model::MEMORY_MODEL_MEDIUM>
+  struct size_type_lookup<tpn::memory_model::MEMORY_MODEL_MEDIUM>
   {
     typedef uint_least16_t type;
   };
 
   template <>
-  struct size_type_lookup<tphn::memory_model::MEMORY_MODEL_LARGE>
+  struct size_type_lookup<tpn::memory_model::MEMORY_MODEL_LARGE>
   {
     typedef uint_least32_t type;
   };
 
   template <>
-  struct size_type_lookup<tphn::memory_model::MEMORY_MODEL_HUGE>
+  struct size_type_lookup<tpn::memory_model::MEMORY_MODEL_HUGE>
   {
     typedef uint_least64_t type;
   };

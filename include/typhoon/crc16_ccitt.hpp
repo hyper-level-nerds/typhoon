@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -37,14 +37,14 @@ SOFTWARE.
 ///\defgroup crc16_ccitt 16 bit CRC calculation
 ///\ingroup crc
 
-namespace tphn
+namespace tpn
 {
 #if TYPHOON_USING_CPP11 && !defined(TYPHOON_CRC_FORCE_CPP03_IMPLEMENTATION)
   template <size_t Table_Size>
-  using crc16_ccitt_t = tphn::crc_type<tphn::private_crc::crc16_ccitt_parameters, Table_Size>;
+  using crc16_ccitt_t = tpn::crc_type<tpn::private_crc::crc16_ccitt_parameters, Table_Size>;
 #else
   template <size_t Table_Size>
-  class crc16_ccitt_t : public tphn::crc_type<tphn::private_crc::crc16_ccitt_parameters, Table_Size>
+  class crc16_ccitt_t : public tpn::crc_type<tpn::private_crc::crc16_ccitt_parameters, Table_Size>
   {
   public:
 
@@ -70,9 +70,9 @@ namespace tphn
   };
 #endif
 
-  typedef tphn::crc16_ccitt_t<256U> crc16_ccitt_t256;
-  typedef tphn::crc16_ccitt_t<16U>  crc16_ccitt_t16;
-  typedef tphn::crc16_ccitt_t<4U>   crc16_ccitt_t4;
+  typedef tpn::crc16_ccitt_t<256U> crc16_ccitt_t256;
+  typedef tpn::crc16_ccitt_t<16U>  crc16_ccitt_t16;
+  typedef tpn::crc16_ccitt_t<4U>   crc16_ccitt_t4;
   typedef crc16_ccitt_t256         crc16_ccitt;
 }
 #endif

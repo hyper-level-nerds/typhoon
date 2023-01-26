@@ -3,8 +3,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2022 John Wellbelove
 
@@ -45,7 +45,7 @@ SOFTWARE.
 #include "absolute.hpp"
 #include "expected.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Status values for to_arithmetic.
@@ -81,8 +81,8 @@ namespace tphn
   public:
 
     typedef TValue                                     value_type;
-    typedef tphn::to_arithmetic_status                  error_type;
-    typedef tphn::unexpected<tphn::to_arithmetic_status> unexpected_type;
+    typedef tpn::to_arithmetic_status                  error_type;
+    typedef tpn::unexpected<tpn::to_arithmetic_status> unexpected_type;
 
     //*******************************************
     /// Default constructor.
@@ -160,7 +160,7 @@ namespace tphn
     TYPHOON_CONSTEXPR14
     error_type error() const
     {
-      return tphn::to_arithmetic_status(conversion_status.error());
+      return tpn::to_arithmetic_status(conversion_status.error());
     }
 
     //*******************************************
@@ -203,29 +203,29 @@ namespace tphn
     TYPHOON_NODISCARD
     inline
     TYPHOON_CONSTEXPR14
-    bool is_valid(char c, tphn::radix::value_type radix)
+    bool is_valid(char c, tpn::radix::value_type radix)
     {
       switch (radix)
       {
-        case tphn::radix::binary:
+        case tpn::radix::binary:
         {
           return (c >= '0') && (c <= '1');
           break;
         }
 
-        case tphn::radix::octal:
+        case tpn::radix::octal:
         {
           return (c >= '0') && (c <= '7');
           break;
         }
 
-        case tphn::radix::decimal:
+        case tpn::radix::decimal:
         {
           return (c >= '0') && (c <= '9');
           break;
         }
 
-        case tphn::radix::hex:
+        case tpn::radix::hex:
         {
           return ((c >= '0') && (c <= '9')) || ((c >= 'a') && (c <= 'f'));
           break;
@@ -243,19 +243,19 @@ namespace tphn
     TYPHOON_NODISCARD
     inline
     TYPHOON_CONSTEXPR14
-    char digit_value(char c, tphn::radix::value_type radix)
+    char digit_value(char c, tpn::radix::value_type radix)
     {
       switch (radix)
       {
-        case tphn::radix::binary:
-        case tphn::radix::octal:
-        case tphn::radix::decimal:
+        case tpn::radix::binary:
+        case tpn::radix::octal:
+        case tpn::radix::decimal:
         {
           return c - '0';
           break;
         }
 
-        case tphn::radix::hex:
+        case tpn::radix::hex:
         {
           if ((c >= '0') && (c <= '9'))
           {
@@ -306,7 +306,7 @@ namespace tphn
     template <typename TChar>
     TYPHOON_NODISCARD
     TYPHOON_CONSTEXPR14
-    bool check_and_remove_sign_prefix(tphn::basic_string_view<TChar>& view)
+    bool check_and_remove_sign_prefix(tpn::basic_string_view<TChar>& view)
     {
       if (!view.empty())
       {
@@ -332,12 +332,12 @@ namespace tphn
     TYPHOON_NODISCARD
     inline
     TYPHOON_CONSTEXPR14
-    bool is_valid_radix(const tphn::radix::value_type radix)
+    bool is_valid_radix(const tpn::radix::value_type radix)
     {
-      return (radix == tphn::radix::binary)  ||
-             (radix == tphn::radix::octal)   ||
-             (radix == tphn::radix::decimal) ||
-             (radix == tphn::radix::hex);
+      return (radix == tpn::radix::binary)  ||
+             (radix == tpn::radix::octal)   ||
+             (radix == tpn::radix::decimal) ||
+             (radix == tpn::radix::hex);
     }
 
     //***************************************************************************
@@ -348,7 +348,7 @@ namespace tphn
     {
       //*********************************
       TYPHOON_CONSTEXPR14
-      integral_accumulator(tphn::radix::value_type radix_, TValue maximum_)
+      integral_accumulator(tpn::radix::value_type radix_, TValue maximum_)
         : radix(radix_)
         , maximum(maximum_)
         , integral_value(0)
@@ -428,7 +428,7 @@ namespace tphn
 
     private:
 
-      tphn::radix::value_type radix;
+      tpn::radix::value_type radix;
       TValue maximum;
       TValue integral_value;
       to_arithmetic_status conversion_status;
@@ -482,9 +482,9 @@ namespace tphn
               expecting_sign = true;
               state = Parsing_Exponential;
             }
-            else if (is_valid(c, tphn::radix::decimal))
+            else if (is_valid(c, tpn::radix::decimal))
             {
-              const char digit = digit_value(c, tphn::radix::decimal);
+              const char digit = digit_value(c, tpn::radix::decimal);
               floating_point_value *= 10;
               is_negative_mantissa ? floating_point_value -= digit : floating_point_value += digit;
               conversion_status = to_arithmetic_status::Valid;
@@ -513,9 +513,9 @@ namespace tphn
               expecting_sign = true;
               state = Parsing_Exponential;
             }
-            else if (is_valid(c, tphn::radix::decimal))
+            else if (is_valid(c, tpn::radix::decimal))
             {
-              const char digit = digit_value(c, tphn::radix::decimal);
+              const char digit = digit_value(c, tpn::radix::decimal);
               divisor *= 10;
               long double fraction = digit / divisor;
               is_negative_mantissa ? floating_point_value -= fraction : floating_point_value += fraction;
@@ -543,10 +543,10 @@ namespace tphn
               conversion_status = to_arithmetic_status::Invalid_Format;
               is_success = false;
             }
-            else if (is_valid(c, tphn::radix::decimal))
+            else if (is_valid(c, tpn::radix::decimal))
             {
-              const char digit = digit_value(c, tphn::radix::decimal);
-              exponent_value *= tphn::radix::decimal;
+              const char digit = digit_value(c, tpn::radix::decimal);
+              exponent_value *= tpn::radix::decimal;
               is_negative_exponent ? exponent_value -= digit : exponent_value += digit;
             }
             else
@@ -657,15 +657,15 @@ namespace tphn
     template <typename TChar, typename TAccumulatorType>
     TYPHOON_NODISCARD
     TYPHOON_CONSTEXPR14
-    tphn::to_arithmetic_result<TAccumulatorType> to_arithmetic_integral(const tphn::basic_string_view<TChar>& view,
-                                                                       const tphn::radix::value_type         radix,
+    tpn::to_arithmetic_result<TAccumulatorType> to_arithmetic_integral(const tpn::basic_string_view<TChar>& view,
+                                                                       const tpn::radix::value_type         radix,
                                                                        const TAccumulatorType               maximum)
     {
-      tphn::to_arithmetic_result<TAccumulatorType>   accumulator_result;
-      typedef typename tphn::unexpected<tphn::to_arithmetic_status> unexpected_type;
+      tpn::to_arithmetic_result<TAccumulatorType>   accumulator_result;
+      typedef typename tpn::unexpected<tpn::to_arithmetic_status> unexpected_type;
 
-      typename tphn::basic_string_view<TChar>::const_iterator       itr     = view.begin();
-      const typename tphn::basic_string_view<TChar>::const_iterator itr_end = view.end();
+      typename tpn::basic_string_view<TChar>::const_iterator       itr     = view.begin();
+      const typename tpn::basic_string_view<TChar>::const_iterator itr_end = view.end();
 
       integral_accumulator<TAccumulatorType> accumulator(radix, maximum);
 
@@ -694,13 +694,13 @@ namespace tphn
   template <typename TValue, typename TChar>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14
-  typename tphn::enable_if<tphn::is_integral<TValue>::value, tphn::to_arithmetic_result<TValue> >::type
-    to_arithmetic(tphn::basic_string_view<TChar> view,
-                  const tphn::radix::value_type  radix)
+  typename tpn::enable_if<tpn::is_integral<TValue>::value, tpn::to_arithmetic_result<TValue> >::type
+    to_arithmetic(tpn::basic_string_view<TChar> view,
+                  const tpn::radix::value_type  radix)
   {
-    using namespace tphn::private_to_arithmetic;
+    using namespace tpn::private_to_arithmetic;
 
-    typedef tphn::to_arithmetic_result<TValue>     result_type;
+    typedef tpn::to_arithmetic_result<TValue>     result_type;
     typedef typename result_type::unexpected_type unexpected_type;
 
     result_type result;    
@@ -717,34 +717,34 @@ namespace tphn
       else
       {
         // Make sure we're not trying to put a negative value into an unsigned type.
-        if (is_negative && tphn::is_unsigned<TValue>::value)
+        if (is_negative && tpn::is_unsigned<TValue>::value)
         {
           result = unexpected_type(to_arithmetic_status::Signed_To_Unsigned);
         }
         else
         {
-          const bool is_decimal = (radix == tphn::radix::decimal);
+          const bool is_decimal = (radix == tpn::radix::decimal);
 
           // Select the type we use for the accumulator.
-          typedef typename accumulator_type_select<tphn::integral_limits<TValue>::bits>::type accumulator_type;
+          typedef typename accumulator_type_select<tpn::integral_limits<TValue>::bits>::type accumulator_type;
 
           // Find the maximum absolute value for the type value we're trying to convert to.
-          const accumulator_type maximum = is_negative ? tphn::absolute_unsigned(tphn::integral_limits<TValue>::min)
-                                                       : is_decimal ? tphn::integral_limits<TValue>::max
-                                                                    : tphn::integral_limits<typename tphn::make_unsigned<TValue>::type>::max;
+          const accumulator_type maximum = is_negative ? tpn::absolute_unsigned(tpn::integral_limits<TValue>::min)
+                                                       : is_decimal ? tpn::integral_limits<TValue>::max
+                                                                    : tpn::integral_limits<typename tpn::make_unsigned<TValue>::type>::max;
           // Do the conversion.
-          tphn::to_arithmetic_result<accumulator_type> accumulator_result = to_arithmetic_integral<TChar>(view, radix, maximum);
+          tpn::to_arithmetic_result<accumulator_type> accumulator_result = to_arithmetic_integral<TChar>(view, radix, maximum);
 
           result = unexpected_type(accumulator_result.error());
 
           // Was it successful?
           if (accumulator_result.has_value())
           {
-            typedef typename tphn::make_unsigned<TValue>::type uvalue_t;
+            typedef typename tpn::make_unsigned<TValue>::type uvalue_t;
             const uvalue_t uvalue = static_cast<uvalue_t>(accumulator_result.value());
 
             // Convert from the accumulator type to the desired type.
-            result = (is_negative ? static_cast<TValue>(0) - uvalue : tphn::bit_cast<TValue>(uvalue));
+            result = (is_negative ? static_cast<TValue>(0) - uvalue : tpn::bit_cast<TValue>(uvalue));
           }
         }
       }
@@ -763,10 +763,10 @@ namespace tphn
   template <typename TValue, typename TChar>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14
-  typename tphn::enable_if<tphn::is_integral<TValue>::value, tphn::to_arithmetic_result<TValue> >::type
-    to_arithmetic(const tphn::basic_string_view<TChar>& view)
+  typename tpn::enable_if<tpn::is_integral<TValue>::value, tpn::to_arithmetic_result<TValue> >::type
+    to_arithmetic(const tpn::basic_string_view<TChar>& view)
   {
-    return tphn::to_arithmetic<TValue, TChar>(view, tphn::radix::decimal);
+    return tpn::to_arithmetic<TValue, TChar>(view, tpn::radix::decimal);
   }
 
   //***************************************************************************
@@ -775,10 +775,10 @@ namespace tphn
   template <typename TValue, typename TChar>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14 
-  typename tphn::enable_if<tphn::is_integral<TValue>::value, tphn::to_arithmetic_result<TValue> >::type
-    to_arithmetic(const tphn::basic_string_view<TChar>& view, const typename tphn::private_basic_format_spec::base_spec& spec)
+  typename tpn::enable_if<tpn::is_integral<TValue>::value, tpn::to_arithmetic_result<TValue> >::type
+    to_arithmetic(const tpn::basic_string_view<TChar>& view, const typename tpn::private_basic_format_spec::base_spec& spec)
   {
-    return tphn::to_arithmetic<TValue, TChar>(view, spec.base);
+    return tpn::to_arithmetic<TValue, TChar>(view, spec.base);
   }
 
   //***************************************************************************
@@ -787,10 +787,10 @@ namespace tphn
   template <typename TValue, typename TChar>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14
-  typename tphn::enable_if<tphn::is_integral<TValue>::value, tphn::to_arithmetic_result<TValue> >::type
-    to_arithmetic(const TChar* cp, size_t length, const tphn::radix::value_type radix)
+  typename tpn::enable_if<tpn::is_integral<TValue>::value, tpn::to_arithmetic_result<TValue> >::type
+    to_arithmetic(const TChar* cp, size_t length, const tpn::radix::value_type radix)
   {
-    return tphn::to_arithmetic<TValue, TChar>(tphn::basic_string_view<TChar>(cp, length), radix);
+    return tpn::to_arithmetic<TValue, TChar>(tpn::basic_string_view<TChar>(cp, length), radix);
   }
 
   //***************************************************************************
@@ -799,10 +799,10 @@ namespace tphn
   template <typename TValue, typename TChar>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14 
-  typename tphn::enable_if<tphn::is_integral<TValue>::value, tphn::to_arithmetic_result<TValue> >::type
+  typename tpn::enable_if<tpn::is_integral<TValue>::value, tpn::to_arithmetic_result<TValue> >::type
     to_arithmetic(const TChar* cp, size_t length)
   {
-    return tphn::to_arithmetic<TValue, TChar>(tphn::basic_string_view<TChar>(cp, length), tphn::radix::decimal);
+    return tpn::to_arithmetic<TValue, TChar>(tpn::basic_string_view<TChar>(cp, length), tpn::radix::decimal);
   }
 
   //***************************************************************************
@@ -811,10 +811,10 @@ namespace tphn
   template <typename TValue, typename TChar>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14 
-  typename tphn::enable_if<tphn::is_integral<TValue>::value, tphn::to_arithmetic_result<TValue> >::type
-    to_arithmetic(const TChar* cp, size_t length, const typename tphn::private_basic_format_spec::base_spec& spec)
+  typename tpn::enable_if<tpn::is_integral<TValue>::value, tpn::to_arithmetic_result<TValue> >::type
+    to_arithmetic(const TChar* cp, size_t length, const typename tpn::private_basic_format_spec::base_spec& spec)
   {
-    return tphn::to_arithmetic<TValue, TChar>(tphn::basic_string_view<TChar>(cp, length), spec.base);
+    return tpn::to_arithmetic<TValue, TChar>(tpn::basic_string_view<TChar>(cp, length), spec.base);
   }
 
   //***************************************************************************
@@ -823,10 +823,10 @@ namespace tphn
   template <typename TValue, typename TChar>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14 
-  typename tphn::enable_if<tphn::is_integral<TValue>::value, tphn::to_arithmetic_result<TValue> >::type
-    to_arithmetic(const tphn::ibasic_string<TChar>& str, const tphn::radix::value_type radix)
+  typename tpn::enable_if<tpn::is_integral<TValue>::value, tpn::to_arithmetic_result<TValue> >::type
+    to_arithmetic(const tpn::ibasic_string<TChar>& str, const tpn::radix::value_type radix)
   {
-    return tphn::to_arithmetic<TValue, TChar>(tphn::basic_string_view<TChar>(str), radix);;
+    return tpn::to_arithmetic<TValue, TChar>(tpn::basic_string_view<TChar>(str), radix);;
   }
 
   //***************************************************************************
@@ -835,10 +835,10 @@ namespace tphn
   template <typename TValue, typename TChar>
   TYPHOON_NODISCARD
     TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<TValue>::value, tphn::to_arithmetic_result<TValue> >::type
-    to_arithmetic(const tphn::ibasic_string<TChar>& str)
+    typename tpn::enable_if<tpn::is_integral<TValue>::value, tpn::to_arithmetic_result<TValue> >::type
+    to_arithmetic(const tpn::ibasic_string<TChar>& str)
   {
-    return tphn::to_arithmetic<TValue, TChar>(tphn::basic_string_view<TChar>(str), tphn::radix::decimal);;
+    return tpn::to_arithmetic<TValue, TChar>(tpn::basic_string_view<TChar>(str), tpn::radix::decimal);;
   }
 
   //***************************************************************************
@@ -847,10 +847,10 @@ namespace tphn
   template <typename TValue, typename TChar>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14 
-  typename tphn::enable_if<tphn::is_integral<TValue>::value, tphn::to_arithmetic_result<TValue> >::type
-    to_arithmetic(const tphn::ibasic_string<TChar>& str, const typename tphn::private_basic_format_spec::base_spec& spec)
+  typename tpn::enable_if<tpn::is_integral<TValue>::value, tpn::to_arithmetic_result<TValue> >::type
+    to_arithmetic(const tpn::ibasic_string<TChar>& str, const typename tpn::private_basic_format_spec::base_spec& spec)
   {
-    return tphn::to_arithmetic<TValue, TChar>(tphn::basic_string_view<TChar>(str), spec);;
+    return tpn::to_arithmetic<TValue, TChar>(tpn::basic_string_view<TChar>(str), spec);;
   }
 
   //***************************************************************************
@@ -859,12 +859,12 @@ namespace tphn
   template <typename TValue, typename TChar>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14 
-  typename tphn::enable_if<tphn::is_floating_point<TValue>::value, tphn::to_arithmetic_result<TValue> >::type
-    to_arithmetic(tphn::basic_string_view<TChar> view)
+  typename tpn::enable_if<tpn::is_floating_point<TValue>::value, tpn::to_arithmetic_result<TValue> >::type
+    to_arithmetic(tpn::basic_string_view<TChar> view)
   {
-    using namespace tphn::private_to_arithmetic;
+    using namespace tpn::private_to_arithmetic;
 
-    typedef tphn::to_arithmetic_result<TValue>     result_type;
+    typedef tpn::to_arithmetic_result<TValue>     result_type;
     typedef typename result_type::unexpected_type unexpected_type;
 
     result_type result;
@@ -877,8 +877,8 @@ namespace tphn
     {
       floating_point_accumulator accumulator;
 
-      typename tphn::basic_string_view<TChar>::const_iterator itr           = view.begin();
-      const typename tphn::basic_string_view<TChar>::const_iterator itr_end = view.end();
+      typename tpn::basic_string_view<TChar>::const_iterator itr           = view.begin();
+      const typename tpn::basic_string_view<TChar>::const_iterator itr_end = view.end();
 
       while ((itr != itr_end) && accumulator.add(convert(*itr)))
       {
@@ -896,8 +896,8 @@ namespace tphn
         value *= pow(static_cast<TValue>(10.0), static_cast<TValue>(exponent));
 
         // Check that the result is a valid floating point number.
-        if ((value == tphn::numeric_limits<TValue>::infinity()) ||
-            (value == -tphn::numeric_limits<TValue>::infinity()))
+        if ((value == tpn::numeric_limits<TValue>::infinity()) ||
+            (value == -tpn::numeric_limits<TValue>::infinity()))
         {
           result = unexpected_type(to_arithmetic_status::Overflow);
         }
@@ -922,10 +922,10 @@ namespace tphn
   template <typename TValue, typename TChar>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14 
-  typename tphn::enable_if<tphn::is_floating_point<TValue>::value, tphn::to_arithmetic_result<TValue> >::type
+  typename tpn::enable_if<tpn::is_floating_point<TValue>::value, tpn::to_arithmetic_result<TValue> >::type
     to_arithmetic(const TChar* cp, size_t length)
   {
-    return tphn::to_arithmetic<TValue, TChar>(tphn::basic_string_view<TChar>(cp, length));
+    return tpn::to_arithmetic<TValue, TChar>(tpn::basic_string_view<TChar>(cp, length));
   }
 
   //***************************************************************************
@@ -934,10 +934,10 @@ namespace tphn
   template <typename TValue, typename TChar>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14
-  typename tphn::enable_if<tphn::is_floating_point<TValue>::value, tphn::to_arithmetic_result<TValue> >::type
+  typename tpn::enable_if<tpn::is_floating_point<TValue>::value, tpn::to_arithmetic_result<TValue> >::type
     to_arithmetic(const TChar* cp)
   {
-    return tphn::to_arithmetic<TValue, TChar>(tphn::basic_string_view<TChar>(cp, tphn::strlen<TChar>(cp)));
+    return tpn::to_arithmetic<TValue, TChar>(tpn::basic_string_view<TChar>(cp, tpn::strlen<TChar>(cp)));
   }
 
   //***************************************************************************
@@ -946,18 +946,18 @@ namespace tphn
   template <typename TValue, typename TChar>
   TYPHOON_NODISCARD
   TYPHOON_CONSTEXPR14 
-  typename tphn::enable_if<tphn::is_floating_point<TValue>::value, tphn::to_arithmetic_result<TValue> >::type
-    to_arithmetic(const tphn::ibasic_string<TChar>& str)
+  typename tpn::enable_if<tpn::is_floating_point<TValue>::value, tpn::to_arithmetic_result<TValue> >::type
+    to_arithmetic(const tpn::ibasic_string<TChar>& str)
   {
-    return tphn::to_arithmetic<TValue, TChar>(tphn::basic_string_view<TChar>(str));
+    return tpn::to_arithmetic<TValue, TChar>(tpn::basic_string_view<TChar>(str));
   }
 }
 
 //***************************************************************************
-/// Equality test for tphn::to_arithmetic_result
+/// Equality test for tpn::to_arithmetic_result
 //***************************************************************************
 template <typename T>
-TYPHOON_CONSTEXPR14 bool operator ==(const tphn::to_arithmetic_result<T>& lhs, const tphn::to_arithmetic_result<T>& rhs)
+TYPHOON_CONSTEXPR14 bool operator ==(const tpn::to_arithmetic_result<T>& lhs, const tpn::to_arithmetic_result<T>& rhs)
 {
   if (lhs.has_value() && rhs.has_value())
   {
@@ -970,46 +970,46 @@ TYPHOON_CONSTEXPR14 bool operator ==(const tphn::to_arithmetic_result<T>& lhs, c
 }
 
 //***************************************************************************
-/// Equality test for tphn::to_arithmetic_result
+/// Equality test for tpn::to_arithmetic_result
 //***************************************************************************
 template <typename T, typename U>
-TYPHOON_CONSTEXPR14 bool operator ==(const tphn::to_arithmetic_result<T>& lhs, const U& rhs)
+TYPHOON_CONSTEXPR14 bool operator ==(const tpn::to_arithmetic_result<T>& lhs, const U& rhs)
 {
   return bool(lhs) ? lhs.value() == rhs : false;
 }
 
 //***************************************************************************
-/// Equality test for tphn::to_arithmetic_result
+/// Equality test for tpn::to_arithmetic_result
 //***************************************************************************
 template <typename T, typename U>
-TYPHOON_CONSTEXPR14 bool operator ==(const T& lhs, const tphn::to_arithmetic_result<U>& rhs)
+TYPHOON_CONSTEXPR14 bool operator ==(const T& lhs, const tpn::to_arithmetic_result<U>& rhs)
 {
   return bool(rhs) ? rhs.value() == lhs : false;
 }
 
 //***************************************************************************
-/// Inequality test for tphn::to_arithmetic_result
+/// Inequality test for tpn::to_arithmetic_result
 //***************************************************************************
 template <typename T>
-TYPHOON_CONSTEXPR14 bool operator !=(const tphn::to_arithmetic_result<T>& lhs, const tphn::to_arithmetic_result<T>& rhs)
+TYPHOON_CONSTEXPR14 bool operator !=(const tpn::to_arithmetic_result<T>& lhs, const tpn::to_arithmetic_result<T>& rhs)
 {
   return !(lhs == rhs);
 }
 
 //***************************************************************************
-/// Inequality test for tphn::to_arithmetic_result
+/// Inequality test for tpn::to_arithmetic_result
 //***************************************************************************
 template <typename T, typename U>
-TYPHOON_CONSTEXPR14 bool operator !=(const tphn::to_arithmetic_result<T>& lhs, const U& rhs)
+TYPHOON_CONSTEXPR14 bool operator !=(const tpn::to_arithmetic_result<T>& lhs, const U& rhs)
 {
   return !(lhs == rhs);
 }
 
 //***************************************************************************
-/// Inequality test for tphn::to_arithmetic_result
+/// Inequality test for tpn::to_arithmetic_result
 //***************************************************************************
 template <typename T, typename U>
-TYPHOON_CONSTEXPR14 bool operator !=(const T& lhs, const tphn::to_arithmetic_result<T>& rhs)
+TYPHOON_CONSTEXPR14 bool operator !=(const T& lhs, const tpn::to_arithmetic_result<T>& rhs)
 {
   return !(lhs == rhs);
 }

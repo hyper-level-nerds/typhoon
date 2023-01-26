@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -75,7 +75,7 @@ SOFTWARE.
   #endif
 #endif
 
-namespace tphn
+namespace tpn
 {
   //*************************************************************************
   /// The configuration of a timer.
@@ -86,30 +86,30 @@ namespace tphn
       : p_message(TYPHOON_NULLPTR),
         p_router(TYPHOON_NULLPTR),
         period(0),
-        delta(tphn::timer::state::INACTIVE),
-        destination_router_id(tphn::imessage_bus::ALL_MESSAGE_ROUTERS),
-        id(tphn::timer::id::NO_TIMER),
-        previous(tphn::timer::id::NO_TIMER),
-        next(tphn::timer::id::NO_TIMER),
+        delta(tpn::timer::state::INACTIVE),
+        destination_router_id(tpn::imessage_bus::ALL_MESSAGE_ROUTERS),
+        id(tpn::timer::id::NO_TIMER),
+        previous(tpn::timer::id::NO_TIMER),
+        next(tpn::timer::id::NO_TIMER),
         repeating(true)
     {
     }
 
     //*******************************************
-    message_timer_data(tphn::timer::id::type     id_,
-                       const tphn::imessage&     message_,
-                       tphn::imessage_router&    irouter_,
+    message_timer_data(tpn::timer::id::type     id_,
+                       const tpn::imessage&     message_,
+                       tpn::imessage_router&    irouter_,
                        uint32_t                 period_,
                        bool                     repeating_,
-                       tphn::message_router_id_t destination_router_id_ = tphn::imessage_bus::ALL_MESSAGE_ROUTERS)
+                       tpn::message_router_id_t destination_router_id_ = tpn::imessage_bus::ALL_MESSAGE_ROUTERS)
       : p_message(&message_),
         p_router(&irouter_),
         period(period_),
-        delta(tphn::timer::state::INACTIVE),
+        delta(tpn::timer::state::INACTIVE),
         destination_router_id(destination_router_id_),
         id(id_),
-        previous(tphn::timer::id::NO_TIMER),
-        next(tphn::timer::id::NO_TIMER),
+        previous(tpn::timer::id::NO_TIMER),
+        next(tpn::timer::id::NO_TIMER),
         repeating(repeating_)
     {
     }
@@ -119,7 +119,7 @@ namespace tphn
     //*******************************************
     bool is_active() const
     {
-      return delta != tphn::timer::state::INACTIVE;
+      return delta != tpn::timer::state::INACTIVE;
     }
 
     //*******************************************
@@ -127,15 +127,15 @@ namespace tphn
     //*******************************************
     void set_inactive()
     {
-      delta = tphn::timer::state::INACTIVE;
+      delta = tpn::timer::state::INACTIVE;
     }
 
-    const tphn::imessage*     p_message;
-    tphn::imessage_router*    p_router;
+    const tpn::imessage*     p_message;
+    tpn::imessage_router*    p_router;
     uint32_t                 period;
     uint32_t                 delta;
-    tphn::message_router_id_t destination_router_id;
-    tphn::timer::id::type     id;
+    tpn::message_router_id_t destination_router_id;
+    tpn::timer::id::type     id;
     uint_least8_t            previous;
     uint_least8_t            next;
     bool                     repeating;
@@ -157,10 +157,10 @@ namespace tphn
     public:
 
       //*******************************
-      list(tphn::message_timer_data* ptimers_)
-        : head(tphn::timer::id::NO_TIMER),
-          tail(tphn::timer::id::NO_TIMER),
-          current(tphn::timer::id::NO_TIMER),
+      list(tpn::message_timer_data* ptimers_)
+        : head(tpn::timer::id::NO_TIMER),
+          tail(tpn::timer::id::NO_TIMER),
+          current(tpn::timer::id::NO_TIMER),
           ptimers(ptimers_)
       {
       }
@@ -168,32 +168,32 @@ namespace tphn
       //*******************************
       bool empty() const
       {
-        return head == tphn::timer::id::NO_TIMER;
+        return head == tpn::timer::id::NO_TIMER;
       }
 
       //*******************************
       // Inserts the timer at the correct delta position
       //*******************************
-      void insert(tphn::timer::id::type id_)
+      void insert(tpn::timer::id::type id_)
       {
-        tphn::message_timer_data& timer = ptimers[id_];
+        tpn::message_timer_data& timer = ptimers[id_];
 
-        if (head == tphn::timer::id::NO_TIMER)
+        if (head == tpn::timer::id::NO_TIMER)
         {
           // No entries yet.
           head = id_;
           tail = id_;
-          timer.previous = tphn::timer::id::NO_TIMER;
-          timer.next     = tphn::timer::id::NO_TIMER;
+          timer.previous = tpn::timer::id::NO_TIMER;
+          timer.next     = tpn::timer::id::NO_TIMER;
         }
         else
         {
           // We already have entries.
-          tphn::timer::id::type test_id = begin();
+          tpn::timer::id::type test_id = begin();
 
-          while (test_id != tphn::timer::id::NO_TIMER)
+          while (test_id != tpn::timer::id::NO_TIMER)
           {
-            tphn::message_timer_data& test = ptimers[test_id];
+            tpn::message_timer_data& test = ptimers[test_id];
 
             // Find the correct place to insert.
             if (timer.delta <= test.delta)
@@ -211,7 +211,7 @@ namespace tphn
               // Adjust the next delta to compensate.
               test.delta -= timer.delta;
 
-              if (timer.previous != tphn::timer::id::NO_TIMER)
+              if (timer.previous != tpn::timer::id::NO_TIMER)
               {
                 ptimers[timer.previous].next = timer.id;
               }
@@ -226,21 +226,21 @@ namespace tphn
           }
 
           // Reached the end?
-          if (test_id == tphn::timer::id::NO_TIMER)
+          if (test_id == tpn::timer::id::NO_TIMER)
           {
             // Tag on to the tail.
             ptimers[tail].next = timer.id;
             timer.previous     = tail;
-            timer.next         = tphn::timer::id::NO_TIMER;
+            timer.next         = tpn::timer::id::NO_TIMER;
             tail               = timer.id;
           }
         }
       }
 
       //*******************************
-      void remove(tphn::timer::id::type id_, bool has_expired)
+      void remove(tpn::timer::id::type id_, bool has_expired)
       {
-        tphn::message_timer_data& timer = ptimers[id_];
+        tpn::message_timer_data& timer = ptimers[id_];
 
         if (head == id_)
         {
@@ -263,39 +263,39 @@ namespace tphn
         if (!has_expired)
         {
           // Adjust the next delta.
-          if (timer.next != tphn::timer::id::NO_TIMER)
+          if (timer.next != tpn::timer::id::NO_TIMER)
           {
             ptimers[timer.next].delta += timer.delta;
           }
         }
 
-        timer.previous = tphn::timer::id::NO_TIMER;
-        timer.next     = tphn::timer::id::NO_TIMER;
-        timer.delta    = tphn::timer::state::INACTIVE;
+        timer.previous = tpn::timer::id::NO_TIMER;
+        timer.next     = tpn::timer::id::NO_TIMER;
+        timer.delta    = tpn::timer::state::INACTIVE;
       }
 
       //*******************************
-      tphn::message_timer_data& front()
+      tpn::message_timer_data& front()
       {
         return ptimers[head];
       }
 
       //*******************************
-      tphn::timer::id::type begin()
+      tpn::timer::id::type begin()
       {
         current = head;
         return current;
       }
 
       //*******************************
-      tphn::timer::id::type previous(tphn::timer::id::type last)
+      tpn::timer::id::type previous(tpn::timer::id::type last)
       {
         current = ptimers[last].previous;
         return current;
       }
 
       //*******************************
-      tphn::timer::id::type next(tphn::timer::id::type last)
+      tpn::timer::id::type next(tpn::timer::id::type last)
       {
         current = ptimers[last].next;
         return current;
@@ -304,27 +304,27 @@ namespace tphn
       //*******************************
       void clear()
       {
-        tphn::timer::id::type id = begin();
+        tpn::timer::id::type id = begin();
 
-        while (id != tphn::timer::id::NO_TIMER)
+        while (id != tpn::timer::id::NO_TIMER)
         {
-          tphn::message_timer_data& timer = ptimers[id];
+          tpn::message_timer_data& timer = ptimers[id];
           id = next(id);
-          timer.next = tphn::timer::id::NO_TIMER;
+          timer.next = tpn::timer::id::NO_TIMER;
         }
 
-        head    = tphn::timer::id::NO_TIMER;
-        tail    = tphn::timer::id::NO_TIMER;
-        current = tphn::timer::id::NO_TIMER;
+        head    = tpn::timer::id::NO_TIMER;
+        tail    = tpn::timer::id::NO_TIMER;
+        current = tpn::timer::id::NO_TIMER;
       }
 
     private:
 
-      tphn::timer::id::type head;
-      tphn::timer::id::type tail;
-      tphn::timer::id::type current;
+      tpn::timer::id::type head;
+      tpn::timer::id::type tail;
+      tpn::timer::id::type current;
 
-      tphn::message_timer_data* const ptimers;
+      tpn::message_timer_data* const ptimers;
     };
   }
 
@@ -338,13 +338,13 @@ namespace tphn
     //*******************************************
     /// Register a timer.
     //*******************************************
-    tphn::timer::id::type register_timer(const tphn::imessage&     message_,
-                                        tphn::imessage_router&    router_,
+    tpn::timer::id::type register_timer(const tpn::imessage&     message_,
+                                        tpn::imessage_router&    router_,
                                         uint32_t                 period_,
                                         bool                     repeating_,
-                                        tphn::message_router_id_t destination_router_id_ = tphn::imessage_router::ALL_MESSAGE_ROUTERS)
+                                        tpn::message_router_id_t destination_router_id_ = tpn::imessage_router::ALL_MESSAGE_ROUTERS)
     {
-      tphn::timer::id::type id = tphn::timer::id::NO_TIMER;
+      tpn::timer::id::type id = tpn::timer::id::NO_TIMER;
 
       bool is_space = (registered_timers < MAX_TIMERS);
 
@@ -356,9 +356,9 @@ namespace tphn
           // Search for the free space.
           for (uint_least8_t i = 0U; i < MAX_TIMERS; ++i)
           {
-            tphn::message_timer_data& timer = timer_array[i];
+            tpn::message_timer_data& timer = timer_array[i];
 
-            if (timer.id == tphn::timer::id::NO_TIMER)
+            if (timer.id == tpn::timer::id::NO_TIMER)
             {
               // Create in-place.
               new (&timer) message_timer_data(i, message_, router_, period_, repeating_, destination_router_id_);
@@ -376,15 +376,15 @@ namespace tphn
     //*******************************************
     /// Unregister a timer.
     //*******************************************
-    bool unregister_timer(tphn::timer::id::type id_)
+    bool unregister_timer(tpn::timer::id::type id_)
     {
       bool result = false;
 
-      if (id_ != tphn::timer::id::NO_TIMER)
+      if (id_ != tpn::timer::id::NO_TIMER)
       {
-        tphn::message_timer_data& timer = timer_array[id_];
+        tpn::message_timer_data& timer = timer_array[id_];
 
-        if (timer.id != tphn::timer::id::NO_TIMER)
+        if (timer.id != tpn::timer::id::NO_TIMER)
         {
           if (timer.is_active())
           {
@@ -456,7 +456,7 @@ namespace tphn
           {
             while (has_active && (count >= active_list.front().delta))
             {
-              tphn::message_timer_data& timer = active_list.front();
+              tpn::message_timer_data& timer = active_list.front();
 
               count -= timer.delta;
 
@@ -493,20 +493,20 @@ namespace tphn
     //*******************************************
     /// Starts a timer.
     //*******************************************
-    bool start(tphn::timer::id::type id_, bool immediate_ = false)
+    bool start(tpn::timer::id::type id_, bool immediate_ = false)
     {
       bool result = false;
 
       // Valid timer id?
-      if (id_ != tphn::timer::id::NO_TIMER)
+      if (id_ != tpn::timer::id::NO_TIMER)
       {
-        tphn::message_timer_data& timer = timer_array[id_];
+        tpn::message_timer_data& timer = timer_array[id_];
 
         // Registered timer?
-        if (timer.id != tphn::timer::id::NO_TIMER)
+        if (timer.id != tpn::timer::id::NO_TIMER)
         {
           // Has a valid period.
-          if (timer.period != tphn::timer::state::INACTIVE)
+          if (timer.period != tpn::timer::state::INACTIVE)
           {
             TYPHOON_DISABLE_TIMER_UPDATES;
             if (timer.is_active())
@@ -529,17 +529,17 @@ namespace tphn
     //*******************************************
     /// Stops a timer.
     //*******************************************
-    bool stop(tphn::timer::id::type id_)
+    bool stop(tpn::timer::id::type id_)
     {
       bool result = false;
 
       // Valid timer id?
-      if (id_ != tphn::timer::id::NO_TIMER)
+      if (id_ != tpn::timer::id::NO_TIMER)
       {
-        tphn::message_timer_data& timer = timer_array[id_];
+        tpn::message_timer_data& timer = timer_array[id_];
 
         // Registered timer?
-        if (timer.id != tphn::timer::id::NO_TIMER)
+        if (timer.id != tpn::timer::id::NO_TIMER)
         {
           if (timer.is_active())
           {
@@ -558,7 +558,7 @@ namespace tphn
     //*******************************************
     /// Sets a timer's period.
     //*******************************************
-    bool set_period(tphn::timer::id::type id_, uint32_t period_)
+    bool set_period(tpn::timer::id::type id_, uint32_t period_)
     {
       if (stop(id_))
       {
@@ -572,7 +572,7 @@ namespace tphn
     //*******************************************
     /// Sets a timer's mode.
     //*******************************************
-    bool set_mode(tphn::timer::id::type id_, bool repeating_)
+    bool set_mode(tpn::timer::id::type id_, bool repeating_)
     {
       if (stop(id_))
       {
@@ -623,13 +623,13 @@ namespace tphn
   typedef TYPHOON_TIMER_SEMAPHORE_TYPE timer_semaphore_t;
 #else
   #if TYPHOON_HAS_ATOMIC
-    typedef tphn::atomic_uint16_t timer_semaphore_t;
+    typedef tpn::atomic_uint16_t timer_semaphore_t;
   #else
     #error No atomic type available
   #endif
 #endif
 
-    volatile tphn::timer_semaphore_t process_semaphore;
+    volatile tpn::timer_semaphore_t process_semaphore;
 #endif
     volatile uint_least8_t registered_timers;
 
@@ -642,7 +642,7 @@ namespace tphn
   /// The message timer
   //***************************************************************************
   template <uint_least8_t MAX_TIMERS_>
-  class message_timer : public tphn::imessage_timer
+  class message_timer : public tpn::imessage_timer
   {
   public:
 

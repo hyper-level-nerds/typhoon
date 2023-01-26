@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -51,7 +51,7 @@ SOFTWARE.
   #define TYPHOON_VERSION_U32 TYPHOON_U32_STRING(TYPHOON_VERSION_MAJOR) U"." TYPHOON_U32_STRING(TYPHOON_VERSION_MINOR) U"." TYPHOON_U32_STRING(TYPHOON_VERSION_PATCH)
 #define TYPHOON_VERSION_VALUE ((TYPHOON_VERSION_MAJOR * 10000) + (TYPHOON_VERSION_MINOR * 100) + TYPHOON_VERSION_PATCH)
 
-namespace tphn
+namespace tpn
 {
   namespace traits
   {

@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -59,7 +59,7 @@ SOFTWARE.
 #include "error_handler.hpp"
 #include "utility.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   ///\ingroup observer
@@ -137,11 +137,11 @@ namespace tphn
 
     typedef size_t size_type;
 
-    typedef tphn::vector<observer_item, MAX_OBSERVERS> Observer_List;
+    typedef tpn::vector<observer_item, MAX_OBSERVERS> Observer_List;
 
     //*****************************************************************
     /// Add an observer to the list.
-    /// If asserts or exceptions are enabled then an tphn::observable_observer_list_full
+    /// If asserts or exceptions are enabled then an tpn::observable_observer_list_full
     /// is emitted if the observer list is already full.
     ///\param observer A reference to the observer.
     //*****************************************************************
@@ -154,7 +154,7 @@ namespace tphn
       if (i_observer_item == observer_list.end())
       {
         // Is there enough room?
-        TYPHOON_ASSERT_AND_RETURN(!observer_list.full(), TYPHOON_ERROR(tphn::observer_list_full));
+        TYPHOON_ASSERT_AND_RETURN(!observer_list.full(), TYPHOON_ERROR(tpn::observer_list_full));
 
         // Add it.
         observer_list.push_back(observer_item(observer));
@@ -267,7 +267,7 @@ namespace tphn
     //*****************************************************************
     typename Observer_List::iterator find_observer(TObserver& observer_)
     {
-      return tphn::find_if(observer_list.begin(), observer_list.end(), compare_observers(observer_));
+      return tpn::find_if(observer_list.begin(), observer_list.end(), compare_observers(observer_));
     }
 
     /// The list of observers.

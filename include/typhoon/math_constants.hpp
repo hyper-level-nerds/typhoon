@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2018 John Wellbelove
 
@@ -31,7 +31,7 @@ SOFTWARE.
 
 #include "platform.hpp"
 
-namespace tphn
+namespace tpn
 {
   namespace math
   {

@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -29,7 +29,7 @@ SOFTWARE.
 ******************************************************************************/
 
 #if !defined(TYPHOON_IN_VECTOR_H) && !defined(TYPHOON_IN_PVOIDVECTOR)
-#error This header is a private element of tphn::vector & tphn::pvoidvector
+#error This header is a private element of tpn::vector & tpn::pvoidvector
 #endif
 
 #ifndef TYPHOON_VECTOR_BASE_HPP
@@ -42,7 +42,7 @@ SOFTWARE.
 
 #include <stddef.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   ///\ingroup vector

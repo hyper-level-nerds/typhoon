@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -46,7 +46,7 @@ SOFTWARE.
 ///\defgroup fnv_1 FNV-1 & FNV-1a 32 & 64 bit hash calculations
 ///\ingroup maths
 
-namespace tphn
+namespace tpn
 {
 #if TYPHOON_USING_64BIT_TYPES
   //***************************************************************************
@@ -82,7 +82,7 @@ namespace tphn
   /// Calculates the fnv_1_64 hash.
   ///\ingroup fnv_1_64
   //***************************************************************************
-  class fnv_1_64 : public tphn::frame_check_sequence<fnv_1_policy_64>
+  class fnv_1_64 : public tpn::frame_check_sequence<fnv_1_policy_64>
   {
   public:
 
@@ -140,7 +140,7 @@ namespace tphn
   /// Calculates the fnv_1a_64 hash.
   ///\ingroup fnv_1a_64
   //***************************************************************************
-  class fnv_1a_64 : public tphn::frame_check_sequence<fnv_1a_policy_64>
+  class fnv_1a_64 : public tpn::frame_check_sequence<fnv_1a_policy_64>
   {
   public:
 
@@ -199,7 +199,7 @@ namespace tphn
   /// Calculates the fnv_1_32 hash.
   ///\ingroup fnv_1_32
   //***************************************************************************
-  class fnv_1_32 : public tphn::frame_check_sequence<fnv_1_policy_32>
+  class fnv_1_32 : public tpn::frame_check_sequence<fnv_1_policy_32>
   {
   public:
 
@@ -257,7 +257,7 @@ namespace tphn
   /// Calculates the fnv_1a_32 hash.
   ///\ingroup fnv_1a_32
   //***************************************************************************
-  class fnv_1a_32 : public tphn::frame_check_sequence<fnv_1a_policy_32>
+  class fnv_1a_32 : public tpn::frame_check_sequence<fnv_1a_policy_32>
   {
   public:
 

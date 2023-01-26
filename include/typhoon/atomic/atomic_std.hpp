@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2018 John Wellbelove
 
@@ -36,11 +36,11 @@ SOFTWARE.
 #include <atomic>
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   // TYPHOON Atomic type for compilers that support std::atomic.
-  // tphn::atomic is a simple wrapper around std::atomic.
+  // tpn::atomic is a simple wrapper around std::atomic.
   //***************************************************************************
 
   template <typename T>
@@ -48,12 +48,12 @@ namespace tphn
 
   using memory_order = std::memory_order;
 
-  static TYPHOON_CONSTANT tphn::memory_order memory_order_relaxed = std::memory_order_relaxed;
-  static TYPHOON_CONSTANT tphn::memory_order memory_order_consume = std::memory_order_consume;
-  static TYPHOON_CONSTANT tphn::memory_order memory_order_acquire = std::memory_order_acquire;
-  static TYPHOON_CONSTANT tphn::memory_order memory_order_release = std::memory_order_release;
-  static TYPHOON_CONSTANT tphn::memory_order memory_order_acq_rel = std::memory_order_acq_rel;
-  static TYPHOON_CONSTANT tphn::memory_order memory_order_seq_cst = std::memory_order_seq_cst;
+  static TYPHOON_CONSTANT tpn::memory_order memory_order_relaxed = std::memory_order_relaxed;
+  static TYPHOON_CONSTANT tpn::memory_order memory_order_consume = std::memory_order_consume;
+  static TYPHOON_CONSTANT tpn::memory_order memory_order_acquire = std::memory_order_acquire;
+  static TYPHOON_CONSTANT tpn::memory_order memory_order_release = std::memory_order_release;
+  static TYPHOON_CONSTANT tpn::memory_order memory_order_acq_rel = std::memory_order_acq_rel;
+  static TYPHOON_CONSTANT tpn::memory_order memory_order_seq_cst = std::memory_order_seq_cst;
 
   using atomic_bool           = std::atomic<bool>;
   using atomic_char           = std::atomic<char>;

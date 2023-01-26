@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -38,7 +38,7 @@ SOFTWARE.
 /// A multi dimensional array.
 ///\ingroup containers
 
-namespace tphn
+namespace tpn
 {
 #if TYPHOON_USING_CPP11
 
@@ -47,14 +47,14 @@ namespace tphn
     template <class T, size_t TD1, size_t... TDx>
     struct multi_array_t
     {
-      using type = tphn::array<typename multi_array_t<T, TDx...>::type, TD1>;
+      using type = tpn::array<typename multi_array_t<T, TDx...>::type, TD1>;
       static constexpr size_t SIZE = TD1;
     };
 
     template <class T, size_t TD1>
     struct multi_array_t<T, TD1>
     {
-      using type = tphn::array<T, TD1>;
+      using type = tpn::array<T, TD1>;
       static constexpr size_t SIZE = TD1;
     };
   }

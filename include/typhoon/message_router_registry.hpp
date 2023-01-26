@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -40,17 +40,17 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Base exception class for message router registry.
   //***************************************************************************
-  class message_router_registry_exception : public tphn::exception
+  class message_router_registry_exception : public tpn::exception
   {
   public:
 
     message_router_registry_exception(string_type reason_, string_type file_name_, numeric_type line_number_)
-      : tphn::exception(reason_, file_name_, line_number_)
+      : tpn::exception(reason_, file_name_, line_number_)
     {
     }
   };
@@ -58,7 +58,7 @@ namespace tphn
   //***************************************************************************
   /// The registry is full.
   //***************************************************************************
-  class message_router_registry_full : public tphn::message_router_registry_exception
+  class message_router_registry_full : public tpn::message_router_registry_exception
   {
   public:
 
@@ -75,7 +75,7 @@ namespace tphn
   {
   private:
 
-    typedef tphn::iflat_multimap<tphn::message_router_id_t, tphn::imessage_router*> IRegistry;
+    typedef tpn::iflat_multimap<tpn::message_router_id_t, tpn::imessage_router*> IRegistry;
 
   public:
 
@@ -84,7 +84,7 @@ namespace tphn
     //********************************************
     /// Iterator
     //********************************************
-    class iterator : public tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, tphn::imessage_router*>
+    class iterator : public tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, tpn::imessage_router*>
     {
     public:
 
@@ -110,25 +110,25 @@ namespace tphn
       }
 
       //********************************************
-      tphn::imessage_router& operator *()
+      tpn::imessage_router& operator *()
       {
         return *(itr->second);
       }
 
       //********************************************
-      const tphn::imessage_router& operator *() const
+      const tpn::imessage_router& operator *() const
       {
         return *(itr->second);
       }
 
       //********************************************
-      tphn::imessage_router* operator ->()
+      tpn::imessage_router* operator ->()
       {
         return itr->second;
       }
 
       //********************************************
-      const tphn::imessage_router* operator ->() const
+      const tpn::imessage_router* operator ->() const
       {
         return itr->second;
       }
@@ -174,7 +174,7 @@ namespace tphn
     //********************************************
     /// Const Iterator
     //********************************************
-    class const_iterator : tphn::iterator<TYPHOON_OR_STD::forward_iterator_tag, const tphn::imessage_router*>
+    class const_iterator : tpn::iterator<TYPHOON_OR_STD::forward_iterator_tag, const tpn::imessage_router*>
     {
     public:
 
@@ -205,13 +205,13 @@ namespace tphn
       }
 
       //********************************************
-      const tphn::imessage_router& operator *() const
+      const tpn::imessage_router& operator *() const
       {
         return *(itr->second);
       }
 
       //********************************************
-      const tphn::imessage_router* operator ->() const
+      const tpn::imessage_router* operator ->() const
       {
         return itr->second;
       }
@@ -293,7 +293,7 @@ namespace tphn
     //********************************************
     /// Get the first router in the registry with the specified ID.
     //********************************************
-    tphn::imessage_router* find(tphn::message_router_id_t id)
+    tpn::imessage_router* find(tpn::message_router_id_t id)
     {
       IRegistry::iterator itr = registry.find(id);
 
@@ -307,7 +307,7 @@ namespace tphn
       }
     }
 
-    const tphn::imessage_router* find(tphn::message_router_id_t id) const
+    const tpn::imessage_router* find(tpn::message_router_id_t id) const
     {
       IRegistry::const_iterator itr = registry.find(id);
 
@@ -324,12 +324,12 @@ namespace tphn
     //********************************************
     /// Get the lower bound in the registry with the specified ID.
     //********************************************
-    iterator lower_bound(tphn::message_router_id_t id)
+    iterator lower_bound(tpn::message_router_id_t id)
     {
       return iterator(registry.lower_bound(id));
     }
 
-    const_iterator lower_bound(tphn::message_router_id_t id) const
+    const_iterator lower_bound(tpn::message_router_id_t id) const
     {
       return const_iterator(IRegistry::const_iterator(registry.lower_bound(id)));
     }
@@ -337,12 +337,12 @@ namespace tphn
     //********************************************
     /// Get the upper bound in the registry with the specified ID.
     //********************************************
-    iterator upper_bound(tphn::message_router_id_t id)
+    iterator upper_bound(tpn::message_router_id_t id)
     {
       return iterator(registry.upper_bound(id));
     }
 
-    const_iterator upper_bound(tphn::message_router_id_t id) const
+    const_iterator upper_bound(tpn::message_router_id_t id) const
     {
       return const_iterator(IRegistry::const_iterator(registry.upper_bound(id)));
     }
@@ -351,7 +351,7 @@ namespace tphn
     /// Registers a router, if not already registered.
     /// If the registry is full then an TYPHOON assert is called.
     //********************************************
-    void add(tphn::imessage_router& router)
+    void add(tpn::imessage_router& router)
     {
       if (!registry.full() && !contains(router))
       {
@@ -361,7 +361,7 @@ namespace tphn
       }
       else
       {
-        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tphn::message_router_registry_full));
+        TYPHOON_ASSERT_FAIL(TYPHOON_ERROR(tpn::message_router_registry_full));
       }
     }
 
@@ -369,7 +369,7 @@ namespace tphn
     /// Registers a router, if not already registered.
     /// If the registry is full then an TYPHOON assert is called.
     //********************************************
-    void add(tphn::imessage_router* p_router)
+    void add(tpn::imessage_router* p_router)
     {
       if (p_router != TYPHOON_NULLPTR)
       {
@@ -394,7 +394,7 @@ namespace tphn
     //********************************************
     /// Unregisters a router.
     //********************************************
-    void remove(tphn::message_router_id_t id)
+    void remove(tpn::message_router_id_t id)
     {
       registry.erase(id);
     }
@@ -403,7 +403,7 @@ namespace tphn
     /// Returns <b>true</b> if the registry contains a router that has the specified ID.
     /// Returns <b>false</b> if not found.
     //********************************************
-    bool contains(const tphn::message_router_id_t id) const
+    bool contains(const tpn::message_router_id_t id) const
     {
       return find(id) != TYPHOON_NULLPTR;
 
@@ -415,7 +415,7 @@ namespace tphn
     /// Returns <b>true</b> if the registry contains the router.
     /// Returns <b>false</b> if not found.
     //********************************************
-    bool contains(const tphn::imessage_router* const p_router) const
+    bool contains(const tpn::imessage_router* const p_router) const
     {
       if (p_router == TYPHOON_NULLPTR)
       {
@@ -431,7 +431,7 @@ namespace tphn
     /// Returns <b>true</b> if the registry contains the router.
     /// Returns <b>false</b> if not found.
     //********************************************
-    bool contains(const tphn::imessage_router& router) const
+    bool contains(const tpn::imessage_router& router) const
     {
       IRegistry::const_iterator irouter = registry.find(router.get_message_router_id());
 
@@ -441,7 +441,7 @@ namespace tphn
     //********************************************
     /// Returns the number of routers with the specified ID.
     //********************************************
-    size_t count(const tphn::message_router_id_t id) const
+    size_t count(const tpn::message_router_id_t id) const
     {
       return registry.count(id);
     }
@@ -505,7 +505,7 @@ namespace tphn
   /// Message router registry.
   //***************************************************************************
   template <size_t MaxRouters>
-  class message_router_registry : public tphn::imessage_router_registry
+  class message_router_registry : public tpn::imessage_router_registry
   {
   public:
 
@@ -536,10 +536,10 @@ namespace tphn
     //********************************************
     // Initializer_list constructor.
     //********************************************
-    message_router_registry(std::initializer_list<tphn::imessage_router*> init)
+    message_router_registry(std::initializer_list<tpn::imessage_router*> init)
       : imessage_router_registry(registry)
     {
-      std::initializer_list<tphn::imessage_router*>::const_iterator itr = init.begin();
+      std::initializer_list<tpn::imessage_router*>::const_iterator itr = init.begin();
 
       while (itr != init.end())
       {
@@ -570,7 +570,7 @@ namespace tphn
 
   private:
 
-    typedef tphn::flat_multimap<tphn::message_router_id_t, tphn::imessage_router*, MaxRouters> Registry;
+    typedef tpn::flat_multimap<tpn::message_router_id_t, tpn::imessage_router*, MaxRouters> Registry;
     Registry registry;
   };
 }

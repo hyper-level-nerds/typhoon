@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 Benedek Kupper, John Wellbelove
 
@@ -55,7 +55,7 @@ SOFTWARE.
 
 #if TYPHOON_HAS_ATOMIC
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Base exception for a bip buffer.
@@ -86,13 +86,13 @@ namespace tphn
   //***************************************************************************
   /// The common base for a bip_buffer_spsc_atomic_base.
   //***************************************************************************
-  template <const size_t MEMORY_MODEL = tphn::memory_model::MEMORY_MODEL_LARGE>
+  template <const size_t MEMORY_MODEL = tpn::memory_model::MEMORY_MODEL_LARGE>
   class bip_buffer_spsc_atomic_base
   {
   public:
 
     /// The type used for determining the size of buffer.
-    typedef typename tphn::size_type_lookup<MEMORY_MODEL>::type size_type;
+    typedef typename tpn::size_type_lookup<MEMORY_MODEL>::type size_type;
 
     //*************************************************************************
     /// Returns true if the buffer is empty.
@@ -116,8 +116,8 @@ namespace tphn
     //*************************************************************************
     size_type size() const
     {
-      size_type write_index = write.load(tphn::memory_order_acquire);
-      size_type read_index = read.load(tphn::memory_order_acquire);
+      size_type write_index = write.load(tpn::memory_order_acquire);
+      size_type read_index = read.load(tpn::memory_order_acquire);
 
       // no wraparound
       if (write_index >= read_index)
@@ -127,7 +127,7 @@ namespace tphn
       }
       else
       {
-        size_type last_index = last.load(tphn::memory_order_acquire);
+        size_type last_index = last.load(tpn::memory_order_acquire);
 
         // size is distance between beginning and write, plus read and last
         return (write_index - 0) + (last_index - read_index);
@@ -139,8 +139,8 @@ namespace tphn
     //*************************************************************************
     size_type available() const
     {
-      size_type write_index = write.load(tphn::memory_order_acquire);
-      size_type read_index = read.load(tphn::memory_order_acquire);
+      size_type write_index = write.load(tpn::memory_order_acquire);
+      size_type read_index = read.load(tpn::memory_order_acquire);
 
       // no wraparound
       if (write_index >= read_index)
@@ -195,16 +195,16 @@ namespace tphn
     //*************************************************************************
     void reset()
     {
-      read.store(0, tphn::memory_order_release);
-      write.store(0, tphn::memory_order_release);
-      last.store(0, tphn::memory_order_release);
+      read.store(0, tpn::memory_order_release);
+      write.store(0, tpn::memory_order_release);
+      last.store(0, tpn::memory_order_release);
     }
 
     //*************************************************************************
     size_type get_write_reserve(size_type* psize, size_type fallback_size = numeric_limits<size_type>::max())
     {
-      size_type write_index = write.load(tphn::memory_order_relaxed);
-      size_type read_index = read.load(tphn::memory_order_acquire);
+      size_type write_index = write.load(tpn::memory_order_relaxed);
+      size_type read_index = read.load(tpn::memory_order_acquire);
 
       // No wraparound
       if (write_index >= read_index)
@@ -261,8 +261,8 @@ namespace tphn
     {
       if (wsize > 0)
       {
-        size_type write_index = write.load(tphn::memory_order_relaxed);
-        size_type read_index = read.load(tphn::memory_order_acquire);
+        size_type write_index = write.load(tpn::memory_order_relaxed);
+        size_type read_index = read.load(tpn::memory_order_acquire);
 
         // Wrapped around already
         if (write_index < read_index)
@@ -275,7 +275,7 @@ namespace tphn
           TYPHOON_ASSERT_AND_RETURN(wsize <= (capacity() - write_index), TYPHOON_ERROR(bip_buffer_reserve_invalid));
 
           // Move both indexes forward
-          last.store(windex + wsize, tphn::memory_order_release);
+          last.store(windex + wsize, tpn::memory_order_release);
         }
         // Wrapping around now
         else
@@ -284,20 +284,20 @@ namespace tphn
         }
         
         // Always update write index
-        write.store(windex + wsize, tphn::memory_order_release);
+        write.store(windex + wsize, tpn::memory_order_release);
       }
     }
 
     //*************************************************************************
     size_type get_read_reserve(size_type* psize)
     {
-      size_type read_index = read.load(tphn::memory_order_relaxed);
-      size_type write_index = write.load(tphn::memory_order_acquire);
+      size_type read_index = read.load(tpn::memory_order_relaxed);
+      size_type write_index = write.load(tpn::memory_order_acquire);
 
       if (read_index > write_index)
       {
         // Writer has wrapped around
-        size_type last_index = last.load(tphn::memory_order_relaxed);
+        size_type last_index = last.load(tpn::memory_order_relaxed);
 
         if (read_index == last_index)
         {
@@ -332,15 +332,15 @@ namespace tphn
         size_type rsize_checker = rsize;
         TYPHOON_ASSERT_AND_RETURN((rindex == get_read_reserve(&rsize_checker)) && (rsize == rsize_checker), TYPHOON_ERROR(bip_buffer_reserve_invalid));
 
-        read.store(rindex + rsize, tphn::memory_order_release);
+        read.store(rindex + rsize, tpn::memory_order_release);
       }
     }
 
   private:
 
-    tphn::atomic<size_type> read;
-    tphn::atomic<size_type> write;
-    tphn::atomic<size_type> last;
+    tpn::atomic<size_type> read;
+    tpn::atomic<size_type> write;
+    tpn::atomic<size_type> last;
     const size_type RESERVED;
 
 #if defined(TYPHOON_POLYMORPHIC_SPSC_BIP_BUFFER_ATOMIC) || defined(TYPHOON_POLYMORPHIC_CONTAINERS)
@@ -361,12 +361,12 @@ namespace tphn
   //***************************************************************************
   /// A fixed capacity bipartite buffer.
   //***************************************************************************
-  template <typename T, const size_t MEMORY_MODEL = tphn::memory_model::MEMORY_MODEL_LARGE>
+  template <typename T, const size_t MEMORY_MODEL = tpn::memory_model::MEMORY_MODEL_LARGE>
   class ibip_buffer_spsc_atomic : public bip_buffer_spsc_atomic_base<MEMORY_MODEL>
   {
   private:
 
-    typedef typename tphn::bip_buffer_spsc_atomic_base<MEMORY_MODEL> base_t;
+    typedef typename tpn::bip_buffer_spsc_atomic_base<MEMORY_MODEL> base_t;
     using base_t::reset;
     using base_t::get_read_reserve;
     using base_t::apply_read_reserve;
@@ -403,7 +403,7 @@ namespace tphn
     //*************************************************************************
     void read_commit(const span<T> &reserve)
     {
-      size_type rindex = tphn::distance(p_buffer, reserve.data());
+      size_type rindex = tpn::distance(p_buffer, reserve.data());
       apply_read_reserve(rindex, reserve.size());
     }
 
@@ -437,7 +437,7 @@ namespace tphn
     //*************************************************************************
     void write_commit(const span<T> &reserve)
     {
-      size_type windex = tphn::distance(p_buffer, reserve.data());
+      size_type windex = tpn::distance(p_buffer, reserve.data());
       apply_write_reserve(windex, reserve.size());
     }
 
@@ -489,12 +489,12 @@ namespace tphn
   /// \tparam SIZE         The maximum capacity of the buffer.
   /// \tparam MEMORY_MODEL The memory model for the buffer. Determines the type of the internal counter variables.
   //***************************************************************************
-  template <typename T, const size_t SIZE, const size_t MEMORY_MODEL = tphn::memory_model::MEMORY_MODEL_LARGE>
+  template <typename T, const size_t SIZE, const size_t MEMORY_MODEL = tpn::memory_model::MEMORY_MODEL_LARGE>
   class bip_buffer_spsc_atomic : public ibip_buffer_spsc_atomic<T, MEMORY_MODEL>
   {
   private:
 
-    typedef typename tphn::ibip_buffer_spsc_atomic<T, MEMORY_MODEL> base_t;
+    typedef typename tpn::ibip_buffer_spsc_atomic<T, MEMORY_MODEL> base_t;
 
   public:
 
@@ -506,7 +506,7 @@ namespace tphn
 
   public:
 
-    TYPHOON_STATIC_ASSERT((SIZE <= (tphn::integral_limits<size_type>::max)), "Size too large for memory model");
+    TYPHOON_STATIC_ASSERT((SIZE <= (tpn::integral_limits<size_type>::max)), "Size too large for memory model");
 
     static TYPHOON_CONSTANT size_type MAX_SIZE = size_type(SIZE);
 
@@ -529,7 +529,7 @@ namespace tphn
   private:
 
     /// The uninitialised buffer of T used in the bip_buffer_spsc.
-    tphn::uninitialized_buffer_of<T, RESERVED_SIZE> buffer;
+    tpn::uninitialized_buffer_of<T, RESERVED_SIZE> buffer;
   };
 }
 

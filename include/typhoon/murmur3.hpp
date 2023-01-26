@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -45,7 +45,7 @@ SOFTWARE.
 ///\defgroup murmur3 Murmur3 hash calculations
 ///\ingroup maths
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Calculates the murmur3 hash.
@@ -58,9 +58,9 @@ namespace tphn
   public:
 
 #if TYPHOON_NOT_USING_64BIT_TYPES
-    TYPHOON_STATIC_ASSERT((tphn::is_same<THash, uint32_t>::value), "Only 32 bit types supported");
+    TYPHOON_STATIC_ASSERT((tpn::is_same<THash, uint32_t>::value), "Only 32 bit types supported");
 #else
-    TYPHOON_STATIC_ASSERT((tphn::is_same<THash, uint32_t>::value || tphn::is_same<THash, uint64_t>::value), "Only 32 & 64 bit types supported");
+    TYPHOON_STATIC_ASSERT((tpn::is_same<THash, uint32_t>::value || tpn::is_same<THash, uint64_t>::value), "Only 32 & 64 bit types supported");
 #endif
 
     typedef THash value_type;
@@ -85,7 +85,7 @@ namespace tphn
     murmur3(TIterator begin, const TIterator end, value_type seed_ = 0)
       : seed(seed_)
     {
-      TYPHOON_STATIC_ASSERT(sizeof(typename tphn::iterator_traits<TIterator>::value_type) == 1, "Incompatible type");
+      TYPHOON_STATIC_ASSERT(sizeof(typename tpn::iterator_traits<TIterator>::value_type) == 1, "Incompatible type");
 
       reset();
       while (begin != end)
@@ -124,7 +124,7 @@ namespace tphn
     template<typename TIterator>
     void add(TIterator begin, const TIterator end)
     {
-      TYPHOON_STATIC_ASSERT(sizeof(typename tphn::iterator_traits<TIterator>::value_type) == 1, "Incompatible type");
+      TYPHOON_STATIC_ASSERT(sizeof(typename tpn::iterator_traits<TIterator>::value_type) == 1, "Incompatible type");
       TYPHOON_ASSERT(!is_finalised, TYPHOON_ERROR(hash_finalised));
 
       while (begin != end)

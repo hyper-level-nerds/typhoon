@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2014 John Wellbelove
 
@@ -60,7 +60,7 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The base class for specifically sized vectors.
@@ -68,7 +68,7 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  class ivector : public tphn::vector_base
+  class ivector : public tpn::vector_base
   {
   public:
 
@@ -85,11 +85,11 @@ namespace tphn
     typedef TYPHOON_OR_STD::reverse_iterator<iterator>       reverse_iterator;
     typedef TYPHOON_OR_STD::reverse_iterator<const_iterator> const_reverse_iterator;
     typedef size_t                                size_type;
-    typedef typename tphn::iterator_traits<iterator>::difference_type difference_type;
+    typedef typename tpn::iterator_traits<iterator>::difference_type difference_type;
 
   protected:
 
-    typedef typename tphn::parameter_type<T>::type parameter_t;
+    typedef typename tpn::parameter_type<T>::type parameter_t;
 
   public:
 
@@ -228,12 +228,12 @@ namespace tphn
 
       if (current_size < new_size)
       {
-        tphn::uninitialized_fill_n(p_end, delta, value);
+        tpn::uninitialized_fill_n(p_end, delta, value);
         TYPHOON_ADD_DEBUG_COUNT(delta)
       }
       else
       {
-        tphn::destroy_n(p_end - delta, delta);
+        tpn::destroy_n(p_end - delta, delta);
         TYPHOON_SUBTRACT_DEBUG_COUNT(delta)
       }
 
@@ -292,7 +292,7 @@ namespace tphn
 
     //*********************************************************************
     /// Returns a reference to the value at index 'i'
-    /// If asserts or exceptions are enabled, emits an tphn::vector_out_of_bounds if the index is out of range.
+    /// If asserts or exceptions are enabled, emits an tpn::vector_out_of_bounds if the index is out of range.
     ///\param i The index.
     ///\return A reference to the value at index 'i'
     //*********************************************************************
@@ -304,7 +304,7 @@ namespace tphn
 
     //*********************************************************************
     /// Returns a const reference to the value at index 'i'
-    /// If asserts or exceptions are enabled, emits an tphn::vector_out_of_bounds if the index is out of range.
+    /// If asserts or exceptions are enabled, emits an tpn::vector_out_of_bounds if the index is out of range.
     ///\param i The index.
     ///\return A const reference to the value at index 'i'
     //*********************************************************************
@@ -376,20 +376,20 @@ namespace tphn
     ///\param last  The iterator to the last element + 1.
     //*********************************************************************
     template <typename TIterator>
-    typename tphn::enable_if<!tphn::is_integral<TIterator>::value, void>::type
+    typename tpn::enable_if<!tpn::is_integral<TIterator>::value, void>::type
       assign(TIterator first, TIterator last)
     {
-      TYPHOON_STATIC_ASSERT((tphn::is_same<typename tphn::remove_cv<T>::type, typename tphn::remove_cv<typename tphn::iterator_traits<TIterator>::value_type>::type>::value), "Iterator type does not match container type");
+      TYPHOON_STATIC_ASSERT((tpn::is_same<typename tpn::remove_cv<T>::type, typename tpn::remove_cv<typename tpn::iterator_traits<TIterator>::value_type>::type>::value), "Iterator type does not match container type");
 
 #if TYPHOON_IS_DEBUG_BUILD
-      difference_type d = tphn::distance(first, last);
+      difference_type d = tpn::distance(first, last);
       TYPHOON_ASSERT(static_cast<size_t>(d) <= CAPACITY, TYPHOON_ERROR(vector_full));
 #endif
 
       initialise();
 
-      p_end = tphn::uninitialized_copy(first, last, p_buffer);
-      TYPHOON_ADD_DEBUG_COUNT(uint32_t(tphn::distance(first, last)))
+      p_end = tpn::uninitialized_copy(first, last, p_buffer);
+      TYPHOON_ADD_DEBUG_COUNT(uint32_t(tpn::distance(first, last)))
     }
 
     //*********************************************************************
@@ -404,7 +404,7 @@ namespace tphn
 
       initialise();
 
-      p_end = tphn::uninitialized_fill_n(p_buffer, n, value);
+      p_end = tpn::uninitialized_fill_n(p_buffer, n, value);
       TYPHOON_ADD_DEBUG_COUNT(uint32_t(n))
     }
 
@@ -421,7 +421,7 @@ namespace tphn
     //*************************************************************************
     void fill(const T& value)
     {
-      tphn::fill(begin(), end(), value);
+      tpn::fill(begin(), end(), value);
     }
 
     //*********************************************************************
@@ -448,7 +448,7 @@ namespace tphn
 #if defined(TYPHOON_CHECK_PUSH_POP)
       TYPHOON_ASSERT(size() != CAPACITY, TYPHOON_ERROR(vector_full));
 #endif
-      create_back(tphn::move(value));
+      create_back(tpn::move(value));
     }
 #endif
 
@@ -464,7 +464,7 @@ namespace tphn
 #if defined(TYPHOON_CHECK_PUSH_POP)
       TYPHOON_ASSERT(size() != CAPACITY, TYPHOON_ERROR(vector_full));
 #endif
-      ::new (p_end) T(tphn::forward<Args>(args)...);
+      ::new (p_end) T(tpn::forward<Args>(args)...);
       ++p_end;
       TYPHOON_INCREMENT_DEBUG_COUNT
     }
@@ -565,7 +565,7 @@ namespace tphn
       else
       {
         create_back(back());
-        tphn::move_backward(position_, p_end - 2, p_end - 1);
+        tpn::move_backward(position_, p_end - 2, p_end - 1);
         *position_ = value;
       }
 
@@ -587,13 +587,13 @@ namespace tphn
 
       if (position_ == end())
       {
-        create_back(tphn::move(value));
+        create_back(tpn::move(value));
       }
       else
       {
-        create_back(tphn::move(back()));
-        tphn::move_backward(position_, p_end - 2, p_end - 1);
-        *position_ = tphn::move(value);
+        create_back(tpn::move(back()));
+        tpn::move_backward(position_, p_end - 2, p_end - 1);
+        *position_ = tpn::move(value);
       }
 
       return position_;
@@ -620,13 +620,13 @@ namespace tphn
       }
       else
       {
-        p = tphn::addressof(*position_);
+        p = tpn::addressof(*position_);
         create_back(back());
-        tphn::move_backward(position_, p_end - 2, p_end - 1);
+        tpn::move_backward(position_, p_end - 2, p_end - 1);
         (*position_).~T();
       }
 
-      ::new (p) T(tphn::forward<Args>(args)...);
+      ::new (p) T(tpn::forward<Args>(args)...);
 
       return position_;
     }
@@ -647,9 +647,9 @@ namespace tphn
       }
       else
       {
-        p = tphn::addressof(*position_);
+        p = tpn::addressof(*position_);
         create_back(back());
-        tphn::move_backward(position_, p_end - 2, p_end - 1);
+        tpn::move_backward(position_, p_end - 2, p_end - 1);
         (*position_).~T();
       }
 
@@ -674,9 +674,9 @@ namespace tphn
       }
       else
       {
-        p = tphn::addressof(*position_);
+        p = tpn::addressof(*position_);
         create_back(back());
-        tphn::move_backward(position_, p_end - 2, p_end - 1);
+        tpn::move_backward(position_, p_end - 2, p_end - 1);
         (*position_).~T();
       }
 
@@ -701,9 +701,9 @@ namespace tphn
       }
       else
       {
-        p = tphn::addressof(*position_);
+        p = tpn::addressof(*position_);
         create_back(back());
-        tphn::move_backward(position_, p_end - 2, p_end - 1);
+        tpn::move_backward(position_, p_end - 2, p_end - 1);
         (*position_).~T();
       }
 
@@ -728,9 +728,9 @@ namespace tphn
       }
       else
       {
-        p = tphn::addressof(*position_);
+        p = tpn::addressof(*position_);
         create_back(back());
-        tphn::move_backward(position_, p_end - 2, p_end - 1);
+        tpn::move_backward(position_, p_end - 2, p_end - 1);
         (*position_).~T();
       }
 
@@ -754,7 +754,7 @@ namespace tphn
       iterator position_ = to_iterator(position);
 
       size_t insert_n = n;
-      size_t insert_begin = tphn::distance(begin(), position_);
+      size_t insert_begin = tpn::distance(begin(), position_);
       size_t insert_end = insert_begin + insert_n;
 
       // Copy old data.
@@ -779,18 +779,18 @@ namespace tphn
       size_t construct_new_n = insert_n - copy_new_n;
 
       // Construct old.
-      tphn::uninitialized_move(p_end - construct_old_n, p_end, p_construct_old);
+      tpn::uninitialized_move(p_end - construct_old_n, p_end, p_construct_old);
       TYPHOON_ADD_DEBUG_COUNT(construct_old_n)
 
       // Copy old.
-      tphn::move_backward(p_buffer + insert_begin, p_buffer + insert_begin + copy_old_n, p_buffer + insert_end + copy_old_n);
+      tpn::move_backward(p_buffer + insert_begin, p_buffer + insert_begin + copy_old_n, p_buffer + insert_end + copy_old_n);
 
       // Construct new.
-      tphn::uninitialized_fill_n(p_end, construct_new_n, value);
+      tpn::uninitialized_fill_n(p_end, construct_new_n, value);
       TYPHOON_ADD_DEBUG_COUNT(construct_new_n)
 
         // Copy new.
-        tphn::fill_n(p_buffer + insert_begin, copy_new_n, value);
+        tpn::fill_n(p_buffer + insert_begin, copy_new_n, value);
 
       p_end += n;
     }
@@ -804,14 +804,14 @@ namespace tphn
     ///\param last     The last + 1 element to add.
     //*********************************************************************
     template <class TIterator>
-    void insert(const_iterator position, TIterator first, TIterator last, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
+    void insert(const_iterator position, TIterator first, TIterator last, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
     {
-      size_t count = tphn::distance(first, last);
+      size_t count = tpn::distance(first, last);
 
       TYPHOON_ASSERT((size() + count) <= CAPACITY, TYPHOON_ERROR(vector_full));
 
       size_t insert_n = count;
-      size_t insert_begin = tphn::distance(cbegin(), position);
+      size_t insert_begin = tpn::distance(cbegin(), position);
       size_t insert_end = insert_begin + insert_n;
 
       // Move old data.
@@ -836,18 +836,18 @@ namespace tphn
       size_t construct_new_n = insert_n - copy_new_n;
 
       // Move construct old.
-      tphn::uninitialized_move(p_end - construct_old_n, p_end, p_construct_old);
+      tpn::uninitialized_move(p_end - construct_old_n, p_end, p_construct_old);
       TYPHOON_ADD_DEBUG_COUNT(construct_old_n)
 
       // Move old.
-      tphn::move_backward(p_buffer + insert_begin, p_buffer + insert_begin + copy_old_n, p_buffer + insert_end + copy_old_n);
+      tpn::move_backward(p_buffer + insert_begin, p_buffer + insert_begin + copy_old_n, p_buffer + insert_end + copy_old_n);
 
       // Copy construct new.
-      tphn::uninitialized_copy(first + copy_new_n, first + copy_new_n + construct_new_n, p_end);
+      tpn::uninitialized_copy(first + copy_new_n, first + copy_new_n + construct_new_n, p_end);
       TYPHOON_ADD_DEBUG_COUNT(construct_new_n)
 
       // Copy new.
-      tphn::copy(first, first + copy_new_n, p_buffer + insert_begin);
+      tpn::copy(first, first + copy_new_n, p_buffer + insert_begin);
 
       p_end += count;
     }
@@ -859,7 +859,7 @@ namespace tphn
     //*********************************************************************
     iterator erase(iterator i_element)
     {
-      tphn::move(i_element + 1, end(), i_element);
+      tpn::move(i_element + 1, end(), i_element);
       destroy_back();
 
       return i_element;
@@ -874,7 +874,7 @@ namespace tphn
     {
       iterator i_element_ = to_iterator(i_element);
 
-      tphn::move(i_element_ + 1, end(), i_element_);
+      tpn::move(i_element_ + 1, end(), i_element_);
       destroy_back();
 
       return i_element_;
@@ -899,11 +899,11 @@ namespace tphn
       }
       else
       {
-        tphn::move(last_, end(), first_);
-        size_t n_delete = tphn::distance(first_, last_);
+        tpn::move(last_, end(), first_);
+        size_t n_delete = tpn::distance(first_, last_);
 
         // Destroy the elements left over at the end.
-        tphn::destroy(p_end - n_delete, p_end);
+        tpn::destroy(p_end - n_delete, p_end);
         TYPHOON_SUBTRACT_DEBUG_COUNT(n_delete)
         p_end -= n_delete;
       }
@@ -936,7 +936,7 @@ namespace tphn
         iterator itr = rhs.begin();
         while (itr != rhs.end())
         {
-          push_back(tphn::move(*itr));
+          push_back(tpn::move(*itr));
           ++itr;
         }
 
@@ -1007,8 +1007,8 @@ namespace tphn
     //*********************************************************************
     void initialise()
     {
-      tphn::destroy(p_buffer, p_end);
-      TYPHOON_SUBTRACT_DEBUG_COUNT(int32_t(tphn::distance(p_buffer, p_end)))
+      tpn::destroy(p_buffer, p_end);
+      TYPHOON_SUBTRACT_DEBUG_COUNT(int32_t(tpn::distance(p_buffer, p_end)))
 
       p_end = p_buffer;
     }
@@ -1033,7 +1033,7 @@ namespace tphn
     //*********************************************************************
     void create_back()
     {
-      tphn::create_value_at(p_end);
+      tpn::create_value_at(p_end);
       TYPHOON_INCREMENT_DEBUG_COUNT
 
       ++p_end;
@@ -1044,7 +1044,7 @@ namespace tphn
     //*********************************************************************
     void create_back(const_reference value)
     {
-      tphn::create_copy_at(p_end, value);
+      tpn::create_copy_at(p_end, value);
       TYPHOON_INCREMENT_DEBUG_COUNT
 
       ++p_end;
@@ -1056,7 +1056,7 @@ namespace tphn
     //*********************************************************************
     void create_back(rvalue_reference value)
     {
-      tphn::create_copy_at(p_end, tphn::move(value));
+      tpn::create_copy_at(p_end, tpn::move(value));
       TYPHOON_INCREMENT_DEBUG_COUNT
 
       ++p_end;
@@ -1070,7 +1070,7 @@ namespace tphn
     {
       --p_end;
 
-      tphn::destroy_at(p_end);
+      tpn::destroy_at(p_end);
       TYPHOON_DECREMENT_DEBUG_COUNT
     }
 
@@ -1096,9 +1096,9 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  bool operator ==(const tphn::ivector<T>& lhs, const tphn::ivector<T>& rhs)
+  bool operator ==(const tpn::ivector<T>& lhs, const tpn::ivector<T>& rhs)
   {
-    return (lhs.size() == rhs.size()) && tphn::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return (lhs.size() == rhs.size()) && tpn::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
   //***************************************************************************
@@ -1109,7 +1109,7 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  bool operator !=(const tphn::ivector<T>& lhs, const tphn::ivector<T>& rhs)
+  bool operator !=(const tpn::ivector<T>& lhs, const tpn::ivector<T>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -1122,9 +1122,9 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  bool operator <(const tphn::ivector<T>& lhs, const tphn::ivector<T>& rhs)
+  bool operator <(const tpn::ivector<T>& lhs, const tpn::ivector<T>& rhs)
   {
-    return tphn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    return tpn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
   }
 
   //***************************************************************************
@@ -1135,7 +1135,7 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  bool operator >(const tphn::ivector<T>& lhs, const tphn::ivector<T>& rhs)
+  bool operator >(const tpn::ivector<T>& lhs, const tpn::ivector<T>& rhs)
   {
     return (rhs < lhs);
   }
@@ -1148,7 +1148,7 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  bool operator <=(const tphn::ivector<T>& lhs, const tphn::ivector<T>& rhs)
+  bool operator <=(const tpn::ivector<T>& lhs, const tpn::ivector<T>& rhs)
   {
     return !(lhs > rhs);
   }
@@ -1161,7 +1161,7 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  bool operator >=(const tphn::ivector<T>& lhs, const tphn::ivector<T>& rhs)
+  bool operator >=(const tpn::ivector<T>& lhs, const tpn::ivector<T>& rhs)
   {
     return !(lhs < rhs);
   }
@@ -1169,7 +1169,7 @@ namespace tphn
 
 #include "private/ivectorpointer.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// A vector implementation that uses a fixed size buffer.
@@ -1178,11 +1178,11 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T, const size_t MAX_SIZE_>
-  class vector : public tphn::ivector<T>
+  class vector : public tpn::ivector<T>
   {
   public:
 
-    TYPHOON_STATIC_ASSERT((MAX_SIZE_ > 0U), "Zero capacity tphn::vector is not valid");
+    TYPHOON_STATIC_ASSERT((MAX_SIZE_ > 0U), "Zero capacity tpn::vector is not valid");
 
     static const size_t MAX_SIZE = MAX_SIZE_;
 
@@ -1190,7 +1190,7 @@ namespace tphn
     /// Constructor.
     //*************************************************************************
     vector()
-      : tphn::ivector<T>(reinterpret_cast<T*>(&buffer), MAX_SIZE)
+      : tpn::ivector<T>(reinterpret_cast<T*>(&buffer), MAX_SIZE)
     {
       this->initialise();
     }
@@ -1200,7 +1200,7 @@ namespace tphn
     ///\param initial_size The initial size of the vector.
     //*************************************************************************
     explicit vector(size_t initial_size)
-      : tphn::ivector<T>(reinterpret_cast<T*>(&buffer), MAX_SIZE)
+      : tpn::ivector<T>(reinterpret_cast<T*>(&buffer), MAX_SIZE)
     {
       this->initialise();
       this->resize(initial_size);
@@ -1211,8 +1211,8 @@ namespace tphn
     ///\param initial_size  The initial size of the vector.
     ///\param value        The value to fill the vector with.
     //*************************************************************************
-    vector(size_t initial_size, typename tphn::ivector<T>::parameter_t value)
-      : tphn::ivector<T>(reinterpret_cast<T*>(&buffer), MAX_SIZE)
+    vector(size_t initial_size, typename tpn::ivector<T>::parameter_t value)
+      : tpn::ivector<T>(reinterpret_cast<T*>(&buffer), MAX_SIZE)
     {
       this->initialise();
       this->resize(initial_size, value);
@@ -1225,8 +1225,8 @@ namespace tphn
     ///\param last  The iterator to the last element + 1.
     //*************************************************************************
     template <typename TIterator>
-    vector(TIterator first, TIterator last, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
-      : tphn::ivector<T>(reinterpret_cast<T*>(&buffer), MAX_SIZE)
+    vector(TIterator first, TIterator last, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
+      : tpn::ivector<T>(reinterpret_cast<T*>(&buffer), MAX_SIZE)
     {
       this->assign(first, last);
     }
@@ -1236,7 +1236,7 @@ namespace tphn
     /// Constructor, from an initializer_list.
     //*************************************************************************
     vector(std::initializer_list<T> init)
-      : tphn::ivector<T>(reinterpret_cast<T*>(&buffer), MAX_SIZE)
+      : tpn::ivector<T>(reinterpret_cast<T*>(&buffer), MAX_SIZE)
     {
       this->assign(init.begin(), init.end());
     }
@@ -1246,7 +1246,7 @@ namespace tphn
     /// Copy constructor.
     //*************************************************************************
     vector(const vector& other)
-      : tphn::ivector<T>(reinterpret_cast<T*>(&buffer), MAX_SIZE)
+      : tpn::ivector<T>(reinterpret_cast<T*>(&buffer), MAX_SIZE)
     {
       this->assign(other.begin(), other.end());
     }
@@ -1269,16 +1269,16 @@ namespace tphn
     /// Move constructor.
     //*************************************************************************
     vector(vector&& other)
-      : tphn::ivector<T>(reinterpret_cast<T*>(&buffer), MAX_SIZE)
+      : tpn::ivector<T>(reinterpret_cast<T*>(&buffer), MAX_SIZE)
     {
       if (this != &other)
       {
         this->initialise();
 
-        typename tphn::ivector<T>::iterator itr = other.begin();
+        typename tpn::ivector<T>::iterator itr = other.begin();
         while (itr != other.end())
         {
-          this->push_back(tphn::move(*itr));
+          this->push_back(tpn::move(*itr));
           ++itr;
         }
 
@@ -1294,10 +1294,10 @@ namespace tphn
       if (&rhs != this)
       {
         this->clear();
-        typename tphn::ivector<T>::iterator itr = rhs.begin();
+        typename tpn::ivector<T>::iterator itr = rhs.begin();
         while (itr != rhs.end())
         {
-          this->push_back(tphn::move(*itr));
+          this->push_back(tpn::move(*itr));
           ++itr;
         }
 
@@ -1330,14 +1330,14 @@ namespace tphn
       TYPHOON_OVERRIDE
 #endif
     {
-      TYPHOON_ASSERT(tphn::is_trivially_copyable<T>::value, TYPHOON_ERROR(tphn::vector_incompatible_type));
+      TYPHOON_ASSERT(tpn::is_trivially_copyable<T>::value, TYPHOON_ERROR(tpn::vector_incompatible_type));
 
-      tphn::ivector<T>::repair_buffer(buffer);
+      tpn::ivector<T>::repair_buffer(buffer);
     }
 
   private:
 
-    typename tphn::aligned_storage<sizeof(T) * MAX_SIZE, tphn::alignment_of<T>::value>::type buffer;
+    typename tpn::aligned_storage<sizeof(T) * MAX_SIZE, tpn::alignment_of<T>::value>::type buffer;
   };
 
   //*************************************************************************
@@ -1345,7 +1345,7 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_CPP17 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename... T>
-  vector(T...) -> vector<typename tphn::common_type_t<T...>, sizeof...(T)>;
+  vector(T...) -> vector<typename tpn::common_type_t<T...>, sizeof...(T)>;
 #endif
 
   //*************************************************************************
@@ -1353,9 +1353,9 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_CPP11 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename... T>
-  constexpr auto make_vector(T... t) -> tphn::vector<typename tphn::common_type_t<T...>, sizeof...(T)>
+  constexpr auto make_vector(T... t) -> tpn::vector<typename tpn::common_type_t<T...>, sizeof...(T)>
   {
-    return { { tphn::forward<T>(t)... } };
+    return { { tpn::forward<T>(t)... } };
   }
 #endif
 
@@ -1366,7 +1366,7 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  class vector_ext : public tphn::ivector<T>
+  class vector_ext : public tpn::ivector<T>
   {
   public:
 
@@ -1374,7 +1374,7 @@ namespace tphn
     /// Constructor.
     //*************************************************************************
     vector_ext(void* buffer, size_t max_size)
-      : tphn::ivector<T>(reinterpret_cast<T*>(buffer), max_size)
+      : tpn::ivector<T>(reinterpret_cast<T*>(buffer), max_size)
     {
       this->initialise();
     }
@@ -1384,7 +1384,7 @@ namespace tphn
     ///\param initial_size The initial size of the vector_ext.
     //*************************************************************************
     explicit vector_ext(size_t initial_size, void* buffer, size_t max_size)
-      : tphn::ivector<T>(reinterpret_cast<T*>(buffer), max_size)
+      : tpn::ivector<T>(reinterpret_cast<T*>(buffer), max_size)
     {
       this->initialise();
       this->resize(initial_size);
@@ -1395,8 +1395,8 @@ namespace tphn
     ///\param initial_size  The initial size of the vector_ext.
     ///\param value        The value to fill the vector_ext with.
     //*************************************************************************
-    vector_ext(size_t initial_size, typename tphn::ivector<T>::parameter_t value, void* buffer, size_t max_size)
-      : tphn::ivector<T>(reinterpret_cast<T*>(buffer), max_size)
+    vector_ext(size_t initial_size, typename tpn::ivector<T>::parameter_t value, void* buffer, size_t max_size)
+      : tpn::ivector<T>(reinterpret_cast<T*>(buffer), max_size)
     {
       this->initialise();
       this->resize(initial_size, value);
@@ -1409,8 +1409,8 @@ namespace tphn
     ///\param last  The iterator to the last element + 1.
     //*************************************************************************
     template <typename TIterator>
-    vector_ext(TIterator first, TIterator last, void* buffer, size_t max_size, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
-      : tphn::ivector<T>(reinterpret_cast<T*>(buffer), max_size)
+    vector_ext(TIterator first, TIterator last, void* buffer, size_t max_size, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
+      : tpn::ivector<T>(reinterpret_cast<T*>(buffer), max_size)
     {
       this->assign(first, last);
     }
@@ -1420,7 +1420,7 @@ namespace tphn
     /// Constructor, from an initializer_list.
     //*************************************************************************
     vector_ext(std::initializer_list<T> init, void* buffer, size_t max_size)
-      : tphn::ivector<T>(reinterpret_cast<T*>(buffer), max_size)
+      : tpn::ivector<T>(reinterpret_cast<T*>(buffer), max_size)
     {
       this->assign(init.begin(), init.end());
     }
@@ -1430,7 +1430,7 @@ namespace tphn
     /// Copy constructor.
     //*************************************************************************
     vector_ext(const vector_ext& other, void* buffer, size_t max_size)
-      : tphn::ivector<T>(reinterpret_cast<T*>(buffer), max_size)
+      : tpn::ivector<T>(reinterpret_cast<T*>(buffer), max_size)
     {
       this->assign(other.begin(), other.end());
     }
@@ -1453,16 +1453,16 @@ namespace tphn
     /// Move constructor.
     //*************************************************************************
     vector_ext(vector_ext&& other, void* buffer, size_t max_size)
-      : tphn::ivector<T>(reinterpret_cast<T*>(buffer), max_size)
+      : tpn::ivector<T>(reinterpret_cast<T*>(buffer), max_size)
     {
       if (this != &other)
       {
         this->initialise();
 
-        typename tphn::ivector<T>::iterator itr = other.begin();
+        typename tpn::ivector<T>::iterator itr = other.begin();
         while (itr != other.end())
         {
-          this->push_back(tphn::move(*itr));
+          this->push_back(tpn::move(*itr));
           ++itr;
         }
 
@@ -1479,10 +1479,10 @@ namespace tphn
       {
         this->clear();
 
-        typename tphn::ivector<T>::iterator itr = rhs.begin();
+        typename tpn::ivector<T>::iterator itr = rhs.begin();
         while (itr != rhs.end())
         {
-          this->push_back(tphn::move(*itr));
+          this->push_back(tpn::move(*itr));
           ++itr;
         }
 
@@ -1509,9 +1509,9 @@ namespace tphn
       TYPHOON_OVERRIDE
 #endif
     {
-      TYPHOON_ASSERT(tphn::is_trivially_copyable<T>::value, TYPHOON_ERROR(tphn::vector_incompatible_type));
+      TYPHOON_ASSERT(tpn::is_trivially_copyable<T>::value, TYPHOON_ERROR(tpn::vector_incompatible_type));
 
-      tphn::ivector<T>::repair_buffer(this->p_buffer);
+      tpn::ivector<T>::repair_buffer(this->p_buffer);
     }
   };
 
@@ -1522,11 +1522,11 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T, const size_t MAX_SIZE_>
-  class vector<T*, MAX_SIZE_> : public tphn::ivector<T*>
+  class vector<T*, MAX_SIZE_> : public tpn::ivector<T*>
   {
   public:
 
-    TYPHOON_STATIC_ASSERT((MAX_SIZE_ > 0U), "Zero capacity tphn::vector is not valid");
+    TYPHOON_STATIC_ASSERT((MAX_SIZE_ > 0U), "Zero capacity tpn::vector is not valid");
 
     static const size_t MAX_SIZE = MAX_SIZE_;
 
@@ -1534,7 +1534,7 @@ namespace tphn
     /// Constructor.
     //*************************************************************************
     vector()
-      : tphn::ivector<T*>(reinterpret_cast<T**>(&buffer), MAX_SIZE)
+      : tpn::ivector<T*>(reinterpret_cast<T**>(&buffer), MAX_SIZE)
     {
       this->initialise();
     }
@@ -1544,7 +1544,7 @@ namespace tphn
     ///\param initial_size The initial size of the vector.
     //*************************************************************************
     explicit vector(size_t initial_size)
-      : tphn::ivector<T*>(reinterpret_cast<T**>(&buffer), MAX_SIZE)
+      : tpn::ivector<T*>(reinterpret_cast<T**>(&buffer), MAX_SIZE)
     {
       this->initialise();
       this->resize(initial_size);
@@ -1555,8 +1555,8 @@ namespace tphn
     ///\param initial_size  The initial size of the vector.
     ///\param value        The value to fill the vector with.
     //*************************************************************************
-    vector(size_t initial_size, typename tphn::ivector<T*>::parameter_t value)
-      : tphn::ivector<T*>(reinterpret_cast<T**>(&buffer), MAX_SIZE)
+    vector(size_t initial_size, typename tpn::ivector<T*>::parameter_t value)
+      : tpn::ivector<T*>(reinterpret_cast<T**>(&buffer), MAX_SIZE)
     {
       this->initialise();
       this->resize(initial_size, value);
@@ -1569,8 +1569,8 @@ namespace tphn
     ///\param last  The iterator to the last element + 1.
     //*************************************************************************
     template <typename TIterator>
-    vector(TIterator first, TIterator last, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
-      : tphn::ivector<T*>(reinterpret_cast<T**>(&buffer), MAX_SIZE)
+    vector(TIterator first, TIterator last, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
+      : tpn::ivector<T*>(reinterpret_cast<T**>(&buffer), MAX_SIZE)
     {
       this->assign(first, last);
     }
@@ -1580,7 +1580,7 @@ namespace tphn
     /// Constructor, from an initializer_list.
     //*************************************************************************
     vector(std::initializer_list<T*> init)
-      : tphn::ivector<T*>(reinterpret_cast<T**>(&buffer), MAX_SIZE)
+      : tpn::ivector<T*>(reinterpret_cast<T**>(&buffer), MAX_SIZE)
     {
       this->assign(init.begin(), init.end());
     }
@@ -1590,9 +1590,9 @@ namespace tphn
     /// Copy constructor.
     //*************************************************************************
     vector(const vector& other)
-      : tphn::ivector<T*>(reinterpret_cast<T**>(&buffer), MAX_SIZE)
+      : tpn::ivector<T*>(reinterpret_cast<T**>(&buffer), MAX_SIZE)
     {
-      (void)tphn::ivector<T*>::operator = (other);
+      (void)tpn::ivector<T*>::operator = (other);
     }
 
     //*************************************************************************
@@ -1600,7 +1600,7 @@ namespace tphn
     //*************************************************************************
     vector& operator = (const vector& rhs)
     {
-      (void)tphn::ivector<T*>::operator = (rhs);
+      (void)tpn::ivector<T*>::operator = (rhs);
 
       return *this;
     }
@@ -1610,9 +1610,9 @@ namespace tphn
     /// Move constructor.
     //*************************************************************************
     vector(vector&& other)
-      : tphn::ivector<T*>(reinterpret_cast<T**>(&buffer), MAX_SIZE)
+      : tpn::ivector<T*>(reinterpret_cast<T**>(&buffer), MAX_SIZE)
     {
-      (void)tphn::ivector<T*>::operator = (tphn::move(other));
+      (void)tpn::ivector<T*>::operator = (tpn::move(other));
     }
 
     //*************************************************************************
@@ -1620,7 +1620,7 @@ namespace tphn
     //*************************************************************************
     vector& operator = (vector&& rhs)
     {
-      (void)tphn::ivector<T*>::operator = (tphn::move(rhs));
+      (void)tpn::ivector<T*>::operator = (tpn::move(rhs));
 
       return *this;
     }
@@ -1634,12 +1634,12 @@ namespace tphn
       TYPHOON_OVERRIDE
 #endif
     {
-      tphn::ivector<T*>::repair_buffer(buffer);
+      tpn::ivector<T*>::repair_buffer(buffer);
     }
 
   private:
 
-    typename tphn::aligned_storage<sizeof(T*) * MAX_SIZE, tphn::alignment_of<T*>::value>::type buffer;
+    typename tpn::aligned_storage<sizeof(T*) * MAX_SIZE, tpn::alignment_of<T*>::value>::type buffer;
   };
 
   //*************************************************************************
@@ -1647,14 +1647,14 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_CPP17 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename... T>
-  vector(T*...) -> vector<typename tphn::common_type_t<T*...>, sizeof...(T)>;
+  vector(T*...) -> vector<typename tpn::common_type_t<T*...>, sizeof...(T)>;
 #endif
 
 #if TYPHOON_USING_CPP11 && TYPHOON_HAS_INITIALIZER_LIST
   template <typename... T>
-  constexpr auto make_vector(T*... t) -> tphn::vector<typename tphn::common_type_t<T*...>, sizeof...(T)>
+  constexpr auto make_vector(T*... t) -> tpn::vector<typename tpn::common_type_t<T*...>, sizeof...(T)>
   {
-    return { { tphn::forward<T*>(t)... } };
+    return { { tpn::forward<T*>(t)... } };
   }
 #endif
 
@@ -1665,7 +1665,7 @@ namespace tphn
   ///\ingroup vector
   //***************************************************************************
   template <typename T>
-  class vector_ext<T*> : public tphn::ivector<T*>
+  class vector_ext<T*> : public tpn::ivector<T*>
   {
   public:
 
@@ -1673,7 +1673,7 @@ namespace tphn
     /// Constructor.
     //*************************************************************************
     vector_ext(void* buffer, size_t max_size)
-      : tphn::ivector<T*>(reinterpret_cast<T**>(buffer), max_size)
+      : tpn::ivector<T*>(reinterpret_cast<T**>(buffer), max_size)
     {
       this->initialise();
     }
@@ -1683,7 +1683,7 @@ namespace tphn
     ///\param initial_size The initial size of the vector_ext.
     //*************************************************************************
     vector_ext(size_t initial_size, void* buffer, size_t max_size)
-      : tphn::ivector<T*>(reinterpret_cast<T**>(buffer), max_size)
+      : tpn::ivector<T*>(reinterpret_cast<T**>(buffer), max_size)
     {
       this->initialise();
       this->resize(initial_size);
@@ -1694,8 +1694,8 @@ namespace tphn
     ///\param initial_size  The initial size of the vector_ext.
     ///\param value        The value to fill the vector_ext with.
     //*************************************************************************
-    vector_ext(size_t initial_size, typename tphn::ivector<T*>::parameter_t value, void* buffer, size_t max_size)
-      : tphn::ivector<T*>(reinterpret_cast<T**>(buffer), max_size)
+    vector_ext(size_t initial_size, typename tpn::ivector<T*>::parameter_t value, void* buffer, size_t max_size)
+      : tpn::ivector<T*>(reinterpret_cast<T**>(buffer), max_size)
     {
       this->initialise();
       this->resize(initial_size, value);
@@ -1708,8 +1708,8 @@ namespace tphn
     ///\param last  The iterator to the last element + 1.
     //*************************************************************************
     template <typename TIterator>
-    vector_ext(TIterator first, TIterator last, void* buffer, size_t max_size, typename tphn::enable_if<!tphn::is_integral<TIterator>::value, int>::type = 0)
-      : tphn::ivector<T*>(reinterpret_cast<T**>(buffer), max_size)
+    vector_ext(TIterator first, TIterator last, void* buffer, size_t max_size, typename tpn::enable_if<!tpn::is_integral<TIterator>::value, int>::type = 0)
+      : tpn::ivector<T*>(reinterpret_cast<T**>(buffer), max_size)
     {
       this->assign(first, last);
     }
@@ -1719,7 +1719,7 @@ namespace tphn
     /// Constructor, from an initializer_list.
     //*************************************************************************
     vector_ext(std::initializer_list<T*> init, void* buffer, size_t max_size)
-      : tphn::ivector<T*>(reinterpret_cast<T**>(buffer), max_size)
+      : tpn::ivector<T*>(reinterpret_cast<T**>(buffer), max_size)
     {
       this->assign(init.begin(), init.end());
     }
@@ -1729,9 +1729,9 @@ namespace tphn
     /// Construct a copy.
     //*************************************************************************
     vector_ext(const vector_ext& other, void* buffer, size_t max_size)
-      : tphn::ivector<T*>(reinterpret_cast<T**>(buffer), max_size)
+      : tpn::ivector<T*>(reinterpret_cast<T**>(buffer), max_size)
     {
-      (void)tphn::ivector<T*>::operator = (other);
+      (void)tpn::ivector<T*>::operator = (other);
     }
 
     //*************************************************************************
@@ -1744,7 +1744,7 @@ namespace tphn
     //*************************************************************************
     vector_ext& operator = (const vector_ext& rhs)
     {
-      (void)tphn::ivector<T*>::operator = (rhs);
+      (void)tpn::ivector<T*>::operator = (rhs);
 
       return *this;
     }
@@ -1754,9 +1754,9 @@ namespace tphn
     /// Move constructor.
     //*************************************************************************
     vector_ext(vector_ext&& other, void* buffer, size_t max_size)
-      : tphn::ivector<T*>(reinterpret_cast<T**>(buffer), max_size)
+      : tpn::ivector<T*>(reinterpret_cast<T**>(buffer), max_size)
     {
-      (void)tphn::ivector<T*>::operator = (tphn::move(other));
+      (void)tpn::ivector<T*>::operator = (tpn::move(other));
     }
 
     //*************************************************************************
@@ -1769,7 +1769,7 @@ namespace tphn
     //*************************************************************************
     vector_ext& operator = (vector_ext&& rhs)
     {
-      (void)tphn::ivector<T*>::operator = (tphn::move(rhs));
+      (void)tpn::ivector<T*>::operator = (tpn::move(rhs));
 
       return *this;
     }
@@ -1791,7 +1791,7 @@ namespace tphn
       TYPHOON_OVERRIDE
 #endif
     {
-      tphn::ivector<T*>::repair_buffer(this->p_buffer);
+      tpn::ivector<T*>::repair_buffer(this->p_buffer);
     }
   };
 
@@ -1799,11 +1799,11 @@ namespace tphn
   /// erase
   //***************************************************************************
   template <typename T, typename U>
-  typename tphn::ivector<T>::difference_type
-  erase(tphn::ivector<T>& v, const U& value)
+  typename tpn::ivector<T>::difference_type
+  erase(tpn::ivector<T>& v, const U& value)
   {
-    typename tphn::ivector<T>::iterator itr = tphn::remove(v.begin(), v.end(), value);
-    typename tphn::ivector<T>::difference_type d = tphn::distance(itr, v.end());
+    typename tpn::ivector<T>::iterator itr = tpn::remove(v.begin(), v.end(), value);
+    typename tpn::ivector<T>::difference_type d = tpn::distance(itr, v.end());
     v.erase(itr, v.end());
 
     return d;
@@ -1813,11 +1813,11 @@ namespace tphn
   /// erase_if
   //***************************************************************************
   template <typename T, typename TPredicate>
-  typename tphn::ivector<T>::difference_type
-  erase_if(tphn::ivector<T>& v, TPredicate predicate)
+  typename tpn::ivector<T>::difference_type
+  erase_if(tpn::ivector<T>& v, TPredicate predicate)
   {
-    typename tphn::ivector<T>::iterator itr = tphn::remove_if(v.begin(), v.end(), predicate);
-    typename tphn::ivector<T>::difference_type d = tphn::distance(itr, v.end());
+    typename tpn::ivector<T>::iterator itr = tpn::remove_if(v.begin(), v.end(), predicate);
+    typename tpn::ivector<T>::difference_type d = tpn::distance(itr, v.end());
     v.erase(itr, v.end());
 
     return d;

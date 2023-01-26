@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2015 John Wellbelove
 
@@ -41,7 +41,7 @@ SOFTWARE.
 ///\defgroup ihash Common data for all hash type classes.
 ///\ingroup hash
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   ///\ingroup hash

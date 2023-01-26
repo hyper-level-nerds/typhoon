@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/hyper/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 

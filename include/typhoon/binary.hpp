@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2015 John Wellbelove
 
@@ -50,13 +50,13 @@ SOFTWARE.
   #include <bit>
 #endif
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Exception for binary functions.
   ///\ingroup binary
   //***************************************************************************
-  class binary_exception : public tphn::exception
+  class binary_exception : public tpn::exception
   {
   public:
 
@@ -70,12 +70,12 @@ namespace tphn
   /// Full exception 'for out of range' errors.
   ///\ingroup binary
   //***************************************************************************
-  class binary_out_of_range : public tphn::binary_exception
+  class binary_out_of_range : public tpn::binary_exception
   {
   public:
 
     binary_out_of_range(string_type file_name_, numeric_type line_number_)
-      : tphn::binary_exception(TYPHOON_ERROR_TEXT("binary:out of range", TYPHOON_BINARY_FILE_ID"A"), file_name_, line_number_)
+      : tpn::binary_exception(TYPHOON_ERROR_TEXT("binary:out of range", TYPHOON_BINARY_FILE_ID"A"), file_name_, line_number_)
     {
     }
   };
@@ -88,7 +88,7 @@ namespace tphn
   template <const size_t NBITS>
   struct max_value_for_nbits
   {
-    typedef typename tphn::smallest_uint_for_bits<NBITS>::type value_type;
+    typedef typename tpn::smallest_uint_for_bits<NBITS>::type value_type;
     static TYPHOON_CONSTANT value_type value = (value_type(1) << (NBITS - 1)) | max_value_for_nbits<NBITS - 1>::value;
   };
 
@@ -96,7 +96,7 @@ namespace tphn
   template <>
   struct max_value_for_nbits<0>
   {
-      typedef tphn::smallest_uint_for_bits<0>::type value_type;
+      typedef tpn::smallest_uint_for_bits<0>::type value_type;
       static TYPHOON_CONSTANT value_type value = 0;
   };
 
@@ -105,7 +105,7 @@ namespace tphn
 
 #if TYPHOON_USING_CPP17
   template <const size_t NBITS>
-  inline constexpr typename tphn::max_value_for_nbits<NBITS>::value_type max_value_for_nbits_v = max_value_for_nbits<NBITS>::value;
+  inline constexpr typename tpn::max_value_for_nbits<NBITS>::value_type max_value_for_nbits_v = max_value_for_nbits<NBITS>::value;
 #endif
 
   //***************************************************************************
@@ -118,9 +118,9 @@ namespace tphn
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
     return std::rotl(value, 1);
 #else
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Not an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Not an integral type");
 
-    TYPHOON_CONSTANT size_t SHIFT = tphn::integral_limits<typename tphn::make_unsigned<T>::type>::bits - 1U;
+    TYPHOON_CONSTANT size_t SHIFT = tpn::integral_limits<typename tpn::make_unsigned<T>::type>::bits - 1U;
 
     return (value << 1U) | (value >> SHIFT);
 #endif
@@ -136,9 +136,9 @@ namespace tphn
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
     return std::rotl(value, distance);
 #else
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Not an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Not an integral type");
 
-    TYPHOON_CONSTANT size_t BITS = tphn::integral_limits<typename tphn::make_unsigned<T>::type>::bits;
+    TYPHOON_CONSTANT size_t BITS = tpn::integral_limits<typename tpn::make_unsigned<T>::type>::bits;
     distance %= BITS;
     const size_t SHIFT = BITS - distance;
 
@@ -163,9 +163,9 @@ namespace tphn
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
     return std::rotr(value, 1);
 #else
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Not an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Not an integral type");
 
-    TYPHOON_CONSTANT size_t SHIFT = tphn::integral_limits<typename tphn::make_unsigned<T>::type>::bits - 1U;
+    TYPHOON_CONSTANT size_t SHIFT = tpn::integral_limits<typename tpn::make_unsigned<T>::type>::bits - 1U;
 
     return (value >> 1U) | (value << SHIFT);
 #endif
@@ -181,9 +181,9 @@ namespace tphn
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
     return std::rotr(value, distance);
 #else
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Not an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Not an integral type");
 
-    TYPHOON_CONSTANT size_t BITS = tphn::integral_limits<typename tphn::make_unsigned<T>::type>::bits;
+    TYPHOON_CONSTANT size_t BITS = tpn::integral_limits<typename tpn::make_unsigned<T>::type>::bits;
     distance %= BITS;
     const size_t SHIFT = BITS - distance;
 
@@ -204,9 +204,9 @@ namespace tphn
   ///\ingroup binary
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR14 T rotate(T value, typename tphn::make_signed<size_t>::type distance)
+  TYPHOON_CONSTEXPR14 T rotate(T value, typename tpn::make_signed<size_t>::type distance)
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Not an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Not an integral type");
 
     T result = T();
 
@@ -229,7 +229,7 @@ namespace tphn
   template <typename T>
   TYPHOON_CONSTEXPR T binary_to_gray(T value)
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<T>::value, "Not an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<T>::value, "Not an integral type");
 
     return (value >> 1U) ^ value;
   }
@@ -243,14 +243,14 @@ namespace tphn
   {
     TYPHOON_STATIC_ASSERT(integral_limits<TReturn>::bits >= NBITS, "Return type too small to hold result");
 
-    TYPHOON_CONSTANT TValue mask  = tphn::power<2, NBITS>::value - 1U;
+    TYPHOON_CONSTANT TValue mask  = tpn::power<2, NBITS>::value - 1U;
     TYPHOON_CONSTANT size_t shift = NBITS;
 
     // Fold the value down to fit the width.
     TReturn folded_value = 0;
 
     // Keep shifting down and XORing the lower bits.
-    while (value >= tphn::max_value_for_nbits<NBITS>::value)
+    while (value >= tpn::max_value_for_nbits<NBITS>::value)
     {
       folded_value ^= value & mask;
       value >>= shift;
@@ -270,9 +270,9 @@ namespace tphn
   template <typename TReturn, size_t NBITS, typename TValue>
   TYPHOON_CONSTEXPR14 TReturn sign_extend(TValue value)
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<TValue>::value,  "TValue not an integral type");
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<TReturn>::value, "TReturn not an integral type");
-    TYPHOON_STATIC_ASSERT(NBITS <= tphn::integral_limits<TReturn>::bits, "NBITS too large for return type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<TValue>::value,  "TValue not an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<TReturn>::value, "TReturn not an integral type");
+    TYPHOON_STATIC_ASSERT(NBITS <= tpn::integral_limits<TReturn>::bits, "NBITS too large for return type");
 
     struct S
     {
@@ -291,10 +291,10 @@ namespace tphn
   template <typename TReturn, size_t NBITS, size_t SHIFT, typename TValue>
   TYPHOON_CONSTEXPR14 TReturn sign_extend(TValue value)
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<TValue>::value,  "TValue not an integral type");
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<TReturn>::value, "TReturn not an integral type");
-    TYPHOON_STATIC_ASSERT(NBITS <= tphn::integral_limits<TReturn>::bits, "NBITS too large for return type");
-    TYPHOON_STATIC_ASSERT(SHIFT <= tphn::integral_limits<TReturn>::bits, "SHIFT too large");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<TValue>::value,  "TValue not an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<TReturn>::value, "TReturn not an integral type");
+    TYPHOON_STATIC_ASSERT(NBITS <= tpn::integral_limits<TReturn>::bits, "NBITS too large for return type");
+    TYPHOON_STATIC_ASSERT(SHIFT <= tpn::integral_limits<TReturn>::bits, "SHIFT too large");
 
     struct S
     {
@@ -312,10 +312,10 @@ namespace tphn
   template <typename TReturn, typename TValue>
   TYPHOON_CONSTEXPR14 TReturn sign_extend(TValue value, size_t NBITS)
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<TValue>::value,  "TValue not an integral type");
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<TReturn>::value, "TReturn not an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<TValue>::value,  "TValue not an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<TReturn>::value, "TReturn not an integral type");
 
-    TYPHOON_ASSERT((NBITS <= tphn::integral_limits<TReturn>::bits), TYPHOON_ERROR(binary_out_of_range));
+    TYPHOON_ASSERT((NBITS <= tpn::integral_limits<TReturn>::bits), TYPHOON_ERROR(binary_out_of_range));
 
     TReturn mask = TReturn(1) << (NBITS - 1);
     value = value & TValue((TValue(1) << NBITS) - 1);
@@ -332,10 +332,10 @@ namespace tphn
   template <typename TReturn, typename TValue>
   TYPHOON_CONSTEXPR14 TReturn sign_extend(TValue value, size_t NBITS, size_t SHIFT)
   {
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<TValue>::value,  "TValue not an integral type");
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<TReturn>::value, "TReturn not an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<TValue>::value,  "TValue not an integral type");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<TReturn>::value, "TReturn not an integral type");
 
-    TYPHOON_ASSERT((NBITS <= tphn::integral_limits<TReturn>::bits), TYPHOON_ERROR(binary_out_of_range));
+    TYPHOON_ASSERT((NBITS <= tpn::integral_limits<TReturn>::bits), TYPHOON_ERROR(binary_out_of_range));
 
     TReturn mask = TReturn(1) << (NBITS - 1);
     value = (value >> SHIFT) & TValue((TValue(1) << NBITS) - 1);
@@ -390,7 +390,7 @@ namespace tphn
   template <const size_t POSITION>
   struct bit
   {
-    typedef typename tphn::smallest_uint_for_bits<POSITION + 1>::type value_type;
+    typedef typename tpn::smallest_uint_for_bits<POSITION + 1>::type value_type;
     static TYPHOON_CONSTANT value_type value = value_type(1) << POSITION;
   };
 
@@ -411,8 +411,8 @@ namespace tphn
   {
     TYPHOON_STATIC_ASSERT(sizeof(TResult) >= sizeof(TValue), "Result must be at least as large as the fill value");
 
-    typedef typename tphn::make_unsigned<TResult>::type unsigned_r_t;
-    typedef typename tphn::make_unsigned<TValue>::type  unsigned_v_t;
+    typedef typename tpn::make_unsigned<TResult>::type unsigned_r_t;
+    typedef typename tpn::make_unsigned<TValue>::type  unsigned_v_t;
 
     return TResult(unsigned_v_t(value) * (unsigned_r_t(~unsigned_r_t(0U)) / unsigned_v_t(~unsigned_v_t(0U))));
   }
@@ -426,8 +426,8 @@ namespace tphn
   {
     TYPHOON_STATIC_ASSERT(sizeof(TResult) >= sizeof(TValue), "Result must be at least as large as the fill value");
 
-    typedef typename tphn::make_unsigned<TResult>::type unsigned_r_t;
-    typedef typename tphn::make_unsigned<TValue>::type  unsigned_v_t;
+    typedef typename tpn::make_unsigned<TResult>::type unsigned_r_t;
+    typedef typename tpn::make_unsigned<TValue>::type  unsigned_v_t;
 
     return TResult(unsigned_v_t(N) * (unsigned_r_t(~unsigned_r_t(0U)) / unsigned_v_t(~unsigned_v_t(0U))));
   }
@@ -440,8 +440,8 @@ namespace tphn
   template <typename TValue>
   TYPHOON_CONSTEXPR14 bool has_zero_byte(TValue value)
   {
-    typedef typename tphn::make_unsigned<TValue>::type unsigned_t;
-    TYPHOON_CONSTEXPR14 const unsigned_t mask = tphn::binary_fill<unsigned_t, uint8_t>(0x7FU);
+    typedef typename tpn::make_unsigned<TValue>::type unsigned_t;
+    TYPHOON_CONSTEXPR14 const unsigned_t mask = tpn::binary_fill<unsigned_t, uint8_t>(0x7FU);
     const unsigned_t temp = unsigned_t(~((((unsigned_t(value) & mask) + mask) | unsigned_t(value)) | mask));
 
     return (temp != 0U);
@@ -454,8 +454,8 @@ namespace tphn
   template <typename TValue, TValue N>
   TYPHOON_CONSTEXPR14 bool has_zero_byte()
   {
-    typedef typename tphn::make_unsigned<TValue>::type unsigned_t;
-    TYPHOON_CONSTEXPR14 const unsigned_t mask = tphn::binary_fill<unsigned_t, uint8_t>(0x7FU);
+    typedef typename tpn::make_unsigned<TValue>::type unsigned_t;
+    TYPHOON_CONSTEXPR14 const unsigned_t mask = tpn::binary_fill<unsigned_t, uint8_t>(0x7FU);
     const unsigned_t temp = unsigned_t(~((((unsigned_t(N) & mask) + mask) | unsigned_t(N)) | mask));
 
     return (temp != 0U);
@@ -468,7 +468,7 @@ namespace tphn
   template <typename TValue>
   TYPHOON_CONSTEXPR14 bool has_byte_n(TValue value, uint8_t n)
   {
-    return tphn::has_zero_byte(TValue(value ^ tphn::binary_fill<TValue, uint8_t>(n)));
+    return tpn::has_zero_byte(TValue(value ^ tpn::binary_fill<TValue, uint8_t>(n)));
   }
 
   //***************************************************************************
@@ -478,7 +478,7 @@ namespace tphn
   template <typename TValue, TValue N>
   TYPHOON_CONSTEXPR14 bool has_byte_n(TValue value)
   {
-    return tphn::has_zero_byte(TValue(value ^ tphn::binary_fill<TValue, uint8_t>(N)));
+    return tpn::has_zero_byte(TValue(value ^ tpn::binary_fill<TValue, uint8_t>(N)));
   }
 #endif
 
@@ -520,7 +520,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 8U), T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 8U), T>::type
     reverse_bits(T value)
   {
     value = ((value & 0xAAU) >> 1U) | ((value & 0x55U) << 1U);
@@ -565,7 +565,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 16U), T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 16U), T>::type
     reverse_bits(T value)
   {
     value = ((value & 0xAAAAU) >> 1U) | ((value & 0x5555U) << 1U);
@@ -612,7 +612,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 32U), T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 32U), T>::type
     reverse_bits(T value)
   {
     value = ((value & 0xAAAAAAAAUL) >>  1U) | ((value & 0x55555555UL) <<  1U);
@@ -663,7 +663,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 64U), T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 64U), T>::type
     reverse_bits(T value)
   {
     value = ((value & 0xAAAAAAAAAAAAAAAAULL) >>  1U) | ((value & 0x5555555555555555ULL) <<  1U);
@@ -717,10 +717,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_signed<T>::value, T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_signed<T>::value, T>::type
     reverse_bits(T value)
   {
-    typedef typename tphn::make_unsigned<T>::type unsigned_t;
+    typedef typename tpn::make_unsigned<T>::type unsigned_t;
 
     return static_cast<T>(reverse_bits(static_cast<unsigned_t>(value)));
   }
@@ -732,7 +732,7 @@ namespace tphn
 #if TYPHOON_USING_8BIT_TYPES
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 8U), T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 8U), T>::type
     reverse_bytes(T value)
   {
     return value;
@@ -745,7 +745,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 16U), T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 16U), T>::type
     reverse_bytes(T value)
   {
 #if TYPHOON_CPP23_SUPPORTED && TYPHOON_USING_STL
@@ -761,7 +761,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14 
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 32U), T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 32U), T>::type
     reverse_bytes(T value)
   {
 #if TYPHOON_CPP23_SUPPORTED && TYPHOON_USING_STL
@@ -781,7 +781,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 64U), T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 64U), T>::type
     reverse_bytes(T value)
   {
 #if TYPHOON_CPP23_SUPPORTED && TYPHOON_USING_STL
@@ -802,10 +802,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_signed<T>::value, T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_signed<T>::value, T>::type
     reverse_bytes(T value)
   {
-    typedef typename tphn::make_unsigned<T>::type unsigned_t;
+    typedef typename tpn::make_unsigned<T>::type unsigned_t;
 
     return static_cast<T>(reverse_bytes(static_cast<unsigned_t>(value)));
   }
@@ -817,7 +817,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 8U), T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 8U), T>::type
     gray_to_binary(T value)
   {
     value ^= (value >> 4U);
@@ -834,7 +834,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 16U), T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 16U), T>::type
     gray_to_binary(T value)
   {
     value ^= (value >> 8U);
@@ -851,7 +851,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 32U), T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 32U), T>::type
     gray_to_binary(T value)
   {
     value ^= (value >> 16U);
@@ -870,7 +870,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 64U), T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 64U), T>::type
     gray_to_binary(T value)
   {
     value ^= (value >> 32U);
@@ -890,10 +890,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_signed<T>::value, T>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_signed<T>::value, T>::type
     gray_to_binary(T value)
   {
-    typedef typename tphn::make_unsigned<T>::type unsigned_t;
+    typedef typename tpn::make_unsigned<T>::type unsigned_t;
 
     return static_cast<T>(gray_to_binary(static_cast<unsigned_t>(value)));
   }
@@ -905,7 +905,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 8U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 8U), uint_least8_t>::type
     count_bits(T value)
   {
 #if TYPHOON_CPP23_SUPPORTED && TYPHOON_USING_STL
@@ -928,7 +928,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 16U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 16U), uint_least8_t>::type
     count_bits(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -951,7 +951,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 32U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 32U), uint_least8_t>::type
     count_bits(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -976,7 +976,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 64U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 64U), uint_least8_t>::type
     count_bits(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1002,10 +1002,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_signed<T>::value, uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_signed<T>::value, uint_least8_t>::type
     count_bits(T value)
   {
-    typedef typename tphn::make_unsigned<T>::type unsigned_t;
+    typedef typename tpn::make_unsigned<T>::type unsigned_t;
 
     return static_cast<T>(count_bits(static_cast<unsigned_t>(value)));
   }
@@ -1017,7 +1017,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 8U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 8U), uint_least8_t>::type
     parity(T value)
   {
     value ^= value >> 4U;
@@ -1032,7 +1032,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 16U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 16U), uint_least8_t>::type
     parity(T value)
   {
     value ^= value >> 8U;
@@ -1047,7 +1047,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 32U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 32U), uint_least8_t>::type
     parity(T value)
   {
     value ^= value >> 16U;
@@ -1064,7 +1064,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 64U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 64U), uint_least8_t>::type
     parity(T value)
   {
     value ^= value >> 32U;
@@ -1082,10 +1082,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_signed<T>::value, uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_signed<T>::value, uint_least8_t>::type
     parity(T value)
   {
-    typedef typename tphn::make_unsigned<T>::type unsigned_t;
+    typedef typename tpn::make_unsigned<T>::type unsigned_t;
 
     return static_cast<T>(parity(static_cast<unsigned_t>(value)));
   }
@@ -1098,7 +1098,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 8U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 8U), uint_least8_t>::type
     count_trailing_zeros(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1147,7 +1147,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 16U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 16U), uint_least8_t>::type
     count_trailing_zeros(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1201,7 +1201,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 32U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 32U), uint_least8_t>::type
     count_trailing_zeros(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1262,7 +1262,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 64U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 64U), uint_least8_t>::type
     count_trailing_zeros(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1328,10 +1328,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_signed<T>::value, uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_signed<T>::value, uint_least8_t>::type
     count_trailing_zeros(T value)
   {
-    typedef typename tphn::make_unsigned<T>::type unsigned_t;
+    typedef typename tpn::make_unsigned<T>::type unsigned_t;
 
     return static_cast<T>(count_trailing_zeros(static_cast<unsigned_t>(value)));
   }
@@ -1344,7 +1344,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 8U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 8U), uint_least8_t>::type
     count_trailing_ones(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1393,7 +1393,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 16U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 16U), uint_least8_t>::type
     count_trailing_ones(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1447,7 +1447,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 32U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 32U), uint_least8_t>::type
     count_trailing_ones(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1508,7 +1508,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 64U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 64U), uint_least8_t>::type
     count_trailing_ones(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1568,10 +1568,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value&& tphn::is_signed<T>::value, uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value&& tpn::is_signed<T>::value, uint_least8_t>::type
     count_trailing_ones(T value)
   {
-    typedef typename tphn::make_unsigned<T>::type unsigned_t;
+    typedef typename tpn::make_unsigned<T>::type unsigned_t;
 
     return static_cast<T>(count_trailing_ones(static_cast<unsigned_t>(value)));
   }
@@ -1584,7 +1584,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 8U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 8U), uint_least8_t>::type
     count_leading_zeros(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1633,7 +1633,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 16U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 16U), uint_least8_t>::type
     count_leading_zeros(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1687,7 +1687,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 32U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 32U), uint_least8_t>::type
     count_leading_zeros(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1748,7 +1748,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 64U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 64U), uint_least8_t>::type
     count_leading_zeros(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1814,10 +1814,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_signed<T>::value, uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_signed<T>::value, uint_least8_t>::type
     count_leading_zeros(T value)
   {
-    typedef typename tphn::make_unsigned<T>::type unsigned_t;
+    typedef typename tpn::make_unsigned<T>::type unsigned_t;
 
     return static_cast<T>(count_trailing_ones(static_cast<unsigned_t>(value)));
   }
@@ -1830,7 +1830,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 8U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 8U), uint_least8_t>::type
     count_leading_ones(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1879,7 +1879,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 16U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 16U), uint_least8_t>::type
     count_leading_ones(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1933,7 +1933,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 32U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 32U), uint_least8_t>::type
     count_leading_ones(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -1994,7 +1994,7 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 64U), uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 64U), uint_least8_t>::type
     count_leading_ones(T value)
   {
 #if TYPHOON_USING_CPP20 && TYPHOON_USING_STL
@@ -2060,10 +2060,10 @@ namespace tphn
   //***************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_signed<T>::value, uint_least8_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_signed<T>::value, uint_least8_t>::type
     count_leading_ones(T value)
   {
-    typedef typename tphn::make_unsigned<T>::type unsigned_t;
+    typedef typename tpn::make_unsigned<T>::type unsigned_t;
 
     return static_cast<T>(count_leading_ones(static_cast<unsigned_t>(value)));
   }
@@ -2075,7 +2075,7 @@ namespace tphn
   //*****************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value&& tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 8U), uint16_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value&& tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 8U), uint16_t>::type
     binary_interleave(T first, T second)
   {
 	  uint16_t f = uint16_t(first);
@@ -2099,7 +2099,7 @@ namespace tphn
   //*****************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 16U), uint32_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 16U), uint32_t>::type
     binary_interleave(T first, T second)
   {
 	  uint32_t f = uint32_t(first);
@@ -2125,7 +2125,7 @@ namespace tphn
   //*****************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_unsigned<T>::value && (tphn::integral_limits<T>::bits == 32U), uint64_t>::type
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_unsigned<T>::value && (tpn::integral_limits<T>::bits == 32U), uint64_t>::type
     binary_interleave(T first, T second)
   {
 	  uint64_t f = uint64_t(first);
@@ -2153,7 +2153,7 @@ namespace tphn
   //*****************************************************************************
   template <typename T>
   TYPHOON_CONSTEXPR14
-    typename tphn::enable_if<tphn::is_integral<T>::value && tphn::is_signed<T>::value, T>::type  
+    typename tpn::enable_if<tpn::is_integral<T>::value && tpn::is_signed<T>::value, T>::type  
     binary_interleave(T first, T second)
   {
     return int64_t(binary_interleave(uint16_t(first), uint16_t(second)));
@@ -2164,10 +2164,10 @@ namespace tphn
   ///\ingroup binary
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR typename tphn::enable_if<tphn::is_integral<T>::value, bool>::type
+  TYPHOON_CONSTEXPR typename tpn::enable_if<tpn::is_integral<T>::value, bool>::type
    is_odd(T value)
   {
-	  return ((static_cast<typename tphn::make_unsigned<T>::type>(value) & 1U) != 0U);
+	  return ((static_cast<typename tpn::make_unsigned<T>::type>(value) & 1U) != 0U);
   }
 
   //***************************************************************************
@@ -2175,10 +2175,10 @@ namespace tphn
   ///\ingroup binary
   //***************************************************************************
   template <typename T>
-  TYPHOON_CONSTEXPR typename tphn::enable_if<tphn::is_integral<T>::value, bool>::type
+  TYPHOON_CONSTEXPR typename tpn::enable_if<tpn::is_integral<T>::value, bool>::type
     is_even(T value)
   {
-    return ((static_cast<typename tphn::make_unsigned<T>::type>(value) & 1U) == 0U);
+    return ((static_cast<typename tpn::make_unsigned<T>::type>(value) & 1U) == 0U);
   }
 
   //***********************************
@@ -2187,16 +2187,16 @@ namespace tphn
   {
   public:
 
-    static TYPHOON_CONSTANT T value = static_cast<T>(tphn::max_value_for_nbits<NBits>::value);
+    static TYPHOON_CONSTANT T value = static_cast<T>(tpn::max_value_for_nbits<NBits>::value);
   };
 
   //***********************************
   template <typename T>
   TYPHOON_CONSTEXPR14 T make_lsb_mask(size_t nbits)
   {
-    typedef typename tphn::make_unsigned<T>::type type;
+    typedef typename tpn::make_unsigned<T>::type type;
 
-    return (nbits == tphn::integral_limits<type>::bits) ? static_cast<T>(tphn::integral_limits<type>::max)
+    return (nbits == tpn::integral_limits<type>::bits) ? static_cast<T>(tpn::integral_limits<type>::max)
                                                        : static_cast<T>((static_cast<type>(1U) << nbits) - 1U);
   };
 
@@ -2206,14 +2206,14 @@ namespace tphn
   {
   public:
 
-    static TYPHOON_CONSTANT T value = static_cast<T>(tphn::reverse_bits_const<T, lsb_mask<T, NBits>::value>::value);
+    static TYPHOON_CONSTANT T value = static_cast<T>(tpn::reverse_bits_const<T, lsb_mask<T, NBits>::value>::value);
   };
 
   //***********************************
   template <typename T>
   TYPHOON_CONSTEXPR T make_msb_mask(size_t nbits)
   {
-    return static_cast<T>(tphn::reverse_bits(make_lsb_mask<T>(nbits)));
+    return static_cast<T>(tpn::reverse_bits(make_lsb_mask<T>(nbits)));
   };
 
   //***************************************************************************

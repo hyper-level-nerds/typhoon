@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 jwellbelove, Robin S�derholm
 
@@ -61,12 +61,12 @@ SOFTWARE.
 ///\ingroup containers
 //*****************************************************************************
 
-namespace tphn
+namespace tpn
 {
   namespace private_variant
   {
     //***************************************************************************
-    // This is a copy of the normal tphn::parameter_pack, but without the static_assert
+    // This is a copy of the normal tpn::parameter_pack, but without the static_assert
     // so that the C++11 versions of do_accept() & do_operator() do not throw a compile time error.
     //***************************************************************************
     template <typename... TTypes>
@@ -84,13 +84,13 @@ namespace tphn
       {
       private:
 
-        using type = tphn::remove_cvref_t<T>;
+        using type = tpn::remove_cvref_t<T>;
 
         //***********************************
         template <typename Type, typename T1, typename... TRest>
         struct index_of_type_helper
         {
-          static constexpr size_t value = tphn::is_same<Type, T1>::value ? 1 : 1 + index_of_type_helper<Type, TRest...>::value;
+          static constexpr size_t value = tpn::is_same<Type, T1>::value ? 1 : 1 + index_of_type_helper<Type, TRest...>::value;
         };
 
         //***********************************
@@ -102,7 +102,7 @@ namespace tphn
 
       public:
 
-        static_assert(tphn::is_one_of<type, TTypes...>::value, "T is not in parameter pack");
+        static_assert(tpn::is_one_of<type, TTypes...>::value, "T is not in parameter pack");
 
         /// The index value.
         static constexpr size_t value = index_of_type_helper<type, TTypes...>::value - 1;
@@ -120,7 +120,7 @@ namespace tphn
         template <size_t II, size_t N, typename T1, typename... TRest>
         struct type_from_index_helper
         {
-          using type = typename tphn::conditional<II == N, T1, typename type_from_index_helper<II, N + 1, TRest...>::type>::type;
+          using type = typename tpn::conditional<II == N, T1, typename type_from_index_helper<II, N + 1, TRest...>::type>::type;
         };
 
         //***********************************
@@ -214,7 +214,7 @@ namespace tphn
         {
           case Move:
           {
-            ::new (pstorage) T(tphn::move(*reinterpret_cast<T*>(const_cast<char*>(pvalue))));
+            ::new (pstorage) T(tpn::move(*reinterpret_cast<T*>(const_cast<char*>(pvalue))));
             break;
           }
 
@@ -286,7 +286,7 @@ namespace tphn
 
           case Move:
           {
-            ::new (pstorage) T(tphn::move(*reinterpret_cast<T*>(const_cast<char*>(pvalue))));
+            ::new (pstorage) T(tpn::move(*reinterpret_cast<T*>(const_cast<char*>(pvalue))));
             break;
           }
 
@@ -310,7 +310,7 @@ namespace tphn
   }
 
   /// Definition of variant_npos.
-  constexpr size_t variant_npos = tphn::integral_limits<size_t>::max;
+  constexpr size_t variant_npos = tpn::integral_limits<size_t>::max;
 
   //***********************************
   // variant. Forward declaration
@@ -324,9 +324,9 @@ namespace tphn
   struct variant_alternative;
 
   template <size_t Index, typename... TTypes>
-  struct variant_alternative<Index, tphn::variant<TTypes...>>
+  struct variant_alternative<Index, tpn::variant<TTypes...>>
   {
-    using type = typename tphn::private_variant::parameter_pack<TTypes...>::template type_from_index<Index>::type;
+    using type = typename tpn::private_variant::parameter_pack<TTypes...>::template type_from_index<Index>::type;
   };
 
   template <size_t Index, typename T>
@@ -341,37 +341,37 @@ namespace tphn
   //***********************************
   // holds_alternative. Forward declaration
   template <typename T, typename... TTypes>
-  TYPHOON_CONSTEXPR14 bool holds_alternative(const tphn::variant<TTypes...>& v) noexcept;
+  TYPHOON_CONSTEXPR14 bool holds_alternative(const tpn::variant<TTypes...>& v) noexcept;
 
   //***********************************
   // get. Forward declarations
   template <size_t Index, typename... VTypes>
-  TYPHOON_CONSTEXPR14 tphn::variant_alternative_t<Index, tphn::variant<VTypes...>>&
-    get(tphn::variant<VTypes...>& v);
+  TYPHOON_CONSTEXPR14 tpn::variant_alternative_t<Index, tpn::variant<VTypes...>>&
+    get(tpn::variant<VTypes...>& v);
 
   template <size_t Index, typename... VTypes>
-  TYPHOON_CONSTEXPR14 tphn::variant_alternative_t<Index, tphn::variant<VTypes...>>&&
-    get(tphn::variant<VTypes...>&& v);
+  TYPHOON_CONSTEXPR14 tpn::variant_alternative_t<Index, tpn::variant<VTypes...>>&&
+    get(tpn::variant<VTypes...>&& v);
 
   template <size_t Index, typename... VTypes>
-  TYPHOON_CONSTEXPR14 const tphn::variant_alternative_t<Index, const tphn::variant<VTypes...>>&
-    get(const tphn::variant<VTypes...>& v);
+  TYPHOON_CONSTEXPR14 const tpn::variant_alternative_t<Index, const tpn::variant<VTypes...>>&
+    get(const tpn::variant<VTypes...>& v);
 
   template <size_t Index, typename... VTypes>
-  TYPHOON_CONSTEXPR14 const tphn::variant_alternative_t<Index, const tphn::variant<VTypes...>>&&
-    get(const tphn::variant<VTypes...>&& v);
+  TYPHOON_CONSTEXPR14 const tpn::variant_alternative_t<Index, const tpn::variant<VTypes...>>&&
+    get(const tpn::variant<VTypes...>&& v);
 
   template <typename T, typename... VTypes>
-  TYPHOON_CONSTEXPR14 T& get(tphn::variant<VTypes...>& v);
+  TYPHOON_CONSTEXPR14 T& get(tpn::variant<VTypes...>& v);
 
   template <typename T, typename... VTypes>
-  TYPHOON_CONSTEXPR14 T&& get(tphn::variant<VTypes...>&& v);
+  TYPHOON_CONSTEXPR14 T&& get(tpn::variant<VTypes...>&& v);
 
   template <typename T, typename... VTypes>
-  TYPHOON_CONSTEXPR14 const T& get(const tphn::variant<VTypes...>& v);
+  TYPHOON_CONSTEXPR14 const T& get(const tpn::variant<VTypes...>& v);
 
   template <typename T, typename... VTypes>
-  TYPHOON_CONSTEXPR14 const T&& get(const tphn::variant<VTypes...>&& v);
+  TYPHOON_CONSTEXPR14 const T&& get(const tpn::variant<VTypes...>&& v);
 
   //***************************************************************************
   /// Monostate for variants.
@@ -381,21 +381,21 @@ namespace tphn
   {
   };
 
-  constexpr bool operator >(tphn::monostate, tphn::monostate) noexcept { return false; }
-	constexpr bool operator <(tphn::monostate, tphn::monostate) noexcept { return false; }
-	constexpr bool operator !=(tphn::monostate, tphn::monostate) noexcept { return false; }
-	constexpr bool operator <=(tphn::monostate, tphn::monostate) noexcept { return true; }
-	constexpr bool operator >=(tphn::monostate, tphn::monostate) noexcept { return true; }
-	constexpr bool operator ==(tphn::monostate, tphn::monostate) noexcept { return true; }
+  constexpr bool operator >(tpn::monostate, tpn::monostate) noexcept { return false; }
+	constexpr bool operator <(tpn::monostate, tpn::monostate) noexcept { return false; }
+	constexpr bool operator !=(tpn::monostate, tpn::monostate) noexcept { return false; }
+	constexpr bool operator <=(tpn::monostate, tpn::monostate) noexcept { return true; }
+	constexpr bool operator >=(tpn::monostate, tpn::monostate) noexcept { return true; }
+	constexpr bool operator ==(tpn::monostate, tpn::monostate) noexcept { return true; }
 
 #if TYPHOON_NOT_USING_STL && !defined(TYPHOON_USE_TYPE_TRAITS_BUILTINS)
   template <>
-  struct is_copy_constructible<tphn::monostate> : public tphn::true_type
+  struct is_copy_constructible<tpn::monostate> : public tpn::true_type
   {
   };
 
   template <>
-  struct is_move_constructible<tphn::monostate> : public tphn::true_type
+  struct is_move_constructible<tpn::monostate> : public tpn::true_type
   {
   };
 #endif
@@ -457,32 +457,32 @@ namespace tphn
     /// get() is a friend function.
     //***************************************************************************
     template <size_t Index, typename... VTypes>
-    friend TYPHOON_CONSTEXPR14 tphn::variant_alternative_t<Index, tphn::variant<VTypes...>>&
-      get(tphn::variant<VTypes...>& v);
+    friend TYPHOON_CONSTEXPR14 tpn::variant_alternative_t<Index, tpn::variant<VTypes...>>&
+      get(tpn::variant<VTypes...>& v);
 
     template <size_t Index, typename... VTypes>
-    friend TYPHOON_CONSTEXPR14 tphn::variant_alternative_t<Index, tphn::variant<VTypes...>>&&
-      get(tphn::variant<VTypes...>&& v);
+    friend TYPHOON_CONSTEXPR14 tpn::variant_alternative_t<Index, tpn::variant<VTypes...>>&&
+      get(tpn::variant<VTypes...>&& v);
 
     template <size_t Index, typename... VTypes>
-    friend TYPHOON_CONSTEXPR14 const tphn::variant_alternative_t<Index, const tphn::variant<VTypes...>>&
-      get(const tphn::variant<VTypes...>& v);
+    friend TYPHOON_CONSTEXPR14 const tpn::variant_alternative_t<Index, const tpn::variant<VTypes...>>&
+      get(const tpn::variant<VTypes...>& v);
 
     template <size_t Index, typename... VTypes>
-    friend TYPHOON_CONSTEXPR14 const tphn::variant_alternative_t<Index, const tphn::variant<VTypes...>>&&
-      get(const tphn::variant<VTypes...>&& v);
+    friend TYPHOON_CONSTEXPR14 const tpn::variant_alternative_t<Index, const tpn::variant<VTypes...>>&&
+      get(const tpn::variant<VTypes...>&& v);
 
     template <typename T, typename... VTypes>
-    friend TYPHOON_CONSTEXPR14 T& get(tphn::variant<VTypes...>& v);
+    friend TYPHOON_CONSTEXPR14 T& get(tpn::variant<VTypes...>& v);
 
     template <typename T, typename... VTypes>
-    friend TYPHOON_CONSTEXPR14 T&& get(tphn::variant<VTypes...>&& v);
+    friend TYPHOON_CONSTEXPR14 T&& get(tpn::variant<VTypes...>&& v);
 
     template <typename T, typename... VTypes>
-    friend TYPHOON_CONSTEXPR14 const T& get(const tphn::variant<VTypes...>& v);
+    friend TYPHOON_CONSTEXPR14 const T& get(const tpn::variant<VTypes...>& v);
 
     template <typename T, typename... VTypes>
-    friend TYPHOON_CONSTEXPR14 const T&& get(const tphn::variant<VTypes...>&& v);
+    friend TYPHOON_CONSTEXPR14 const T&& get(const tpn::variant<VTypes...>&& v);
 
   private:
 
@@ -503,7 +503,7 @@ namespace tphn
     //***************************************************************************
     /// The largest alignment.
     //***************************************************************************
-    static const size_t Alignment = tphn::largest_alignment<TTypes...>::value;
+    static const size_t Alignment = tpn::largest_alignment<TTypes...>::value;
 
     //***************************************************************************
     /// The operation templates.
@@ -524,103 +524,103 @@ namespace tphn
     /// Default constructor.
     /// Sets the state of the instance to containing no valid data.
     //***************************************************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
     TYPHOON_CONSTEXPR14 variant()
     {
-      using type = typename tphn::private_variant::parameter_pack<TTypes...>::template type_from_index<0U>::type;
+      using type = typename tpn::private_variant::parameter_pack<TTypes...>::template type_from_index<0U>::type;
 
       default_construct_in_place<type>(data);
-      operation = operation_type<type, tphn::is_copy_constructible<type>::value, tphn::is_move_constructible<type>::value>::do_operation;
+      operation = operation_type<type, tpn::is_copy_constructible<type>::value, tpn::is_move_constructible<type>::value>::do_operation;
       type_id   = 0U;
     }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 
     //***************************************************************************
     /// Constructor from a value.
     //***************************************************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
-    template <typename T, tphn::enable_if_t<!tphn::is_same<tphn::remove_cvref_t<T>, variant>::value, int> = 0>
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
+    template <typename T, tpn::enable_if_t<!tpn::is_same<tpn::remove_cvref_t<T>, variant>::value, int> = 0>
     TYPHOON_CONSTEXPR14 variant(T&& value)
-      : operation(operation_type<tphn::remove_cvref_t<T>, tphn::is_copy_constructible<tphn::remove_cvref_t<T>>::value, tphn::is_move_constructible<tphn::remove_cvref_t<T>>::value>::do_operation)
-      , type_id(tphn::private_variant::parameter_pack<TTypes...>::template index_of_type<tphn::remove_cvref_t<T>>::value)
+      : operation(operation_type<tpn::remove_cvref_t<T>, tpn::is_copy_constructible<tpn::remove_cvref_t<T>>::value, tpn::is_move_constructible<tpn::remove_cvref_t<T>>::value>::do_operation)
+      , type_id(tpn::private_variant::parameter_pack<TTypes...>::template index_of_type<tpn::remove_cvref_t<T>>::value)
     {
-      static_assert(tphn::is_one_of<tphn::remove_cvref_t<T>, TTypes...>::value, "Unsupported type");
+      static_assert(tpn::is_one_of<tpn::remove_cvref_t<T>, TTypes...>::value, "Unsupported type");
 
-      construct_in_place<tphn::remove_cvref_t<T>>(data, tphn::forward<T>(value));
+      construct_in_place<tpn::remove_cvref_t<T>>(data, tpn::forward<T>(value));
     }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 
     //***************************************************************************
     /// Construct from arguments.
     //***************************************************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename T, typename... TArgs>
-    TYPHOON_CONSTEXPR14 explicit variant(tphn::in_place_type_t<T>, TArgs&&... args)
-      : operation(operation_type<tphn::remove_cvref_t<T>, tphn::is_copy_constructible<tphn::remove_cvref_t<T>>::value, tphn::is_move_constructible<tphn::remove_cvref_t<T>>::value>::do_operation)
-      , type_id(tphn::private_variant::parameter_pack<TTypes...>::template index_of_type<tphn::remove_cvref_t<T>>::value)
+    TYPHOON_CONSTEXPR14 explicit variant(tpn::in_place_type_t<T>, TArgs&&... args)
+      : operation(operation_type<tpn::remove_cvref_t<T>, tpn::is_copy_constructible<tpn::remove_cvref_t<T>>::value, tpn::is_move_constructible<tpn::remove_cvref_t<T>>::value>::do_operation)
+      , type_id(tpn::private_variant::parameter_pack<TTypes...>::template index_of_type<tpn::remove_cvref_t<T>>::value)
     {
-      static_assert(tphn::is_one_of<tphn::remove_cvref_t<T>, TTypes...>::value, "Unsupported type");
+      static_assert(tpn::is_one_of<tpn::remove_cvref_t<T>, TTypes...>::value, "Unsupported type");
 
-      construct_in_place_args<tphn::remove_cvref_t<T>>(data, tphn::forward<TArgs>(args)...);
+      construct_in_place_args<tpn::remove_cvref_t<T>>(data, tpn::forward<TArgs>(args)...);
     }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 
     //***************************************************************************
     /// Construct from arguments.
     //***************************************************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <size_t Index, typename... TArgs>
-    TYPHOON_CONSTEXPR14 explicit variant(tphn::in_place_index_t<Index>, TArgs&&... args)
+    TYPHOON_CONSTEXPR14 explicit variant(tpn::in_place_index_t<Index>, TArgs&&... args)
       : type_id(Index)
     {
       using type = typename private_variant::parameter_pack<TTypes...>:: template type_from_index_t<Index>;
-      static_assert(tphn::is_one_of<type, TTypes...> ::value, "Unsupported type");
+      static_assert(tpn::is_one_of<type, TTypes...> ::value, "Unsupported type");
 
-      construct_in_place_args<type>(data, tphn::forward<TArgs>(args)...);
+      construct_in_place_args<type>(data, tpn::forward<TArgs>(args)...);
 
-      operation = operation_type<type, tphn::is_copy_constructible<type>::value, tphn::is_move_constructible<type>::value>::do_operation;
+      operation = operation_type<type, tpn::is_copy_constructible<type>::value, tpn::is_move_constructible<type>::value>::do_operation;
     }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 
 #if TYPHOON_HAS_INITIALIZER_LIST
     //***************************************************************************
     /// Construct from type, initializer_list and arguments.
     //***************************************************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <typename T, typename U, typename... TArgs >
-    TYPHOON_CONSTEXPR14 explicit variant(tphn::in_place_type_t<T>, std::initializer_list<U> init, TArgs&&... args)
-      : operation(operation_type<tphn::remove_cvref_t<T>, tphn::is_copy_constructible<tphn::remove_cvref_t<T>>::value, tphn::is_move_constructible<tphn::remove_cvref_t<T>>::value>::do_operation)
-      , type_id(private_variant::parameter_pack<TTypes...>:: template index_of_type<tphn::remove_cvref_t<T>>::value)
+    TYPHOON_CONSTEXPR14 explicit variant(tpn::in_place_type_t<T>, std::initializer_list<U> init, TArgs&&... args)
+      : operation(operation_type<tpn::remove_cvref_t<T>, tpn::is_copy_constructible<tpn::remove_cvref_t<T>>::value, tpn::is_move_constructible<tpn::remove_cvref_t<T>>::value>::do_operation)
+      , type_id(private_variant::parameter_pack<TTypes...>:: template index_of_type<tpn::remove_cvref_t<T>>::value)
     {
-      static_assert(tphn::is_one_of<tphn::remove_cvref_t<T>, TTypes...> ::value, "Unsupported type");
+      static_assert(tpn::is_one_of<tpn::remove_cvref_t<T>, TTypes...> ::value, "Unsupported type");
 
-      construct_in_place_args<tphn::remove_cvref_t<T>>(data, init, tphn::forward<TArgs>(args)...);
+      construct_in_place_args<tpn::remove_cvref_t<T>>(data, init, tpn::forward<TArgs>(args)...);
     }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 
     //***************************************************************************
     /// Construct from index, initializer_list and arguments.
     //***************************************************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
     template <size_t Index, typename U, typename... TArgs >
-    TYPHOON_CONSTEXPR14 explicit variant(tphn::in_place_index_t<Index>, std::initializer_list<U> init, TArgs&&... args)
+    TYPHOON_CONSTEXPR14 explicit variant(tpn::in_place_index_t<Index>, std::initializer_list<U> init, TArgs&&... args)
       : type_id(Index)
     {
       using type = typename private_variant::parameter_pack<TTypes...>:: template type_from_index_t<Index>;
-      static_assert(tphn::is_one_of<type, TTypes...> ::value, "Unsupported type");
+      static_assert(tpn::is_one_of<type, TTypes...> ::value, "Unsupported type");
 
-      construct_in_place_args<type>(data, init, tphn::forward<TArgs>(args)...);
+      construct_in_place_args<type>(data, init, tpn::forward<TArgs>(args)...);
 
-      operation = operation_type<type, tphn::is_copy_constructible<type>::value, tphn::is_move_constructible<type>::value>::do_operation;
+      operation = operation_type<type, tpn::is_copy_constructible<type>::value, tpn::is_move_constructible<type>::value>::do_operation;
     }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 #endif
 
     //***************************************************************************
     /// Copy constructor.
     ///\param other The other variant object to copy.
     //***************************************************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
     TYPHOON_CONSTEXPR14 variant(const variant& other)
       : operation(other.operation)
       , type_id(other.type_id)
@@ -637,13 +637,13 @@ namespace tphn
         }
       }
     }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 
     //***************************************************************************
     /// Move constructor.
     ///\param other The other variant object to copy.
     //***************************************************************************
-#include "tphn/private/diagnostic_uninitialized_push.hpp"
+#include "tpn/private/diagnostic_uninitialized_push.hpp"
     TYPHOON_CONSTEXPR14 variant(variant&& other)
       : operation(other.operation)
       , type_id(other.type_id)
@@ -664,7 +664,7 @@ namespace tphn
         type_id = variant_npos;
       }
     }
-#include "tphn/private/diagnostic_pop.hpp"
+#include "tpn/private/diagnostic_pop.hpp"
 
     //***************************************************************************
     /// Destructor.
@@ -686,17 +686,17 @@ namespace tphn
     template <typename T, typename... TArgs>
     T& emplace(TArgs&&... args)
     {
-      static_assert(tphn::is_one_of<T, TTypes...>::value, "Unsupported type");
+      static_assert(tpn::is_one_of<T, TTypes...>::value, "Unsupported type");
 
-      using type = tphn::remove_cvref_t<T>;
+      using type = tpn::remove_cvref_t<T>;
 
       operation(private_variant::Destroy, data, nullptr);
 
-      construct_in_place_args<type>(data, tphn::forward<TArgs>(args)...);
+      construct_in_place_args<type>(data, tpn::forward<TArgs>(args)...);
 
-      operation = operation_type<type, tphn::is_copy_constructible<type>::value, tphn::is_move_constructible<type>::value>::do_operation;
+      operation = operation_type<type, tpn::is_copy_constructible<type>::value, tpn::is_move_constructible<type>::value>::do_operation;
 
-      type_id = tphn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
+      type_id = tpn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
 
       return *static_cast<T*>(data);
     }
@@ -705,19 +705,19 @@ namespace tphn
     /// Move assignment operator for type.
     ///\param value The value to assign.
     //***************************************************************************
-    template <typename T, tphn::enable_if_t<!tphn::is_same<tphn::remove_cvref_t<T>, variant>::value, int> = 0>
+    template <typename T, tpn::enable_if_t<!tpn::is_same<tpn::remove_cvref_t<T>, variant>::value, int> = 0>
     variant& operator =(T&& value)
     {
-      using type = tphn::remove_cvref_t<T>;
+      using type = tpn::remove_cvref_t<T>;
 
-      static_assert(tphn::is_one_of<type, TTypes...>::value, "Unsupported type");
+      static_assert(tpn::is_one_of<type, TTypes...>::value, "Unsupported type");
 
       operation(private_variant::Destroy, data, nullptr);
 
-      construct_in_place<type>(data, tphn::forward<T>(value));
+      construct_in_place<type>(data, tpn::forward<T>(value));
 
-      operation = operation_type<type, tphn::is_copy_constructible<type>::value, tphn::is_move_constructible<type>::value>::do_operation;
-      type_id   = tphn::private_variant::parameter_pack<TTypes...>::template index_of_type<type>::value;
+      operation = operation_type<type, tpn::is_copy_constructible<type>::value, tpn::is_move_constructible<type>::value>::do_operation;
+      type_id   = tpn::private_variant::parameter_pack<TTypes...>::template index_of_type<type>::value;
 
       return *this;
     }
@@ -796,18 +796,18 @@ namespace tphn
     //***************************************************************************
     void swap(variant& rhs) noexcept
     {
-      variant temp(tphn::move(*this));
-      *this = tphn::move(rhs);
-      rhs = tphn::move(temp);
+      variant temp(tpn::move(*this));
+      *this = tpn::move(rhs);
+      rhs = tpn::move(temp);
     }
 
     //***************************************************************************
-    /// Accept an tphn::visitor.
+    /// Accept an tpn::visitor.
     //***************************************************************************
-    void accept_visitor(tphn::visitor<TTypes...>& v)
+    void accept_visitor(tpn::visitor<TTypes...>& v)
     {
 #if TYPHOON_USING_CPP17 && !defined(TYPHOON_VARIANT_FORCE_CPP11)
-      do_accept(v, tphn::make_index_sequence<sizeof...(TTypes)>{});
+      do_accept(v, tpn::make_index_sequence<sizeof...(TTypes)>{});
 #else
       do_accept(v);
 #endif
@@ -820,7 +820,7 @@ namespace tphn
     void accept_functor(TVisitor& v)
     {
 #if TYPHOON_USING_CPP17 && !defined(TYPHOON_VARIANT_FORCE_CPP11)
-      do_operator(v, tphn::make_index_sequence<sizeof...(TTypes)>{});
+      do_operator(v, tpn::make_index_sequence<sizeof...(TTypes)>{});
 #else
       do_operator(v);
 #endif
@@ -837,7 +837,7 @@ namespace tphn
     template <typename T>
     static void construct_in_place(char* pstorage, const T& value)
     {
-      using type = tphn::remove_cvref_t<T>;
+      using type = tpn::remove_cvref_t<T>;
 
       ::new (pstorage) type(value);
     }
@@ -848,9 +848,9 @@ namespace tphn
     template <typename T>
     static void construct_in_place(char* pstorage, T&& value)
     {
-      using type = tphn::remove_cvref_t<T>;
+      using type = tpn::remove_cvref_t<T>;
 
-      ::new (pstorage) type(tphn::move(value));
+      ::new (pstorage) type(tpn::move(value));
     }
 
     //***************************************************************************
@@ -859,9 +859,9 @@ namespace tphn
     template <typename T, typename... TArgs>
     static void construct_in_place_args(char* pstorage, TArgs&&... args)
     {
-      using type = tphn::remove_cvref_t<T>;
+      using type = tpn::remove_cvref_t<T>;
 
-      ::new (pstorage) type(tphn::forward<TArgs>(args)...);
+      ::new (pstorage) type(tpn::forward<TArgs>(args)...);
     }
 
     //***************************************************************************
@@ -870,7 +870,7 @@ namespace tphn
     template <typename T>
     static void default_construct_in_place(char* pstorage)
     {
-      using type = tphn::remove_cvref_t<T>;
+      using type = tpn::remove_cvref_t<T>;
 
       ::new (pstorage) type();
     }
@@ -880,7 +880,7 @@ namespace tphn
     /// Call the relevent visitor by attempting each one.
     //***************************************************************************
     template <size_t... I>
-    void do_accept(tphn::visitor<TTypes...>& visitor, tphn::index_sequence<I...>)
+    void do_accept(tpn::visitor<TTypes...>& visitor, tpn::index_sequence<I...>)
     {
       (attempt_visitor<I>(visitor) || ...);
     }
@@ -888,45 +888,45 @@ namespace tphn
     //***************************************************************************
     /// /// Call the relevent visitor.
     //***************************************************************************
-    void do_accept(tphn::visitor<TTypes...>& visitor)
+    void do_accept(tpn::visitor<TTypes...>& visitor)
     {
       switch (index())
       {
-        case 0: visitor.visit(tphn::get<0>(*this)); break;
-        case 1: visitor.visit(tphn::get<1>(*this)); break;
-        case 2: visitor.visit(tphn::get<2>(*this)); break;
-        case 3: visitor.visit(tphn::get<3>(*this)); break;
-        case 4: visitor.visit(tphn::get<4>(*this)); break;
-        case 5: visitor.visit(tphn::get<5>(*this)); break;
-        case 6: visitor.visit(tphn::get<6>(*this)); break;
-        case 7: visitor.visit(tphn::get<7>(*this)); break;
+        case 0: visitor.visit(tpn::get<0>(*this)); break;
+        case 1: visitor.visit(tpn::get<1>(*this)); break;
+        case 2: visitor.visit(tpn::get<2>(*this)); break;
+        case 3: visitor.visit(tpn::get<3>(*this)); break;
+        case 4: visitor.visit(tpn::get<4>(*this)); break;
+        case 5: visitor.visit(tpn::get<5>(*this)); break;
+        case 6: visitor.visit(tpn::get<6>(*this)); break;
+        case 7: visitor.visit(tpn::get<7>(*this)); break;
 #if !defined(TYPHOON_VARIANT_CPP11_MAX_8_TYPES)
-        case 8: visitor.visit(tphn::get<8>(*this)); break;
-        case 9: visitor.visit(tphn::get<9>(*this)); break;
-        case 10: visitor.visit(tphn::get<10>(*this)); break;
-        case 11: visitor.visit(tphn::get<11>(*this)); break;
-        case 12: visitor.visit(tphn::get<12>(*this)); break;
-        case 13: visitor.visit(tphn::get<13>(*this)); break;
-        case 14: visitor.visit(tphn::get<14>(*this)); break;
-        case 15: visitor.visit(tphn::get<15>(*this)); break;
+        case 8: visitor.visit(tpn::get<8>(*this)); break;
+        case 9: visitor.visit(tpn::get<9>(*this)); break;
+        case 10: visitor.visit(tpn::get<10>(*this)); break;
+        case 11: visitor.visit(tpn::get<11>(*this)); break;
+        case 12: visitor.visit(tpn::get<12>(*this)); break;
+        case 13: visitor.visit(tpn::get<13>(*this)); break;
+        case 14: visitor.visit(tpn::get<14>(*this)); break;
+        case 15: visitor.visit(tpn::get<15>(*this)); break;
 #if !defined(TYPHOON_VARIANT_CPP11_MAX_16_TYPES)
-        case 16: visitor.visit(tphn::get<16>(*this)); break;
-        case 17: visitor.visit(tphn::get<17>(*this)); break;
-        case 18: visitor.visit(tphn::get<18>(*this)); break;
-        case 19: visitor.visit(tphn::get<19>(*this)); break;
-        case 20: visitor.visit(tphn::get<20>(*this)); break;
-        case 21: visitor.visit(tphn::get<21>(*this)); break;
-        case 22: visitor.visit(tphn::get<22>(*this)); break;
-        case 23: visitor.visit(tphn::get<23>(*this)); break;
+        case 16: visitor.visit(tpn::get<16>(*this)); break;
+        case 17: visitor.visit(tpn::get<17>(*this)); break;
+        case 18: visitor.visit(tpn::get<18>(*this)); break;
+        case 19: visitor.visit(tpn::get<19>(*this)); break;
+        case 20: visitor.visit(tpn::get<20>(*this)); break;
+        case 21: visitor.visit(tpn::get<21>(*this)); break;
+        case 22: visitor.visit(tpn::get<22>(*this)); break;
+        case 23: visitor.visit(tpn::get<23>(*this)); break;
 #if !defined(TYPHOON_VARIANT_CPP11_MAX_24_TYPES)
-        case 24: visitor.visit(tphn::get<24>(*this)); break;
-        case 25: visitor.visit(tphn::get<25>(*this)); break;
-        case 26: visitor.visit(tphn::get<26>(*this)); break;
-        case 27: visitor.visit(tphn::get<27>(*this)); break;
-        case 28: visitor.visit(tphn::get<28>(*this)); break;
-        case 29: visitor.visit(tphn::get<29>(*this)); break;
-        case 30: visitor.visit(tphn::get<30>(*this)); break;
-        case 31: visitor.visit(tphn::get<31>(*this)); break;
+        case 24: visitor.visit(tpn::get<24>(*this)); break;
+        case 25: visitor.visit(tpn::get<25>(*this)); break;
+        case 26: visitor.visit(tpn::get<26>(*this)); break;
+        case 27: visitor.visit(tpn::get<27>(*this)); break;
+        case 28: visitor.visit(tpn::get<28>(*this)); break;
+        case 29: visitor.visit(tpn::get<29>(*this)); break;
+        case 30: visitor.visit(tpn::get<30>(*this)); break;
+        case 31: visitor.visit(tpn::get<31>(*this)); break;
 #endif
 #endif
 #endif
@@ -939,11 +939,11 @@ namespace tphn
     /// Attempt to call a visitor.
     //***************************************************************************
     template <size_t Index>
-    bool attempt_visitor(tphn::visitor<TTypes...>& visitor)
+    bool attempt_visitor(tpn::visitor<TTypes...>& visitor)
     {
       if (Index == index())
       {
-        visitor.visit(tphn::get<Index>(*this));
+        visitor.visit(tpn::get<Index>(*this));
         return true;
       }
       else
@@ -957,7 +957,7 @@ namespace tphn
     /// Call the relevent visitor by attempting each one.
     //***************************************************************************
     template <typename TVisitor, size_t... I>
-    void do_operator(TVisitor& visitor, tphn::index_sequence<I...>)
+    void do_operator(TVisitor& visitor, tpn::index_sequence<I...>)
     {
       (attempt_operator<I>(visitor) || ...);
     }
@@ -984,41 +984,41 @@ namespace tphn
 
       switch (index())
       {
-        case 0: visitor(tphn::get<0>(*this)); break;
-        case 1: visitor(tphn::get<1>(*this)); break;
-        case 2: visitor(tphn::get<2>(*this)); break;
-        case 3: visitor(tphn::get<3>(*this)); break;
-        case 4: visitor(tphn::get<4>(*this)); break;
-        case 5: visitor(tphn::get<5>(*this)); break;
-        case 6: visitor(tphn::get<6>(*this)); break;
-        case 7: visitor(tphn::get<7>(*this)); break;
+        case 0: visitor(tpn::get<0>(*this)); break;
+        case 1: visitor(tpn::get<1>(*this)); break;
+        case 2: visitor(tpn::get<2>(*this)); break;
+        case 3: visitor(tpn::get<3>(*this)); break;
+        case 4: visitor(tpn::get<4>(*this)); break;
+        case 5: visitor(tpn::get<5>(*this)); break;
+        case 6: visitor(tpn::get<6>(*this)); break;
+        case 7: visitor(tpn::get<7>(*this)); break;
 #if !defined(TYPHOON_VARIANT_CPP11_MAX_8_TYPES)
-        case 8: visitor(tphn::get<8>(*this)); break;
-        case 9: visitor(tphn::get<9>(*this)); break;
-        case 10: visitor(tphn::get<10>(*this)); break;
-        case 11: visitor(tphn::get<11>(*this)); break;
-        case 12: visitor(tphn::get<12>(*this)); break;
-        case 13: visitor(tphn::get<13>(*this)); break;
-        case 14: visitor(tphn::get<14>(*this)); break;
-        case 15: visitor(tphn::get<15>(*this)); break;
+        case 8: visitor(tpn::get<8>(*this)); break;
+        case 9: visitor(tpn::get<9>(*this)); break;
+        case 10: visitor(tpn::get<10>(*this)); break;
+        case 11: visitor(tpn::get<11>(*this)); break;
+        case 12: visitor(tpn::get<12>(*this)); break;
+        case 13: visitor(tpn::get<13>(*this)); break;
+        case 14: visitor(tpn::get<14>(*this)); break;
+        case 15: visitor(tpn::get<15>(*this)); break;
 #if !defined(TYPHOON_VARIANT_CPP11_MAX_16_TYPES)
-        case 16: visitor(tphn::get<16>(*this)); break;
-        case 17: visitor(tphn::get<17>(*this)); break;
-        case 18: visitor(tphn::get<18>(*this)); break;
-        case 19: visitor(tphn::get<19>(*this)); break;
-        case 20: visitor(tphn::get<20>(*this)); break;
-        case 21: visitor(tphn::get<21>(*this)); break;
-        case 22: visitor(tphn::get<22>(*this)); break;
-        case 23: visitor(tphn::get<23>(*this)); break;
+        case 16: visitor(tpn::get<16>(*this)); break;
+        case 17: visitor(tpn::get<17>(*this)); break;
+        case 18: visitor(tpn::get<18>(*this)); break;
+        case 19: visitor(tpn::get<19>(*this)); break;
+        case 20: visitor(tpn::get<20>(*this)); break;
+        case 21: visitor(tpn::get<21>(*this)); break;
+        case 22: visitor(tpn::get<22>(*this)); break;
+        case 23: visitor(tpn::get<23>(*this)); break;
 #if !defined(TYPHOON_VARIANT_CPP11_MAX_24_TYPES)
-        case 24: visitor(tphn::get<24>(*this)); break;
-        case 25: visitor(tphn::get<25>(*this)); break;
-        case 26: visitor(tphn::get<26>(*this)); break;
-        case 27: visitor(tphn::get<27>(*this)); break;
-        case 28: visitor(tphn::get<28>(*this)); break;
-        case 29: visitor(tphn::get<29>(*this)); break;
-        case 30: visitor(tphn::get<30>(*this)); break;
-        case 31: visitor(tphn::get<31>(*this)); break;
+        case 24: visitor(tpn::get<24>(*this)); break;
+        case 25: visitor(tpn::get<25>(*this)); break;
+        case 26: visitor(tpn::get<26>(*this)); break;
+        case 27: visitor(tpn::get<27>(*this)); break;
+        case 28: visitor(tpn::get<28>(*this)); break;
+        case 29: visitor(tpn::get<29>(*this)); break;
+        case 30: visitor(tpn::get<30>(*this)); break;
+        case 31: visitor(tpn::get<31>(*this)); break;
 #endif
 #endif
 #endif
@@ -1035,7 +1035,7 @@ namespace tphn
     {
       if (Index == index())
       {
-        visitor(tphn::get<Index>(*this));
+        visitor(tpn::get<Index>(*this));
         return true;
       }
       else
@@ -1048,7 +1048,7 @@ namespace tphn
     /// The internal storage.
     /// Aligned on a suitable boundary, which should be good for all types.
     //***************************************************************************
-    tphn::uninitialized_buffer<Size, 1U, Alignment> data;
+    tpn::uninitialized_buffer<Size, 1U, Alignment> data;
 
     //***************************************************************************
     /// The operation function.
@@ -1065,9 +1065,9 @@ namespace tphn
   /// Checks if the variant v holds the alternative T.
   //***************************************************************************
 	template <typename T, typename... TTypes>
-	TYPHOON_CONSTEXPR14 bool holds_alternative(const tphn::variant<TTypes...>& v) noexcept
+	TYPHOON_CONSTEXPR14 bool holds_alternative(const tpn::variant<TTypes...>& v) noexcept
 	{
-    constexpr size_t Index = tphn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
+    constexpr size_t Index = tpn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
 
     return (Index == variant_npos) ? false : (v.index() == Index);
 	}
@@ -1076,7 +1076,7 @@ namespace tphn
   /// Checks if the variant v holds the alternative Index.
   //***************************************************************************
   template <size_t Index, typename... TTypes>
-  TYPHOON_CONSTEXPR14 bool holds_alternative(const tphn::variant<TTypes...>& v) noexcept
+  TYPHOON_CONSTEXPR14 bool holds_alternative(const tpn::variant<TTypes...>& v) noexcept
   {
     return (Index == v.index());
   }
@@ -1085,7 +1085,7 @@ namespace tphn
   /// Checks if the variant v holds the alternative Index. (Runtime)
   //***************************************************************************
   template <typename... TTypes>
-  TYPHOON_CONSTEXPR14 bool holds_alternative(size_t index, const tphn::variant<TTypes...>& v) noexcept
+  TYPHOON_CONSTEXPR14 bool holds_alternative(size_t index, const tpn::variant<TTypes...>& v) noexcept
   {
     return (index == v.index());
   }
@@ -1094,112 +1094,112 @@ namespace tphn
   /// get
   //***************************************************************************
   template <size_t Index, typename... TTypes>
-  TYPHOON_CONSTEXPR14 tphn::variant_alternative_t<Index, tphn::variant<TTypes...>>&
-    get(tphn::variant<TTypes...>& v)
+  TYPHOON_CONSTEXPR14 tpn::variant_alternative_t<Index, tpn::variant<TTypes...>>&
+    get(tpn::variant<TTypes...>& v)
   {
 #if TYPHOON_USING_CPP17 && !defined(TYPHOON_VARIANT_FORCE_CPP11)
     static_assert(Index < sizeof...(TTypes), "Index out of range");
 #endif
 
-    TYPHOON_ASSERT(Index == v.index(), TYPHOON_ERROR(tphn::variant_incorrect_type_exception));
+    TYPHOON_ASSERT(Index == v.index(), TYPHOON_ERROR(tpn::variant_incorrect_type_exception));
 
-		using type = tphn::variant_alternative_t<Index, tphn::variant<TTypes...>>;
+		using type = tpn::variant_alternative_t<Index, tpn::variant<TTypes...>>;
 
     return *static_cast<type*>(v.data);
   }
 
   //***********************************
   template <size_t Index, typename... TTypes>
-  TYPHOON_CONSTEXPR14 tphn::variant_alternative_t<Index, tphn::variant<TTypes...>>&&
-    get(tphn::variant<TTypes...>&& v)
+  TYPHOON_CONSTEXPR14 tpn::variant_alternative_t<Index, tpn::variant<TTypes...>>&&
+    get(tpn::variant<TTypes...>&& v)
   {
 #if TYPHOON_USING_CPP17 && !defined(TYPHOON_VARIANT_FORCE_CPP11)
     static_assert(Index < sizeof...(TTypes), "Index out of range");
 #endif
 
-		using type = tphn::variant_alternative_t<Index, tphn::variant<TTypes...>>;
+		using type = tpn::variant_alternative_t<Index, tpn::variant<TTypes...>>;
 
-    return tphn::move(*static_cast<type*>(v.data));
+    return tpn::move(*static_cast<type*>(v.data));
   }
 
   //***********************************
   template <size_t Index, typename... TTypes>
-  TYPHOON_CONSTEXPR14 const tphn::variant_alternative_t<Index, const tphn::variant<TTypes...>>&
-    get(const tphn::variant<TTypes...>& v)
+  TYPHOON_CONSTEXPR14 const tpn::variant_alternative_t<Index, const tpn::variant<TTypes...>>&
+    get(const tpn::variant<TTypes...>& v)
   {
 #if TYPHOON_USING_CPP17 && !defined(TYPHOON_VARIANT_FORCE_CPP11)
     static_assert(Index < sizeof...(TTypes), "Index out of range");
 #endif
 
-    TYPHOON_ASSERT(Index == v.index(), TYPHOON_ERROR(tphn::variant_incorrect_type_exception));
+    TYPHOON_ASSERT(Index == v.index(), TYPHOON_ERROR(tpn::variant_incorrect_type_exception));
 
-		using type = tphn::variant_alternative_t<Index, tphn::variant<TTypes...>>;
+		using type = tpn::variant_alternative_t<Index, tpn::variant<TTypes...>>;
 
     return *static_cast<const type*>(v.data);
   }
 
   //***********************************
   template <size_t Index, typename... TTypes>
-  TYPHOON_CONSTEXPR14 const tphn::variant_alternative_t<Index, const tphn::variant<TTypes...>>&&
-    get(const tphn::variant<TTypes...>&& v)
+  TYPHOON_CONSTEXPR14 const tpn::variant_alternative_t<Index, const tpn::variant<TTypes...>>&&
+    get(const tpn::variant<TTypes...>&& v)
   {
 #if TYPHOON_USING_CPP17 & !defined(TYPHOON_VARIANT_FORCE_CPP11)
     static_assert(Index < sizeof...(TTypes), "Index out of range");
 #endif
 
-    TYPHOON_ASSERT(Index == v.index(), TYPHOON_ERROR(tphn::variant_incorrect_type_exception));
+    TYPHOON_ASSERT(Index == v.index(), TYPHOON_ERROR(tpn::variant_incorrect_type_exception));
 
-		using type = tphn::variant_alternative_t<Index, tphn::variant<TTypes...>>;
+		using type = tpn::variant_alternative_t<Index, tpn::variant<TTypes...>>;
 
-    return tphn::move(*static_cast<const type*>(v.data));
+    return tpn::move(*static_cast<const type*>(v.data));
   }
 
   //***********************************
   template <typename T, typename... TTypes>
-  TYPHOON_CONSTEXPR14 T& get(tphn::variant<TTypes...>& v)
+  TYPHOON_CONSTEXPR14 T& get(tpn::variant<TTypes...>& v)
   {
-    constexpr size_t Index = tphn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
+    constexpr size_t Index = tpn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
 
     return get<Index>(v);
   }
 
   //***********************************
   template <typename T, typename... TTypes>
-  TYPHOON_CONSTEXPR14 T&& get(tphn::variant<TTypes...>&& v)
+  TYPHOON_CONSTEXPR14 T&& get(tpn::variant<TTypes...>&& v)
   {
-    constexpr size_t Index = tphn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
+    constexpr size_t Index = tpn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
 
-    return get<Index>(tphn::move(v));
+    return get<Index>(tpn::move(v));
   }
 
   //***********************************
   template <typename T, typename... TTypes>
-  TYPHOON_CONSTEXPR14 const T& get(const tphn::variant<TTypes...>& v)
+  TYPHOON_CONSTEXPR14 const T& get(const tpn::variant<TTypes...>& v)
   {
-    constexpr size_t Index = tphn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
+    constexpr size_t Index = tpn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
 
     return get<Index>(v);
   }
 
   //***********************************
   template <typename T, typename... TTypes>
-  TYPHOON_CONSTEXPR14 const T&& get(const tphn::variant<TTypes...>&& v)
+  TYPHOON_CONSTEXPR14 const T&& get(const tpn::variant<TTypes...>&& v)
   {
-    constexpr size_t Index = tphn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
+    constexpr size_t Index = tpn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
 
-    return get<Index>(tphn::move(v));
+    return get<Index>(tpn::move(v));
   }
 
   //***************************************************************************
   /// get_if
   //***************************************************************************
   template< size_t Index, typename... TTypes >
-  TYPHOON_CONSTEXPR14 tphn::add_pointer_t<tphn::variant_alternative_t<Index, tphn::variant<TTypes...>>>
-    get_if(tphn::variant<TTypes...>* pv) noexcept
+  TYPHOON_CONSTEXPR14 tpn::add_pointer_t<tpn::variant_alternative_t<Index, tpn::variant<TTypes...>>>
+    get_if(tpn::variant<TTypes...>* pv) noexcept
   {
     if ((pv != nullptr) && (pv->index() == Index))
     {
-      return &tphn::get<Index>(*pv);
+      return &tpn::get<Index>(*pv);
     }
     else
     {
@@ -1209,12 +1209,12 @@ namespace tphn
 
   //***********************************
   template< size_t Index, typename... TTypes >
-  TYPHOON_CONSTEXPR14 tphn::add_pointer_t<const tphn::variant_alternative_t<Index, tphn::variant<TTypes...>>>
-    get_if(const tphn::variant<TTypes...>* pv) noexcept
+  TYPHOON_CONSTEXPR14 tpn::add_pointer_t<const tpn::variant_alternative_t<Index, tpn::variant<TTypes...>>>
+    get_if(const tpn::variant<TTypes...>* pv) noexcept
   {
     if ((pv != nullptr) && (pv->index() == Index))
     {
-      return &tphn::get<Index>(*pv);
+      return &tpn::get<Index>(*pv);
     }
     else
     {
@@ -1224,13 +1224,13 @@ namespace tphn
 
   //***********************************
   template< class T, typename... TTypes >
-  TYPHOON_CONSTEXPR14 tphn::add_pointer_t<T> get_if(tphn::variant<TTypes...>* pv) noexcept
+  TYPHOON_CONSTEXPR14 tpn::add_pointer_t<T> get_if(tpn::variant<TTypes...>* pv) noexcept
   {
-    constexpr size_t Index = tphn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
+    constexpr size_t Index = tpn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
 
     if ((pv != nullptr) && (pv->index() == Index))
     {
-      return &tphn::get<Index>(*pv);
+      return &tpn::get<Index>(*pv);
     }
     else
     {
@@ -1240,13 +1240,13 @@ namespace tphn
 
   //***********************************
   template< typename T, typename... TTypes >
-  TYPHOON_CONSTEXPR14 tphn::add_pointer_t<const T> get_if(const tphn::variant<TTypes...>* pv) noexcept
+  TYPHOON_CONSTEXPR14 tpn::add_pointer_t<const T> get_if(const tpn::variant<TTypes...>* pv) noexcept
   {
-    constexpr size_t Index = tphn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
+    constexpr size_t Index = tpn::private_variant::parameter_pack<TTypes...>::template index_of_type<T>::value;
 
     if ((pv != nullptr) && (pv->index() == Index))
     {
-      return &tphn::get<Index>(*pv);
+      return &tpn::get<Index>(*pv);
     }
     else
     {
@@ -1258,7 +1258,7 @@ namespace tphn
   /// swap
   //***************************************************************************
   template <typename... TTypes>
-  void swap(tphn::variant<TTypes...>& lhs, tphn::variant<TTypes...>& rhs)
+  void swap(tpn::variant<TTypes...>& lhs, tpn::variant<TTypes...>& rhs)
   {
     lhs.swap(rhs);
   }
@@ -1270,14 +1270,14 @@ namespace tphn
   struct variant_size;
 
   template <typename... TTypes>
-  struct variant_size<tphn::variant<TTypes...>>
-    : tphn::integral_constant<size_t, sizeof...(TTypes)>
+  struct variant_size<tpn::variant<TTypes...>>
+    : tpn::integral_constant<size_t, sizeof...(TTypes)>
   {
   };
 
   template <typename T>
   struct variant_size<const T>
-    : tphn::integral_constant<size_t, variant_size<T>::value>
+    : tpn::integral_constant<size_t, variant_size<T>::value>
   {
   };
 
@@ -1391,7 +1391,7 @@ namespace tphn
     template <typename TRet, typename TCallable, typename TVariant, size_t tIndex>
     constexpr TRet do_visit_single(TCallable&& f, TVariant&& v)
     {
-      return static_cast<TCallable&&>(f)(tphn::get<tIndex>(static_cast<TVariant&&>(v)));
+      return static_cast<TCallable&&>(f)(tpn::get<tIndex>(static_cast<TVariant&&>(v)));
     }
 
     //***************************************************************************
@@ -1433,7 +1433,7 @@ namespace tphn
     template <typename TRet, typename TCallable, typename TVariant, typename... TVs>
     static TYPHOON_CONSTEXPR14 TRet visit(TCallable&& f, TVariant&& v, TVs&&... vs)
     {
-      constexpr size_t variants = tphn::variant_size<typename remove_reference<TVariant>::type>::value;
+      constexpr size_t variants = tpn::variant_size<typename remove_reference<TVariant>::type>::value;
       return private_variant::do_visit<TRet>(static_cast<TCallable&&>(f),
                                              static_cast<TVariant&&>(v),
                                              make_index_sequence<variants>{},
@@ -1473,7 +1473,7 @@ namespace tphn
   }  // namespace private_variant
 
   //***************************************************************************
-  /// c++11/14 compatible tphn::visit for tphn::variant. Supports both c++17
+  /// c++11/14 compatible tpn::visit for tpn::variant. Supports both c++17
   /// "auto return type" signature and c++20 explicit template return type.
   //***************************************************************************
   template <typename TRet = private_variant::visit_auto_return, typename... TVariants, typename TCallable, typename TDeducedReturn = private_variant::visit_result_t<TRet, TCallable, TVariants...> >

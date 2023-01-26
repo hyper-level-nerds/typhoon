@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -38,13 +38,13 @@ SOFTWARE.
 #include <math.h>
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Invert.
   //***************************************************************************
   template<typename TInput>
-  class invert : public tphn::unary_function<TInput, TInput>
+  class invert : public tpn::unary_function<TInput, TInput>
   {
   public:
 
@@ -53,7 +53,7 @@ namespace tphn
     //*****************************************************************
     invert()
       : offset(TInput(0))
-      , minuend((tphn::numeric_limits<TInput>::is_signed) ? TInput(0) : tphn::numeric_limits<TInput>::max())
+      , minuend((tpn::numeric_limits<TInput>::is_signed) ? TInput(0) : tpn::numeric_limits<TInput>::max())
     {
     }
 

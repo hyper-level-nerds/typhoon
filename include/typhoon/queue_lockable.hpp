@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -43,15 +43,15 @@ SOFTWARE.
 #include <stddef.h>
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
-  template <size_t VMemory_Model = tphn::memory_model::MEMORY_MODEL_LARGE>
+  template <size_t VMemory_Model = tpn::memory_model::MEMORY_MODEL_LARGE>
   class queue_lockable_base
   {
   public:
 
     /// The type used for determining the size of queue.
-    typedef typename tphn::size_type_lookup<VMemory_Model>::type size_type;
+    typedef typename tpn::size_type_lookup<VMemory_Model>::type size_type;
 
     //*************************************************************************
     /// Destructor.
@@ -245,8 +245,8 @@ namespace tphn
   /// This queue supports concurrent access by one producer and one consumer.
   /// \tparam T The type of value that the queue_lockable holds.
   //***************************************************************************
-  template <typename T, const size_t VMemory_Model = tphn::memory_model::MEMORY_MODEL_LARGE>
-  class iqueue_lockable : public tphn::queue_lockable_base<VMemory_Model>
+  template <typename T, const size_t VMemory_Model = tpn::memory_model::MEMORY_MODEL_LARGE>
+  class iqueue_lockable : public tpn::queue_lockable_base<VMemory_Model>
   {
   private:
 
@@ -300,7 +300,7 @@ namespace tphn
     {
       this->lock();
 
-      bool result = push_implementation(tphn::move(value));
+      bool result = push_implementation(tpn::move(value));
 
       this->unlock();
 
@@ -315,7 +315,7 @@ namespace tphn
     template <typename ... Args>
     bool emplace_unlocked(Args&&... args)
     {
-      return emplace_implementation(tphn::forward<Args>(args)...);
+      return emplace_implementation(tpn::forward<Args>(args)...);
     }
 
     //*************************************************************************
@@ -326,7 +326,7 @@ namespace tphn
     {
       this->lock();
 
-      bool result = emplace_implementation(tphn::forward<Args>(args)...);
+      bool result = emplace_implementation(tpn::forward<Args>(args)...);
 
       this->unlock();
 
@@ -586,7 +586,7 @@ namespace tphn
     {
       if (this->current_size != this->Max_Size)
       {
-        ::new (&p_buffer[this->write_index]) T(tphn::move(value));
+        ::new (&p_buffer[this->write_index]) T(tpn::move(value));
 
         this->write_index = this->get_next_index(this->write_index, this->Max_Size);
 
@@ -609,7 +609,7 @@ namespace tphn
     {
       if (this->current_size != this->Max_Size)
       {
-        ::new (&p_buffer[this->write_index]) T(tphn::forward<Args>(args)...);
+        ::new (&p_buffer[this->write_index]) T(tpn::forward<Args>(args)...);
 
         this->write_index = this->get_next_index(this->write_index, this->Max_Size);
 
@@ -739,7 +739,7 @@ namespace tphn
       }
 
 #if TYPHOON_USING_CPP11 && TYPHOON_NOT_USING_STLPORT && !defined(TYPHOON_QUEUE_LOCKABLE_FORCE_CPP03_IMPLEMENTATION)
-      value = tphn::move(p_buffer[this->read_index]);
+      value = tpn::move(p_buffer[this->read_index]);
 #else
       value = p_buffer[this->read_index];
 #endif
@@ -788,18 +788,18 @@ namespace tphn
   /// \tparam VSize         The maximum capacity of the queue.
   /// \tparam VMemory_Model The memory model for the queue. Determines the type of the internal counter variables.
   //***************************************************************************
-  template <typename T, size_t VSize, size_t VMemory_Model = tphn::memory_model::MEMORY_MODEL_LARGE>
-  class queue_lockable : public tphn::iqueue_lockable<T, VMemory_Model>
+  template <typename T, size_t VSize, size_t VMemory_Model = tpn::memory_model::MEMORY_MODEL_LARGE>
+  class queue_lockable : public tpn::iqueue_lockable<T, VMemory_Model>
   {
   private:
 
-    typedef tphn::iqueue_lockable<T, VMemory_Model> base_t;
+    typedef tpn::iqueue_lockable<T, VMemory_Model> base_t;
 
   public:
 
     typedef typename base_t::size_type size_type;
 
-    TYPHOON_STATIC_ASSERT((VSize <= tphn::integral_limits<size_type>::max), "Size too large for memory model");
+    TYPHOON_STATIC_ASSERT((VSize <= tpn::integral_limits<size_type>::max), "Size too large for memory model");
 
     static TYPHOON_CONSTANT size_type Max_Size     = size_type(VSize);
     static TYPHOON_CONSTANT size_type Memory_Model = size_type(VMemory_Model);
@@ -835,7 +835,7 @@ namespace tphn
 #endif
 
     /// The uninitialised buffer of T used in the queue_lockable.
-    tphn::uninitialized_buffer_of<T, Max_Size> buffer;
+    tpn::uninitialized_buffer_of<T, Max_Size> buffer;
   };
 }
 

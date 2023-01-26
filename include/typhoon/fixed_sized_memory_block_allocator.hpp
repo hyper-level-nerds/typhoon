@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -36,7 +36,7 @@ SOFTWARE.
 #include "generic_pool.hpp"
 #include "alignment.hpp"
 
-namespace tphn
+namespace tpn
 {
   //*************************************************************************
   /// The fixed sized memory block pool.
@@ -107,7 +107,7 @@ namespace tphn
     }
 
     /// The generic pool from which allocate memory blocks.
-    tphn::generic_pool<Block_Size, Alignment, Size> pool;
+    tpn::generic_pool<Block_Size, Alignment, Size> pool;
   };
 }
 

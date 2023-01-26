@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -45,7 +45,7 @@ SOFTWARE.
 #pragma diag_suppress 1300
 #endif
 
-namespace tphn
+namespace tpn
 {
   namespace private_crc
   {
@@ -62,7 +62,7 @@ namespace tphn
 
     public:
 
-      static TYPHOON_CONSTANT TAccumulator value = Reflect ? TAccumulator(Do_Poly ? (Entry >> 1U) ^ tphn::reverse_bits_const<TAccumulator, Polynomial>::value : (Entry >> 1U)) 
+      static TYPHOON_CONSTANT TAccumulator value = Reflect ? TAccumulator(Do_Poly ? (Entry >> 1U) ^ tpn::reverse_bits_const<TAccumulator, Polynomial>::value : (Entry >> 1U)) 
                                                        : TAccumulator(Do_Poly ? (Entry << 1U) ^ Polynomial : (Entry << 1U));
     };
 
@@ -134,7 +134,7 @@ namespace tphn
     // Not Reflected
     template <typename TAccumulator, size_t Accumulator_Bits, size_t Chunk_Bits, uint8_t Chunk_Mask, bool Reflect>
     static
-    typename tphn::enable_if<(Accumulator_Bits > Chunk_Bits) && !Reflect, TAccumulator>::type
+    typename tpn::enable_if<(Accumulator_Bits > Chunk_Bits) && !Reflect, TAccumulator>::type
       crc_update_chunk(TAccumulator crc, uint8_t value, const TAccumulator table[])
     {
       value &= Chunk_Mask;
@@ -152,7 +152,7 @@ namespace tphn
     // Reflected
     template <typename TAccumulator, size_t Accumulator_Bits, size_t Chunk_Bits, uint8_t Chunk_Mask, bool Reflect>
     static
-    typename tphn::enable_if<(Accumulator_Bits > Chunk_Bits) && Reflect, TAccumulator>::type
+    typename tpn::enable_if<(Accumulator_Bits > Chunk_Bits) && Reflect, TAccumulator>::type
       crc_update_chunk(TAccumulator crc, uint8_t value, const TAccumulator table[])
     {
       value &= Chunk_Mask;
@@ -170,7 +170,7 @@ namespace tphn
     // Not Reflected
     template <typename TAccumulator, size_t Accumulator_Bits, size_t Chunk_Bits, uint8_t Chunk_Mask, bool Reflect>
     static
-    typename tphn::enable_if<(Accumulator_Bits == Chunk_Bits) && !Reflect, TAccumulator>::type
+    typename tpn::enable_if<(Accumulator_Bits == Chunk_Bits) && !Reflect, TAccumulator>::type
       crc_update_chunk(TAccumulator crc, uint8_t value, const TAccumulator table[])
     {
       value &= Chunk_Mask;
@@ -187,7 +187,7 @@ namespace tphn
     // Reflected
     template <typename TAccumulator, size_t Accumulator_Bits, size_t Chunk_Bits, uint8_t Chunk_Mask, bool Reflect>
     static
-    typename tphn::enable_if<(Accumulator_Bits == Chunk_Bits) && Reflect, TAccumulator>::type
+    typename tpn::enable_if<(Accumulator_Bits == Chunk_Bits) && Reflect, TAccumulator>::type
       crc_update_chunk(TAccumulator crc, uint8_t value, const TAccumulator table[])
     {
       value &= Chunk_Mask;
@@ -580,7 +580,7 @@ namespace tphn
       //*************************************************************************
       TYPHOON_CONSTEXPR accumulator_type initial() const
       {
-        return TCrcParameters::Reflect ? tphn::reverse_bits_const<accumulator_type, TCrcParameters::Initial>::value
+        return TCrcParameters::Reflect ? tpn::reverse_bits_const<accumulator_type, TCrcParameters::Initial>::value
                                        : TCrcParameters::Initial;
       }
 
@@ -608,7 +608,7 @@ namespace tphn
       //*************************************************************************
       TYPHOON_CONSTEXPR accumulator_type initial() const
       {
-        return TCrcParameters::Reflect ? tphn::reverse_bits_const<accumulator_type, TCrcParameters::Initial>::value
+        return TCrcParameters::Reflect ? tpn::reverse_bits_const<accumulator_type, TCrcParameters::Initial>::value
                                        : TCrcParameters::Initial;
       }
 
@@ -636,7 +636,7 @@ namespace tphn
       //*************************************************************************
       TYPHOON_CONSTEXPR accumulator_type initial() const
       {
-        return TCrcParameters::Reflect ? tphn::reverse_bits_const<accumulator_type, TCrcParameters::Initial>::value
+        return TCrcParameters::Reflect ? tpn::reverse_bits_const<accumulator_type, TCrcParameters::Initial>::value
                                        : TCrcParameters::Initial;
       }
 
@@ -652,7 +652,7 @@ namespace tphn
   /// Basic parameterised CRC type.
   //*****************************************************************************
   template <typename TCrcParameters, size_t Table_Size>
-  class crc_type : public tphn::frame_check_sequence<private_crc::crc_policy<TCrcParameters, Table_Size> >
+  class crc_type : public tpn::frame_check_sequence<private_crc::crc_policy<TCrcParameters, Table_Size> >
   {
   public:
 

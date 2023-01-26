@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -35,7 +35,7 @@ SOFTWARE.
 #include "utility.hpp"
 #include "type_traits.hpp"
 
-namespace tphn
+namespace tpn
 {
 #if TYPHOON_USING_CPP11
 #if TYPHOON_USING_CPP17 && !defined(TYPHOON_OVERLOAD_FORCE_CPP14)
@@ -80,7 +80,7 @@ namespace tphn
   template <typename... TOverloads>
   constexpr overload<TOverloads...> make_overload(TOverloads&&... overloads)
   {
-    return overload<TOverloads...>{ tphn::forward<TOverloads>(overloads)... };
+    return overload<TOverloads...>{ tpn::forward<TOverloads>(overloads)... };
   }
 
 #endif

@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -50,7 +50,7 @@ SOFTWARE.
 /// A wrapper for arrays
 ///\ingroup containers
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The base class for array_view exceptions.
@@ -131,40 +131,40 @@ namespace tphn
 
 #if TYPHOON_USING_CPP11
     //*************************************************************************
-    /// Construct from tphn::array.
+    /// Construct from tpn::array.
     //*************************************************************************
-    template <typename U, size_t N, typename = typename tphn::enable_if<tphn::is_same<tphn::remove_cv_t<T>, tphn::remove_cv_t<U>>::value, void>::type>
-    TYPHOON_CONSTEXPR array_view(tphn::array<U, N>& a) TYPHOON_NOEXCEPT
+    template <typename U, size_t N, typename = typename tpn::enable_if<tpn::is_same<tpn::remove_cv_t<T>, tpn::remove_cv_t<U>>::value, void>::type>
+    TYPHOON_CONSTEXPR array_view(tpn::array<U, N>& a) TYPHOON_NOEXCEPT
       : mbegin(a.data())
       , mend(a.data() + a.size())
     {
     }
 
     //*************************************************************************
-    /// Construct from tphn::array.
+    /// Construct from tpn::array.
     //*************************************************************************
-    template <typename U, size_t N, typename = typename tphn::enable_if<tphn::is_same<tphn::remove_cv_t<T>, tphn::remove_cv_t<U>>::value, void>::type>
-    TYPHOON_CONSTEXPR array_view(const tphn::array<U, N>& a) TYPHOON_NOEXCEPT
+    template <typename U, size_t N, typename = typename tpn::enable_if<tpn::is_same<tpn::remove_cv_t<T>, tpn::remove_cv_t<U>>::value, void>::type>
+    TYPHOON_CONSTEXPR array_view(const tpn::array<U, N>& a) TYPHOON_NOEXCEPT
       : mbegin(a.data())
       , mend(a.data() + a.size())
     {
     }
 #else
     //*************************************************************************
-    /// Construct from tphn::array.
+    /// Construct from tpn::array.
     //*************************************************************************
     template <typename U, size_t N>
-    TYPHOON_CONSTEXPR array_view(tphn::array<U, N>& a, typename tphn::enable_if<tphn::is_same<typename tphn::remove_cv<T>::type, typename tphn::remove_cv<U>::type>::value, void>::type* = 0) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR array_view(tpn::array<U, N>& a, typename tpn::enable_if<tpn::is_same<typename tpn::remove_cv<T>::type, typename tpn::remove_cv<U>::type>::value, void>::type* = 0) TYPHOON_NOEXCEPT
       : mbegin(a.data())
       , mend(a.data() + a.size())
     {
     }
 
     //*************************************************************************
-    /// Construct from tphn::array.
+    /// Construct from tpn::array.
     //*************************************************************************
     template <typename U, size_t N>
-    TYPHOON_CONSTEXPR array_view(const tphn::array<U, N>& a, typename tphn::enable_if<tphn::is_same<typename tphn::remove_cv<T>::type, typename tphn::remove_cv<U>::type>::value, void>::type* = 0) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR array_view(const tpn::array<U, N>& a, typename tpn::enable_if<tpn::is_same<typename tpn::remove_cv<T>::type, typename tpn::remove_cv<U>::type>::value, void>::type* = 0) TYPHOON_NOEXCEPT
       : mbegin(a.data())
       , mend(a.data() + a.size())
     {
@@ -175,7 +175,7 @@ namespace tphn
     //*************************************************************************
     /// Construct from std::array.
     //*************************************************************************
-    template <typename U, size_t N, typename = typename tphn::enable_if<tphn::is_same<tphn::remove_cv_t<T>, tphn::remove_cv_t<U>>::value, void>::type>
+    template <typename U, size_t N, typename = typename tpn::enable_if<tpn::is_same<tpn::remove_cv_t<T>, tpn::remove_cv_t<U>>::value, void>::type>
     TYPHOON_CONSTEXPR array_view(std::array<U, N>& a) TYPHOON_NOEXCEPT
       : mbegin(a.data())
       , mend(a.data() + a.size())
@@ -185,7 +185,7 @@ namespace tphn
     //*************************************************************************
     /// Construct from std::array.
     //*************************************************************************
-    template <typename U, size_t N, typename = typename tphn::enable_if<tphn::is_same<tphn::remove_cv_t<T>, tphn::remove_cv_t<U>>::value, void>::type>
+    template <typename U, size_t N, typename = typename tpn::enable_if<tpn::is_same<tpn::remove_cv_t<T>, tpn::remove_cv_t<U>>::value, void>::type>
     TYPHOON_CONSTEXPR array_view(const std::array<U, N>& a) TYPHOON_NOEXCEPT
       : mbegin(a.data())
       , mend(a.data() + a.size())
@@ -198,9 +198,9 @@ namespace tphn
     /// Construct from a container or other type that supports
     /// data() and size() member functions.
     //*************************************************************************
-    template <typename TContainer, typename = typename tphn::enable_if<!tphn::is_pointer<tphn::remove_reference_t<TContainer>>::value &&
-                                                                      !tphn::is_array<tphn::remove_reference_t<TContainer>>::value &&
-                                                                      tphn::is_same<tphn::remove_cv_t<T>, tphn::remove_cv_t<typename tphn::remove_reference_t<TContainer>::value_type>>::value, void>::type>
+    template <typename TContainer, typename = typename tpn::enable_if<!tpn::is_pointer<tpn::remove_reference_t<TContainer>>::value &&
+                                                                      !tpn::is_array<tpn::remove_reference_t<TContainer>>::value &&
+                                                                      tpn::is_same<tpn::remove_cv_t<T>, tpn::remove_cv_t<typename tpn::remove_reference_t<TContainer>::value_type>>::value, void>::type>
       TYPHOON_CONSTEXPR array_view(TContainer&& a) TYPHOON_NOEXCEPT
       : mbegin(a.data())
       , mend(a.data() + a.size())
@@ -212,9 +212,9 @@ namespace tphn
     /// data() and size() member functions.
     //*************************************************************************
     template <typename TContainer>
-    TYPHOON_CONSTEXPR array_view(TContainer& a, typename tphn::enable_if<!tphn::is_pointer<typename tphn::remove_reference<TContainer>::type>::value &&
-                                                                    !tphn::is_array<TContainer>::value &&
-                                                                    tphn::is_same<typename tphn::remove_cv<T>::type, typename tphn::remove_cv<typename tphn::remove_reference<TContainer>::type::value_type>::type>::value, void>::type* = 0) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR array_view(TContainer& a, typename tpn::enable_if<!tpn::is_pointer<typename tpn::remove_reference<TContainer>::type>::value &&
+                                                                    !tpn::is_array<TContainer>::value &&
+                                                                    tpn::is_same<typename tpn::remove_cv<T>::type, typename tpn::remove_cv<typename tpn::remove_reference<TContainer>::type::value_type>::type>::value, void>::type* = 0) TYPHOON_NOEXCEPT
       : mbegin(a.data())
       , mend(a.data() + a.size())
     {
@@ -225,9 +225,9 @@ namespace tphn
     /// data() and size() member functions.
     //*************************************************************************
     template <typename TContainer>
-    TYPHOON_CONSTEXPR array_view(const TContainer& a, typename tphn::enable_if<!tphn::is_pointer<typename tphn::remove_reference<TContainer>::type>::value &&
-                                                                          !tphn::is_array<TContainer>::value &&
-                                                                          tphn::is_same<typename tphn::remove_cv<T>::type, typename tphn::remove_cv<typename tphn::remove_reference<TContainer>::type::value_type>::type>::value, void>::type* = 0) TYPHOON_NOEXCEPT
+    TYPHOON_CONSTEXPR array_view(const TContainer& a, typename tpn::enable_if<!tpn::is_pointer<typename tpn::remove_reference<TContainer>::type>::value &&
+                                                                          !tpn::is_array<TContainer>::value &&
+                                                                          tpn::is_same<typename tpn::remove_cv<T>::type, typename tpn::remove_cv<typename tpn::remove_reference<TContainer>::type::value_type>::type>::value, void>::type* = 0) TYPHOON_NOEXCEPT
       : mbegin(a.data())
       , mend(a.data() + a.size())
     {
@@ -239,8 +239,8 @@ namespace tphn
     //*************************************************************************
     template <typename TIterator>
     TYPHOON_CONSTEXPR array_view(const TIterator begin_, const TIterator end_)
-      : mbegin(tphn::addressof(*begin_)),
-        mend(tphn::addressof(*begin_) + tphn::distance(begin_, end_))
+      : mbegin(tpn::addressof(*begin_)),
+        mend(tpn::addressof(*begin_) + tpn::distance(begin_, end_))
     {
     }
 
@@ -250,8 +250,8 @@ namespace tphn
     template <typename TIterator,
               typename TSize>
     TYPHOON_CONSTEXPR array_view(const TIterator begin_, const TSize size_)
-      : mbegin(tphn::addressof(*begin_)),
-        mend(tphn::addressof(*begin_) + size_)
+      : mbegin(tpn::addressof(*begin_)),
+        mend(tpn::addressof(*begin_) + size_)
     {
     }
 
@@ -458,8 +458,8 @@ namespace tphn
     template <typename TIterator>
     void assign(const TIterator begin_, const TIterator end_)
     {
-      mbegin = tphn::addressof(*begin_);
-      mend   = tphn::addressof(*begin_) + tphn::distance(begin_, end_);
+      mbegin = tpn::addressof(*begin_);
+      mend   = tpn::addressof(*begin_) + tpn::distance(begin_, end_);
     }
 
     //*************************************************************************
@@ -469,8 +469,8 @@ namespace tphn
               typename TSize>
     void assign(const TIterator begin_, const TSize size_)
     {
-      mbegin = tphn::addressof(*begin_);
-      mend   = tphn::addressof(*begin_) + size_;
+      mbegin = tpn::addressof(*begin_);
+      mend   = tpn::addressof(*begin_) + size_;
     }
 
 #if defined(TYPHOON_ARRAY_VIEW_IS_MUTABLE)
@@ -551,7 +551,7 @@ namespace tphn
     //*************************************************************************
     void fill(const T& value)
     {
-      tphn::fill(begin(), end(), value);
+      tpn::fill(begin(), end(), value);
     }
 
     //*************************************************************************
@@ -560,7 +560,7 @@ namespace tphn
     friend bool operator == (const array_view<T>& lhs, const array_view<T>& rhs)
     {
       return (lhs.size() == rhs.size()) &&
-             tphn::equal(lhs.begin(), lhs.end(), rhs.begin());
+             tpn::equal(lhs.begin(), lhs.end(), rhs.begin());
     }
 
     //*************************************************************************
@@ -576,7 +576,7 @@ namespace tphn
     //*************************************************************************
     friend bool operator < (const array_view<T>& lhs, const array_view<T>& rhs)
     {
-      return tphn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+      return tpn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
     }
 
     //*************************************************************************
@@ -619,12 +619,12 @@ namespace tphn
 
   template <typename TIterator>
   array_view(const TIterator begin_, const TIterator end_)
-    -> array_view<tphn::remove_pointer_t<TIterator>>;
+    -> array_view<tpn::remove_pointer_t<TIterator>>;
 
   template <typename TIterator,
             typename TSize>
   array_view(const TIterator begin_, const TSize size_)
-    -> array_view<tphn::remove_pointer_t<TIterator>>;
+    -> array_view<tpn::remove_pointer_t<TIterator>>;
 #endif  
 
   //*************************************************************************
@@ -632,11 +632,11 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_8BIT_TYPES
   template <typename T>
-  struct hash<tphn::array_view<T> >
+  struct hash<tpn::array_view<T> >
   {
-    size_t operator()(const tphn::array_view<T>& view) const
+    size_t operator()(const tpn::array_view<T>& view) const
     {
-      return tphn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&view[0]),
+      return tpn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&view[0]),
                                                      reinterpret_cast<const uint8_t*>(&view[view.size()]));
     }
   };
@@ -647,7 +647,7 @@ namespace tphn
 /// Swaps the values.
 //*************************************************************************
 template <typename T>
-void swap(tphn::array_view<T>& lhs, tphn::array_view<T>& rhs)
+void swap(tpn::array_view<T>& lhs, tpn::array_view<T>& rhs)
 {
   lhs.swap(rhs);
 }

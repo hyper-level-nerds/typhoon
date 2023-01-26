@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -45,12 +45,12 @@ SOFTWARE.
 #include <stdint.h>
 #include <string.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The base class for array_wrapper exceptions.
   //***************************************************************************
-  class mem_cast_exception : public tphn::exception
+  class mem_cast_exception : public tpn::exception
   {
   public:
 
@@ -63,7 +63,7 @@ namespace tphn
   //***************************************************************************
   /// The exception thrown when the type size is too large.
   //***************************************************************************
-  class mem_cast_size_exception : public tphn::mem_cast_exception
+  class mem_cast_size_exception : public tpn::mem_cast_exception
   {
   public:
 
@@ -76,7 +76,7 @@ namespace tphn
   //***************************************************************************
   /// The exception thrown when the pointer is null.
   //***************************************************************************
-  class mem_cast_nullptr_exception : public tphn::mem_cast_exception
+  class mem_cast_nullptr_exception : public tpn::mem_cast_exception
   {
   public:
 
@@ -97,7 +97,7 @@ namespace tphn
     static TYPHOON_CONSTANT size_t Size      = Size_;
     static TYPHOON_CONSTANT size_t Alignment = Alignment_;
 
-    TYPHOON_STATIC_ASSERT((Alignment == 1) || tphn::is_power_of_2<Alignment>::value, "Alignment must be a power of 2");
+    TYPHOON_STATIC_ASSERT((Alignment == 1) || tpn::is_power_of_2<Alignment>::value, "Alignment must be a power of 2");
 
     //***********************************
     /// Default constructor
@@ -149,7 +149,7 @@ namespace tphn
     void assign_at_offset(size_t offset, const T& value)
     {
       char* p = static_cast<char*>(buffer) + offset;
-      TYPHOON_ASSERT(sizeof(T) <= (Size - offset), TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT(sizeof(T) <= (Size - offset), TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
       ::new (p) T(value);
     }
@@ -175,7 +175,7 @@ namespace tphn
     {
       TYPHOON_STATIC_ASSERT(Size >= sizeof(T), "Type size is too large");
 
-      ::new (static_cast<void*>(buffer)) T(tphn::forward<TArgs>(args)...);
+      ::new (static_cast<void*>(buffer)) T(tpn::forward<TArgs>(args)...);
     }
 
     //***********************************
@@ -185,9 +185,9 @@ namespace tphn
     void emplace_at_offset(size_t offset, TArgs... args)
     {
       char* p = static_cast<char*>(buffer) + offset;
-      TYPHOON_ASSERT(sizeof(T) <= (Size - offset), TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT(sizeof(T) <= (Size - offset), TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
-      ::new (p) T(tphn::forward<TArgs>(args)...);
+      ::new (p) T(tpn::forward<TArgs>(args)...);
     }
 
     //***********************************
@@ -199,7 +199,7 @@ namespace tphn
       char* p = static_cast<char*>(buffer) + Offset;
       TYPHOON_STATIC_ASSERT(sizeof(T) <= (Size - Offset), "Type size is too large");
 
-      ::new (p) T(tphn::forward<TArgs>(args)...);
+      ::new (p) T(tpn::forward<TArgs>(args)...);
     }
 #endif
 
@@ -231,7 +231,7 @@ namespace tphn
     template <typename T>
     TYPHOON_NODISCARD T& ref_at_offset(size_t offset)
     {
-      TYPHOON_ASSERT(sizeof(T) <= (Size - offset), TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT(sizeof(T) <= (Size - offset), TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
       char* p = buffer + offset;
 
@@ -244,7 +244,7 @@ namespace tphn
     template <typename T>
     TYPHOON_NODISCARD const T& ref_at_offset(size_t offset) const
     {
-      TYPHOON_ASSERT(sizeof(T) <= (Size - offset), TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT(sizeof(T) <= (Size - offset), TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
       char* p = buffer + offset;
 
@@ -312,7 +312,7 @@ namespace tphn
   private:
 
     /// The internal buffer
-    tphn::uninitialized_buffer<Size, 1U, Alignment> buffer;
+    tpn::uninitialized_buffer<Size, 1U, Alignment> buffer;
   };
 
   //*****************************************************************************
@@ -322,7 +322,7 @@ namespace tphn
   {
   public:
 
-    static TYPHOON_CONSTANT size_t Undefined_Size = tphn::integral_limits<size_t>::max;
+    static TYPHOON_CONSTANT size_t Undefined_Size = tpn::integral_limits<size_t>::max;
 
     //***********************************
     /// Default constructor
@@ -368,8 +368,8 @@ namespace tphn
     template <typename T>
     void assign(const T& value)
     {
-      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::mem_cast_nullptr_exception));
-      TYPHOON_ASSERT(sizeof(T) <= buffer_size, TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::mem_cast_nullptr_exception));
+      TYPHOON_ASSERT(sizeof(T) <= buffer_size, TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
       ::new (pbuffer) T(value);
     }
@@ -380,9 +380,9 @@ namespace tphn
     template <typename T>
     void assign_at_offset(size_t offset, const T& value)
     {
-      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::mem_cast_nullptr_exception));
+      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::mem_cast_nullptr_exception));
       char* p = pbuffer + offset;
-      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - offset), TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - offset), TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
       ::new (p) T(value);
     }
@@ -393,9 +393,9 @@ namespace tphn
     template <typename T, size_t Offset>
     void assign_at_offset(const T& value)
     {
-      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::mem_cast_nullptr_exception));
+      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::mem_cast_nullptr_exception));
       char* p = pbuffer + Offset;
-      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - Offset), TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - Offset), TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
       ::new (p) T(value);
     }
@@ -407,10 +407,10 @@ namespace tphn
     template <typename T, typename... TArgs>
     void emplace(TArgs... args)
     {
-      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::mem_cast_nullptr_exception));
-      TYPHOON_ASSERT(sizeof(T) <= buffer_size, TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::mem_cast_nullptr_exception));
+      TYPHOON_ASSERT(sizeof(T) <= buffer_size, TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
-      ::new (pbuffer) T(tphn::forward<TArgs>(args)...);
+      ::new (pbuffer) T(tpn::forward<TArgs>(args)...);
     }
 
     //***********************************
@@ -419,11 +419,11 @@ namespace tphn
     template <typename T, typename... TArgs>
     void emplace_at_offset(size_t offset, TArgs... args)
     {
-      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::mem_cast_nullptr_exception));
+      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::mem_cast_nullptr_exception));
       char* p = pbuffer + offset;
-      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - offset), TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - offset), TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
-      ::new (p) T(tphn::forward<TArgs>(args)...);
+      ::new (p) T(tpn::forward<TArgs>(args)...);
     }
 
     //***********************************
@@ -432,11 +432,11 @@ namespace tphn
     template <typename T, size_t Offset, typename... TArgs>
     void emplace_at_offset(TArgs... args)
     {
-      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::mem_cast_nullptr_exception));
+      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::mem_cast_nullptr_exception));
       char* p = pbuffer + Offset;
-      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - Offset), TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - Offset), TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
-      ::new (p) T(tphn::forward<TArgs>(args)...);
+      ::new (p) T(tpn::forward<TArgs>(args)...);
     }
 #endif
 
@@ -446,8 +446,8 @@ namespace tphn
     template <typename T>
     TYPHOON_NODISCARD T& ref()
     {
-      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::mem_cast_nullptr_exception));
-      TYPHOON_ASSERT(sizeof(T) <= buffer_size, TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::mem_cast_nullptr_exception));
+      TYPHOON_ASSERT(sizeof(T) <= buffer_size, TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
       return *reinterpret_cast<T*>(pbuffer);
     }
@@ -458,8 +458,8 @@ namespace tphn
     template <typename T>
     TYPHOON_NODISCARD const T& ref() const
     {
-      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::mem_cast_nullptr_exception));
-      TYPHOON_ASSERT(sizeof(T) <= buffer_size, TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::mem_cast_nullptr_exception));
+      TYPHOON_ASSERT(sizeof(T) <= buffer_size, TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
       return *reinterpret_cast<const T*>(pbuffer);
     }
@@ -470,9 +470,9 @@ namespace tphn
     template <typename T>
     TYPHOON_NODISCARD T& ref_at_offset(size_t offset)
     {
-      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::mem_cast_nullptr_exception));
+      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::mem_cast_nullptr_exception));
       char* p = pbuffer + offset;
-      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - offset), TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - offset), TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
       return *reinterpret_cast<T*>(p);
     }
@@ -483,9 +483,9 @@ namespace tphn
     template <typename T>
     TYPHOON_NODISCARD const T& ref_at_offset(size_t offset) const
     {
-      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::mem_cast_nullptr_exception));
+      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::mem_cast_nullptr_exception));
       char* p = pbuffer + offset;
-      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - offset), TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - offset), TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
       return *reinterpret_cast<const T*>(p);
     }
@@ -496,9 +496,9 @@ namespace tphn
     template <typename T, size_t Offset>
     TYPHOON_NODISCARD T& ref_at_offset()
     {
-      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::mem_cast_nullptr_exception));
+      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::mem_cast_nullptr_exception));
       char* p = pbuffer + Offset;
-      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - Offset), TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - Offset), TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
       return *reinterpret_cast<T*>(p);
     }
@@ -509,9 +509,9 @@ namespace tphn
     template <typename T, size_t Offset>
     TYPHOON_NODISCARD const T& ref_at_offset() const
     {
-      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tphn::mem_cast_nullptr_exception));
+      TYPHOON_ASSERT((pbuffer != TYPHOON_NULLPTR), TYPHOON_ERROR(tpn::mem_cast_nullptr_exception));
       char* p = pbuffer + Offset;
-      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - Offset), TYPHOON_ERROR(tphn::mem_cast_size_exception));
+      TYPHOON_ASSERT(sizeof(T) <= (buffer_size - Offset), TYPHOON_ERROR(tpn::mem_cast_size_exception));
 
       return *reinterpret_cast<const T*>(p);
     }
@@ -529,11 +529,11 @@ namespace tphn
     //***********************************
     TYPHOON_NODISCARD size_t alignment() const
     {
-      typedef typename tphn::smallest_uint_for_bits<sizeof(uintptr_t)* CHAR_BIT>::type type;
+      typedef typename tpn::smallest_uint_for_bits<sizeof(uintptr_t)* CHAR_BIT>::type type;
 
       const type p = reinterpret_cast<type>(pbuffer);    
 
-      return size_t(1U) << tphn::count_trailing_zeros(p);
+      return size_t(1U) << tpn::count_trailing_zeros(p);
     }
 
     //***********************************
@@ -574,14 +574,14 @@ namespace tphn
   //*****************************************************************************
 #if TYPHOON_USING_CPP11 && !defined(TYPHOON_MEM_CAST_FORCE_CPP03_IMPLEMENTATION)
   template <typename... TTypes>
-  using mem_cast_types = tphn::mem_cast<tphn::largest<TTypes...>::size, tphn::largest<TTypes...>::alignment>;
+  using mem_cast_types = tpn::mem_cast<tpn::largest<TTypes...>::size, tpn::largest<TTypes...>::alignment>;
 #else
   template <typename T1,         typename T2  = char, typename T3  = char, typename T4  = char,
             typename T5 = char,  typename T6  = char, typename T7  = char, typename T8  = char,
             typename T9 = char,  typename T10 = char, typename T11 = char, typename T12 = char,
             typename T13 = char, typename T14 = char, typename T15 = char, typename T16 = char>
-  struct mem_cast_types : public tphn::mem_cast<tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::size,
-                                               tphn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::alignment>
+  struct mem_cast_types : public tpn::mem_cast<tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::size,
+                                               tpn::largest<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>::alignment>
   {
   };
 #endif

@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -44,7 +44,7 @@ SOFTWARE.
 /// A wrapper for arrays
 ///\ingroup containers
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// The base class for array_wrapper exceptions.
@@ -92,7 +92,7 @@ namespace tphn
     typedef TYPHOON_OR_STD::reverse_iterator<iterator>       reverse_iterator;
     typedef TYPHOON_OR_STD::reverse_iterator<const_iterator> const_reverse_iterator;
 
-    typedef typename tphn::parameter_type<T>::type parameter_t;
+    typedef typename tpn::parameter_type<T>::type parameter_t;
 
     // Indexes for positions in the array.
     enum
@@ -288,7 +288,7 @@ namespace tphn
     //*************************************************************************
     reference at(size_t i)
     {
-      TYPHOON_ASSERT(i < SIZE, TYPHOON_ERROR(tphn::array_wrapper_bounds));
+      TYPHOON_ASSERT(i < SIZE, TYPHOON_ERROR(tpn::array_wrapper_bounds));
       return ARRAY_[i];
     }
 
@@ -297,7 +297,7 @@ namespace tphn
     //*************************************************************************
     const_reference at(size_t i) const
     {
-      TYPHOON_ASSERT(i < SIZE, TYPHOON_ERROR(tphn::array_wrapper_bounds));
+      TYPHOON_ASSERT(i < SIZE, TYPHOON_ERROR(tpn::array_wrapper_bounds));
       return ARRAY_[i];
     }
 
@@ -306,15 +306,15 @@ namespace tphn
     //*************************************************************************
     void fill(parameter_t value)
     {
-      tphn::fill(begin(), end(), value);
+      tpn::fill(begin(), end(), value);
     }
 
     //*************************************************************************
     /// Swaps the contents of arrays.
     //*************************************************************************
     template <typename U, U(&ARRAYOTHER)[SIZE_]>
-    typename tphn::enable_if<tphn::is_same<T, U>::value, void>::type
-     swap(tphn::array_wrapper<U, SIZE_, ARRAYOTHER>& other)
+    typename tpn::enable_if<tpn::is_same<T, U>::value, void>::type
+     swap(tpn::array_wrapper<U, SIZE_, ARRAYOTHER>& other)
     {
       using TYPHOON_OR_STD::swap; // Allow ADL
 
@@ -329,18 +329,18 @@ namespace tphn
   /// Equality for array wrappers.
   //*************************************************************************
   template <typename TL, typename TR, size_t SIZEL, size_t SIZER, TL(&ARRAYL)[SIZEL], TR(&ARRAYR)[SIZER]>
-  bool operator == (const tphn::array_wrapper<TL, SIZEL, ARRAYL>& lhs,
-                    const tphn::array_wrapper<TR, SIZER, ARRAYR>& rhs)
+  bool operator == (const tpn::array_wrapper<TL, SIZEL, ARRAYL>& lhs,
+                    const tpn::array_wrapper<TR, SIZER, ARRAYR>& rhs)
   {
-    return (SIZEL == SIZER) && tphn::equal(lhs.begin(), lhs.end(), rhs.begin());
+    return (SIZEL == SIZER) && tpn::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
 
   //*************************************************************************
   /// Inequality for array wrapper.
   //*************************************************************************
   template <typename TL, typename TR, size_t SIZEL, size_t SIZER, TL(&ARRAYL)[SIZEL], TR(&ARRAYR)[SIZER]>
-  bool operator != (const tphn::array_wrapper<TL, SIZEL, ARRAYL>& lhs,
-                    const tphn::array_wrapper<TR, SIZER, ARRAYR>& rhs)
+  bool operator != (const tpn::array_wrapper<TL, SIZEL, ARRAYL>& lhs,
+                    const tpn::array_wrapper<TR, SIZER, ARRAYR>& rhs)
   {
     return !(lhs == rhs);
   }
@@ -349,18 +349,18 @@ namespace tphn
   /// Less-than for array wrapper.
   //*************************************************************************
   template <typename TL, typename TR, size_t SIZEL, size_t SIZER, TL(&ARRAYL)[SIZEL], TR(&ARRAYR)[SIZER]>
-  bool operator < (const tphn::array_wrapper<TL, SIZEL, ARRAYL>& lhs,
-                   const tphn::array_wrapper<TR, SIZER, ARRAYR>& rhs)
+  bool operator < (const tpn::array_wrapper<TL, SIZEL, ARRAYL>& lhs,
+                   const tpn::array_wrapper<TR, SIZER, ARRAYR>& rhs)
   {
-    return tphn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+    return tpn::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
   }
 
   //*************************************************************************
   /// Greater-than for array wrapper.
   //*************************************************************************
   template <typename TL, typename TR, size_t SIZEL, size_t SIZER, TL(&ARRAYL)[SIZEL], TR(&ARRAYR)[SIZER]>
-  bool operator > (const tphn::array_wrapper<TL, SIZEL, ARRAYL>& lhs,
-                   const tphn::array_wrapper<TR, SIZER, ARRAYR>& rhs)
+  bool operator > (const tpn::array_wrapper<TL, SIZEL, ARRAYL>& lhs,
+                   const tpn::array_wrapper<TR, SIZER, ARRAYR>& rhs)
   {
     return rhs < lhs;
   }
@@ -369,8 +369,8 @@ namespace tphn
   /// Less-than-equal for array wrapper.
   //*************************************************************************
   template <typename TL, typename TR, size_t SIZEL, size_t SIZER, TL(&ARRAYL)[SIZEL], TR(&ARRAYR)[SIZER]>
-  bool operator <= (const tphn::array_wrapper<TL, SIZEL, ARRAYL>& lhs,
-                    const tphn::array_wrapper<TR, SIZER, ARRAYR>& rhs)
+  bool operator <= (const tpn::array_wrapper<TL, SIZEL, ARRAYL>& lhs,
+                    const tpn::array_wrapper<TR, SIZER, ARRAYR>& rhs)
   {
     return !(lhs > rhs);
   }
@@ -379,8 +379,8 @@ namespace tphn
   /// Greater-than-equal for array wrapper.
   //*************************************************************************
   template <typename TL, typename TR, size_t SIZEL, size_t SIZER, TL(&ARRAYL)[SIZEL], TR(&ARRAYR)[SIZER]>
-  bool operator >= (const tphn::array_wrapper<TL, SIZEL, ARRAYL>& lhs,
-                    const tphn::array_wrapper<TR, SIZER, ARRAYR>& rhs)
+  bool operator >= (const tpn::array_wrapper<TL, SIZEL, ARRAYL>& lhs,
+                    const tpn::array_wrapper<TR, SIZER, ARRAYR>& rhs)
   {
     return !(lhs < rhs);
   }
@@ -390,11 +390,11 @@ namespace tphn
   //*************************************************************************
 #if TYPHOON_USING_8BIT_TYPES
   template <typename T, size_t SIZE, T(&ARRAY)[SIZE]>
-  struct hash<tphn::array_wrapper<T, SIZE, ARRAY> >
+  struct hash<tpn::array_wrapper<T, SIZE, ARRAY> >
   {
-    size_t operator()(const tphn::array_wrapper<T, SIZE, ARRAY>& aw) const
+    size_t operator()(const tpn::array_wrapper<T, SIZE, ARRAY>& aw) const
     {
-      return tphn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&aw[0]),
+      return tpn::private_hash::generic_hash<size_t>(reinterpret_cast<const uint8_t*>(&aw[0]),
                                                          reinterpret_cast<const uint8_t*>(&aw[aw.size()]));
     }
   };
@@ -405,13 +405,13 @@ namespace tphn
 /// Swap.
 //*************************************************************************
 template <typename T, size_t SIZE, T(&ARRAYL)[SIZE], T(&ARRAYR)[SIZE]>
-void swap(tphn::array_wrapper<T, SIZE, ARRAYL>& lhs,
-          tphn::array_wrapper<T, SIZE, ARRAYR>& rhs)
+void swap(tpn::array_wrapper<T, SIZE, ARRAYL>& lhs,
+          tpn::array_wrapper<T, SIZE, ARRAYR>& rhs)
 {
   lhs.swap(rhs);
 }
 
-#define TYPHOON_ARRAY_WRAPPER(arraytype, arrayobject)  tphn::array_wrapper<arraytype, TYPHOON_ARRAY_SIZE(arrayobject), arrayobject>
+#define TYPHOON_ARRAY_WRAPPER(arraytype, arrayobject)  tpn::array_wrapper<arraytype, TYPHOON_ARRAY_SIZE(arrayobject), arrayobject>
 
 #endif
 

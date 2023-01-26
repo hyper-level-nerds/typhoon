@@ -2,8 +2,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2017 John Wellbelove
 
@@ -41,17 +41,17 @@ SOFTWARE.
 
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Base exception class for message bus
   //***************************************************************************
-  class message_bus_exception : public tphn::exception
+  class message_bus_exception : public tpn::exception
   {
   public:
 
     message_bus_exception(string_type reason_, string_type file_name_, numeric_type line_number_)
-      : tphn::exception(reason_, file_name_, line_number_)
+      : tpn::exception(reason_, file_name_, line_number_)
     {
     }
   };
@@ -59,7 +59,7 @@ namespace tphn
   //***************************************************************************
   /// Too many subscribers.
   //***************************************************************************
-  class message_bus_too_many_subscribers : public tphn::message_bus_exception
+  class message_bus_too_many_subscribers : public tpn::message_bus_exception
   {
   public:
 
@@ -72,20 +72,20 @@ namespace tphn
   //***************************************************************************
   /// Interface for message bus
   //***************************************************************************
-  class imessage_bus : public tphn::imessage_router
+  class imessage_bus : public tpn::imessage_router
   {
   private:
 
-    typedef tphn::ivector<tphn::imessage_router*> router_list_t;
+    typedef tpn::ivector<tpn::imessage_router*> router_list_t;
 
   public:
 
-    using tphn::imessage_router::receive;
+    using tpn::imessage_router::receive;
 
     //*******************************************
     /// Subscribe to the bus.
     //*******************************************
-    bool subscribe(tphn::imessage_router& router)
+    bool subscribe(tpn::imessage_router& router)
     {
       bool ok = true;
 
@@ -94,11 +94,11 @@ namespace tphn
       {
         ok = !router_list.full();
 
-        TYPHOON_ASSERT(ok, TYPHOON_ERROR(tphn::message_bus_too_many_subscribers));
+        TYPHOON_ASSERT(ok, TYPHOON_ERROR(tpn::message_bus_too_many_subscribers));
 
         if (ok)
         {
-          router_list_t::iterator irouter = tphn::upper_bound(router_list.begin(),
+          router_list_t::iterator irouter = tpn::upper_bound(router_list.begin(),
                                                              router_list.end(),
                                                              router.get_message_router_id(),
                                                              compare_router_id());
@@ -113,15 +113,15 @@ namespace tphn
     //*******************************************
     /// Unsubscribe from the bus.
     //*******************************************
-    void unsubscribe(tphn::message_router_id_t id)
+    void unsubscribe(tpn::message_router_id_t id)
     {
-      if (id == tphn::imessage_bus::ALL_MESSAGE_ROUTERS)
+      if (id == tpn::imessage_bus::ALL_MESSAGE_ROUTERS)
       {
         clear();
       }
       else
       {
-        TYPHOON_OR_STD::pair<router_list_t::iterator, router_list_t::iterator> range = tphn::equal_range(router_list.begin(),
+        TYPHOON_OR_STD::pair<router_list_t::iterator, router_list_t::iterator> range = tpn::equal_range(router_list.begin(),
                                                                                                     router_list.end(),
                                                                                                     id,
                                                                                                     compare_router_id());
@@ -131,9 +131,9 @@ namespace tphn
     }
 
     //*******************************************
-    void unsubscribe(tphn::imessage_router& router)
+    void unsubscribe(tpn::imessage_router& router)
     {
-      router_list_t::iterator irouter = tphn::find(router_list.begin(),
+      router_list_t::iterator irouter = tpn::find(router_list.begin(),
                                                   router_list.end(),
                                                   &router);
 
@@ -144,33 +144,33 @@ namespace tphn
     }
 
     //*******************************************
-    virtual void receive(const tphn::imessage& message) TYPHOON_OVERRIDE
+    virtual void receive(const tpn::imessage& message) TYPHOON_OVERRIDE
     {
-      receive(tphn::imessage_router::ALL_MESSAGE_ROUTERS, message);
+      receive(tpn::imessage_router::ALL_MESSAGE_ROUTERS, message);
     }
 
     //*******************************************
-    virtual void receive(tphn::shared_message   shared_msg) TYPHOON_OVERRIDE
+    virtual void receive(tpn::shared_message   shared_msg) TYPHOON_OVERRIDE
     {
-      receive(tphn::imessage_router::ALL_MESSAGE_ROUTERS, shared_msg);
+      receive(tpn::imessage_router::ALL_MESSAGE_ROUTERS, shared_msg);
     }
 
     //********************************************
-    virtual void receive(tphn::message_router_id_t destination_router_id, 
-                         tphn::shared_message      shared_msg) TYPHOON_OVERRIDE
+    virtual void receive(tpn::message_router_id_t destination_router_id, 
+                         tpn::shared_message      shared_msg) TYPHOON_OVERRIDE
     {
       switch (destination_router_id)
       {
         //*****************************
         // Broadcast to all routers.
-        case tphn::imessage_router::ALL_MESSAGE_ROUTERS:
+        case tpn::imessage_router::ALL_MESSAGE_ROUTERS:
         {
           router_list_t::iterator irouter = router_list.begin();
 
           // Broadcast to everyone.
           while (irouter != router_list.end())
           {
-            tphn::imessage_router& router = **irouter;
+            tpn::imessage_router& router = **irouter;
 
             if (router.accepts(shared_msg.get_message().get_message_id()))
             {
@@ -188,7 +188,7 @@ namespace tphn
         default:
         {
           // Find routers with the id.
-          TYPHOON_OR_STD::pair<router_list_t::iterator, router_list_t::iterator> range = tphn::equal_range(router_list.begin(),
+          TYPHOON_OR_STD::pair<router_list_t::iterator, router_list_t::iterator> range = tpn::equal_range(router_list.begin(),
                                                                                                       router_list.end(),
                                                                                                       destination_router_id,
                                                                                                       compare_router_id());
@@ -206,9 +206,9 @@ namespace tphn
 
           // Do any message buses.
           // These are always at the end of the list.
-          router_list_t::iterator irouter = tphn::lower_bound(router_list.begin(),
+          router_list_t::iterator irouter = tpn::lower_bound(router_list.begin(),
                                                              router_list.end(),
-                                                             tphn::imessage_bus::MESSAGE_BUS,
+                                                             tpn::imessage_bus::MESSAGE_BUS,
                                                              compare_router_id());
 
           while (irouter != router_list.end())
@@ -225,7 +225,7 @@ namespace tphn
 
       if (has_successor())
       {
-        tphn::imessage_router& successor = get_successor();
+        tpn::imessage_router& successor = get_successor();
 
         if (successor.accepts(shared_msg.get_message().get_message_id()))
         {
@@ -235,21 +235,21 @@ namespace tphn
     }
 
     //*******************************************
-    virtual void receive(tphn::message_router_id_t destination_router_id,
-                         const tphn::imessage&     message) TYPHOON_OVERRIDE
+    virtual void receive(tpn::message_router_id_t destination_router_id,
+                         const tpn::imessage&     message) TYPHOON_OVERRIDE
     {
       switch (destination_router_id)
       {
         //*****************************
         // Broadcast to all routers.
-        case tphn::imessage_router::ALL_MESSAGE_ROUTERS:
+        case tpn::imessage_router::ALL_MESSAGE_ROUTERS:
         {
           router_list_t::iterator irouter = router_list.begin();
 
           // Broadcast to everyone.
           while (irouter != router_list.end())
           {
-            tphn::imessage_router& router = **irouter;
+            tpn::imessage_router& router = **irouter;
 
             if (router.accepts(message.get_message_id()))
             {
@@ -269,7 +269,7 @@ namespace tphn
           router_list_t::iterator irouter = router_list.begin();
 
           // Find routers with the id.
-          TYPHOON_OR_STD::pair<router_list_t::iterator, router_list_t::iterator> range = tphn::equal_range(router_list.begin(),
+          TYPHOON_OR_STD::pair<router_list_t::iterator, router_list_t::iterator> range = tpn::equal_range(router_list.begin(),
                                                                                                       router_list.end(),
                                                                                                       destination_router_id,
                                                                                                       compare_router_id());
@@ -287,9 +287,9 @@ namespace tphn
 
           // Do any message buses.
           // These are always at the end of the list.
-          irouter = tphn::lower_bound(router_list.begin(),
+          irouter = tpn::lower_bound(router_list.begin(),
                                      router_list.end(),
-                                     tphn::imessage_bus::MESSAGE_BUS,
+                                     tpn::imessage_bus::MESSAGE_BUS,
                                      compare_router_id());
 
           while (irouter != router_list.end())
@@ -306,7 +306,7 @@ namespace tphn
 
       if (has_successor())
       {
-        tphn::imessage_router& successor = get_successor();
+        tpn::imessage_router& successor = get_successor();
 
         if (successor.accepts(message.get_message_id()))
         {
@@ -321,7 +321,7 @@ namespace tphn
     /// Does this message bus accept the message id?
     /// Yes!, it accepts everything!
     //*******************************************
-    bool accepts(tphn::message_id_t) const TYPHOON_OVERRIDE
+    bool accepts(tpn::message_id_t) const TYPHOON_OVERRIDE
     {
       return true;
     }
@@ -362,7 +362,7 @@ namespace tphn
     /// Constructor.
     //*******************************************
     imessage_bus(router_list_t& list)
-      : imessage_router(tphn::imessage_router::MESSAGE_BUS),
+      : imessage_router(tpn::imessage_router::MESSAGE_BUS),
         router_list(list)
     {
     }
@@ -370,8 +370,8 @@ namespace tphn
     //*******************************************
     /// Constructor.
     //*******************************************
-    imessage_bus(router_list_t& list, tphn::imessage_router& successor)
-      : imessage_router(tphn::imessage_router::MESSAGE_BUS, successor),
+    imessage_bus(router_list_t& list, tpn::imessage_router& successor)
+      : imessage_router(tpn::imessage_router::MESSAGE_BUS, successor),
       router_list(list)
     {
     }
@@ -383,12 +383,12 @@ namespace tphn
     //*******************************************
     struct compare_router_id
     {
-      bool operator()(const tphn::imessage_router* prouter, tphn::message_router_id_t id) const
+      bool operator()(const tpn::imessage_router* prouter, tpn::message_router_id_t id) const
       {
         return prouter->get_message_router_id() < id;
       }
 
-      bool operator()(tphn::message_router_id_t id, const tphn::imessage_router* prouter) const
+      bool operator()(tpn::message_router_id_t id, const tpn::imessage_router* prouter) const
       {
         return id < prouter->get_message_router_id();
       }
@@ -401,7 +401,7 @@ namespace tphn
   /// The message bus
   //***************************************************************************
   template <uint_least8_t MAX_ROUTERS_>
-  class message_bus : public tphn::imessage_bus
+  class message_bus : public tpn::imessage_bus
   {
   public:
 
@@ -416,14 +416,14 @@ namespace tphn
     //*******************************************
     /// Constructor.
     //*******************************************
-    message_bus(tphn::imessage_router& successor)
+    message_bus(tpn::imessage_router& successor)
       : imessage_bus(router_list, successor)
     {
     }
 
   private:
 
-    tphn::vector<tphn::imessage_router*, MAX_ROUTERS_> router_list;
+    tpn::vector<tpn::imessage_router*, MAX_ROUTERS_> router_list;
   };
 }
 

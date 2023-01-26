@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -39,7 +39,7 @@ SOFTWARE.
 #include <math.h>
 #include <stdint.h>
 
-namespace tphn
+namespace tpn
 {
   namespace private_limiter
   {
@@ -48,7 +48,7 @@ namespace tphn
     {
       TInput operator ()(TInput value, TInput lowest, TInput highest) const
       {
-        return tphn::clamp(value, lowest, highest);
+        return tpn::clamp(value, lowest, highest);
       }
     };
   }
@@ -56,8 +56,8 @@ namespace tphn
   //***************************************************************************
   /// Limiter.
   //***************************************************************************
-  template<typename TInput, typename TLimit = tphn::private_limiter::limit<TInput> >
-  class limiter : public tphn::unary_function<TInput, TInput>
+  template<typename TInput, typename TLimit = tpn::private_limiter::limit<TInput> >
+  class limiter : public tpn::unary_function<TInput, TInput>
   {
   public:
 

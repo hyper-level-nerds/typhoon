@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2019 John Wellbelove
 
@@ -39,65 +39,65 @@ SOFTWARE.
 #include "wformat_spec.hpp"
 #include "private/to_string_helper.hpp"
 
-namespace tphn
+namespace tpn
 {
   //***************************************************************************
   /// Default format spec.
-  /// !tphn::iwstring && !tphn::wstring_view
+  /// !tpn::iwstring && !tpn::wstring_view
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<!tphn::is_same<T, tphn::iwstring>::value && !tphn::is_same<T, tphn::wstring_view>::value, const tphn::iwstring&>::type
-    to_string(const T value, tphn::iwstring& str, bool append = false)
+  typename tpn::enable_if<!tpn::is_same<T, tpn::iwstring>::value && !tpn::is_same<T, tpn::wstring_view>::value, const tpn::iwstring&>::type
+    to_string(const T value, tpn::iwstring& str, bool append = false)
   {
-    tphn::wformat_spec format;
+    tpn::wformat_spec format;
 
     return private_to_string::to_string(value, str, format, append);
   }
 
   //***************************************************************************
   /// Supplied format spec.
-  /// !tphn::iwstring && !tphn::wstring_view
+  /// !tpn::iwstring && !tpn::wstring_view
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<!tphn::is_same<T, tphn::iwstring>::value && !tphn::is_same<T, tphn::wstring_view>::value, const tphn::iwstring&>::type
-    to_string(const T value, tphn::iwstring& str, const tphn::wformat_spec& format, bool append = false)
+  typename tpn::enable_if<!tpn::is_same<T, tpn::iwstring>::value && !tpn::is_same<T, tpn::wstring_view>::value, const tpn::iwstring&>::type
+    to_string(const T value, tpn::iwstring& str, const tpn::wformat_spec& format, bool append = false)
   {
     return private_to_string::to_string(value, str, format, append);
   }
 
   //***************************************************************************
   /// Default format spec.
-  /// !tphn::iu32string && !tphn::u16string_view
+  /// !tpn::iu32string && !tpn::u16string_view
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<!tphn::is_same<T, tphn::iwstring>::value && !tphn::is_same<T, tphn::u16string_view>::value, const tphn::iwstring&>::type
-    to_string(const T value, uint32_t denominator_exponent, tphn::iwstring& str, bool append = false)
+  typename tpn::enable_if<!tpn::is_same<T, tpn::iwstring>::value && !tpn::is_same<T, tpn::u16string_view>::value, const tpn::iwstring&>::type
+    to_string(const T value, uint32_t denominator_exponent, tpn::iwstring& str, bool append = false)
   {
-    tphn::wformat_spec format;
+    tpn::wformat_spec format;
 
     return private_to_string::to_string(value, denominator_exponent, str, format, append);
   }
 
   //***************************************************************************
   /// Supplied format spec.
-  /// !tphn::u16string_view && !tphn::u16string_view
+  /// !tpn::u16string_view && !tpn::u16string_view
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<!tphn::is_same<T, tphn::iwstring>::value && !tphn::is_same<T, tphn::u16string_view>::value, const tphn::iwstring&>::type
-    to_string(const T value, uint32_t denominator_exponent, tphn::iwstring& str, const tphn::wformat_spec& format, bool append = false)
+  typename tpn::enable_if<!tpn::is_same<T, tpn::iwstring>::value && !tpn::is_same<T, tpn::u16string_view>::value, const tpn::iwstring&>::type
+    to_string(const T value, uint32_t denominator_exponent, tpn::iwstring& str, const tpn::wformat_spec& format, bool append = false)
   {
     return private_to_string::to_string(value, denominator_exponent, str, format, append);
   }
 
   //***************************************************************************
   /// Default format spec.
-  /// tphn::iwstring
+  /// tpn::iwstring
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<tphn::is_same<T, tphn::iwstring>::value, const tphn::iwstring&>::type
-    to_string(const T& value, tphn::iwstring& str, bool append = false)
+  typename tpn::enable_if<tpn::is_same<T, tpn::iwstring>::value, const tpn::iwstring&>::type
+    to_string(const T& value, tpn::iwstring& str, bool append = false)
   {
-    tphn::wformat_spec format;
+    tpn::wformat_spec format;
 
     private_to_string::add_string(value, str, format, append);
 
@@ -106,11 +106,11 @@ namespace tphn
 
   //***************************************************************************
   /// Supplied format spec.
-  /// tphn::iwstring
+  /// tpn::iwstring
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<tphn::is_same<T, tphn::iwstring>::value, const tphn::iwstring&>::type
-    to_string(const tphn::iwstring& value, T& str, const tphn::wformat_spec& format, bool append = false)
+  typename tpn::enable_if<tpn::is_same<T, tpn::iwstring>::value, const tpn::iwstring&>::type
+    to_string(const tpn::iwstring& value, T& str, const tpn::wformat_spec& format, bool append = false)
   {
     private_to_string::add_string(value, str, format, append);
 
@@ -119,13 +119,13 @@ namespace tphn
 
   //***************************************************************************
   /// Default format spec.
-  /// tphn::wstring_view
+  /// tpn::wstring_view
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<tphn::is_same<T, tphn::wstring_view>::value, const tphn::iwstring&>::type
-    to_string(T value, tphn::iwstring& str, bool append = false)
+  typename tpn::enable_if<tpn::is_same<T, tpn::wstring_view>::value, const tpn::iwstring&>::type
+    to_string(T value, tpn::iwstring& str, bool append = false)
   {
-    tphn::wformat_spec format;
+    tpn::wformat_spec format;
 
     private_to_string::add_string_view(value, str, format, append);
 
@@ -134,11 +134,11 @@ namespace tphn
 
   //***************************************************************************
   /// Supplied format spec.
-  /// tphn::wstring_view
+  /// tpn::wstring_view
   //***************************************************************************
   template <typename T>
-  typename tphn::enable_if<tphn::is_same<T, tphn::wstring_view>::value, const tphn::iwstring&>::type
-    to_string(T value, tphn::iwstring& str, const tphn::wformat_spec& format, bool append = false)
+  typename tpn::enable_if<tpn::is_same<T, tpn::wstring_view>::value, const tpn::iwstring&>::type
+    to_string(T value, tpn::iwstring& str, const tpn::wformat_spec& format, bool append = false)
   {
     private_to_string::add_string_view(value, str, format, append);
 

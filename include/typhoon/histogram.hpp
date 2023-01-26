@@ -4,8 +4,8 @@
 The MIT License(MIT)
 
 Embedded Template Library.
-https://github.com/TYPHOONCPP/tphn
-https://www.tphncpp.com
+https://github.com/TYPHOONCPP/tpn
+https://www.tpncpp.com
 
 Copyright(c) 2021 John Wellbelove
 
@@ -40,7 +40,7 @@ SOFTWARE.
 #include "type_traits.hpp"
 #include "integral_limits.hpp"
 
-namespace tphn
+namespace tpn
 {
   namespace private_histogram
   {
@@ -52,11 +52,11 @@ namespace tphn
     {
     public:
 
-      TYPHOON_STATIC_ASSERT(tphn::is_integral<TCount>::value, "Only integral count allowed"); 
+      TYPHOON_STATIC_ASSERT(tpn::is_integral<TCount>::value, "Only integral count allowed"); 
 
       static TYPHOON_CONSTANT size_t Max_Size = Max_Size_;
 
-      typedef typename tphn::array<TCount, Max_Size>::const_iterator const_iterator;
+      typedef typename tpn::array<TCount, Max_Size>::const_iterator const_iterator;
 
       //*********************************
       /// Beginning of the histogram.
@@ -119,27 +119,27 @@ namespace tphn
       //*********************************
       size_t count() const
       {
-        return tphn::accumulate(accumulator.begin(), accumulator.end(), size_t(0));
+        return tpn::accumulate(accumulator.begin(), accumulator.end(), size_t(0));
       }
 
     protected:
 
-      tphn::array<TCount, Max_Size> accumulator;
+      tpn::array<TCount, Max_Size> accumulator;
     };
   }
 
   //***************************************************************************
   /// Histogram with a compile time start index.
   //***************************************************************************
-  template <typename TKey, typename TCount, size_t Max_Size, int32_t Start_Index = tphn::integral_limits<int32_t>::max>
+  template <typename TKey, typename TCount, size_t Max_Size, int32_t Start_Index = tpn::integral_limits<int32_t>::max>
   class histogram 
-    : public tphn::private_histogram::histogram_common<TCount, Max_Size>
-    , public tphn::unary_function<TKey, void>
+    : public tpn::private_histogram::histogram_common<TCount, Max_Size>
+    , public tpn::unary_function<TKey, void>
   {
   public:
 
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<TKey>::value, "Only integral keys allowed");
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<TCount>::value, "Only integral count allowed");   
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<TKey>::value, "Only integral keys allowed");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<TCount>::value, "Only integral count allowed");   
 
     typedef TKey   key_type;
     typedef TCount count_type;
@@ -177,7 +177,7 @@ namespace tphn
     //*********************************
     histogram(histogram&& other)
     {
-      this->accumulator = tphn::move(other.accumulator);
+      this->accumulator = tpn::move(other.accumulator);
     }
 #endif
 
@@ -197,7 +197,7 @@ namespace tphn
     //*********************************
     histogram& operator =(histogram&& rhs)
     {
-      this->accumulator = tphn::move(rhs.accumulator);
+      this->accumulator = tpn::move(rhs.accumulator);
 
       return *this;
     }
@@ -254,14 +254,14 @@ namespace tphn
   /// Histogram with a run time start index.
   //***************************************************************************
   template<typename TKey, typename TCount, size_t Max_Size>
-  class histogram<TKey, TCount, Max_Size, tphn::integral_limits<int32_t>::max>
-    : public tphn::private_histogram::histogram_common<TCount, Max_Size>
-    , public tphn::unary_function<TKey, void>
+  class histogram<TKey, TCount, Max_Size, tpn::integral_limits<int32_t>::max>
+    : public tpn::private_histogram::histogram_common<TCount, Max_Size>
+    , public tpn::unary_function<TKey, void>
   {
   public:
 
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<TKey>::value, "Only integral keys allowed");
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<TCount>::value, "Only integral count allowed");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<TKey>::value, "Only integral keys allowed");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<TCount>::value, "Only integral count allowed");
 
     typedef TKey   key_type;
     typedef TCount count_type;
@@ -301,7 +301,7 @@ namespace tphn
     //*********************************
     histogram(histogram&& other)
     {
-      this->accumulator = tphn::move(other.accumulator);
+      this->accumulator = tpn::move(other.accumulator);
     }
 #endif
 
@@ -321,7 +321,7 @@ namespace tphn
     //*********************************
     histogram& operator =(histogram&& rhs)
     {
-      this->accumulator = tphn::move(rhs.accumulator);
+      this->accumulator = tpn::move(rhs.accumulator);
 
       return *this;
     }
@@ -382,15 +382,15 @@ namespace tphn
   /// Histogram for sparse keys.
   //***************************************************************************
   template<typename TKey, typename TCount, size_t Max_Size_>
-  class sparse_histogram : public tphn::unary_function<TKey, void>
+  class sparse_histogram : public tpn::unary_function<TKey, void>
   {
   private:
 
-    typedef tphn::flat_map<TKey, TCount, Max_Size_> accumulator_type;
+    typedef tpn::flat_map<TKey, TCount, Max_Size_> accumulator_type;
 
   public:
 
-    TYPHOON_STATIC_ASSERT(tphn::is_integral<TCount>::value, "Only integral count allowed");
+    TYPHOON_STATIC_ASSERT(tpn::is_integral<TCount>::value, "Only integral count allowed");
 
     static TYPHOON_CONSTANT size_t Max_Size = Max_Size_;
 
@@ -431,7 +431,7 @@ namespace tphn
     //*********************************
     sparse_histogram(sparse_histogram&& other)
     {
-      accumulator = tphn::move(other.accumulator);
+      accumulator = tpn::move(other.accumulator);
     }
 #endif
 
@@ -451,7 +451,7 @@ namespace tphn
     //*********************************
     sparse_histogram& operator =(sparse_histogram&& rhs)
     {
-      accumulator = tphn::move(rhs.accumulator);
+      accumulator = tpn::move(rhs.accumulator);
 
       return *this;
     }
@@ -590,7 +590,7 @@ namespace tphn
 
   private:
 
-    tphn::flat_map<key_type, count_type, Max_Size> accumulator;
+    tpn::flat_map<key_type, count_type, Max_Size> accumulator;
   };
 }
 
